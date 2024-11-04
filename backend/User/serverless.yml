@@ -1,0 +1,37 @@
+org: zamcloud
+service: api-mure-user
+
+provider:
+  name: aws
+  runtime: python3.8
+  memorySize: 1024
+  timeout: 30
+  iam:
+    role: arn:aws:iam::418515024637:role/LabRole
+
+functions:
+  createUser:
+    handler: Handler/registerUser.lambda_handler
+    events:
+      - http:
+          path: /user/register
+          method: post
+          cors: true
+          integration: lambda
+  loginUser:
+    handler: Handler/loginUser.lambda_handler
+    events:
+      - http:
+          path: /user/login
+          method: post
+          cors: true
+          integration: lambda
+  getUser:
+    handler: Handler/getUser.lambda_handler
+    events:
+      - http:
+          path: /user/get
+          method: get
+          cors: true
+          integration: lambda
+          
