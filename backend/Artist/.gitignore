@@ -2,4 +2,3 @@
 node_modules
 .serverless
 pnpm-lock.yaml
-package-lock.jsons
