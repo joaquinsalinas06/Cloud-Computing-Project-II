@@ -1,6 +1,5 @@
 import boto3
 import hashlib
-import json
 from datetime import datetime
 
 def hash_password(password):
@@ -8,7 +7,6 @@ def hash_password(password):
 
 def lambda_handler(event, context):
     try:
-        # Generamos un user Id que sea la fecha, hora, minutos, segundos y milisegundos que se registro
         provider_id = event.get('provider_id')
         user_id = datetime.now().strftime('%Y%m%d%H%M%S%f')
         password = event.get('password')
@@ -24,9 +22,25 @@ def lambda_handler(event, context):
         active = 'true'
         datecreated = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         edad = data.get('edad')
+        hashed_password = hash_password(password)
+        dynamodb = boto3.resource('dynamodb')
+        table = dynamodb.Table('mure_user')
+        existentes = table.get_item(
+            Key={
+                'email': email
+            }
+        )
+        if 'Item' in existentes:
+            mensaje = {
+                'error': 'User already exists'
+            }
+            return {
+                'statusCode': 400,
+                'body': mensaje
+            }
+
+
         if user_id and password and provider_id and email and username and data:
-            hashed_password = hash_password(password)
-            dynamodb = boto3.resource('dynamodb')
             t_usuarios = dynamodb.Table('mure_user')
             t_usuarios.put_item(
                 Item={
