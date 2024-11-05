@@ -13,13 +13,6 @@ export async function handler(event) {
     ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
     : null;
 
-  limit = Number(limit);
-
-  console.log("providerId:", providerId);
-  console.log("limit:", limit);
-  console.log("exclusiveStartKey:", exclusiveStartKey);
-  console.log("TABLE_NAME:", TABLE_NAME);
-
   if (!providerId) {
     return {
       statusCode: 400,
@@ -46,17 +39,20 @@ export async function handler(event) {
     const response = await dynamodb.query(params).promise();
     console.log("DynamoDB response:", response);
 
+    const lastSongId =
+      response.Items.length > 0
+        ? response.Items[response.Items.length - 1].songId
+        : null;
+
     return {
       statusCode: 200,
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
+      body: {
         items: response.Items,
-        lastEvaluatedKey: response.LastEvaluatedKey
-          ? encodeURIComponent(JSON.stringify(response.LastEvaluatedKey))
-          : null,
-      }),
+        lastEvaluatedKey: lastSongId ? encodeURIComponent(lastSongId) : null,
+      },
     };
   } catch (error) {
     console.error("Error querying DynamoDB:", error);
