@@ -6,48 +6,16 @@ const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  const providerId = event.queryStringParameters.providerId;
-  const limit = event.queryStringParameters.limit || 10;
-  const exclusiveStartKey = event.queryStringParameters.exclusiveStartKey
-    ? JSON.parse(
-        decodeURIComponent(event.queryStringParameters.exclusiveStartKey)
-      )
-    : null;
+  console.log("Received event:", JSON.stringify(event));
 
-  const params = {
-    TableName: TABLE_NAME,
-    KeyConditionExpression: "providerId = :providerId",
-    ExpressionAttributeValues: {
-      ":providerId": providerId,
+  return {
+    statusCode: 200,
+    headers: {
+      "Content-Type": "application/json",
     },
-    Limit: limit,
-    ExclusiveStartKey: exclusiveStartKey,
+    body: JSON.stringify({
+      message: "Received event data",
+      event: event, 
+    }),
   };
-
-  try {
-    const response = await dynamodb.query(params).promise();
-    return {
-      statusCode: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        items: response.Items,
-        lastEvaluatedKey: response.LastEvaluatedKey
-          ? encodeURIComponent(JSON.stringify(response.LastEvaluatedKey))
-          : null,
-      }),
-    };
-  } catch (error) {
-    return {
-      statusCode: 500,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message: "Error al recuperar las canciones",
-        error: error.message,
-      }),
-    };
-  }
 }
