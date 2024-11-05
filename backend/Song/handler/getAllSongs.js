@@ -7,16 +7,20 @@ const TABLE_NAME = process.env.TABLE_NAME;
 export async function handler(event) {
   console.log("Received event:", JSON.stringify(event, null, 2));
 
-  const providerId = event.query?.providerId;
-  const limit = event.query?.limit || 10;
-  const exclusiveStartKey = event.query?.exclusiveStartKey
-    ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
+  const providerId = event.queryStringParameters?.providerId;
+  let limit = event.queryStringParameters?.limit || 10;
+  let exclusiveStartKey = event.queryStringParameters?.exclusiveStartKey
+    ? JSON.parse(
+        decodeURIComponent(event.queryStringParameters.exclusiveStartKey)
+      )
     : null;
 
-    console.log("providerId:", providerId);
-    console.log("limit:", limit);
-    console.log("exclusiveStartKey:", exclusiveStartKey);
-    console.log("TABLE_NAME:", TABLE_NAME);
+  limit = Number(limit);
+
+  console.log("providerId:", providerId);
+  console.log("limit:", limit);
+  console.log("exclusiveStartKey:", exclusiveStartKey);
+  console.log("TABLE_NAME:", TABLE_NAME);
 
   if (!providerId) {
     return {
@@ -37,12 +41,13 @@ export async function handler(event) {
       ":providerId": providerId,
     },
     Limit: limit,
-    ExclusiveStartKey: exclusiveStartKey,
+    ExclusiveStartKey: exclusiveStartKey ? exclusiveStartKey : undefined,
   };
 
   try {
     const response = await dynamodb.query(params).promise();
-    console.log(response)
+    console.log("DynamoDB response:", response);
+
     return {
       statusCode: 200,
       headers: {
@@ -56,6 +61,7 @@ export async function handler(event) {
       }),
     };
   } catch (error) {
+    console.error("Error querying DynamoDB:", error);
     return {
       statusCode: 500,
       headers: {
