@@ -49,9 +49,18 @@ functions:
           cors: true
           integration: lambda
 
+  getAllSongs:
+    handler: handler/getAllSongs.handler
+    events:
+      - http:
+          path: getAllSongs
+          method: get
+          cors: true
+          integration: lambda
+
 resources:
   Resources:
-    TablaCanciones:
+    SongsTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:provider.environment.TABLE_NAME}
