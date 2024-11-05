@@ -2,7 +2,6 @@
   "name": "song",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,7 +11,6 @@
   "description": "",
   "dependencies": {
     "aws-sdk": "^2.1691.0",
-    "dotenv": "^16.4.5",
-    "song": "file:"
+    "dotenv": "^16.4.5"
   }
 }
