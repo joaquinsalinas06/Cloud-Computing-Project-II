@@ -15,7 +15,10 @@ async function getNextSongId() {
     ReturnValues: "UPDATED_NEW",
   };
 
+  console.log(params);
+
   const result = await dynamodb.update(params).promise();
+  console.log(result);
   return result.Attributes.count;
 }
 
@@ -23,9 +26,13 @@ export async function handler(event) {
   const song =
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
 
+    console.log(song);
+
   try {
     const songId = await getNextSongId();
     song.songId = songId;
+    console.log(song);
+    console.log(songId);
 
     const params = {
       TableName: TABLE_NAME,
