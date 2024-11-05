@@ -4,8 +4,8 @@ const { DynamoDB } = AWS;
 const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
-export async function handler(event) {
-  const { provider_id } = JSON.parse(event.body);
+module.exports.handler = async (event) => {
+	const { provider_id } = JSON.parse(event.body);
 
   const params = {
     TableName: TABLE_NAME,

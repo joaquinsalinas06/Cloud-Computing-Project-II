@@ -4,8 +4,8 @@ const { DynamoDB } = AWS;
 const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = "artist-api-table";
 
-export async function handler(event) {
-  const { provider_id, ...updateData } = JSON.parse(event.body);
+module.exports.handler = async (event) => {
+	const { provider_id, ...updateData } = JSON.parse(event.body);
   const artistId = event.pathParameters.artistId;
 
   const updateExpression = Object.keys(updateData)

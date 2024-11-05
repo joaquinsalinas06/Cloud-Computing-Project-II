@@ -5,8 +5,8 @@ const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = "artist-api-table";
 const LSI_NAME = "GenreIndex"; 
 
-export async function handler(event) {
-  const { provider_id, genre } = JSON.parse(event.body);
+module.exports.handler = async (event) => {
+	const { provider_id, genre } = JSON.parse(event.body);
 
   const params = {
     TableName: TABLE_NAME,

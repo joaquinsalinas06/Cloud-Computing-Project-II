@@ -5,7 +5,7 @@ const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = "artist-api-table";
 const LSI_NAME = "CountryIndex"; 
 
-export async function handler(event) {
+module.exports.handler = async (event) => {
   const { provider_id, country } = JSON.parse(event.body);
 
   const params = {
