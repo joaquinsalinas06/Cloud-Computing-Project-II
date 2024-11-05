@@ -16,6 +16,7 @@ export async function handler(event) {
     console.log("providerId:", providerId);
     console.log("limit:", limit);
     console.log("exclusiveStartKey:", exclusiveStartKey);
+    console.log("TABLE_NAME:", TABLE_NAME);
 
   if (!providerId) {
     return {
@@ -41,6 +42,7 @@ export async function handler(event) {
 
   try {
     const response = await dynamodb.query(params).promise();
+    console.log(response)
     return {
       statusCode: 200,
       headers: {
