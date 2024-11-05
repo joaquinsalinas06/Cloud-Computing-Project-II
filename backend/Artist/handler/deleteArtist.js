@@ -20,7 +20,7 @@ export async function handler(event) {
   try {
     await dynamodb.delete(params).promise();
     return {
-      statusCode: 200,
+      statusCode: 204,
       headers: {
         "Content-Type": "application/json",
       },

@@ -10,19 +10,34 @@ export async function handler(event) {
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
 
   try {
-    const putRequests = artists.map((artist) => ({
-      PutRequest: {
-        Item: { ...artist, provider_id },
-      },
-    }));
+    const batches = [];
+    for (let i = 0; i < artists.length; i += 25) {
+      batches.push(artists.slice(i, i + 25));
+    }
 
-    const params = {
-      RequestItems: {
-        [TABLE_NAME]: putRequests,
-      },
+    const processBatch = async (batch) => {
+      const putRequests = batch.map((artist) => ({
+        PutRequest: {
+          Item: { ...artist, provider_id },
+        },
+      }));
+
+      const params = {
+        RequestItems: {
+          [TABLE_NAME]: putRequests,
+        },
+      };
+
+      const result = await dynamodb.batchWrite(params).promise();
+
+      if (result.UnprocessedItems && Object.keys(result.UnprocessedItems).length > 0) {
+        await processBatch(result.UnprocessedItems[TABLE_NAME].map((item) => item.PutRequest.Item));
+      }
     };
 
-    await dynamodb.batchWrite(params).promise();
+    for (const batch of batches) {
+      await processBatch(batch);
+    }
 
     return {
       statusCode: 201,
