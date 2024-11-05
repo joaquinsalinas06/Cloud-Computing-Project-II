@@ -1,11 +1,11 @@
-const AWS = require("aws-sdk");
+import AWS from "aws-sdk";
 
 const { DynamoDB } = AWS;
 const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = "artist-api-table";
 const LSI_NAME = "CountryIndex"; 
 
-module.exports.handler = async (event) => {
+export async function handler(event) {
   const { provider_id, country } = JSON.parse(event.body);
 
   const params = {

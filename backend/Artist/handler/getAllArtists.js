@@ -1,10 +1,10 @@
-const AWS = require("aws-sdk");
+import AWS from "aws-sdk";
 
 const { DynamoDB } = AWS;
 const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
-module.exports.handler = async (event) => {
+export async function handler(event) {
 	const { provider_id } = JSON.parse(event.body);
 
   const params = {
