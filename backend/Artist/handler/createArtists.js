@@ -6,7 +6,7 @@ const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  const { provider_id, artists } = 
+  const { artists } = 
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
 
   try {
@@ -18,7 +18,7 @@ export async function handler(event) {
     const processBatch = async (batch) => {
       const putRequests = batch.map((artist) => ({
         PutRequest: {
-          Item: { ...artist, provider_id },
+          Item: artist,  
         },
       }));
 
