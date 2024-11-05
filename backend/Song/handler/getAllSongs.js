@@ -13,6 +13,10 @@ export async function handler(event) {
     ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
     : null;
 
+    console.log("providerId:", providerId);
+    console.log("limit:", limit);
+    console.log("exclusiveStartKey:", exclusiveStartKey);
+
   if (!providerId) {
     return {
       statusCode: 400,
