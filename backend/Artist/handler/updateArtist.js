@@ -2,7 +2,7 @@ import AWS from "aws-sdk";
 
 const { DynamoDB } = AWS;
 const dynamodb = new DynamoDB.DocumentClient();
-const TABLE_NAME = "artist-api-table";
+const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
   const { provider_id, ...updateData } = JSON.parse(event.body);

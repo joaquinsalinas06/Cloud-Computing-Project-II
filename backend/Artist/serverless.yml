@@ -11,6 +11,8 @@ provider:
     environment:
         TABLE_NAME: ${sls:stage}-artist-api-table
         GSI_NAME: artistNameIndex
+        LSI_NAME_1: countryIndex
+        LSI_NAME_2: genreIndex
 
 functions:
     createArtists:
@@ -117,7 +119,7 @@ resources:
                       Projection:
                           ProjectionType: ALL
                 LocalSecondaryIndexes:
-                    - IndexName: CountryIndex
+                    - IndexName: ${self:provider.environment.LSI_NAME_1}
                       KeySchema:
                           - AttributeName: provider_id
                             KeyType: HASH
@@ -125,7 +127,7 @@ resources:
                             KeyType: RANGE
                       Projection:
                           ProjectionType: ALL
-                    - IndexName: GenreIndex
+                    - IndexName: ${self:provider.environment.LSI_NAME_2}
                       KeySchema:
                           - AttributeName: provider_id
                             KeyType: HASH
