@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Lambda function for managing artists",
   "main": "index.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,8 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.1147.0",
-    "dotenv": "^10.0.0",
-    "serverless-dotenv-plugin": "^6.0.0"
+    "aws-sdk": "^2.1147.0"
   }
 }
