@@ -5,7 +5,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  console.log("Received event:", JSON.stringify(event, null, 2));
+  console.log("Received event:", event);
 
   const providerId = event.query?.providerId;
   const limit = event.query?.limit || 10;
@@ -19,11 +19,13 @@ export async function handler(event) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
+      body: {
         message: "The 'providerId' parameter is required.",
-      }),
+      },
     };
   }
+
+  exclusiveStartKey = parseInt(exclusiveStartKey, 10);
 
   const params = {
     TableName: TABLE_NAME,
@@ -61,10 +63,10 @@ export async function handler(event) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
+      body: {
         message: "Error retrieving songs",
         error: error.message,
-      }),
+      },
     };
   }
 }

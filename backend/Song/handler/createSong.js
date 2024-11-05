@@ -13,15 +13,17 @@ export async function handler(event) {
 
   let highestSongId = 0;
   try {
-    const response = await dynamodb.query({
-      TableName: TABLE_NAME,
-      KeyConditionExpression: "providerId = :providerId",
-      ExpressionAttributeValues: {
-        ":providerId": providerId,
-      },
-      ScanIndexForward: false, 
-      Limit: 1, 
-    }).promise();
+    const response = await dynamodb
+      .query({
+        TableName: TABLE_NAME,
+        KeyConditionExpression: "providerId = :providerId",
+        ExpressionAttributeValues: {
+          ":providerId": providerId,
+        },
+        ScanIndexForward: false,
+        Limit: 1,
+      })
+      .promise();
 
     if (response.Items.length > 0) {
       highestSongId = response.Items[0].songId;
@@ -44,7 +46,8 @@ export async function handler(event) {
   const params = {
     TableName: TABLE_NAME,
     Item: song,
-    ConditionExpression: "attribute_not_exists(providerId) AND attribute_not_exists(songId)",
+    ConditionExpression:
+      "attribute_not_exists(providerId) AND attribute_not_exists(songId)",
   };
 
   try {
