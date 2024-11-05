@@ -1,9 +1,8 @@
-import "dotenv/config";
-import AWS from "aws-sdk";
+const AWS = require("aws-sdk");
 
 const { DynamoDB } = AWS;
 const dynamodb = new DynamoDB.DocumentClient();
-const TABLE_NAME = process.env.TABLE_NAME;
+const TABLE_NAME = "artist-api-table";
 const LSI_NAME = "CountryIndex"; 
 
 export async function handler(event) {
