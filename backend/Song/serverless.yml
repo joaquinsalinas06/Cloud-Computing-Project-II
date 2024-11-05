@@ -51,7 +51,7 @@ functions:
 
 resources:
   Resources:
-    TablaCanciones:
+    SongTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:provider.environment.TABLE_NAME}
@@ -67,11 +67,4 @@ resources:
             KeyType: HASH
           - AttributeName: songId
             KeyType: RANGE
-        GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.INDEX_NAME}
-            KeySchema:
-              - AttributeName: title
-                KeyType: HASH
-            Projection:
-              ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
