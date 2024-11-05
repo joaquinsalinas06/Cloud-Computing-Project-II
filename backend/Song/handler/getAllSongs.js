@@ -7,12 +7,10 @@ const TABLE_NAME = process.env.TABLE_NAME;
 export async function handler(event) {
   console.log("Received event:", JSON.stringify(event, null, 2));
 
-  const providerId = event.queryStringParameters?.providerId;
-  let limit = event.queryStringParameters?.limit || 10;
-  let exclusiveStartKey = event.queryStringParameters?.exclusiveStartKey
-    ? JSON.parse(
-        decodeURIComponent(event.queryStringParameters.exclusiveStartKey)
-      )
+  const providerId = event.query?.providerId;
+  const limit = event.query?.limit || 10;
+  const exclusiveStartKey = event.query?.exclusiveStartKey
+    ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
     : null;
 
   limit = Number(limit);
