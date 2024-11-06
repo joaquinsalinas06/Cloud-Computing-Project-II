@@ -36,7 +36,10 @@ export async function handler(event) {
     return {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
-      body: { message: "An error occurred while deleting the album", error: error.message },
+      body: {
+        message: "An error occurred while deleting the album",
+        error: error.message,
+      },
     };
   }
 }
