@@ -1,31 +1,25 @@
 import boto3
+import os
 
+import boto3.dynamodb
 
 def lambda_handler(event, context):
-    provider_id = event.get('provider_id')
-    user_id = event.get('user_id')
-
-    if user_id and provider_id:
-        dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('mure_user')
-        response = table.get_item(
-            Key={
-                'user_id': user_id,
-                'provider_id': provider_id
-            }
-        )
-        if 'Item' in response:
-            return {
-                'statusCode': 200,
-                'body': response['Item']
-            }
-        else:
-            return {
-                'statusCode': 404,
-                'body': 'User not found'
-            }
-    else:
-        return {
-            'statusCode': 400,
-            'body': 'Invalid request body: missing user_id or provider_id'
+    provider_id = event['pathParameters']['provider_id']
+    user_id = event['pathParameters']['user_id']
+    dynamodb = boto3.resource('dynamodb')
+    dynamodb = boto3.dynamodb.resource('dynamodb') 
+    user_table_name = os.getenv('TABLE_NAME_e')
+    user_table = dynamodb.Table(user_table_name)
+    response = user_table.get_item(
+        key = {
+            'provider_id': provider_id,
+            'user_id': user_id
         }
+    )
+    if 'Item' not in response:
+        return {
+            'statusCode': 403,
+            'body': 'User doesn\'t exist'
+        }
+    else:
+        user = response['Item']

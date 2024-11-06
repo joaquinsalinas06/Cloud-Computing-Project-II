@@ -45,6 +45,13 @@ functions:
           method: get
           cors: true
           integration: lambda
+  validarToken:
+    handler: Handler/validarToken.lambda_handler
+    events:
+      - http:
+        method: get
+        cors: true
+        integration: lambda
 
   updateUser:
     handler: Handler/updateUser.lambda_handler
