@@ -8,6 +8,11 @@ provider:
   timeout: 30
   iam:
     role: arn:aws:iam::418515024637:role/LabRole
+  environment:
+    TABLE_NAME: ${sls:stage}-${env:TABLE_NAME_e}
+    INDEX_NAME: ${sls:stage}-${env:INDEX_NAME_e}
+    TABLE2_NAME: ${sls:stage}-${env:TABLE2_NAME_e}
+    INDEX2_NAME: ${sls:stage}-${env:INDEX2_NAME_e}
 
 functions:
   createUser:
@@ -34,4 +39,107 @@ functions:
           method: get
           cors: true
           integration: lambda
-          
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.TABLE_NAME}
+        AttributeDefinitions:
+          - AttributeName: provider_id
+            AttributeType: S
+          - AttributeName: user_id
+            AttributeType: S
+          - AttributeName: provider_user_id
+            AttributeType: S
+          - AttributeName: email
+            AttributeType: S
+          - AttributeName: username
+            AttributeType: S
+          - AttributeName: provider_username
+            AttributeType: S
+        KeySchema:
+          - AttributeName: provider_id
+            KeyType: HASH
+          - AttributeName: user_id
+            KeyType: RANGE
+        LocalSecondaryIndexes:
+          - IndexName: EmailIndex
+            KeySchema:
+              - AttributeName: provider_id
+                KeyType: HASH
+              - AttributeName: email
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: UsernameIndex
+            KeySchema:
+              - AttributeName: provider_id
+                KeyType: HASH
+              - AttributeName: username
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.INDEX_NAME}
+            KeySchema:
+              - AttributeName: provider_id
+                KeyType: HASH
+              - AttributeName: provider_user_id
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: ProviderUsernameIndex
+            KeySchema:
+              - AttributeName: provider_id
+                KeyType: HASH
+              - AttributeName: provider_username
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
+      DeletionPolicy: Retain
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+    TokensTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.TABLE2_NAME}
+        AttributeDefinitions:
+          - AttributeName: provider_id
+            AttributeType: S
+          - AttributeName: user_id
+            AttributeType: S
+          - AttributeName: provider_user_id
+            AttributeType: S
+          - AttributeName: token
+            AttributeType: S
+        KeySchema:
+          - AttributeName: provider_id
+            KeyType: HASH
+          - AttributeName: user_id
+            KeyType: RANGE
+        LocalSecondaryIndexes:
+          - IndexName: TokenIndex
+            KeySchema:
+              - AttributeName: user_id
+                KeyType: HASH
+              - AttributeName: token
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.INDEX2_NAME}
+            KeySchema:
+              - AttributeName: provider_id
+                KeyType: HASH
+              - AttributeName: provider_user_id
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
+      DeletionPolicy: Retain
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
