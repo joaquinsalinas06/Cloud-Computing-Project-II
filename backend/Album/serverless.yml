@@ -12,7 +12,6 @@ provider:
     TABLE_NAME: ${sls:stage}-${env:TABLE_NAME_e}
     INDEX_NAME: ${env:INDEX_NAME_e}
 
-
 functions:
   createAlbum:
     handler: handler/createAlbum.handler
@@ -23,7 +22,7 @@ functions:
           cors: true
           integration: lambda
 
-    deleteAlbum:
+  deleteAlbum:
     handler: handler/deleteAlbum.handler
     events:
       - http:
@@ -32,7 +31,7 @@ functions:
           cors: true
           integration: lambda
 
-    getAlbumById:
+  getAlbumById:
     handler: handler/getAlbumById.handler
     events:
       - http:
@@ -41,7 +40,7 @@ functions:
           cors: true
           integration: lambda
 
-    getAlbumByTitle:
+  getAlbumByTitle:
     handler: handler/getAlbumByTitle.handler
     events:
       - http:
@@ -49,8 +48,8 @@ functions:
           method: get
           cors: true
           integration: lambda
-    
-    getAlbumByTitleWP:
+
+  getAlbumByTitleWP:
     handler: handler/getAlbumByTitleWP.handler
     events:
       - http:
@@ -59,7 +58,7 @@ functions:
           cors: true
           integration: lambda
 
-    getAllAlbums:
+  getAllAlbums:
     handler: handler/getAllAlbums.handler
     events:
       - http:
@@ -68,7 +67,7 @@ functions:
           cors: true
           integration: lambda
 
-    getAllAlbumsWP:
+  getAllAlbumsWP:
     handler: handler/getAllAlbumsWP.handler
     events:
       - http:
@@ -76,9 +75,6 @@ functions:
           method: get
           cors: true
           integration: lambda
-
-
-
 
 resources:
   Resources:
