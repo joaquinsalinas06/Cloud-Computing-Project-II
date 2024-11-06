@@ -55,7 +55,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Error retrieving songs",
+        message: "An error occurred while getting the album",
         error: error.message,
       },
     };

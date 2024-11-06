@@ -19,7 +19,7 @@ export async function handler(event) {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
       body: {
-        message: "Falta el parámetro: title",
+        message: "The parameter: title is missing",
       },
     };
   }
@@ -45,7 +45,7 @@ export async function handler(event) {
           "Content-Type": "application/json",
         },
         body: {
-          message: "No songs found",
+          message: "No albums found",
         },
       };
     } else {
@@ -63,14 +63,13 @@ export async function handler(event) {
       };
     }
   } catch (error) {
-    console.error("Error querying DynamoDB:", error);
     return {
       statusCode: 500,
       headers: {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Error al buscar la canción por título",
+        message: "An error occurred while getting the album by title",
         error: error.message,
       },
     };

@@ -36,7 +36,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Error al consultar el albumId más alto",
+        message: "Error getting highest album id",
         error: error.message,
       },
     };
@@ -59,7 +59,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Album creado con éxito",
+        message: "Album was created successfully",
         song: song,
       },
     };
@@ -70,7 +70,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Error al crear el album",
+        message: "An error occurred while creating the album",
         error: error.message,
       },
     };

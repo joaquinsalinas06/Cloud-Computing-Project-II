@@ -13,7 +13,7 @@ export async function handler(event) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
-      body: { message: "Faltan parámetros: providerId o albumId" },
+      body: { message: "The parameters: provider_id or album_id are missing" },
     };
   }
 
@@ -30,13 +30,13 @@ export async function handler(event) {
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: { message: "Álbum eliminado con éxito" },
+      body: { message: "Album was succesfuly created" },
     };
   } catch (error) {
     return {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
-      body: { message: "Error al eliminar el álbum", error: error.message },
+      body: { message: "An error occurred while deleting the album", error: error.message },
     };
   }
 }
