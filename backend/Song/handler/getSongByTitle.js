@@ -7,8 +7,7 @@ const TABLE_NAME = process.env.TABLE_NAME;
 const INDEX_NAME = process.env.INDEX_NAME;
 
 export async function handler(event) {
-  const { title } =
-    typeof event.body === "string" ? JSON.parse(event.body) : event.body;
+  const title = event.query?.title;
 
   if (!title) {
     return {
