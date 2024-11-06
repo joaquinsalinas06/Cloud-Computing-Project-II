@@ -81,7 +81,7 @@ def lambda_handler(event, context):
             comments.append({
                 'comment_id': item['comment_id'],
                 'user_id': item['user_id'],
-                'content': item['content'],
+                'text': item['text'],
                 'date': item['date'],
                 'song_id': item['song_id']
             })
