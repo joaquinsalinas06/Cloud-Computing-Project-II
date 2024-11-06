@@ -56,6 +56,15 @@ functions:
           path: getAllSongs
           method: get
           cors: true
+          integration: lambda          
+
+  getAllSongsWP:
+    handler: handler/getAllSongsWP.handler
+    events:
+      - http:
+          path: getAllSongsWP
+          method: get
+          cors: true
           integration: lambda
 
 resources:

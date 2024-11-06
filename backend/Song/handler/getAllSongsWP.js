@@ -6,6 +6,10 @@ const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
   const providerId = event.query?.providerId;
+  const limit = event.query?.limit || 10;
+  let exclusiveStartKey = event.query?.exclusiveStartKey
+    ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
+    : null;
 
   if (!providerId) {
     return {
@@ -25,27 +29,25 @@ export async function handler(event) {
     ExpressionAttributeValues: {
       ":providerId": providerId,
     },
+    Limit: limit,
+    ExclusiveStartKey: exclusiveStartKey ? exclusiveStartKey : undefined,
   };
 
   try {
-    let items = [];
-    let lastEvaluatedKey;
-
-    do {
-      const response = await dynamodb.query(params).promise();
-      items = items.concat(response.Items);
-      lastEvaluatedKey = response.LastEvaluatedKey;
-      params.ExclusiveStartKey = lastEvaluatedKey;
-    } while (lastEvaluatedKey);
-
-    console.log("Total items retrieved:", items.length);
+    const response = await dynamodb.query(params).promise();
+    console.log("DynamoDB response:", response);
 
     return {
       statusCode: 200,
       headers: {
         "Content-Type": "application/json",
       },
-      body: { items },
+      body: {
+        items: response.Items,
+        lastEvaluatedKey: response.LastEvaluatedKey
+          ? encodeURIComponent(JSON.stringify(response.LastEvaluatedKey))
+          : null,
+      },
     };
   } catch (error) {
     console.error("Error querying DynamoDB:", error);
