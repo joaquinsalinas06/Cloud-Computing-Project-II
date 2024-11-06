@@ -2,6 +2,7 @@ import boto3
 import hashlib
 import secrets
 import os
+from datetime import datetime, timedelta
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
@@ -39,7 +40,8 @@ def lambda_handler(event, context):
                 Item={
                     'provider_id': provider_id,
                     'email': email,
-                    'token': token
+                    'token': token,
+                    'expiration': (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')
                 }
             )
         else:
