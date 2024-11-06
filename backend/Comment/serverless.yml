@@ -1,0 +1,87 @@
+# serverless.yml
+org: flauta
+service: comments
+
+provider:
+  name: aws
+  runtime: python3.12
+  environment:
+    TABLE_NAME: ${sls:stage}-comments
+  iam:
+    role: arn:aws:iam::481751701457:role/LabRole
+functions:
+  getSongComments:
+    handler: get_comments_song.lambda_handler
+    events:
+      - http:
+          path: comments/songs/{song_id}
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                song_id: true
+          integration: lambda
+  getUserComments:
+    handler: get_comments_user.lambda_handler
+    events:
+      - http:
+          path: comments/users/{user_id}
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                user_id: true
+          integration: lambda
+  postComment:
+    handler: post_comment.lambda_handler
+    events:
+      - http:
+          path: comments/
+          method: post
+          cors: true
+          integration: lambda
+
+resources:
+  Resources:
+    TablaComentarios:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain # Add this line
+      Properties:
+        TableName: ${self:service}-${sls:stage}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: provider_id
+            AttributeType: S
+          - AttributeName: comment_id
+            AttributeType: S
+          - AttributeName: song_id
+            AttributeType: S
+          - AttributeName: date
+            AttributeType: S
+          - AttributeName: user_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: provider_id
+            KeyType: HASH
+          - AttributeName: comment_id
+            KeyType: RANGE
+        LocalSecondaryIndexes:
+          - IndexName: provider-song-index
+            KeySchema:
+              - AttributeName: song_id
+                KeyType: HASH
+              - AttributeName: date
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        GlobalSecondaryIndexes:
+          - IndexName: user-date-index
+            KeySchema:
+              - AttributeName: user_id
+                KeyType: HASH
+              - AttributeName: date
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
