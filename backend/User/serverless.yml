@@ -10,9 +10,13 @@ provider:
     role: arn:aws:iam::418515024637:role/LabRole
   environment:
     TABLE_NAME: ${sls:stage}-${env:TABLE_NAME_e}
-    INDEX_NAME: ${sls:stage}-${env:INDEX_NAME_e}
+    INDEXGSI1_TABLE1_NAME: ${sls:stage}-${env:INDEXGSI1_TABLE1_NAME_e}
+    INDEXGSI2_TABLE1_NAME: ${sls:stage}-${env:INDEXGSI2_TABLE1_NAME_e}
+    INDEXLSI1_TABLE1_NAME: ${sls:stage}-${env:INDEXLSI1_TABLE1_NAME_e}
+    INDEXLSI2_TABLE1_NAME: ${sls:stage}-${env:INDEXLSI2_TABLE1_NAME_e}
     TABLE2_NAME: ${sls:stage}-${env:TABLE2_NAME_e}
-    INDEX2_NAME: ${sls:stage}-${env:INDEX2_NAME_e}
+    INDEXGSI1_TABLE2_NAME: ${sls:stage}-${env:INDEXGSI1_TABLE2_NAME_e}
+    INDEXLSI1_TABLE2_NAME: ${sls:stage}-${env:INDEXLSI1_TABLE2_NAME_e}
 
 functions:
   createUser:
@@ -23,6 +27,7 @@ functions:
           method: post
           cors: true
           integration: lambda
+
   loginUser:
     handler: Handler/loginUser.lambda_handler
     events:
@@ -31,12 +36,45 @@ functions:
           method: post
           cors: true
           integration: lambda
+
   getUser:
     handler: Handler/getUser.lambda_handler
     events:
       - http:
-          path: /user/get
+          path: /user/get/{provider_id}/{user_id}
           method: get
+          cors: true
+          integration: lambda
+          
+  validarToken:
+    handler: Handler/validarToken.lambda_handler
+    events:
+      - http:
+        method: get
+        cors: true
+        integration: lambda
+
+  updateUser:
+    handler: Handler/updateUser.lambda_handler
+    events:
+      - http: /user/update/{provider_id}/{user_id}
+          method: put
+          cors: true
+          integration: lambda
+
+  getallUsersByProvider:
+    handler: Handler/getallUsersByProvider.lambda_handler
+    events:
+      - http: /user/getall/{provider_id}?page={page}&limit={limit}
+          method: get
+          cors: true
+          integration: lambda
+
+  deleteUser:
+    handler: Handler/deleteUser.lambda_handler
+    events:
+      - http: /user/delete/{provider_id}/{user_id}
+          method: delete
           cors: true
           integration: lambda
 
@@ -65,7 +103,7 @@ resources:
           - AttributeName: user_id
             KeyType: RANGE
         LocalSecondaryIndexes:
-          - IndexName: EmailIndex
+          - IndexName: ${self:provider.environment.INDEXLSI1_TABLE1_NAME}
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH
@@ -73,7 +111,7 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
-          - IndexName: UsernameIndex
+          - IndexName: ${self:provider.environment.INDEXLSI2_TABLE1_NAME}
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH
@@ -82,7 +120,7 @@ resources:
             Projection:
               ProjectionType: ALL
         GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.INDEX_NAME}
+          - IndexName: ${self:provider.environment.INDEXGSI1_TABLE1_NAME}
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH
@@ -90,7 +128,7 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
-          - IndexName: ProviderUsernameIndex
+          - IndexName: ${self:provider.environment.INDEXGSI2_TABLE1_NAME}
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH
@@ -110,32 +148,32 @@ resources:
         AttributeDefinitions:
           - AttributeName: provider_id
             AttributeType: S
-          - AttributeName: user_id
+          - AttributeName: email
             AttributeType: S
-          - AttributeName: provider_user_id
+          - AttributeName: provider_email
             AttributeType: S
           - AttributeName: token
             AttributeType: S
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
-          - AttributeName: user_id
+          - AttributeName: email
             KeyType: RANGE
         LocalSecondaryIndexes:
-          - IndexName: TokenIndex
+          - IndexName: ${self:provider.environment.INDEXLSI1_TABLE2_NAME}
             KeySchema:
-              - AttributeName: user_id
+              - AttributeName: email
                 KeyType: HASH
               - AttributeName: token
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
         GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.INDEX2_NAME}
+          - IndexName: ${self:provider.environment.INDEXGSI1_TABLE2_NAME}
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH
-              - AttributeName: provider_user_id
+              - AttributeName: provider_email
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
