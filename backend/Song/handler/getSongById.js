@@ -13,7 +13,7 @@ export async function handler(event) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
-      body: { message: "Faltan parámetros: providerId o songId" },
+      body: { message: "The parameters: provider_id or song_id are missing" },
     };
   }
 

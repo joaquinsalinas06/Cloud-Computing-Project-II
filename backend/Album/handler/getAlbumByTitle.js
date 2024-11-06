@@ -13,7 +13,7 @@ export async function handler(event) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
-      body: { message: "Falta el parámetro: title" },
+      body: { message: "The parameter: title is missing" },
     };
   }
 

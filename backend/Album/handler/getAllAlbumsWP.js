@@ -44,7 +44,7 @@ export async function handler(event) {
           "Content-Type": "application/json",
         },
         body: {
-          message: "No songs found",
+          message: "No albums found",
         },
       };
     } else {

@@ -16,7 +16,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Se requiere una lista de canciones válida",
+        message: "A list of songs is required",
       },
     };
   }
@@ -67,7 +67,7 @@ export async function handler(event) {
     } catch (error) {
       failedSongs.push({
         song,
-        error: `Error al crear la canción: ${error.message}`,
+        error: `Error creating the song: ${error.message}`,
       });
     }
   }
@@ -78,7 +78,7 @@ export async function handler(event) {
       "Content-Type": "application/json",
     },
     body: {
-      message: "Proceso de creación completado",
+      message: "Process completed",
       createdSongs,
       failedSongs,
     },

@@ -35,7 +35,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Error al consultar el songId más alto",
+        message: "An error occurred while getting the highest song id",
         error: error.message,
       },
     };
@@ -58,7 +58,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Canción creada con éxito",
+        message: "Song was created successfully",
         song: song,
       },
     };
@@ -69,7 +69,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Error al crear la canción",
+        message: "An error occurred while creating the song",
         error: error.message,
       },
     };
