@@ -35,8 +35,8 @@ functions:
     handler: handler/deleteSong.handler
     events:
       - http:
-          path: /deleteSong
-          method: post
+          path: /deleteSong/{providerId}/{songId}
+          method: delete
           cors: true
           integration: lambda
 
@@ -44,7 +44,7 @@ functions:
     handler: handler/getSongById.handler
     events:
       - http:
-          path: /getSongById
+          path: /getSongById/{providerId}/{songId}
           method: post
           cors: true
           integration: lambda
