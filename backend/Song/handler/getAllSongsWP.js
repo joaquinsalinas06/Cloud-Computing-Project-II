@@ -37,18 +37,30 @@ export async function handler(event) {
     const response = await dynamodb.query(params).promise();
     console.log("DynamoDB response:", response);
 
-    return {
-      statusCode: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: {
-        items: response.Items,
-        lastEvaluatedKey: response.LastEvaluatedKey
-          ? encodeURIComponent(JSON.stringify(response.LastEvaluatedKey))
-          : null,
-      },
-    };
+    if (response.Count === 0) {
+      return {
+        statusCode: 404,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          message: "No songs found",
+        },
+      };
+    } else {
+      return {
+        statusCode: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          items: response.Items,
+          lastEvaluatedKey: response.LastEvaluatedKey
+            ? encodeURIComponent(JSON.stringify(response.LastEvaluatedKey))
+            : null,
+        },
+      };
+    }
   } catch (error) {
     console.error("Error querying DynamoDB:", error);
     return {
