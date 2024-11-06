@@ -1,0 +1,41 @@
+org: salinsuwu
+service: album-api
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  memorySize: 1024
+  timeout: 30
+  iam:
+    role: arn:aws:iam::164273947020:role/LabRole
+  environment:
+    TABLE_NAME: ${sls:stage}-${env:TABLE_NAME_e}
+    INDEX_NAME: ${env:INDEX_NAME_e}
+
+
+resources:
+  Resources:
+    SongsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.TABLE_NAME}
+        AttributeDefinitions:
+          - AttributeName: provider_id
+            AttributeType: S
+          - AttributeName: album_id
+            AttributeType: N
+          - AttributeName: title
+            AttributeType: S
+        KeySchema:
+          - AttributeName: provider_id
+            KeyType: HASH
+          - AttributeName: song_id
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.INDEX_NAME}
+            KeySchema:
+              - AttributeName: title
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
