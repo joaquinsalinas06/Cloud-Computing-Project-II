@@ -12,6 +12,8 @@ export async function handler(event) {
     ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
     : null;
 
+  console.log(event);
+
   if (!title) {
     return {
       statusCode: 400,

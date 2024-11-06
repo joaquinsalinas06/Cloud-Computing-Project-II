@@ -54,7 +54,7 @@ functions:
     events:
       - http:
           path: /getSongByTitle
-          method: post
+          method: get
           cors: true
           integration: lambda
 
