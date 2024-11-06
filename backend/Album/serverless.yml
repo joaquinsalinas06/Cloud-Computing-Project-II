@@ -78,7 +78,7 @@ functions:
 
 resources:
   Resources:
-    SongsTable:
+    AlbumsTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:provider.environment.TABLE_NAME}
@@ -92,7 +92,7 @@ resources:
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
-          - AttributeName: song_id
+          - AttributeName: album_id
             KeyType: RANGE
         GlobalSecondaryIndexes:
           - IndexName: ${self:provider.environment.INDEX_NAME}
