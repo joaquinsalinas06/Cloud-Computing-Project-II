@@ -29,7 +29,7 @@ export async function handler(event) {
     if (response.Items.length > 0) {
       highestAlbumId = response.Items[0].album_id;
     }
-  } catch {
+  } catch (error) {
     return {
       statusCode: 500,
       headers: {
@@ -60,7 +60,7 @@ export async function handler(event) {
       },
       body: {
         message: "Album was created successfully",
-        song: song,
+        album: album,
       },
     };
   } catch (error) {
