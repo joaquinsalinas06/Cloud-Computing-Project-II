@@ -13,33 +13,6 @@ provider:
     INDEX_NAME: ${env:INDEX_NAME_e}
 
 functions:
-  getSongById:
-    handler: handler/getSongById.handler
-    events:
-      - http:
-          path: /getSongById
-          method: post
-          cors: true
-          integration: lambda
-
-  getSongByTitle:
-    handler: handler/getSongByTitle.handler
-    events:
-      - http:
-          path: /getSongByTitle
-          method: post
-          cors: true
-          integration: lambda
-
-  getSongByTitleWP:
-    handler: handler/getSongByTitleWP.handler
-    events:
-      - http:
-          path: /getSongByTitleWP
-          method: post
-          cors: true
-          integration: lambda
-
   createSong:
     handler: handler/createSong.handler
     events:
@@ -63,6 +36,33 @@ functions:
     events:
       - http:
           path: /deleteSong
+          method: post
+          cors: true
+          integration: lambda
+
+  getSongById:
+    handler: handler/getSongById.handler
+    events:
+      - http:
+          path: /getSongById
+          method: post
+          cors: true
+          integration: lambda
+
+  getSongByTitle:
+    handler: handler/getSongByTitle.handler
+    events:
+      - http:
+          path: /getSongByTitle
+          method: post
+          cors: true
+          integration: lambda
+
+  getSongByTitleWP:
+    handler: handler/getSongByTitleWP.handler
+    events:
+      - http:
+          path: /getSongByTitleWP
           method: post
           cors: true
           integration: lambda
