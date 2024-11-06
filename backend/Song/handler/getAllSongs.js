@@ -5,11 +5,11 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  console.log("Received event:", event);
+  console.log("Received event:", JSON.stringify(event, null, 2));
 
   const providerId = event.query?.providerId;
   const limit = event.query?.limit || 10;
-  const exclusiveStartKey = event.query?.exclusiveStartKey
+  let exclusiveStartKey = event.query?.exclusiveStartKey
     ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
     : null;
 
@@ -25,8 +25,6 @@ export async function handler(event) {
     };
   }
 
-  exclusiveStartKey = parseInt(exclusiveStartKey, 10);
-
   const params = {
     TableName: TABLE_NAME,
     KeyConditionExpression: "providerId = :providerId",
@@ -41,11 +39,6 @@ export async function handler(event) {
     const response = await dynamodb.query(params).promise();
     console.log("DynamoDB response:", response);
 
-    const lastSongId =
-      response.Items.length > 0
-        ? response.Items[response.Items.length - 1].songId
-        : null;
-
     return {
       statusCode: 200,
       headers: {
@@ -53,7 +46,9 @@ export async function handler(event) {
       },
       body: {
         items: response.Items,
-        lastEvaluatedKey: lastSongId ? encodeURIComponent(lastSongId) : null,
+        lastEvaluatedKey: response.LastEvaluatedKey
+          ? encodeURIComponent(JSON.stringify(response.LastEvaluatedKey))
+          : null,
       },
     };
   } catch (error) {
