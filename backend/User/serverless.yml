@@ -27,7 +27,7 @@ functions:
           method: post
           cors: true
           integration: lambda
-          
+
   loginUser:
     handler: Handler/loginUser.lambda_handler
     events:
@@ -140,21 +140,21 @@ resources:
         AttributeDefinitions:
           - AttributeName: provider_id
             AttributeType: S
-          - AttributeName: user_id
+          - AttributeName: email
             AttributeType: S
-          - AttributeName: provider_user_id
+          - AttributeName: provider_email
             AttributeType: S
           - AttributeName: token
             AttributeType: S
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
-          - AttributeName: user_id
+          - AttributeName: email
             KeyType: RANGE
         LocalSecondaryIndexes:
           - IndexName: ${self:provider.environment.INDEXLSI1_TABLE2_NAME}
             KeySchema:
-              - AttributeName: user_id
+              - AttributeName: email
                 KeyType: HASH
               - AttributeName: token
                 KeyType: RANGE
@@ -165,7 +165,7 @@ resources:
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH
-              - AttributeName: provider_user_id
+              - AttributeName: provider_email
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL

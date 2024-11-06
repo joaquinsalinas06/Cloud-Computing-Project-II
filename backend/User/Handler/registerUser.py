@@ -1,5 +1,6 @@
 import boto3
 import hashlib
+import os
 from datetime import datetime
 
 def hash_password(password):
@@ -12,7 +13,6 @@ def lambda_handler(event, context):
         password = event.get('password')
         email = event.get('email')
         username = event.get('username')
-        token = ''
         data = event.get('data')
         nombre = data.get('nombre')
         apellido = data.get('apellido')
@@ -23,10 +23,14 @@ def lambda_handler(event, context):
         datecreated = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         edad = data.get('edad')
         hashed_password = hash_password(password)
+        
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('mure_user')
+        table_name = os.getenv('TABLE_NAME_e')
+        table = dynamodb.Table(table_name)
+        
         existentes = table.get_item(
             Key={
+                'provider_id': provider_id,
                 'email': email
             }
         )
@@ -39,17 +43,15 @@ def lambda_handler(event, context):
                 'body': mensaje
             }
 
-
         if user_id and password and provider_id and email and username and data:
-            t_usuarios = dynamodb.Table('mure_user')
+            t_usuarios = dynamodb.Table(table_name)
             t_usuarios.put_item(
                 Item={
-                    'user_id': user_id,
                     'provider_id': provider_id,
+                    'user_id': user_id,
                     'email': email,
                     'username': username,
                     'password': hashed_password,
-                    'token': token,
                     'data': {
                         'nombre': nombre,
                         'apellido': apellido,
@@ -57,7 +59,6 @@ def lambda_handler(event, context):
                         'fecha_nacimiento': fecha_nacimiento,
                         'genero': genero,
                         'edad': edad
-                        
                     },
                     'active': active,
                     'datecreated': datecreated
@@ -88,6 +89,3 @@ def lambda_handler(event, context):
             'statusCode': 500,
             'body': mensaje
         }
-        
-        
-        
