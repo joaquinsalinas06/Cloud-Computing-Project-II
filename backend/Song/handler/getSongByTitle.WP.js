@@ -6,11 +6,11 @@ const TABLE_NAME = process.env.TABLE_NAME;
 const INDEX_NAME = process.env.INDEX_NAME;
 
 export async function handler(event) {
-    const title = event.query?.providerId;
-    const limit = event.query?.limit || 10;
-    let exclusiveStartKey = event.query?.exclusiveStartKey
-      ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
-      : null;
+  const title = event.query?.title;
+  const limit = event.query?.limit || 10;
+  let exclusiveStartKey = event.query?.exclusiveStartKey
+    ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
+    : null;
 
   if (!title) {
     return {
@@ -21,8 +21,6 @@ export async function handler(event) {
       },
     };
   }
-
-
   const params = {
     TableName: TABLE_NAME,
     IndexName: INDEX_NAME,
@@ -30,7 +28,7 @@ export async function handler(event) {
     ExpressionAttributeValues: {
       ":title": title,
     },
-    Limit: parsedLimit,
+    Limit: limit,
     ExclusiveStartKey: exclusiveStartKey ? exclusiveStartKey : undefined,
   };
 

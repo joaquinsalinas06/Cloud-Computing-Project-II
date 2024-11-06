@@ -6,8 +6,8 @@ const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  const { providerId, songId } =
-    typeof event.body === "string" ? JSON.parse(event.body) : event.body;
+  const providerId = event.query?.providerId;
+  const songId = event.query?.songId;
 
   if (!providerId || !songId) {
     return {

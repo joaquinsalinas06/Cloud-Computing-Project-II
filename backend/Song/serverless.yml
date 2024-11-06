@@ -63,7 +63,7 @@ functions:
     events:
       - http:
           path: /getSongByTitleWP
-          method: post
+          method: get
           cors: true
           integration: lambda
 
