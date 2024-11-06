@@ -5,13 +5,13 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  const providerId = event.query?.providerId;
+  const provider_id = event.query?.provider_id;
   const limit = event.query?.limit || 10;
   let exclusiveStartKey = event.query?.exclusiveStartKey
     ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
     : null;
 
-  if (!providerId) {
+  if (!provider_id) {
     return {
       statusCode: 400,
       headers: {
@@ -25,9 +25,9 @@ export async function handler(event) {
 
   const params = {
     TableName: TABLE_NAME,
-    KeyConditionExpression: "providerId = :providerId",
+    KeyConditionExpression: "provider_id = :provider_id",
     ExpressionAttributeValues: {
-      ":providerId": providerId,
+      ":provider_id": provider_id,
     },
     Limit: limit,
     ExclusiveStartKey: exclusiveStartKey ? exclusiveStartKey : undefined,

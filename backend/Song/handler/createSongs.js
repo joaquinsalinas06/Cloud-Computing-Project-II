@@ -6,7 +6,8 @@ const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  const songs = typeof event.body === "string" ? JSON.parse(event.body) : event.body;
+  const songs =
+    typeof event.body === "string" ? JSON.parse(event.body) : event.body;
 
   if (!Array.isArray(songs) || songs.length === 0) {
     return {
@@ -24,16 +25,16 @@ export async function handler(event) {
   let createdSongs = [];
 
   for (let song of songs) {
-    const providerId = song.providerId;
+    const provider_id = song.provider_id;
     let highestSongId = 0;
 
     try {
       const response = await dynamodb
         .query({
           TableName: TABLE_NAME,
-          KeyConditionExpression: "providerId = :providerId",
+          KeyConditionExpression: "provider_id = :provider_id",
           ExpressionAttributeValues: {
-            ":providerId": providerId,
+            ":provider_id": provider_id,
           },
           ScanIndexForward: false,
           Limit: 1,
@@ -41,7 +42,7 @@ export async function handler(event) {
         .promise();
 
       if (response.Items.length > 0) {
-        highestSongId = response.Items[0].songId;
+        highestSongId = response.Items[0].song_id;
       }
     } catch (error) {
       failedSongs.push({
@@ -51,13 +52,13 @@ export async function handler(event) {
       continue;
     }
 
-    song.songId = highestSongId + 1;
+    song.song_id = highestSongId + 1;
 
     const params = {
       TableName: TABLE_NAME,
       Item: song,
       ConditionExpression:
-        "attribute_not_exists(providerId) AND attribute_not_exists(songId)",
+        "attribute_not_exists(provider_id) AND attribute_not_exists(song_id)",
     };
 
     try {

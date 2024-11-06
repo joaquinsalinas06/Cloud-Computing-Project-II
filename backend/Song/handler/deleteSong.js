@@ -6,10 +6,10 @@ const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  const providerId = event.path?.providerId;
-  const songId = event.path?.songId
-  
-  if (!providerId || !songId) {
+  const provider_id = event.path?.provider_id;
+  const song_id = event.path?.song_id;
+
+  if (!provider_id || !song_id) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
@@ -20,8 +20,8 @@ export async function handler(event) {
   const params = {
     TableName: TABLE_NAME,
     Key: {
-      providerId,
-      songId: parseInt(songId, 10),
+      provider_id,
+      song_id: parseInt(song_id, 10),
     },
   };
 
