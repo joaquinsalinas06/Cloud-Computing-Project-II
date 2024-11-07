@@ -45,19 +45,21 @@ functions:
           method: get
           cors: true
           integration: lambda
-          
+
   validarToken:
     handler: Handler/validarToken.lambda_handler
     events:
       - http:
-        method: get
-        cors: true
-        integration: lambda
+          path: /user/validate
+          method: get
+          cors: true
+          integration: lambda
 
   updateUser:
     handler: Handler/updateUser.lambda_handler
     events:
-      - http: /user/update/{provider_id}/{user_id}
+      - http:
+          path: /user/update/{provider_id}/{user_id}
           method: put
           cors: true
           integration: lambda
@@ -65,15 +67,22 @@ functions:
   getallUsersByProvider:
     handler: Handler/getallUsersByProvider.lambda_handler
     events:
-      - http: /user/getall/{provider_id}?page={page}&limit={limit}
+      - http:
+          path: /user/getall/{provider_id}
           method: get
           cors: true
           integration: lambda
+          request:
+            parameters:
+              querystrings:
+                page: true
+                limit: true
 
   deleteUser:
     handler: Handler/deleteUser.lambda_handler
     events:
-      - http: /user/delete/{provider_id}/{user_id}
+      - http:
+          path: /user/delete/{provider_id}/{user_id}
           method: delete
           cors: true
           integration: lambda
@@ -171,10 +180,8 @@ resources:
         GlobalSecondaryIndexes:
           - IndexName: ${self:provider.environment.INDEXGSI1_TABLE2_NAME}
             KeySchema:
-              - AttributeName: provider_id
+              - AttributeName: token
                 KeyType: HASH
-              - AttributeName: provider_email
-                KeyType: RANGE
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST

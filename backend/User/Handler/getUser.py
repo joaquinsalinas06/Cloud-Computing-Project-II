@@ -1,21 +1,21 @@
 import boto3
 import os
 import json
-from datetime import datetime
 
 def lambda_handler(event, context):
     try:
-        provider_id = event['pathParameters']['provider_id']
-        user_id = event['pathParameters']['user_id']
-        token = event['headers']['Authorization']
+        provider_id = event['pathParameters'].get('provider_id')
+        user_id = event['pathParameters'].get('user_id')
+        token = event['headers'].get('Authorization')
         
-        # Invocar la función Lambda de autorización
+        if not provider_id or not user_id or not token:
+            return {
+                'statusCode': 400,
+                'body': json.dumps({'error': 'Missing parameters or token'})
+            }
+
         lambda_client = boto3.client('lambda')
-        payload = {
-            "provider_id": provider_id,
-            "user_id": user_id,
-            "token": token
-        }
+        payload = {"token": token}
         
         invoke_response = lambda_client.invoke(
             FunctionName=os.getenv('AUTHORIZER_FUNCTION_NAME'),
@@ -24,27 +24,26 @@ def lambda_handler(event, context):
         )
         
         response_payload = json.load(invoke_response['Payload'])
-        print(response_payload)
         
-        if invoke_response['StatusCode'] != 200 or response_payload.get('authorized') != True:
+        if invoke_response['StatusCode'] != 200 or response_payload.get('statusCode') != 200:
             return {
                 'statusCode': 401,
-                'body': 'Unauthorized'
+                'body': json.dumps({'error': 'Unauthorized'})
             }
         
-        # Consultar DynamoDB para obtener los datos del usuario
         dynamodb = boto3.resource('dynamodb')
         user_table_name = os.getenv('TABLE_NAME_e')
         user_table = dynamodb.Table(user_table_name)
         
         response = user_table.query(
-            KeyConditionExpression=boto3.dynamodb.conditions.Key('provider_id').eq(provider_id) & boto3.dynamodb.conditions.Key('user_id').eq(user_id)
+            KeyConditionExpression=boto3.dynamodb.conditions.Key('provider_id').eq(provider_id) & 
+                                   boto3.dynamodb.conditions.Key('user_id').eq(user_id)
         )
         
         if 'Items' not in response or len(response['Items']) == 0:
             return {
                 'statusCode': 404,
-                'body': 'User not found'
+                'body': json.dumps({'error': 'User not found'})
             }
         
         return {
@@ -56,5 +55,5 @@ def lambda_handler(event, context):
         print(f"Exception: {str(e)}")
         return {
             'statusCode': 500,
-            'body': f"Internal server error: {str(e)}"
+            'body': json.dumps({'error': f"Internal server error: {str(e)}"})
         }
