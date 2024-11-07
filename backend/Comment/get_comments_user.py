@@ -80,8 +80,7 @@ def lambda_handler(event, context):
         for item in items:
             comments.append({
                 'comment_id': item['comment_id'],
-                'user_id': item['user_id'],
-                'content': item['content'],
+                'text': item['text'],
                 'date': item['date'],
                 'song_id': item['song_id'],
                 # 'song_title': item.get('song_title', ''),  # Optional field if you store song titles
@@ -102,10 +101,8 @@ def lambda_handler(event, context):
         result = {
             'comments': comments,
             'pagination': pagination,
-            'user': {
-                'user_id': user_id,
-                'total_comments': total_items
-            }
+            'user_id': user_id,
+            'total_comments': total_items
         }
             
         return {

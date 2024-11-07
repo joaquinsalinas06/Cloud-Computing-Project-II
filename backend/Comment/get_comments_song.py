@@ -86,7 +86,6 @@ def lambda_handler(event, context):
                 'song_id': item['song_id']
             })
             
-        # Prepare pagination metadata
         pagination = {
             'currentPage': page,
             'pageSize': page_size,
