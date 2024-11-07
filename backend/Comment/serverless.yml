@@ -56,9 +56,9 @@ resources:
           - AttributeName: provider_id
             AttributeType: S
           - AttributeName: comment_id
-            AttributeType: S
+            AttributeType: N
           - AttributeName: song_id
-            AttributeType: S
+            AttributeType: N
           - AttributeName: date
             AttributeType: S
           - AttributeName: user_id
