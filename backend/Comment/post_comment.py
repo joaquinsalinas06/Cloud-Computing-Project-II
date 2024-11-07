@@ -8,7 +8,7 @@ def lambda_handler(event, context):
     provider_id = event['body']['provider_id']
     user_id = event['body']['user_id']
     song_id = event['body']['song_id']
-    texto = event['body']['texto']
+    text = event['body']['text']
     date = event['body']['date']
     nombre_tabla = os.environ["TABLE_NAME"]
     # Proceso
@@ -18,8 +18,7 @@ def lambda_handler(event, context):
         'user_id': user_id,
         'song_id': song_id,
         'date': date,
-        'texto': texto
-        
+        'text': text
     }
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(nombre_tabla)
