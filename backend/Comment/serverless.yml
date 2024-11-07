@@ -47,7 +47,6 @@ resources:
   Resources:
     TablaComentarios:
       Type: AWS::DynamoDB::Table
-      DeletionPolicy: Retain # Add this line
       Properties:
         TableName: ${self:service}-${sls:stage}
         PointInTimeRecoverySpecification:
@@ -72,9 +71,9 @@ resources:
         LocalSecondaryIndexes:
           - IndexName: provider-song-index
             KeySchema:
-              - AttributeName: song_id
+              - AttributeName: provider_id
                 KeyType: HASH
-              - AttributeName: date
+              - AttributeName: song_id
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
