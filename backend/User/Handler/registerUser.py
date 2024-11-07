@@ -1,7 +1,9 @@
 import boto3
 import hashlib
 import os
+import json
 from datetime import datetime
+from boto3.dynamodb.conditions import Key
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
@@ -13,39 +15,37 @@ def lambda_handler(event, context):
         password = event.get('password')
         email = event.get('email')
         username = event.get('username')
-        data = event.get('data')
+        data = event.get('data') or {}
+        
         nombre = data.get('nombre')
         apellido = data.get('apellido')
         telefono = data.get('telefono')
         fecha_nacimiento = data.get('fecha_nacimiento')
         genero = data.get('genero')
+        edad = data.get('edad')
+
         active = 'true'
         datecreated = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        edad = data.get('edad')
         hashed_password = hash_password(password)
-        
+
         dynamodb = boto3.resource('dynamodb')
-        table_name = os.getenv('TABLE_NAME_e')
+        table_name = os.getenv('TABLE_NAME')
+        index_name = os.getenv('INDEXLSI1_TABLE1_NAME')
+
         table = dynamodb.Table(table_name)
         
-        existentes = table.get_item(
-            Key={
-                'provider_id': provider_id,
-                'email': email
-            }
+        existentes = table.query(
+            IndexName=index_name,
+            KeyConditionExpression=Key('provider_id').eq(provider_id) & Key('email').eq(email)
         )
-        if 'Item' in existentes:
-            mensaje = {
-                'error': 'User already exists'
-            }
+        if 'Items' in existentes and existentes['Items']:
             return {
                 'statusCode': 400,
-                'body': mensaje
+                'body': json.dumps({'error': 'User already exists'})
             }
 
-        if user_id and password and provider_id and email and username and data:
-            t_usuarios = dynamodb.Table(table_name)
-            t_usuarios.put_item(
+        if all([user_id, password, provider_id, email, username]):
+            table.put_item(
                 Item={
                     'provider_id': provider_id,
                     'user_id': user_id,
@@ -70,22 +70,16 @@ def lambda_handler(event, context):
             }
             return {
                 'statusCode': 200,
-                'body': mensaje
+                'body': json.dumps(mensaje)
             }
         else:
-            mensaje = {
-                'error': 'Invalid request body: missing user_id or password'
-            }
             return {
                 'statusCode': 400,
-                'body': mensaje
+                'body': json.dumps({'error': 'Invalid request body: missing required fields'})
             }
     except Exception as e:
         print("Exception:", str(e))
-        mensaje = {
-            'error': str(e)
-        }        
         return {
             'statusCode': 500,
-            'body': mensaje
+            'body': json.dumps({'error': str(e)})
         }
