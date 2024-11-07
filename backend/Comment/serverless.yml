@@ -50,6 +50,8 @@ resources:
       DeletionPolicy: Retain # Add this line
       Properties:
         TableName: ${self:service}-${sls:stage}
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: provider_id
