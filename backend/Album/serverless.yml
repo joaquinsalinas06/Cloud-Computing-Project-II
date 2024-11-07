@@ -22,6 +22,15 @@ functions:
           cors: true
           integration: lambda
 
+  createAlbums:
+    handler: handler/createAlbums.handler
+    events:
+      - http:
+          path: /albums
+          method: post
+          cors: true
+          integration: lambda
+
   deleteAlbum:
     handler: handler/deleteAlbum.handler
     events:
