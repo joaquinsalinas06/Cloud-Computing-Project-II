@@ -83,9 +83,7 @@ def lambda_handler(event, context):
                 'text': item['text'],
                 'date': item['date'],
                 'post_id': item['post_id'],
-                # 'song_title': item.get('song_title', ''),  # Optional field if you store song titles
-                # 'username': item.get('username', '')  # Optional field if you store usernames
-            })
+                'provider_id': item['provider_id']})
             
         # Prepare pagination metadata
         pagination = {

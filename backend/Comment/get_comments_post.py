@@ -16,6 +16,7 @@ def lambda_handler(event, context):
     try:
         # Get post_id from path parameters
         post_id = int(event['path']['post_id'])
+        provider_id = event['query']['provider_id']
         
         # Get pagination parameters from query parameters
         query_params = event.get('queryStringParameters', {}) or {}
@@ -35,7 +36,7 @@ def lambda_handler(event, context):
         # Query parameters for DynamoDB
         query_params = {
             'IndexName': 'provider-post-index',
-            'KeyConditionExpression': Key('post_id').eq(post_id),
+            'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('post_id').eq(post_id),
             'ScanIndexForward': False,  # Sort in descending order (newest first)
         }
         
