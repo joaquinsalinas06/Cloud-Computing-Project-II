@@ -75,40 +75,9 @@ def lambda_handler(event, context):
             }
         }
         
-        # Convert Decimal to float for JSON serialization
-        def decimal_default(obj):
-            if isinstance(obj, decimal.Decimal):
-                return float(obj)
-            raise TypeError
-        
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': True
-            },
-            'body': json.dumps(result, default=decimal_default)
-        }
+        return result
         
     except (ValueError, TypeError) as e:
-        return {
-            'statusCode': 400,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': True
-            },
-            'body': json.dumps({
-                'error': f'Invalid input parameters: {str(e)}'
-            })
-        }
+        return e
     except Exception as e:
-        return {
-            'statusCode': 500,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': True
-            },
-            'body': json.dumps({
-                'error': str(e)
-            })
-        }
+        return e
