@@ -1,46 +1,37 @@
 import json
 import os
+import decimal
 import boto3
 from boto3.dynamodb.conditions import Key
-from datetime import datetime
 
 def lambda_handler(event, context):
     """
     Lambda handler to get paginated comments for a specific post.
-    Supports pagination using page number and page size parameters.
     """
-    # Initialize DynamoDB client
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(os.environ['TABLE_NAME'])
-    print(event)
+    
     try:
-        # Get post_id from path parameters
+        # Get path and query parameters
         post_id = int(event['path']['post_id'])
         provider_id = event['query']['provider_id']
         
-        # Get pagination parameters from query parameters
-        query_params = event.get('query', {}) or {}
+        # Get pagination parameters with defaults
+        page = int(event.get('query', {}).get('page', '1'))
+        page_size = int(event.get('query', {}).get('pageSize', '10'))
         
-        # Parse pagination parameters with defaults
-        page = int(query_params.get('page', '1'))
-        page_size = int(query_params.get('pageSize', '10'))
+        # Basic parameter validation
+        page = max(1, page)
+        page_size = max(1, min(50, page_size))  # Limit page size between 1 and 50
         
-        # Validate pagination parameters
-        if page < 1:
-            page = 1
-        if page_size > 50:  # Maximum page size of 50
-            page_size = 50
-        if page_size < 1:
-            page_size = 10
-            
-        # Query parameters for DynamoDB
+        # Query parameters
         query_params = {
             'IndexName': 'provider-post-index',
             'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('post_id').eq(post_id),
-            'ScanIndexForward': False,  # Sort in descending order (newest first)
+            'ScanIndexForward': False  # Sort in descending order
         }
         
-        # First, get total count of comments for this post
+        # Get total count
         count_response = table.query(
             **query_params,
             Select='COUNT'
@@ -48,69 +39,68 @@ def lambda_handler(event, context):
         total_items = count_response['Count']
         total_pages = (total_items + page_size - 1) // page_size
         
-        # Calculate pagination values
+        # Calculate pagination
         start_index = (page - 1) * page_size
-        
-        # Add limit and offset to query
         query_params['Limit'] = page_size
         
-        # If not the first page, we need to scan to the starting point
-        all_items = []
+        # Get items for current page
         if start_index > 0:
-            paginator = table.meta.client.get_paginator('query')
-            operation_params = {
-                'TableName': table.name,
-                'IndexName': 'provider-post-index',
-                'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('post_id').eq(post_id),
-                'ScanIndexForward': False,
-            }
-            
-            for page_response in paginator.paginate(**operation_params):
-                all_items.extend(page_response['Items'])
-                if len(all_items) >= start_index + page_size:
-                    break
-            
-            items = all_items[start_index:start_index + page_size]
+            # Need to scan to the starting point
+            response = table.query(**query_params)
+            items = response.get('Items', [])[start_index:start_index + page_size]
         else:
             # First page can be queried directly
             response = table.query(**query_params)
             items = response.get('Items', [])
-            
-        # Format the comments
-        comments = []
-        for item in items:
-            comments.append({
-                'comment_id': item['comment_id'],
-                'user_id': item['user_id'],
-                'text': item['text'],
-                'date': item['date'],
-                'post_id': item['post_id']
-            })
-            
-        pagination = {
-            'currentPage': page,
-            'pageSize': page_size,
-            'totalItems': total_items,
-            'totalPages': total_pages,
-            'hasNextPage': page < total_pages,
-            'hasPreviousPage': page > 1
-        }
-            
-        # Prepare the response
+        
+        # Format comments
+        comments = [{
+            'comment_id': item['comment_id'],
+            'user_id': item['user_id'],
+            'text': item['text'],
+            'date': item['date'],
+            'post_id': item['post_id']
+        } for item in items]
+        
+        # Prepare response
         result = {
             'comments': comments,
-            'pagination': pagination
+            'pagination': {
+                'currentPage': page,
+                'pageSize': page_size,
+                'totalItems': total_items,
+                'totalPages': total_pages,
+                'hasNextPage': page < total_pages,
+                'hasPreviousPage': page > 1
+            }
         }
-            
+        
+        # Convert Decimal to float for JSON serialization
+        def decimal_default(obj):
+            if isinstance(obj, decimal.Decimal):
+                return float(obj)
+            raise TypeError
+        
         return {
             'statusCode': 200,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Credentials': True
             },
-            'body': json.dumps(result)
+            'body': json.dumps(result, default=decimal_default)
         }
         
+    except (ValueError, TypeError) as e:
+        return {
+            'statusCode': 400,
+            'headers': {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': True
+            },
+            'body': json.dumps({
+                'error': f'Invalid input parameters: {str(e)}'
+            })
+        }
     except Exception as e:
         return {
             'statusCode': 500,
