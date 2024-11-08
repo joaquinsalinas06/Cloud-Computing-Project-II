@@ -12,7 +12,7 @@ def lambda_handler(event, context):
     # Initialize DynamoDB client
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(os.environ['TABLE_NAME'])
-    
+    print(event)
     try:
         # Get post_id from path parameters
         post_id = int(event['pathParameters']['post_id'])
