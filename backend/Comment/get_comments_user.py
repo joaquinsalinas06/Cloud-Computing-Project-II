@@ -18,7 +18,7 @@ def lambda_handler(event, context):
         user_id = event['path']['user_id']
         
         # Get pagination parameters from query parameters
-        query_params = event.get('queryStringParameters', {}) or {}
+        query_params = event.get('query', {}) or {}
         
         # Parse pagination parameters with defaults
         page = int(query_params.get('page', '1'))
@@ -103,39 +103,9 @@ def lambda_handler(event, context):
             'total_comments': total_items
         }
             
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': True,
-                'Content-Type': 'application/json'
-            },
-            'body': json.dumps(result)
-        }
+        return result
         
     except ValueError as ve:
-        return {
-            'statusCode': 400,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': True,
-                'Content-Type': 'application/json'
-            },
-            'body': json.dumps({
-                'error': 'Invalid pagination parameters',
-                'message': str(ve)
-            })
-        }
+       return ve
     except Exception as e:
-        return {
-            'statusCode': 500,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': True,
-                'Content-Type': 'application/json'
-            },
-            'body': json.dumps({
-                'error': 'Internal server error',
-                'message': str(e)
-            })
-        }
+        return e
