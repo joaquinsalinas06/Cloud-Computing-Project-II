@@ -6,7 +6,7 @@ from datetime import datetime
 
 def lambda_handler(event, context):
     """
-    Lambda handler to get paginated comments for a specific song.
+    Lambda handler to get paginated comments for a specific post.
     Supports pagination using page number and page size parameters.
     """
     # Initialize DynamoDB client
@@ -34,12 +34,12 @@ def lambda_handler(event, context):
             
         # Query parameters for DynamoDB
         query_params = {
-            'IndexName': 'provider-song-index',
+            'IndexName': 'provider-post-index',
             'KeyConditionExpression': Key('post_id').eq(post_id),
             'ScanIndexForward': False,  # Sort in descending order (newest first)
         }
         
-        # First, get total count of comments for this song
+        # First, get total count of comments for this post
         count_response = table.query(
             **query_params,
             Select='COUNT'
@@ -59,7 +59,7 @@ def lambda_handler(event, context):
             paginator = table.meta.client.get_paginator('query')
             operation_params = {
                 'TableName': table.name,
-                'IndexName': 'provider-song-index',
+                'IndexName': 'provider-post-index',
                 'KeyConditionExpression': Key('post_id').eq(post_id),
                 'ScanIndexForward': False,
             }
