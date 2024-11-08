@@ -19,6 +19,7 @@ def lambda_handler(event, context):
     KeyConditionExpression=Key('provider_id').eq(provider_id),
     ScanIndexForward=False,
     Limit=1)
+    
     highestSortKey = 0
     if response['Count'] > 0:
         highestSortKey = int(response['Items'][0]['comment_id'])
@@ -41,8 +42,6 @@ def lambda_handler(event, context):
         except dynamo.meta.client.exceptions.ConditionalCheckFailedException as e:
             highestSortKey = highestSortKey + 1
     
-
-
     # Salida (json)
     print(comentario)
     return {
