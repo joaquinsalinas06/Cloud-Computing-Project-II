@@ -62,7 +62,7 @@ resources:
           - AttributeName: date
             AttributeType: S
           - AttributeName: user_id
-            AttributeType: S
+            AttributeType: N
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
