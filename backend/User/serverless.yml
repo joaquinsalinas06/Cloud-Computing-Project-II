@@ -86,7 +86,6 @@ functions:
           method: delete
           cors: true
           integration: lambda
-
 resources:
   Resources:
     UsersTable:
@@ -147,8 +146,6 @@ resources:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
       DeletionPolicy: Retain
-      PointInTimeRecoverySpecification:
-        PointInTimeRecoveryEnabled: true
 
     TokensTable:
       Type: AWS::DynamoDB::Table
@@ -186,5 +183,3 @@ resources:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
       DeletionPolicy: Retain
-      PointInTimeRecoverySpecification:
-        PointInTimeRecoveryEnabled: true
