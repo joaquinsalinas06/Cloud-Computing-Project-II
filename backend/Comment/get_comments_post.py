@@ -19,7 +19,7 @@ def lambda_handler(event, context):
         provider_id = event['query']['provider_id']
         
         # Get pagination parameters from query parameters
-        query_params = event.get('queryStringParameters', {}) or {}
+        query_params = event.get('query', {}) or {}
         
         # Parse pagination parameters with defaults
         page = int(query_params.get('page', '1'))
@@ -61,7 +61,7 @@ def lambda_handler(event, context):
             operation_params = {
                 'TableName': table.name,
                 'IndexName': 'provider-post-index',
-                'KeyConditionExpression': Key('post_id').eq(post_id),
+                'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('post_id').eq(post_id),
                 'ScanIndexForward': False,
             }
             
