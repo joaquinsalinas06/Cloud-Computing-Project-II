@@ -16,32 +16,34 @@ def lambda_handler(event, context):
     table = dynamodb.Table(nombre_tabla)
 
     response = table.query(
-    KeyConditionExpression=Key('provider_id').eq(provider_id),
-    ScanIndexForward=False,
-    Limit=1)
-    
+        KeyConditionExpression=Key('provider_id').eq(provider_id),
+        ScanIndexForward=False,
+        Limit=1
+    )
+
     highestSortKey = 0
     if response['Count'] > 0:
         highestSortKey = int(response['Items'][0]['comment_id'])
+    saved = False
     while not saved:
         try:
-            # Write using the next value in the sequence, but only if the item doesn’t exist
+            # Increment the comment_id if it’s in sequence
             comentario = {
                 'provider_id': provider_id,
-                'comment_id': highestSortKey+1,
+                'comment_id': highestSortKey + 1,
                 'user_id': user_id,
                 'song_id': song_id,
                 'date': date,
                 'text': text
             }
-            response = table.put_item(Item=comentario,
-            ConditionExpression='attribute_not_exists(pk)'
+            response = table.put_item(
+                Item=comentario,
+                ConditionExpression='attribute_not_exists(provider_id)'
             )
             saved = True
-        # An exception indicates we lost a race condition, so increment the value and loop again
-        except dynamo.meta.client.exceptions.ConditionalCheckFailedException as e:
-            highestSortKey = highestSortKey + 1
-    
+        except table.meta.client.exceptions.ConditionalCheckFailedException:
+            highestSortKey += 1
+
     # Salida (json)
     print(comentario)
     return {

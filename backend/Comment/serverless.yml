@@ -1,4 +1,3 @@
-# serverless.yml
 org: flauta
 service: comments
 
@@ -6,9 +5,10 @@ provider:
   name: aws
   runtime: python3.12
   environment:
-    TABLE_NAME: ${sls:stage}-comments
+    TABLE_NAME: ${self:service}-${sls:stage}
   iam:
     role: arn:aws:iam::481751701457:role/LabRole
+
 functions:
   getSongComments:
     handler: get_comments_song.lambda_handler
@@ -22,6 +22,7 @@ functions:
               paths:
                 song_id: true
           integration: lambda
+
   getUserComments:
     handler: get_comments_user.lambda_handler
     events:
@@ -34,6 +35,7 @@ functions:
               paths:
                 user_id: true
           integration: lambda
+
   postComment:
     handler: post_comment.lambda_handler
     events:
