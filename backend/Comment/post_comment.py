@@ -8,7 +8,7 @@ def lambda_handler(event, context):
     print(event)
     provider_id = event['body']['provider_id']
     user_id = event['body']['user_id']
-    song_id = event['body']['song_id']
+    post_id = event['body']['post_id']
     text = event['body']['text']
     date = event['body']['date']
     nombre_tabla = os.environ["TABLE_NAME"]
@@ -32,7 +32,7 @@ def lambda_handler(event, context):
                 'provider_id': provider_id,
                 'comment_id': highestSortKey + 1,
                 'user_id': user_id,
-                'song_id': song_id,
+                'post_id': post_id,
                 'date': date,
                 'text': text
             }

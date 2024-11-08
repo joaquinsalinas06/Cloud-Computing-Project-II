@@ -10,17 +10,17 @@ provider:
     role: arn:aws:iam::481751701457:role/LabRole
 
 functions:
-  getSongComments:
-    handler: get_comments_song.lambda_handler
+  getPostComments:
+    handler: get_comments_post.lambda_handler
     events:
       - http:
-          path: comments/songs/{song_id}
+          path: comments/posts/{post_id}
           method: get
           cors: true
           request:
             parameters:
               paths:
-                song_id: true
+                post_id: true
           integration: lambda
 
   getUserComments:
@@ -59,7 +59,7 @@ resources:
             AttributeType: S
           - AttributeName: comment_id
             AttributeType: N
-          - AttributeName: song_id
+          - AttributeName: post_id
             AttributeType: N
           - AttributeName: date
             AttributeType: S
@@ -71,11 +71,11 @@ resources:
           - AttributeName: comment_id
             KeyType: RANGE
         LocalSecondaryIndexes:
-          - IndexName: provider-song-index
+          - IndexName: provider-post-index
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH
-              - AttributeName: song_id
+              - AttributeName: post_id
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL

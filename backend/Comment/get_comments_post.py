@@ -14,8 +14,8 @@ def lambda_handler(event, context):
     table = dynamodb.Table(os.environ['TABLE_NAME'])
     
     try:
-        # Get song_id from path parameters
-        song_id = event['pathParameters']['song_id']
+        # Get post_id from path parameters
+        post_id = event['pathParameters']['post_id']
         
         # Get pagination parameters from query parameters
         query_params = event.get('queryStringParameters', {}) or {}
@@ -35,7 +35,7 @@ def lambda_handler(event, context):
         # Query parameters for DynamoDB
         query_params = {
             'IndexName': 'provider-song-index',
-            'KeyConditionExpression': Key('song_id').eq(song_id),
+            'KeyConditionExpression': Key('post_id').eq(post_id),
             'ScanIndexForward': False,  # Sort in descending order (newest first)
         }
         
@@ -60,7 +60,7 @@ def lambda_handler(event, context):
             operation_params = {
                 'TableName': table.name,
                 'IndexName': 'provider-song-index',
-                'KeyConditionExpression': Key('song_id').eq(song_id),
+                'KeyConditionExpression': Key('post_id').eq(post_id),
                 'ScanIndexForward': False,
             }
             
@@ -83,7 +83,7 @@ def lambda_handler(event, context):
                 'user_id': item['user_id'],
                 'text': item['text'],
                 'date': item['date'],
-                'song_id': item['song_id']
+                'post_id': item['post_id']
             })
             
         pagination = {

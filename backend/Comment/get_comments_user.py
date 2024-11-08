@@ -82,7 +82,7 @@ def lambda_handler(event, context):
                 'comment_id': item['comment_id'],
                 'text': item['text'],
                 'date': item['date'],
-                'song_id': item['song_id'],
+                'post_id': item['post_id'],
                 # 'song_title': item.get('song_title', ''),  # Optional field if you store song titles
                 # 'username': item.get('username', '')  # Optional field if you store usernames
             })
