@@ -15,7 +15,7 @@ def lambda_handler(event, context):
     print(event)
     try:
         # Get post_id from path parameters
-        post_id = int(event['pathParameters']['post_id'])
+        post_id = int(event['path']['post_id'])
         
         # Get pagination parameters from query parameters
         query_params = event.get('queryStringParameters', {}) or {}
