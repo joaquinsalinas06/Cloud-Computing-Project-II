@@ -15,7 +15,7 @@ def lambda_handler(event, context):
     
     try:
         # Get user_id from path parameters
-        user_id = event['pathParameters']['user_id']
+        user_id = event['path']['user_id']
         
         # Get pagination parameters from query parameters
         query_params = event.get('queryStringParameters', {}) or {}
