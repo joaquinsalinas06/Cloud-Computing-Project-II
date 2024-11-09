@@ -68,7 +68,7 @@ def lambda_handler(event, context):
             'message': 'Authentication successful',
             'data': {
                 'token': token,
-                'expiration': expiration
+                'expiration': expiration.strftime('%Y-%m-%d %H:%M:%S')
             }
         },
         'headers': {
