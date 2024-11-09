@@ -9,7 +9,7 @@ def lambda_handler(event, context):
     
     lambda_client = boto3.client('lambda')
     payload = '{ "token": "' + token +  '" }'
-
+    
     invoke_response = lambda_client.invoke(
         FunctionName='api-mure-user-dev-validateToken',
         InvocationType='RequestResponse',
@@ -42,8 +42,11 @@ def lambda_handler(event, context):
                 'body': json.dumps({'error': 'User not found'})
             }
         
-        # Aquí corregimos el acceso a 'data' en 'body'
-        datos = event['body']['data']
+        body_content = event['body']
+        if isinstance(body_content, str):
+            body_content = json.loads(body_content)
+        
+        datos = body_content.get('data')
         if datos:
             update_expression = "SET "
             expression_attribute_values = {}
