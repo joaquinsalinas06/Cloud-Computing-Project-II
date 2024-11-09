@@ -55,18 +55,19 @@ def lambda_handler(event, context):
                 'user_id': user_id
             }
         )
+        token_index_name = os.environ['INDEXGSI1_TABLE2_NAME']
         
         token_response = token_table.query(
-            KeyConditionExpression=boto3.dynamodb.conditions.Key('provider_id').eq(provider_id) & 
-                                   boto3.dynamodb.conditions.Key('user_id').eq(user_id)
-        )
+        IndexName=token_index_name,
+        KeyConditionExpression=boto3.dynamodb.conditions.Key('token').eq(token)
+    )
         
         if 'Items' in token_response:
             for item in token_response['Items']:
                 token_table.delete_item(
                     Key={
                         'provider_id': provider_id,
-                        'user_id': user_id,
+                        'email': item['email'],
                         'token': item['token']
                     }
                 )
