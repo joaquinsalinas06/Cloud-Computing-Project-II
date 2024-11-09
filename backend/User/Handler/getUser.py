@@ -15,8 +15,7 @@ def lambda_handler(event, context):
             }
 
         # Prepare the payload as a JSON string
-        payload = json.dumps({"token": token})
-        
+        payload = '{ "token": "' + token +  '" }'        
         # Invoke the validateToken Lambda function
         lambda_client = boto3.client('lambda')
         invoke_response = lambda_client.invoke(
