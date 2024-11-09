@@ -10,13 +10,10 @@ def hash_password(password):
 
 def lambda_handler(event, context):
     try:
-        body = json.loads(event['body'])
-        
-        provider_id = body.get('provider_id')
-        password = body.get('password')
-        email = body.get('email')
-        username = body.get('username')
-        data = body.get('data', {})
+        provider_id = event['body']['provider_id']
+        password = event['body']['password']
+        email = event['body']['email']
+        username = event['body']['username']
 
         if not all([provider_id, password, email, username]):
             return {
@@ -25,12 +22,12 @@ def lambda_handler(event, context):
             }
         
         user_id = datetime.now().strftime('%Y%m%d%H%M%S%f')
-        nombre = data.get('nombre')
-        apellido = data.get('apellido')
-        telefono = data.get('telefono')
-        fecha_nacimiento = data.get('fecha_nacimiento')
-        genero = data.get('genero')
-        edad = data.get('edad')
+        nombre = event['body']['data']['nombre']
+        apellido = event['body']['data']['apellido']
+        telefono = event['body']['data']['telefono']
+        fecha_nacimiento = event['body']['data']['fecha_nacimiento']
+        genero = event['body']['data']['genero']
+        edad = event['body']['data']['edad']
 
         active = 'true'
         datecreated = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -39,7 +36,6 @@ def lambda_handler(event, context):
         dynamodb = boto3.resource('dynamodb')
         table_name = os.getenv('TABLE_NAME')
         index_name = os.getenv('INDEXLSI1_TABLE1_NAME')
-
         table = dynamodb.Table(table_name)
         
         existentes = table.query(
