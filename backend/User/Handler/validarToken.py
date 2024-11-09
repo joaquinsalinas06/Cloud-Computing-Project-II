@@ -5,7 +5,7 @@ import json
 
 def lambda_handler(event, context):
     # Retrieve token from the event
-    token = event.get('token')
+    token = event['token']
     print("Received token:", token)  # Debug: Check received token
 
     if not token:
