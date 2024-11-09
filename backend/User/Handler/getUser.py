@@ -23,7 +23,7 @@ def lambda_handler(event, context):
         )
         
         response_payload = json.loads(invoke_response['Payload'].read())
-        print("Response Payload:", response_payload)  # Debug print
+        print("Response Payload:", response_payload) 
         
         if 'statusCode' not in response_payload or response_payload['statusCode'] != 200:
             error_message = response_payload.get('body', {}).get('error', 'Unknown error')
