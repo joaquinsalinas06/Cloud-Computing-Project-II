@@ -38,6 +38,7 @@ def lambda_handler(event, context):
         user_table = dynamodb.Table(user_table_name)
         token_table = dynamodb.Table(token_table_name)
         
+        # Eliminación del usuario
         response = user_table.query(
             KeyConditionExpression=boto3.dynamodb.conditions.Key('provider_id').eq(provider_id) & 
                                    boto3.dynamodb.conditions.Key('user_id').eq(user_id)
@@ -55,20 +56,21 @@ def lambda_handler(event, context):
                 'user_id': user_id
             }
         )
+
+        # Eliminación de tokens asociados
         token_index_name = os.environ['INDEXGSI1_TABLE2_NAME']
         
         token_response = token_table.query(
-        IndexName=token_index_name,
-        KeyConditionExpression=boto3.dynamodb.conditions.Key('token').eq(token)
-    )
+            IndexName=token_index_name,
+            KeyConditionExpression=boto3.dynamodb.conditions.Key('token').eq(token)
+        )
         
         if 'Items' in token_response:
             for item in token_response['Items']:
                 token_table.delete_item(
                     Key={
-                        'provider_id': provider_id,
-                        'email': item['email'],
-                        'token': item['token']
+                        'provider_id': item['provider_id'],  # Usa el `provider_id` específico del item
+                        'email': item['email']  # Usa el `email` como clave si es parte de la clave primaria
                     }
                 )
         
