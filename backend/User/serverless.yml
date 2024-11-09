@@ -153,11 +153,11 @@ resources:
         TableName: ${self:provider.environment.TABLE2_NAME}
         AttributeDefinitions:
           - AttributeName: provider_id
-            AttributeType: String
+            AttributeType: S
           - AttributeName: email
-            AttributeType: String
+            AttributeType: S
           - AttributeName: token
-            AttributeType: String
+            AttributeType: S
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
