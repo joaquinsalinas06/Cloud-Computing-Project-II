@@ -11,28 +11,31 @@ def lambda_handler(event, context):
         if not provider_id or not user_id or not token:
             return {
                 'statusCode': 400,
-                'body': 
-                {'error': 'Missing parameters or token'}
+                'body': {'error': 'Missing parameters or token'}
             }
 
-        payload_string = '{ "token": "' + token +  '" }'
+        # Prepare the payload as a JSON string
+        payload = json.dumps({"token": token})
+        
+        # Invoke the validateToken Lambda function
         lambda_client = boto3.client('lambda')
         invoke_response = lambda_client.invoke(
             FunctionName=os.environ['AUTHORIZER_FUNCTION_NAME'],
             InvocationType='RequestResponse',
-            Payload=payload_string
+            Payload=payload
         )
         
+        # Parse the response payload
         response_payload = json.loads(invoke_response['Payload'].read())
-        print(response_payload)
         
-        if response_payload['statusCode'] != 200 :
+        # Check the statusCode in the response from validateToken
+        if response_payload.get('statusCode') != 200:
             return {
                 'statusCode': 401,
                 'body': {'error': 'Unauthorized'}
             }
-       
         
+        # Proceed to query the DynamoDB table for the user data
         dynamodb = boto3.resource('dynamodb')
         user_table_name = os.environ['TABLE_NAME']
         user_table = dynamodb.Table(user_table_name)
@@ -48,10 +51,10 @@ def lambda_handler(event, context):
                 'body': {'error': 'User not found'}
             }
         
+        # Return the user data if found
         return {
             'statusCode': 200,
-            'body':
-                response['Items'][0]
+            'body': response['Items'][0]
         }
     
     except Exception as e:
