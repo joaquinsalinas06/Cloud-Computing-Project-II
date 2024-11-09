@@ -55,15 +55,15 @@ functions:
           method: delete
           cors: true
           integration: lambda
-          
-    updateUser:
-      handler: Handler/updateUser.lambda_handler
-      events:
-        - http:
-            path: /user/update/{provider_id}/{user_id}
-            method: put
-            cors: true
-            integration: lambda
+
+  updateUser:
+    handler: Handler/updateUser.lambda_handler
+    events:
+      - http:
+          path: /user/update/{provider_id}/{user_id}
+          method: put
+          cors: true
+          integration: lambda
 
   getallUsersByProvider:
     handler: Handler/getallUsersByProvider.lambda_handler
