@@ -5,7 +5,7 @@ import json
 
 def lambda_handler(event, context):
 
-    token = event['headers']['Authorization']
+    token = event['headers']['Authorization']   
 
     if not token:
         return {
