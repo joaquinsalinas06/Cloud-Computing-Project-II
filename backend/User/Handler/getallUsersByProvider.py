@@ -12,7 +12,6 @@ def lambda_handler(event, context):
     table = dynamodb.Table(os.getenv('TABLE_NAME'))
 
     try:
-        # Get provider_id from path parameters
         provider_id = event['path']['provider_id']
         token = event['headers']['Authorization']
         
@@ -40,32 +39,26 @@ def lambda_handler(event, context):
                 'body': {'error': 'Unauthorized', 'message': error_message}
             }
         
-        # Get pagination parameters from query parameters
         query_params = event.get('query', {}) or {}
         
-        # Parse pagination parameters with defaults
         page = int(query_params.get('page', '1'))
         page_size = int(query_params.get('pageSize', '10'))
         
-        # Validate pagination parameters
         if page < 1:
             page = 1
-        if page_size > 50:  # Maximum page size of 50
+        if page_size > 50:  
             page_size = 50
         if page_size < 1:
             page_size = 10
         
-        # Set query parameters for DynamoDB
         query_params = {
             'KeyConditionExpression': Key('provider_id').eq(provider_id),
             'Limit': page_size,
-            'ScanIndexForward': False  # Sort in descending order
+            'ScanIndexForward': False  
         }
 
-        # Calculate the starting index for pagination
         start_index = (page - 1) * page_size
 
-        # Retrieve total count of users for this provider
         count_response = table.query(
             KeyConditionExpression=Key('provider_id').eq(provider_id),
             Select='COUNT'
@@ -73,9 +66,7 @@ def lambda_handler(event, context):
         total_items = count_response['Count']
         total_pages = (total_items + page_size - 1) // page_size
 
-        # Retrieve paginated items
         if start_index > 0:
-            # Using a paginator to fetch up to the start index
             paginator = table.meta.client.get_paginator('query')
             operation_params = {
                 'TableName': table.name,
@@ -91,21 +82,19 @@ def lambda_handler(event, context):
 
             items = all_items[start_index:start_index + page_size]
         else:
-            # First page can be queried directly
             response = table.query(**query_params)
             items = response.get('Items', [])
 
-        # Prepare the users data
         users = []
         for item in items:
             users.append({
                 'user_id': item['user_id'],
                 'email': item['email'],
                 'username': item['username'],
-                'provider_id': item['provider_id']
+                'provider_id': item['provider_id'],
+                'data': item['data']
             })
         
-        # Prepare pagination metadata
         pagination = {
             'currentPage': page,
             'pageSize': page_size,
@@ -115,7 +104,6 @@ def lambda_handler(event, context):
             'hasPreviousPage': page > 1
         }
         
-        # Prepare the final response
         result = {
             'users': users,
             'pagination': pagination,
@@ -125,7 +113,7 @@ def lambda_handler(event, context):
         
         return {
             'statusCode': 200,
-            'body': json.dumps(result)
+            'body': (result)
         }
 
     except ValueError as ve:
