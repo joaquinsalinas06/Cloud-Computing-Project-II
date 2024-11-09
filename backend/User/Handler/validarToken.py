@@ -4,8 +4,7 @@ import os
 import json
 
 def lambda_handler(event, context):
-
-    token = event['token']
+    token = event.get('token')
 
     if not token:
         return {
@@ -14,32 +13,29 @@ def lambda_handler(event, context):
         }
     
     dynamodb = boto3.resource('dynamodb')
-    token_table_name = os.environ['TABLE2_NAME']  
-    token_index_name = os.environ['INDEXGSI1_TABLE2_NAME']  
+    token_table_name = os.environ['TABLE2_NAME']
     token_table = dynamodb.Table(token_table_name)
     
     response = token_table.get_item(
-        key={
-            'token': token
-        }
-        )
+        Key={'token': token}
+    )
     
-    if 'Items' not in response:
+    if 'Item' not in response:
         return {
             'statusCode': 403,
             'body': {'error': "Token doesn't exist"}
         }
 
-    else:
-        expires = response['Item']['expires']
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        if now > expires:
-            return {
-                'statusCode': 403,
-                'body': 'Token expirado'
-            }
+    expires = response['Item']['expires']
+    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    
+    if now > expires:
+        return {
+            'statusCode': 403,
+            'body': {'error': 'Token expired'}
+        }
     
     return {
         'statusCode': 200,
-        'body': 'Token válido'
+        'body': {'message': 'Token válido'}
     }
