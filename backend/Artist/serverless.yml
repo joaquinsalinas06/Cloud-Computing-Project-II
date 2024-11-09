@@ -28,7 +28,7 @@ functions:
     handler: handler/deleteArtist.handler
     events:
       - http:
-          path: /artist/{artistId}
+          path: /deleteArtist/{provider_id}/{artist_id}
           method: delete
           cors: true
           integration: lambda
