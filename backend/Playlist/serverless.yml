@@ -1,0 +1,81 @@
+org: zamcloud
+service: api-playlist
+
+provider:
+  name: aws
+  runtime: python3.8
+  memorySize: 1024
+  timeout: 30
+  iam:
+    role: arn:aws:iam::418515024637:role/LabRole
+  environment:
+    PLAYLIST_TABLE_NAME: ${sls:stage}-${env:PLAYLIST_TABLE_NAME_e}
+
+functions:
+  createPlaylist:
+    handler: createPlaylist.lambda_handler
+    events:
+      - http:
+          path: /playlist/create
+          method: post
+          cors: true
+          integration: lambda
+
+  addSong:
+    handler: addSong.lambda_handler
+    events:
+      - http:
+          path: /playlist/{playlist_id}/song/{song_id}
+          method: put
+          cors: true
+          integration: lambda
+
+  deleteSong:
+    handler: deleteSong.lambda_handler
+    events:
+      - http:
+          path: /playlist/{playlist_id}/song/{song_id}
+          method: delete
+          cors: true
+          integration: lambda
+
+  getSongsPlaylist:
+    handler: getSongsPlaylist.lambda_handler
+    events:
+      - http:
+          path: /playlist/{playlist_id}/songs
+          method: get
+          cors: true
+          integration: lambda
+
+  deletePlaylist:
+    handler: deletePlaylist.lambda_handler
+    events:
+      - http:
+          path: /playlist/delete/{playlist_id}
+          method: delete
+          cors: true
+          integration: lambda
+
+resources:
+  Resources:
+    PlaylistsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.PLAYLIST_TABLE_NAME}
+        AttributeDefinitions:
+          - AttributeName: playlist_id
+            AttributeType: S
+          - AttributeName: user_id
+            AttributeType: S
+          - AttributeName: playlist_name
+            AttributeType: S
+          - AttributeName: date_created
+            AttributeType: S
+        KeySchema:
+          - AttributeName: playlist_id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+      DeletionPolicy: Retain
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
