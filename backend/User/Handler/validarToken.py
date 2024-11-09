@@ -9,7 +9,7 @@ def lambda_handler(event, context):
 
     if not token:
         return {
-            'statusCode': 400,
+            'StatusCode': 400,
             'body': json.dumps({'error': 'Token not provided'})
         }
     
@@ -26,7 +26,7 @@ def lambda_handler(event, context):
     
     if 'Items' not in response:
         return {
-            'statusCode': 403,
+            'StatusCode': 403,
             'body': {'error': "Token doesn't exist"}
         }
 
@@ -35,11 +35,11 @@ def lambda_handler(event, context):
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         if now > expires:
             return {
-                'statusCode': 403,
+                'StatusCode': 403,
                 'body': 'Token expirado'
             }
     
     return {
-        'statusCode': 200,
+        'StatusCode': 200,
         'body': 'Token válido'
     }
