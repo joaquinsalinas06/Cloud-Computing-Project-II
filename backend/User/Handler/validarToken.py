@@ -15,11 +15,10 @@ def lambda_handler(event, context):
     
     # DynamoDB setup
     dynamodb = boto3.resource('dynamodb')
-    token_table_name = os.environ['TABLE2_NAME']
-    token_index_name = os.environ['INDEXGSI1_TABLE2_NAME']
+    token_table_name = 'dev-TokenTable'
+    token_index_name = 'dev-TokenIndex'
     token_table = dynamodb.Table(token_table_name)
     
-    # Query using the Global Secondary Index on 'token'
     response = token_table.query(
         IndexName=token_index_name,
         KeyConditionExpression=boto3.dynamodb.conditions.Key('token').eq(token)
