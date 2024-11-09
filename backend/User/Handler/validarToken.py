@@ -27,21 +27,22 @@ def lambda_handler(event, context):
     
     print("DynamoDB Query Response:", response) 
 
-    if 'Item' not in response:
+    if 'Items' not in response or not response['Items']:
         print("Token does not exist in the database")  
         return {
             'statusCode': 403,
             'body': {'error': "Token doesn't exist"}
         }
 
-    token_data = response['Item']
-    expires = response['Item']['expiration']  
+    token_data = response['Items'][0]
+    expires = token_data['expiration']
     now = datetime.now().timestamp()
     
     print("Current time:", now) 
     print("Token expiration time:", expires)  
     
-    if now > expires:
+    expiration_timestamp = datetime.strptime(expires, '%Y-%m-%d %H:%M:%S').timestamp()
+    if now > expiration_timestamp:
         print("Token has expired")  
         return {
             'statusCode': 403,
