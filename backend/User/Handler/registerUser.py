@@ -11,12 +11,19 @@ def hash_password(password):
 def lambda_handler(event, context):
     try:
         provider_id = event.get('provider_id')
-        user_id = datetime.now().strftime('%Y%m%d%H%M%S%f')
         password = event.get('password')
         email = event.get('email')
         username = event.get('username')
         data = event.get('data') or {}
         
+        # Validar que todos los campos requeridos están presentes
+        if not all([provider_id, password, email, username]):
+            return {
+                'statusCode': 400,
+                'body': json.dumps({'error': 'Missing required fields'})
+            }
+        
+        user_id = datetime.now().strftime('%Y%m%d%H%M%S%f')
         nombre = data.get('nombre')
         apellido = data.get('apellido')
         telefono = data.get('telefono')
@@ -44,39 +51,33 @@ def lambda_handler(event, context):
                 'body': json.dumps({'error': 'User already exists'})
             }
 
-        if all([user_id, password, provider_id, email, username]):
-            table.put_item(
-                Item={
-                    'provider_id': provider_id,
-                    'user_id': user_id,
-                    'email': email,
-                    'username': username,
-                    'password': hashed_password,
-                    'data': {
-                        'nombre': nombre,
-                        'apellido': apellido,
-                        'telefono': telefono,
-                        'fecha_nacimiento': fecha_nacimiento,
-                        'genero': genero,
-                        'edad': edad
-                    },
-                    'active': active,
-                    'datecreated': datecreated
-                }
-            )
-            mensaje = {
-                'message': 'User registered successfully',
-                'user_id': user_id
+        table.put_item(
+            Item={
+                'provider_id': provider_id,
+                'user_id': user_id,
+                'email': email,
+                'username': username,
+                'password': hashed_password,
+                'data': {
+                    'nombre': nombre,
+                    'apellido': apellido,
+                    'telefono': telefono,
+                    'fecha_nacimiento': fecha_nacimiento,
+                    'genero': genero,
+                    'edad': edad
+                },
+                'active': active,
+                'datecreated': datecreated
             }
-            return {
-                'statusCode': 200,
-                'body': json.dumps(mensaje)
-            }
-        else:
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'Invalid request body: missing required fields'})
-            }
+        )
+        mensaje = {
+            'message': 'User registered successfully',
+            'user_id': user_id
+        }
+        return {
+            'statusCode': 200,
+            'body': json.dumps(mensaje)
+        }
     except Exception as e:
         print("Exception:", str(e))
         return {
