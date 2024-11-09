@@ -15,18 +15,19 @@ def lambda_handler(event, context):
                 {'error': 'Missing parameters or token'}
             }
 
+        payload_string = '{ "token": "' + token +  '" }'
         lambda_client = boto3.client('lambda')
-        payload = {"headers": {"Authorization": token}}
-        
         invoke_response = lambda_client.invoke(
-            FunctionName=os.getenv('AUTHORIZER_FUNCTION_NAME'),
+            FunctionName=os.environ['AUTHORIZER_FUNCTION_NAME'],
             InvocationType='RequestResponse',
-            Payload=json.dumps(payload)
+            Payload=payload_string
         )
+
         
-        response_payload = json.load(invoke_response['Payload'])
+        response_payload = json.load(invoke_response['Payload'].read())
+        print(response_payload)
         
-        if invoke_response['StatusCode'] != 200 or response_payload.get('statusCode') != 200:
+        if response_payload['StatusCode'] != 200 :
             return {
                 'statusCode': 401,
                 'body': {'error': 'Unauthorized'}
@@ -34,7 +35,7 @@ def lambda_handler(event, context):
        
         
         dynamodb = boto3.resource('dynamodb')
-        user_table_name = os.getenv('TABLE_NAME_e')
+        user_table_name = os.environ['TABLE_NAME']
         user_table = dynamodb.Table(user_table_name)
         
         response = user_table.query(

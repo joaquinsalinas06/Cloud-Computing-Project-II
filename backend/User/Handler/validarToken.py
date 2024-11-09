@@ -5,7 +5,7 @@ import json
 
 def lambda_handler(event, context):
 
-    token = event['headers']['Authorization']   
+    token = event['token']
 
     if not token:
         return {
@@ -18,30 +18,28 @@ def lambda_handler(event, context):
     token_index_name = os.environ['INDEXGSI1_TABLE2_NAME']  
     token_table = dynamodb.Table(token_table_name)
     
-    response = token_table.query(
-        IndexName=token_index_name,
-        KeyConditionExpression=boto3.dynamodb.conditions.Key('token').eq(token)
-    )
+    response = token_table.get_item(
+        key={
+            'token': token
+        }
+        )
     
-    if 'Items' not in response or not response['Items']:
+    if 'Items' not in response:
         return {
             'statusCode': 403,
-            'body': json.dumps({'error': "Token doesn't exist"})
+            'body': {'error': "Token doesn't exist"}
         }
 
-    token_data = response['Items'][0]
-    expires = token_data.get('expiration')
-    
-    now = datetime.now()
-    expiration_date = datetime.fromtimestamp(expires) if isinstance(expires, (int, float)) else datetime.strptime(expires, '%Y-%m-%d %H:%M:%S')
-    
-    if now > expiration_date:
-        return {
-            'statusCode': 403,
-            'body': json.dumps({'error': 'Token expired'})
-        }
+    else:
+        expires = response['Item']['expires']
+        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        if now > expires:
+            return {
+                'statusCode': 403,
+                'body': 'Token expirado'
+            }
     
     return {
         'statusCode': 200,
-        'body': json.dumps({'message': 'Token is valid'})
+        'body': 'Token válido'
     }

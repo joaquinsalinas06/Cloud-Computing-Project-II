@@ -42,14 +42,14 @@ def lambda_handler(event, context):
     
     if hashed_password == hashed_password_bd:
         token = secrets.token_hex(32)
-        expiration = int((datetime.now() + timedelta(days=1)).timestamp())
+        expiration = (datetime.now() + timedelta(days=1))
         
         token_table.put_item(
             Item={
                 'provider_id': provider_id,
                 'email': email,
                 'token': token,
-                'expiration': expiration
+                'expiration': expiration.strftime('%Y-%m-%d %H:%M:%S')
             }
         )
     else:
