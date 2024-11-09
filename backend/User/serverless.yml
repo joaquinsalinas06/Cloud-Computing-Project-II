@@ -73,10 +73,6 @@ functions:
           path: /validateToken
           method: post
           cors: true
-          request:
-            parameters:
-              headers:
-                Authorization: true
           integration: lambda
 
 resources:
