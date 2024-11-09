@@ -161,6 +161,3 @@ resources:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
       DeletionPolicy: Retain
-
-plugins:
-  - serverless-dotenv-plugin
