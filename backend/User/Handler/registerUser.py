@@ -34,8 +34,8 @@ def lambda_handler(event, context):
         hashed_password = hash_password(password)
 
         dynamodb = boto3.resource('dynamodb')
-        table_name = os.getenv('TABLE_NAME')
-        index_name = os.getenv('INDEXLSI1_TABLE1_NAME')
+        table_name = os.environ['TABLE_NAME']
+        index_name = os.environ['INDEXLSI1_TABLE1_NAME']
         table = dynamodb.Table(table_name)
         
         existentes = table.query(

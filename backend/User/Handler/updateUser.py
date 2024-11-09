@@ -13,7 +13,7 @@ def lambda_handler(event, context):
     }
     
     invoke_response = lambda_client.invoke(
-        FunctionName=os.getenv('AUTHORIZER_FUNCTION_NAME'),
+        FunctionName=os.environ['AUTHORIZER_FUNCTION_NAME'],
         InvocationType='RequestResponse',
         Payload=json.dumps(payload)
     )
@@ -27,7 +27,7 @@ def lambda_handler(event, context):
             'body': json.dumps({'error': 'Unauthorized'})
         }
     
-    table_name = os.getenv('TABLE_NAME_e')
+    table_name = os.environ['TABLE_NAME']
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(table_name)
     
