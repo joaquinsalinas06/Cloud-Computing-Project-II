@@ -12,7 +12,7 @@ def hash_password(password):
 def lambda_handler(event, context):
     provider_id = event['body']['provider_id']
     email = event['body']['email']
-    password = event.get['password']
+    password = event['body']['password']
     hashed_password = hash_password(password)
 
     user_table_name = os.getenv('TABLE_NAME_e')
