@@ -9,7 +9,7 @@ provider:
     iam:
         role: arn:aws:iam::037294426912:role/LabRole
     environment:
-        TABLE_NAME: ${sls:stage}-artist-api-table
+        TABLE_NAME: ${sls:stage}-${env:TABLE_NAME_e}
         GSI_NAME: artistNameIndex
         LSI_NAME_1: countryIndex
         LSI_NAME_2: genreIndex
