@@ -71,7 +71,7 @@ functions:
           integration: lambda
 
   validateToken:
-    handler: Handler/validateToken.lambda_handler
+    handler: Handler/validarToken.lambda_handler
 
 resources:
   Resources:
