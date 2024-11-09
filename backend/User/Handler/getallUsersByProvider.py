@@ -1,22 +1,28 @@
 import boto3
 import os
 import json
+from boto3.dynamodb.conditions import Key
 
 def lambda_handler(event, context):
+    """
+    Lambda handler to retrieve paginated users for a specific provider.
+    Supports pagination using page number and page size parameters.
+    """
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table(os.getenv('TABLE_NAME'))
+
     try:
-        # Obtener el provider_id desde el path
+        # Get provider_id from path parameters
         provider_id = event['path']['provider_id']
-
-        # Obtener parámetros de consulta
-        query_params = event.get('query', {}) or {}
-        page = int(query_params.get('page', '1'))
-        limit = int(query_params.get('limit', '10'))
-        
-        page = max(page, 1)
-        limit = min(max(limit, 1), 50) 
-
         token = event['headers']['Authorization']
-        payload = json.dumps({"token": token})
+        
+        if not provider_id or not token:
+            return {
+                'statusCode': 400,
+                'body': {'error': 'Missing parameters or token'}
+            }
+
+        payload = '{ "token": "' + token +  '" }'        
         lambda_client = boto3.client('lambda')
         invoke_response = lambda_client.invoke(
             FunctionName='api-mure-user-dev-validateToken',
@@ -27,48 +33,109 @@ def lambda_handler(event, context):
         response_payload = json.loads(invoke_response['Payload'].read())
         print("Response Payload:", response_payload) 
         
-        if response_payload.get('statusCode') != 200:
+        if 'statusCode' not in response_payload or response_payload['statusCode'] != 200:
             error_message = response_payload.get('body', {}).get('error', 'Unknown error')
             return {
                 'statusCode': 401,
-                'body': json.dumps({'error': 'Unauthorized', 'message': error_message})
+                'body': {'error': 'Unauthorized', 'message': error_message}
             }
-
-        dynamodb = boto3.resource('dynamodb')
-        table_name = os.getenv('TABLE_NAME_e')
-        table = dynamodb.Table(table_name)
-
-        response = table.query(
-            KeyConditionExpression=boto3.dynamodb.conditions.Key('provider_id').eq(provider_id),
-            Limit=limit,
-        )
-
-        items = response.get('Items', [])
-        last_evaluated_key = response.get('LastEvaluatedKey')
-
-        while 'LastEvaluatedKey' in response and len(items) < limit:
-            response = table.query(
-                KeyConditionExpression=boto3.dynamodb.conditions.Key('provider_id').eq(provider_id),
-                Limit=limit - len(items),
-                ExclusiveStartKey=last_evaluated_key
-            )
-            items.extend(response.get('Items', []))
-            last_evaluated_key = response.get('LastEvaluatedKey')
         
-        if not items:
-            return {
-                'statusCode': 404,
-                'body': json.dumps({'error': 'No users found'})
-            }
-
-        return {
-            'statusCode': 200,
-            'body': json.dumps({'users': items})
+        # Get pagination parameters from query parameters
+        query_params = event.get('query', {}) or {}
+        
+        # Parse pagination parameters with defaults
+        page = int(query_params.get('page', '1'))
+        page_size = int(query_params.get('pageSize', '10'))
+        
+        # Validate pagination parameters
+        if page < 1:
+            page = 1
+        if page_size > 50:  # Maximum page size of 50
+            page_size = 50
+        if page_size < 1:
+            page_size = 10
+        
+        # Set query parameters for DynamoDB
+        query_params = {
+            'KeyConditionExpression': Key('provider_id').eq(provider_id),
+            'Limit': page_size,
+            'ScanIndexForward': False  # Sort in descending order
         }
 
+        # Calculate the starting index for pagination
+        start_index = (page - 1) * page_size
+
+        # Retrieve total count of users for this provider
+        count_response = table.query(
+            KeyConditionExpression=Key('provider_id').eq(provider_id),
+            Select='COUNT'
+        )
+        total_items = count_response['Count']
+        total_pages = (total_items + page_size - 1) // page_size
+
+        # Retrieve paginated items
+        if start_index > 0:
+            # Using a paginator to fetch up to the start index
+            paginator = table.meta.client.get_paginator('query')
+            operation_params = {
+                'TableName': table.name,
+                'KeyConditionExpression': Key('provider_id').eq(provider_id),
+                'ScanIndexForward': False,
+            }
+
+            all_items = []
+            for page_response in paginator.paginate(**operation_params):
+                all_items.extend(page_response['Items'])
+                if len(all_items) >= start_index + page_size:
+                    break
+
+            items = all_items[start_index:start_index + page_size]
+        else:
+            # First page can be queried directly
+            response = table.query(**query_params)
+            items = response.get('Items', [])
+
+        # Prepare the users data
+        users = []
+        for item in items:
+            users.append({
+                'user_id': item['user_id'],
+                'email': item['email'],
+                'username': item['username'],
+                'provider_id': item['provider_id']
+            })
+        
+        # Prepare pagination metadata
+        pagination = {
+            'currentPage': page,
+            'pageSize': page_size,
+            'totalItems': total_items,
+            'totalPages': total_pages,
+            'hasNextPage': page < total_pages,
+            'hasPreviousPage': page > 1
+        }
+        
+        # Prepare the final response
+        result = {
+            'users': users,
+            'pagination': pagination,
+            'provider_id': provider_id,
+            'total_users': total_items
+        }
+        
+        return {
+            'statusCode': 200,
+            'body': json.dumps(result)
+        }
+
+    except ValueError as ve:
+        return {
+            'statusCode': 400,
+            'body': json.dumps({'error': 'Invalid input', 'message': str(ve)})
+        }
     except Exception as e:
         print(f"Exception: {str(e)}")
         return {
             'statusCode': 500,
-            'body': json.dumps({'error': f"Internal server error: {str(e)}"})
+            'body': json.dumps({'error': 'Internal server error', 'message': str(e)})
         }
