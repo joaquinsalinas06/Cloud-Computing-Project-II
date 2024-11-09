@@ -16,7 +16,7 @@ def lambda_handler(event, context):
         InvocationType='RequestResponse',
         Payload=payload
     )
-    
+
     
     response_payload = json.loads(invoke_response['Payload'].read())
     print("Response Payload:", response_payload) 
@@ -44,7 +44,7 @@ def lambda_handler(event, context):
                 'body': json.dumps({'error': 'User not found'})
             }
         
-        datos = event['body']('data')
+        datos = event['body']['data']
         if datos:
             update_expression = "SET "
             expression_attribute_values = {}
