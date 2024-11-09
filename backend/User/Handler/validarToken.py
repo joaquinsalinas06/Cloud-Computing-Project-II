@@ -14,7 +14,7 @@ def lambda_handler(event, context):
         }
     
     dynamodb = boto3.resource('dynamodb')
-    token_table_name = 'dev-TokenTable'
+    token_table_name = 'dev-tokens-table'
     token_index_name = 'dev-TokenIndex'
     token_table = dynamodb.Table(token_table_name)
     
