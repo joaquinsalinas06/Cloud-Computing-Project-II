@@ -5,6 +5,7 @@ import json
 
 def lambda_handler(event, context):
     token = event['body']['token']
+        
     if not token:
         return {
             'statusCode': 400,
