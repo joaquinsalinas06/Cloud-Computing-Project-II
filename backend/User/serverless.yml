@@ -17,6 +17,7 @@ provider:
     TABLE2_NAME: ${sls:stage}-${env:TABLE2_NAME_e}
     INDEXGSI1_TABLE2_NAME: ${sls:stage}-${env:INDEXGSI1_TABLE2_NAME_e}
     INDEXLSI1_TABLE2_NAME: ${sls:stage}-${env:INDEXLSI1_TABLE2_NAME_e}
+    AUTHORIZER_FUNCTION_NAME: validarToken
 
 functions:
   createUser:
@@ -27,7 +28,6 @@ functions:
           method: post
           cors: true
           integration: lambda
-
   loginUser:
     handler: Handler/loginUser.lambda_handler
     events:
@@ -36,7 +36,6 @@ functions:
           method: post
           cors: true
           integration: lambda
-
   getUser:
     handler: Handler/getUser.lambda_handler
     events:
@@ -45,39 +44,6 @@ functions:
           method: get
           cors: true
           integration: lambda
-
-  validarToken:
-    handler: Handler/validarToken.lambda_handler
-    events:
-      - http:
-          path: /user/validate
-          method: get
-          cors: true
-          integration: lambda
-
-  updateUser:
-    handler: Handler/updateUser.lambda_handler
-    events:
-      - http:
-          path: /user/update/{provider_id}/{user_id}
-          method: put
-          cors: true
-          integration: lambda
-
-  getallUsersByProvider:
-    handler: Handler/getallUsersByProvider.lambda_handler
-    events:
-      - http:
-          path: /user/getall/{provider_id}
-          method: get
-          cors: true
-          integration: lambda
-          request:
-            parameters:
-              querystrings:
-                page: true
-                limit: true
-
   deleteUser:
     handler: Handler/deleteUser.lambda_handler
     events:
@@ -86,6 +52,20 @@ functions:
           method: delete
           cors: true
           integration: lambda
+  getallUsersByProvider:
+    handler: Handler/getallUsersByProvider.lambda_handler
+    events:
+      - http:
+          path: /user/getall/{provider_id}
+          method: get
+          cors: true
+          request:
+            parameters:
+              querystrings:
+                page: true
+                limit: true
+          integration: lambda
+
 resources:
   Resources:
     UsersTable:
@@ -146,39 +126,42 @@ resources:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
       DeletionPolicy: Retain
-TokensTable:
-  Type: AWS::DynamoDB::Table
-  Properties:
-    TableName: ${self:provider.environment.TABLE2_NAME}
-    AttributeDefinitions:
-      - AttributeName: provider_id
-        AttributeType: S
-      - AttributeName: email
-        AttributeType: S
-      - AttributeName: token
-        AttributeType: S
-    KeySchema:
-      - AttributeName: provider_id
-        KeyType: HASH
-      - AttributeName: email
-        KeyType: RANGE
-    LocalSecondaryIndexes:
-      - IndexName: ${self:provider.environment.INDEXLSI1_TABLE2_NAME}
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+    TokensTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.TABLE2_NAME}
+        AttributeDefinitions:
+          - AttributeName: provider_id
+            AttributeType: S
+          - AttributeName: email
+            AttributeType: S
+          - AttributeName: token
+            AttributeType: S
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
-          - AttributeName: token
+          - AttributeName: email
             KeyType: RANGE
-        Projection:
-          ProjectionType: ALL
-    GlobalSecondaryIndexes:
-      - IndexName: ${self:provider.environment.INDEXGSI1_TABLE2_NAME}
-        KeySchema:
-          - AttributeName: token
-            KeyType: HASH
-        Projection:
-          ProjectionType: ALL
-    BillingMode: PAY_PER_REQUEST
-  DeletionPolicy: Retain
-  PointInTimeRecoverySpecification:
-    PointInTimeRecoveryEnabled: true
+        LocalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.INDEXLSI1_TABLE2_NAME}
+            KeySchema:
+              - AttributeName: provider_id
+                KeyType: HASH
+              - AttributeName: token
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.INDEXGSI1_TABLE2_NAME}
+            KeySchema:
+              - AttributeName: token
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
+      DeletionPolicy: Retain
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
