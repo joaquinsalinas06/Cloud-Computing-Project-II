@@ -9,8 +9,8 @@ def lambda_handler(event, context):
 
     if not token:
         return {
-            'StatusCode': 400,
-            'body': json.dumps({'error': 'Token not provided'})
+            'statusCode': 400,
+            'body': {'error': 'Token not provided'}
         }
     
     dynamodb = boto3.resource('dynamodb')
@@ -26,7 +26,7 @@ def lambda_handler(event, context):
     
     if 'Items' not in response:
         return {
-            'StatusCode': 403,
+            'statusCode': 403,
             'body': {'error': "Token doesn't exist"}
         }
 
@@ -35,11 +35,11 @@ def lambda_handler(event, context):
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         if now > expires:
             return {
-                'StatusCode': 403,
+                'statusCode': 403,
                 'body': 'Token expirado'
             }
     
     return {
-        'StatusCode': 200,
+        'statusCode': 200,
         'body': 'Token válido'
     }
