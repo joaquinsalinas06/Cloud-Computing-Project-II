@@ -10,7 +10,7 @@ def lambda_handler(event, context):
         # Obtener parámetros de consulta
         query_params = event.get('query', {}) or {}
         page = int(query_params.get('page', '1'))
-        limit = int(query_params.get('pageSize', '10'))
+        limit = int(query_params.get('limit', '10'))
         
         page = max(page, 1)
         limit = min(max(limit, 1), 50) 
