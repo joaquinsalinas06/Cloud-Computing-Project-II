@@ -28,6 +28,7 @@ functions:
           method: post
           cors: true
           integration: lambda
+
   loginUser:
     handler: Handler/loginUser.lambda_handler
     events:
@@ -36,6 +37,7 @@ functions:
           method: post
           cors: true
           integration: lambda
+
   getUser:
     handler: Handler/getUser.lambda_handler
     events:
@@ -44,6 +46,7 @@ functions:
           method: get
           cors: true
           integration: lambda
+
   deleteUser:
     handler: Handler/deleteUser.lambda_handler
     events:
@@ -52,6 +55,7 @@ functions:
           method: delete
           cors: true
           integration: lambda
+
   getallUsersByProvider:
     handler: Handler/getallUsersByProvider.lambda_handler
     events:
@@ -68,12 +72,6 @@ functions:
 
   validateToken:
     handler: Handler/validateToken.lambda_handler
-    events:
-      - http:
-          path: /validateToken
-          method: post
-          cors: true
-          integration: lambda
 
 resources:
   Resources:
