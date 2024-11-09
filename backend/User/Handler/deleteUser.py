@@ -33,8 +33,8 @@ def lambda_handler(event, context):
             }
              
         dynamodb = boto3.resource('dynamodb')
-        user_table_name = os.getenv('TABLE_NAME_e')
-        token_table_name = os.getenv('TABLE2_NAME_e')
+        user_table_name = os.getenv('TABLE_NAME')
+        token_table_name = os.getenv('TABLE2_NAME')
         user_table = dynamodb.Table(user_table_name)
         token_table = dynamodb.Table(token_table_name)
         
