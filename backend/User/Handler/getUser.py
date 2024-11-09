@@ -24,7 +24,7 @@ def lambda_handler(event, context):
         )
 
         
-        response_payload = json.load(invoke_response['Payload'].read())
+        response_payload = json.loads(invoke_response['Payload'].read())
         print(response_payload)
         
         if response_payload['StatusCode'] != 200 :
