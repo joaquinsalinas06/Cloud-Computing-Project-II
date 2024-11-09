@@ -2,139 +2,139 @@ org: salinsuwu
 service: artist-api
 
 provider:
-    name: aws
-    runtime: nodejs20.x
-    memorySize: 1024
-    timeout: 30
-    iam:
-        role: arn:aws:iam::037294426912:role/LabRole
-    environment:
-        TABLE_NAME: ${sls:stage}-${env:TABLE_NAME_e}
-        GSI_NAME: artistNameIndex
-        LSI_NAME_1: countryIndex
-        LSI_NAME_2: genreIndex
+  name: aws
+  runtime: nodejs20.x
+  memorySize: 1024
+  timeout: 30
+  iam:
+    role: arn:aws:iam::164273947020:role/LabRole
+  environment:
+    TABLE_NAME: ${sls:stage}-${env:TABLE_NAME_e}
+    GSI_NAME: artistNameIndex
+    LSI_NAME_1: countryIndex
+    LSI_NAME_2: genreIndex
 
 functions:
-    createArtists:
-        handler: handler/createArtists.handler
-        events:
-            - http:
-                  path: /artist/create
-                  method: post
-                  cors: true
-                  integration: lambda
+  createArtists:
+    handler: handler/createArtists.handler
+    events:
+      - http:
+          path: /artist/create
+          method: post
+          cors: true
+          integration: lambda
 
-    deleteArtist:
-        handler: handler/deleteArtist.handler
-        events:
-            - http:
-                  path: /artist/{artistId}
-                  method: delete
-                  cors: true
-                  integration: lambda
+  deleteArtist:
+    handler: handler/deleteArtist.handler
+    events:
+      - http:
+          path: /artist/{artistId}
+          method: delete
+          cors: true
+          integration: lambda
 
-    getAllArtists:
-        handler: handler/getAllArtists.handler
-        events:
-            - http:
-                  path: /artist/all
-                  method: post
-                  cors: true
-                  integration: lambda
+  getAllArtists:
+    handler: handler/getAllArtists.handler
+    events:
+      - http:
+          path: /artist/all
+          method: post
+          cors: true
+          integration: lambda
 
-    getArtistById:
-        handler: handler/getArtistById.handler
-        events:
-            - http:
-                  path: /artist/{artistId}
-                  method: post
-                  cors: true
-                  integration: lambda
+  getArtistById:
+    handler: handler/getArtistById.handler
+    events:
+      - http:
+          path: /artist/{artistId}
+          method: post
+          cors: true
+          integration: lambda
 
-    getArtistByName:
-        handler: handler/getArtistByName.handler
-        events:
-            - http:
-                  path: /artist/by-name
-                  method: post
-                  cors: true
-                  integration: lambda
+  getArtistByName:
+    handler: handler/getArtistByName.handler
+    events:
+      - http:
+          path: /artist/by-name
+          method: post
+          cors: true
+          integration: lambda
 
-    getArtistByCountry:
-        handler: handler/getArtistByCountry.handler
-        events:
-            - http:
-                  path: /artist/by-country
-                  method: post
-                  cors: true
-                  integration: lambda
+  getArtistByCountry:
+    handler: handler/getArtistByCountry.handler
+    events:
+      - http:
+          path: /artist/by-country
+          method: post
+          cors: true
+          integration: lambda
 
-    getArtistByGenre:
-        handler: handler/getArtistByGenre.handler
-        events:
-            - http:
-                  path: /artist/by-genre
-                  method: post
-                  cors: true
-                  integration: lambda
+  getArtistByGenre:
+    handler: handler/getArtistByGenre.handler
+    events:
+      - http:
+          path: /artist/by-genre
+          method: post
+          cors: true
+          integration: lambda
 
-    updateArtist:
-        handler: handler/updateArtist.handler
-        events:
-            - http:
-                  path: /artist/{artistId}
-                  method: put
-                  cors: true
-                  integration: lambda
+  updateArtist:
+    handler: handler/updateArtist.handler
+    events:
+      - http:
+          path: /artist/{artistId}
+          method: put
+          cors: true
+          integration: lambda
 
 resources:
-    Resources:
-        ArtistTable:
-            Type: AWS::DynamoDB::Table
-            Properties:
-                TableName: ${self:provider.environment.TABLE_NAME}
-                AttributeDefinitions:
-                    - AttributeName: provider_id
-                      AttributeType: S
-                    - AttributeName: artist_id
-                      AttributeType: N
-                    - AttributeName: name
-                      AttributeType: S
-                    - AttributeName: country
-                      AttributeType: S
-                    - AttributeName: genre
-                      AttributeType: S
-                KeySchema:
-                    - AttributeName: provider_id
-                      KeyType: HASH
-                    - AttributeName: artist_id
-                      KeyType: RANGE
-                GlobalSecondaryIndexes:
-                    - IndexName: ${self:provider.environment.GSI_NAME}
-                      KeySchema:
-                          - AttributeName: name
-                            KeyType: HASH
-                          - AttributeName: provider_id
-                            KeyType: RANGE
-                      Projection:
-                          ProjectionType: ALL
-                LocalSecondaryIndexes:
-                    - IndexName: ${self:provider.environment.LSI_NAME_1}
-                      KeySchema:
-                          - AttributeName: provider_id
-                            KeyType: HASH
-                          - AttributeName: country
-                            KeyType: RANGE
-                      Projection:
-                          ProjectionType: ALL
-                    - IndexName: ${self:provider.environment.LSI_NAME_2}
-                      KeySchema:
-                          - AttributeName: provider_id
-                            KeyType: HASH
-                          - AttributeName: genre
-                            KeyType: RANGE
-                      Projection:
-                          ProjectionType: ALL
-                BillingMode: PAY_PER_REQUEST
-                PointInTimeRecoverySpecification:
-                    PointInTimeRecoveryEnabled: true
+  Resources:
+    ArtistTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.TABLE_NAME}
+        AttributeDefinitions:
+          - AttributeName: provider_id
+            AttributeType: S
+          - AttributeName: artist_id
+            AttributeType: N
+          - AttributeName: name
+            AttributeType: S
+          - AttributeName: country
+            AttributeType: S
+          - AttributeName: genre
+            AttributeType: S
+        KeySchema:
+          - AttributeName: provider_id
+            KeyType: HASH
+          - AttributeName: artist_id
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.GSI_NAME}
+            KeySchema:
+              - AttributeName: name
+                KeyType: HASH
+              - AttributeName: provider_id
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        LocalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.LSI_NAME_1}
+            KeySchema:
+              - AttributeName: provider_id
+                KeyType: HASH
+              - AttributeName: country
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: ${self:provider.environment.LSI_NAME_2}
+            KeySchema:
+              - AttributeName: provider_id
+                KeyType: HASH
+              - AttributeName: genre
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
