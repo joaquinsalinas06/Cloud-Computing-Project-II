@@ -3,9 +3,9 @@ import os
 import json
 
 def lambda_handler(event, context):
-    user_id = event['pathParameters'].get('user_id')
-    provider_id = event['pathParameters'].get('provider_id')
-    token = event['headers'].get('Authorization')
+    user_id = event['path']['user_id']
+    provider_id = event['path']['provider_id']
+    token = event['headers']['Authorization']
     
     lambda_client = boto3.client('lambda')
     payload = {
@@ -43,7 +43,7 @@ def lambda_handler(event, context):
                 'body': json.dumps({'error': 'User not found'})
             }
         
-        datos = event.get('data')
+        datos = event['body']('data')
         if datos:
             update_expression = "SET "
             expression_attribute_values = {}
