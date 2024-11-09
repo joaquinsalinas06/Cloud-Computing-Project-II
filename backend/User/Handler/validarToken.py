@@ -15,7 +15,7 @@ def lambda_handler(event, context):
     
     dynamodb = boto3.resource('dynamodb')
     token_table_name = 'dev-tokens-table'
-    token_index_name = os.environ['INDEXLSI1_TABLE2_NAME']
+    token_index_name = os.environ['INDEXGSI1_TABLE2_NAME']
     print("Token table name:", token_table_name)
     print("Token index name:", token_index_name)
     token_table = dynamodb.Table(token_table_name)
