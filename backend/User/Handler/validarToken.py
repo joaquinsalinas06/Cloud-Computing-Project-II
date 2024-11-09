@@ -18,8 +18,9 @@ def lambda_handler(event, context):
     token_index_name = 'dev-TokenIndex'
     token_table = dynamodb.Table(token_table_name)
     
-    response = token_table.get_item(
-        Key={'token': token}
+    response = token_table.query(
+        IndexName=token_index_name,
+        KeyConditionExpression=boto3.dynamodb.conditions.Key('token').eq(token)
     )
     
     print("DynamoDB Query Response:", response) 
