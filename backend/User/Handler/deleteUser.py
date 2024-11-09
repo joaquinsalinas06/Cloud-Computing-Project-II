@@ -4,8 +4,8 @@ import json
 
 def lambda_handler(event, context):
     try:
-        user_id = event['pathParameters'].get('user_id')
-        provider_id = event['pathParameters'].get('provider_id')
+        user_id = event['pathParameters']['user_id']
+        provider_id = event['pathParameters']['provider_id']
         token = event['headers'].get('Authorization')
         
         if not provider_id or not user_id or not token:

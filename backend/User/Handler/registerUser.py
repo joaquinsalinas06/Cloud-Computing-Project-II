@@ -68,13 +68,15 @@ def lambda_handler(event, context):
             }
         )
 
-        mensaje = {
-            'message': 'User registered successfully',
-            'user_id': user_id
-        }
         return {
             'statusCode': 200,
-            'body': json.dumps(mensaje)
+            'body': {
+                'message': 'User registered successfully',
+                'user_id': user_id
+            },
+            'headers': {
+                'Content-Type': 'application/json'
+            }
         }
 
     except Exception as e:

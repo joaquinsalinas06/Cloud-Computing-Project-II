@@ -10,9 +10,9 @@ def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 def lambda_handler(event, context):
-    provider_id = event.get('provider_id')
-    email = event.get('email')
-    password = event.get('password')
+    provider_id = event['body']['provider_id']
+    email = event['body']['email']
+    password = event.get['password']
     hashed_password = hash_password(password)
 
     user_table_name = os.getenv('TABLE_NAME_e')
