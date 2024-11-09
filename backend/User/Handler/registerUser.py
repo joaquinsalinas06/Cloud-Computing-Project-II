@@ -10,13 +10,14 @@ def hash_password(password):
 
 def lambda_handler(event, context):
     try:
-        provider_id = event.get('provider_id')
-        password = event.get('password')
-        email = event.get('email')
-        username = event.get('username')
-        data = event.get('data') or {}
+        body = json.loads(event['body'])
         
-        # Validar que todos los campos requeridos están presentes
+        provider_id = body.get('provider_id')
+        password = body.get('password')
+        email = body.get('email')
+        username = body.get('username')
+        data = body.get('data', {})
+
         if not all([provider_id, password, email, username]):
             return {
                 'statusCode': 400,
@@ -70,6 +71,7 @@ def lambda_handler(event, context):
                 'datecreated': datecreated
             }
         )
+
         mensaje = {
             'message': 'User registered successfully',
             'user_id': user_id
@@ -78,6 +80,7 @@ def lambda_handler(event, context):
             'statusCode': 200,
             'body': json.dumps(mensaje)
         }
+
     except Exception as e:
         print("Exception:", str(e))
         return {
