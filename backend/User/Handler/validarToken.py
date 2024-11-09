@@ -4,17 +4,20 @@ import os
 import json
 
 def lambda_handler(event, context):
-    token = event['body']['token']
+    token = event['token']
+    print("Received token:", token)  
 
     if not token:
         return {
             'statusCode': 400,
-            'body': json.dumps({'error': 'Token not provided'})
+            'body': {'error': 'Token not provided'}
         }
     
     dynamodb = boto3.resource('dynamodb')
-    token_table_name = os.environ['TABLE_NAME']
-    token_index_name = os.environ['INDEXGSI1_TABLE2_NAME']  
+    token_table_name = 'dev-tokens-table'
+    token_index_name = os.environ['INDEXGSI1_TABLE2_NAME']
+    print("Token table name:", token_table_name)
+    print("Token index name:", token_index_name)
     token_table = dynamodb.Table(token_table_name)
     
     response = token_table.query(
@@ -22,28 +25,32 @@ def lambda_handler(event, context):
         KeyConditionExpression=boto3.dynamodb.conditions.Key('token').eq(token)
     )
     
-    if 'Items' not in response or len(response['Items']) == 0:
+    print("DynamoDB Query Response:", response) 
+
+    if 'Items' not in response or not response['Items']:
+        print("Token does not exist in the database")  
         return {
             'statusCode': 403,
-            'body': json.dumps({'error': "Token doesn't exist"})
+            'body': {'error': "Token doesn't exist"}
         }
 
     token_data = response['Items'][0]
-    expires = token_data.get('expiration')
+    expires = token_data['expiration']
+    now = datetime.now().timestamp()
     
-    now = datetime.now()
-    if isinstance(expires, (int, float)):
-        expiration_date = datetime.fromtimestamp(expires)
-    else: 
-        expiration_date = datetime.strptime(expires, '%Y-%m-%d %H:%M:%S')
+    print("Current time:", now) 
+    print("Token expiration time:", expires)  
     
-    if now > expiration_date:
+    expiration_timestamp = datetime.strptime(expires, '%Y-%m-%d %H:%M:%S').timestamp()
+    if now > expiration_timestamp:
+        print("Token has expired")  
         return {
             'statusCode': 403,
-            'body': json.dumps({'error': 'Token expired'})
+            'body': {'error': 'Token expired'}
         }
     
+    print("Token is valid")  
     return {
         'statusCode': 200,
-        'body': json.dumps({'message': 'Token is valid'})
+        'body': {'message': 'Token válido'}
     }
