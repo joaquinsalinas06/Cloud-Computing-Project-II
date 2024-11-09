@@ -96,7 +96,7 @@ resources:
                 AttributeDefinitions:
                     - AttributeName: provider_id
                       AttributeType: S
-                    - AttributeName: artistId
+                    - AttributeName: artist_id
                       AttributeType: N
                     - AttributeName: name
                       AttributeType: S
@@ -107,7 +107,7 @@ resources:
                 KeySchema:
                     - AttributeName: provider_id
                       KeyType: HASH
-                    - AttributeName: artistId
+                    - AttributeName: artist_id
                       KeyType: RANGE
                 GlobalSecondaryIndexes:
                     - IndexName: ${self:provider.environment.GSI_NAME}
