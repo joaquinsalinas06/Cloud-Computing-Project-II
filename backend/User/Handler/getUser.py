@@ -23,12 +23,13 @@ def lambda_handler(event, context):
         )
         
         response_payload = json.loads(invoke_response['Payload'].read())
+        print("Response Payload:", response_payload)  # Debug print
         
-        if response_payload['statusCode'] != 200:
+        if 'statusCode' not in response_payload or response_payload['statusCode'] != 200:
+            error_message = response_payload.get('body', {}).get('error', 'Unknown error')
             return {
                 'statusCode': 401,
-                'body': {'error': 'Unauthorized',
-                         'message': response_payload['body']['error']}
+                'body': {'error': 'Unauthorized', 'message': error_message}
             }
         
         dynamodb = boto3.resource('dynamodb')
