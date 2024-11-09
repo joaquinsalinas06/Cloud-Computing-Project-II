@@ -4,9 +4,19 @@ import json
 
 def lambda_handler(event, context):
     try:
-        provider_id = event['pathParameters']['provider_id']
-        page = int(event['queryStringParameters'].get('page', 1))
-        limit = int(event['queryStringParameters'].get('limit', 10))
+        provider_id = event['path']['provider_id']
+   
+        query_params = event.get('query', {}) or {}
+
+        page = int(query_params.get('page', '1'))
+        limit = int(query_params.get('pageSize', '10'))
+        
+        if page < 1:
+            page = 1
+        if limit > 50:  
+            limit = 50
+        if limit < 1:
+            limit = 10
         token = event['headers']['Authorization']  
         
         lambda_client = boto3.client('lambda')
@@ -27,7 +37,7 @@ def lambda_handler(event, context):
         if invoke_response['StatusCode'] != 200 or response_payload.get('authorized') != True:
             return {
                 'statusCode': 401,
-                'body': json.dumps({'error': 'Unauthorized'})
+                'body': {'error': 'Unauthorized'}
             }
 
         dynamodb = boto3.resource('dynamodb')
@@ -45,17 +55,17 @@ def lambda_handler(event, context):
         if 'Items' not in response or len(response['Items']) == 0:
             return {
                 'statusCode': 404,
-                'body': json.dumps({'error': 'No users found'})
+                'body': {'error': 'No users found'}
             }
 
         return {
             'statusCode': 200,
-            'body': json.dumps({'users': response['Items']})
+            'body': {'users': response['Items']}
         }
 
     except Exception as e:
         print(f"Exception: {str(e)}")
         return {
             'statusCode': 500,
-            'body': json.dumps({'error': f"Internal server error: {str(e)}"})
+            'body': {'error': f"Internal server error: {str(e)}"}
         }

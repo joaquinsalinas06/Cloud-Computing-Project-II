@@ -55,22 +55,22 @@ def lambda_handler(event, context):
     else:
         return {
             'statusCode': 403,
-            'body': json.dumps({
+            'body': {
                 'status': 'error',
                 'message': 'Incorrect password'
-            })
+            }
         }
 
     return {
         'statusCode': 200,
-        'body': json.dumps({
+        'body': {
             'status': 'success',
             'message': 'Authentication successful',
             'data': {
                 'token': token,
                 'expiration': expiration
             }
-        }),
+        },
         'headers': {
             'Content-Type': 'application/json'
         }

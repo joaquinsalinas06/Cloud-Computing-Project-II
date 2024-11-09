@@ -4,14 +4,15 @@ import json
 
 def lambda_handler(event, context):
     try:
-        provider_id = event['pathParameters'].get('provider_id')
-        user_id = event['pathParameters']['user_id']
+        provider_id = event['path']['provider_id']
+        user_id = event['path']['user_id']
         token = event['headers']['Authorization']
         
         if not provider_id or not user_id or not token:
             return {
                 'statusCode': 400,
-                'body': json.dumps({'error': 'Missing parameters or token'})
+                'body': 
+                {'error': 'Missing parameters or token'}
             }
 
         lambda_client = boto3.client('lambda')
@@ -28,7 +29,7 @@ def lambda_handler(event, context):
         if invoke_response['StatusCode'] != 200 or response_payload.get('statusCode') != 200:
             return {
                 'statusCode': 401,
-                'body': json.dumps({'error': 'Unauthorized'})
+                'body': {'error': 'Unauthorized'}
             }
         
         dynamodb = boto3.resource('dynamodb')
@@ -43,17 +44,18 @@ def lambda_handler(event, context):
         if 'Items' not in response or len(response['Items']) == 0:
             return {
                 'statusCode': 404,
-                'body': json.dumps({'error': 'User not found'})
+                'body': {'error': 'User not found'}
             }
         
         return {
             'statusCode': 200,
-            'body': json.dumps(response['Items'][0])
+            'body':
+                response['Items'][0]
         }
     
     except Exception as e:
         print(f"Exception: {str(e)}")
         return {
             'statusCode': 500,
-            'body': json.dumps({'error': f"Internal server error: {str(e)}"})
+            'body': {'error': f"Internal server error: {str(e)}"}
         }
