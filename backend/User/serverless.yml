@@ -17,7 +17,7 @@ provider:
     TABLE2_NAME: ${sls:stage}-${env:TABLE2_NAME_e}
     INDEXGSI1_TABLE2_NAME: ${sls:stage}-${env:INDEXGSI1_TABLE2_NAME_e}
     INDEXLSI1_TABLE2_NAME: ${sls:stage}-${env:INDEXLSI1_TABLE2_NAME_e}
-    AUTHORIZER_FUNCTION_NAME: validarToken
+    AUTHORIZER_FUNCTION_NAME: ${env:AUTHORIZER_FUNCTION_NAME}
 
 functions:
   createUser:
@@ -125,8 +125,6 @@ resources:
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
-        PointInTimeRecoverySpecification:
-          PointInTimeRecoveryEnabled: true
       DeletionPolicy: Retain
 
     TokensTable:
@@ -162,6 +160,7 @@ resources:
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
-        PointInTimeRecoverySpecification:
-          PointInTimeRecoveryEnabled: true
       DeletionPolicy: Retain
+
+plugins:
+  - serverless-dotenv-plugin
