@@ -39,7 +39,7 @@ def lambda_handler(event, context):
         if 'Items' not in response or len(response['Items']) == 0:
             return {
                 'statusCode': 404,
-                'body': json.dumps({'error': 'User not found'})
+                'body': {'error': 'User not found'}
             }
         
         body_content = event['body']
@@ -67,15 +67,15 @@ def lambda_handler(event, context):
             )
             return {
                 'statusCode': 200,
-                'body': json.dumps({'message': 'User updated'})
+                'body': {'message': 'User updated'}
             }
         else:
             return {
                 'statusCode': 400,
-                'body': json.dumps({'error': 'Data not provided'})
+                'body': {'error': 'Data not provided'}
             }
     else:
         return {
             'statusCode': 400,
-            'body': json.dumps({'error': 'Missing parameters'})
+            'body': {'error': 'Missing parameters'}
         }
