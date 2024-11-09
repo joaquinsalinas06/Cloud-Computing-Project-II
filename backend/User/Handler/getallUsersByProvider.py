@@ -17,29 +17,26 @@ def lambda_handler(event, context):
             limit = 50
         if limit < 1:
             limit = 10
-        token = event['headers']['Authorization']  
+        token = event['headers']['Authorization']
         
+        payload = '{ "token": "' + token +  '" }'        
         lambda_client = boto3.client('lambda')
-        
-        payload = {
-            "provider_id": provider_id,
-            "token": token
-        }
-        
         invoke_response = lambda_client.invoke(
-            FunctionName=os.getenv('AUTHORIZER_FUNCTION_NAME'),
+            FunctionName='api-mure-user-dev-validateToken',
             InvocationType='RequestResponse',
-            Payload=json.dumps(payload)
+            Payload=payload
         )
         
-        response_payload = json.load(invoke_response['Payload'])
+        response_payload = json.loads(invoke_response['Payload'].read())
+        print("Response Payload:", response_payload) 
         
-        if invoke_response['StatusCode'] != 200 or response_payload.get('authorized') != True:
+        if 'statusCode' not in response_payload or response_payload['statusCode'] != 200:
+            error_message = response_payload.get('body', {}).get('error', 'Unknown error')
             return {
                 'statusCode': 401,
-                'body': {'error': 'Unauthorized'}
+                'body': {'error': 'Unauthorized', 'message': error_message}
             }
-
+        
         dynamodb = boto3.resource('dynamodb')
         table_name = os.getenv('TABLE_NAME_e')
         table = dynamodb.Table(table_name)
