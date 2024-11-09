@@ -125,9 +125,9 @@ resources:
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
       DeletionPolicy: Retain
-      PointInTimeRecoverySpecification:
-        PointInTimeRecoveryEnabled: true
 
     TokensTable:
       Type: AWS::DynamoDB::Table
@@ -162,6 +162,6 @@ resources:
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
       DeletionPolicy: Retain
-      PointInTimeRecoverySpecification:
-        PointInTimeRecoveryEnabled: true
