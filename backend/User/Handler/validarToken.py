@@ -5,7 +5,7 @@ import json
 
 def lambda_handler(event, context):
     token = event['body']['token']
-        
+
     if not token:
         return {
             'statusCode': 400,
@@ -13,8 +13,8 @@ def lambda_handler(event, context):
         }
     
     dynamodb = boto3.resource('dynamodb')
-    token_table_name = os.getenv('TABLE2_NAME_e')
-    token_index_name = os.getenv('INDEXGSI1_TABLE2_NAME_e')  
+    token_table_name = os.environ['TABLE_NAME']
+    token_index_name = os.environ['INDEXGSI1_TABLE2_NAME']  
     token_table = dynamodb.Table(token_table_name)
     
     response = token_table.query(
