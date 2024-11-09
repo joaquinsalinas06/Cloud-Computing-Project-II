@@ -16,7 +16,7 @@ def lambda_handler(event, context):
             }
 
         lambda_client = boto3.client('lambda')
-        payload = {"token": token}
+        payload = {"headers": {"Authorization": token}}
         
         invoke_response = lambda_client.invoke(
             FunctionName=os.getenv('AUTHORIZER_FUNCTION_NAME'),
@@ -31,6 +31,7 @@ def lambda_handler(event, context):
                 'statusCode': 401,
                 'body': {'error': 'Unauthorized'}
             }
+       
         
         dynamodb = boto3.resource('dynamodb')
         user_table_name = os.getenv('TABLE_NAME_e')

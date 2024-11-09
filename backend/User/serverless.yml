@@ -66,6 +66,19 @@ functions:
                 limit: true
           integration: lambda
 
+  validateToken:
+    handler: Handler/validateToken.lambda_handler
+    events:
+      - http:
+          path: /validateToken
+          method: post
+          cors: true
+          request:
+            parameters:
+              headers:
+                Authorization: true
+          integration: lambda
+
 resources:
   Resources:
     UsersTable:

@@ -4,7 +4,8 @@ import os
 import json
 
 def lambda_handler(event, context):
-    token = event['body']['token']
+
+    token = event['headers']['Authorization']
 
     if not token:
         return {
@@ -13,7 +14,7 @@ def lambda_handler(event, context):
         }
     
     dynamodb = boto3.resource('dynamodb')
-    token_table_name = os.environ['TABLE_NAME']
+    token_table_name = os.environ['TABLE2_NAME']  
     token_index_name = os.environ['INDEXGSI1_TABLE2_NAME']  
     token_table = dynamodb.Table(token_table_name)
     
@@ -22,7 +23,7 @@ def lambda_handler(event, context):
         KeyConditionExpression=boto3.dynamodb.conditions.Key('token').eq(token)
     )
     
-    if 'Items' not in response or len(response['Items']) == 0:
+    if 'Items' not in response or not response['Items']:
         return {
             'statusCode': 403,
             'body': json.dumps({'error': "Token doesn't exist"})
@@ -32,10 +33,7 @@ def lambda_handler(event, context):
     expires = token_data.get('expiration')
     
     now = datetime.now()
-    if isinstance(expires, (int, float)):
-        expiration_date = datetime.fromtimestamp(expires)
-    else: 
-        expiration_date = datetime.strptime(expires, '%Y-%m-%d %H:%M:%S')
+    expiration_date = datetime.fromtimestamp(expires) if isinstance(expires, (int, float)) else datetime.strptime(expires, '%Y-%m-%d %H:%M:%S')
     
     if now > expiration_date:
         return {
