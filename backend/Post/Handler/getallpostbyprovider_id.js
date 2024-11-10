@@ -6,7 +6,42 @@ module.exports.handler = async function (event) {
 
   const page = parseInt(event.query?.page) || 1;
   const pageSize = parseInt(event.query?.limit) || 10;
+  const token = event.headers?.Authorization;
 
+  if (!provider_id  || !token) {
+    return {
+      statusCode: 400,
+      headers: { "Content-Type": "application/json" },
+      body: { error: "Missing required parameters or token" },
+    };
+  }
+
+  const lambda = new AWS.Lambda();
+  const invokeParams = {
+    FunctionName: process.env.LAMBDA_FUNCTION_NAME,
+    InvocationType: "RequestResponse",
+    Payload: JSON.stringify({ token })
+  };
+
+  try {
+    const invokeResponse = await lambda.invoke(invokeParams).promise();
+    const responsePayload = JSON.parse(invokeResponse.Payload);
+
+    if (!responsePayload.statusCode || responsePayload.statusCode !== 200) {
+      const errorMessage = responsePayload.body?.error || "Unauthorized access";
+      return {
+        statusCode: 401,
+        headers: { "Content-Type": "application/json" },
+        body: { error: "Unauthorized", message: errorMessage },
+      };
+    }
+  } catch (error) {
+    return {
+      statusCode: 500,
+      headers: { "Content-Type": "application/json" },
+      body: { error: "Authorization check failed", details: error.message },
+    };
+  }
   if (!provider_id) {
     return {
       statusCode: 400,
