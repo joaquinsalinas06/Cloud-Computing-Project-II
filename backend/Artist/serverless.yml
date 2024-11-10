@@ -79,7 +79,7 @@ functions:
           integration: lambda
 
   getArtistByCountry:
-    handler: handler/getArtistByCountry.handler
+    handler: handler/getArtistsByCountry.handler
     events:
       - http:
           path: /artist/by-country
@@ -88,7 +88,7 @@ functions:
           integration: lambda
 
   getArtistByCountryWP:
-    handler: handler/getArtistByCountryWP.handler
+    handler: handler/getArtistsByCountryWP.handler
     events:
       - http:
           path: /artist/by-countryWP
@@ -97,7 +97,7 @@ functions:
           integration: lambda
 
   getArtistByGenre:
-    handler: handler/getArtistByGenre.handler
+    handler: handler/getArtistsByGenre.handler
     events:
       - http:
           path: /artist/by-genre
@@ -106,7 +106,7 @@ functions:
           integration: lambda
 
   getArtistByGenreWP:
-    handler: handler/getArtistByGenreWP.handler
+    handler: handler/getArtistsByGenreWP.handler
     events:
       - http:
           path: /artist/by-genreWP
