@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require("uuid");
 
 module.exports.handler = async function (event) {
   const body = typeof event.body === "string" ? JSON.parse(event.body) : event.body;
-  const { provider_id, user_id, song_id, playlist_id, titulo, descripcion } = body;
+  const { provider_id, user_id, song_id, album_id, titulo, descripcion } = body;
   const token = event.headers?.Authorization;
 
   if (!provider_id || !user_id || !token) {
@@ -43,7 +43,7 @@ module.exports.handler = async function (event) {
   function getFormattedDate() {
     const date = new Date();
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Meses van de 0 a 11, así que sumamos 1
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
     const day = String(date.getDate()).padStart(2, '0');
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
@@ -60,7 +60,7 @@ module.exports.handler = async function (event) {
       post_id,
       user_id,
       song_id,
-      playlist_id,
+      album_id,
       titulo,
       descripcion,
       created_at: getFormattedDate() 
