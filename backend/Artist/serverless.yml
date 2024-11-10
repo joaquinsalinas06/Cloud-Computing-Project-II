@@ -101,7 +101,16 @@ functions:
     events:
       - http:
           path: /artist/by-genre
-          method: post
+          method: get
+          cors: true
+          integration: lambda
+
+  getArtistByGenreWP:
+    handler: handler/getArtistByGenreWP.handler
+    events:
+      - http:
+          path: /artist/by-genreWP
+          method: get
           cors: true
           integration: lambda
 

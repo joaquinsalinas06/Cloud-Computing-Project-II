@@ -34,7 +34,10 @@ export async function handler(event) {
       ":provider_id": provider_id,
       ":genre": genre,
     },
+    Limit: limit,
+    ExclusiveStartKey: exclusiveStartKey ? exclusiveStartKey : undefined,
   };
+
   try {
     const response = await dynamodb.query(params).promise();
     console.log("DynamoDB response:", response);
