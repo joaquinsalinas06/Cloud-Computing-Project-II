@@ -95,7 +95,6 @@ functions:
           method: get
           cors: true
           integration: lambda
-
 resources:
   Resources:
     PostTable:
@@ -120,9 +119,7 @@ resources:
             KeyType: HASH
           - AttributeName: post_id
             KeyType: RANGE
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+        BillingMode: PAY_PER_REQUEST  
         GlobalSecondaryIndexes:
           - IndexName: ${self:provider.environment.INDEXGSI1_TABLE1_NAME}
             KeySchema:
@@ -132,9 +129,6 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
-            ProvisionedThroughput:
-              ReadCapacityUnits: 1
-              WriteCapacityUnits: 1
           - IndexName: ${self:provider.environment.INDEXGSI2_TABLE1_NAME}
             KeySchema:
               - AttributeName: provider_id
@@ -143,9 +137,6 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
-            ProvisionedThroughput:
-              ReadCapacityUnits: 1
-              WriteCapacityUnits: 1
         LocalSecondaryIndexes:
           - IndexName: ${self:provider.environment.INDEXLSI1_TABLE1_NAME}
             KeySchema:
@@ -155,5 +146,4 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
-        BillingMode: PAY_PER_REQUEST
       DeletionPolicy: Retain
