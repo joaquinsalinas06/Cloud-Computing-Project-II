@@ -24,8 +24,13 @@ export async function handler(event) {
     },
   };
 
+  console.log("Deleting artist with params: ", params);
+
   try {
-    await dynamodb.delete(params).promise();
+    const result = await dynamodb.delete(params).promise();
+
+    console.log("Result: ", result);
+
     return {
       statusCode: 204,
       headers: {
