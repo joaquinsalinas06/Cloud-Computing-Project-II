@@ -2,7 +2,7 @@ const AWS = require("aws-sdk");
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = async function (event){
-  const { provider_id } = event.pathParameters;
+  const provider_id = event.path?.provider_id;
 
   const params = {
     TableName: process.env.TABLE_NAME,
@@ -16,12 +16,12 @@ module.exports.handler = async function (event){
     const result = await dynamoDb.query(params).promise();
     return {
       statusCode: 200,
-      body: JSON.stringify(result.Items),
+      body: result.Items,
     };
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Could not retrieve posts", details: error.message }),
+      body: { error: "Could not retrieve posts", details: error.message },
     };
   }
 }
