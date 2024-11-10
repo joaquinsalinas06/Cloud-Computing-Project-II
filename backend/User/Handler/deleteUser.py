@@ -1,3 +1,4 @@
+import boto3
 import os
 import json
 
@@ -30,10 +31,12 @@ def lambda_handler(event, context):
                 'statusCode': 401,
                 'body': {'error': 'Unauthorized', 'message': error_message}
             }
-        
+             
         dynamodb = boto3.resource('dynamodb')
-        user_table_name = os.environ['TABLE_NAME']
+        user_table_name = os.getenv('TABLE_NAME')
+        token_table_name = os.getenv('TABLE2_NAME')
         user_table = dynamodb.Table(user_table_name)
+        token_table = dynamodb.Table(token_table_name)
         
         response = user_table.query(
             KeyConditionExpression=boto3.dynamodb.conditions.Key('provider_id').eq(provider_id) & 
@@ -43,17 +46,40 @@ def lambda_handler(event, context):
         if 'Items' not in response or len(response['Items']) == 0:
             return {
                 'statusCode': 404,
-                'body': {'error': 'User not found'}
+                'body': json.dumps({'error': 'User not found'})
             }
+        
+        user_table.delete_item(
+            Key={
+                'provider_id': provider_id,
+                'user_id': user_id
+            }
+        )
+
+        token_index_name = os.environ['INDEXGSI1_TABLE2_NAME']
+        
+        token_response = token_table.query(
+            IndexName=token_index_name,
+            KeyConditionExpression=boto3.dynamodb.conditions.Key('token').eq(token)
+        )
+        
+        if 'Items' in token_response:
+            for item in token_response['Items']:
+                token_table.delete_item(
+                    Key={
+                        'provider_id': item['provider_id'],  
+                        'email': item['email']  
+                    }
+                )
         
         return {
             'statusCode': 200,
-            'body': response['Items'][0]
+            'body': json.dumps({'message': 'User and associated tokens deleted'})
         }
     
     except Exception as e:
         print(f"Exception: {str(e)}")
         return {
             'statusCode': 500,
-            'body': {'error': f"Internal server error: {str(e)}"}
+            'body': json.dumps({'error': f"Internal server error: {str(e)}"})
         }
