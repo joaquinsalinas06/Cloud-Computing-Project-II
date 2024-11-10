@@ -5,7 +5,8 @@ module.exports.handler = async function (event) {
   const provider_id = event.pathParameters?.provider_id;
   const post_id = event.pathParameters?.post_id;
   const token = event.headers?.Authorization;
-  const { titulo, descripcion } = JSON.parse(event.body);
+  const body = typeof event.body === "string" ? JSON.parse(event.body) : event.body;
+  const { titulo, descripcion } = body;
 
   if (!provider_id || !post_id || !token) {
     return {
