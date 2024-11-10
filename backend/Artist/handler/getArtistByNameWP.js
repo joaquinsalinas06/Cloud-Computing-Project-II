@@ -1,33 +1,41 @@
 import "dotenv/config";
 import AWS from "aws-sdk";
 
-const dynamodb = new AWS.DynamoDB.DocumentClient();
+const { DynamoDB } = AWS;
+const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
+const GSI_NAME = process.env.GSI_NAME;
 
 export async function handler(event) {
   const provider_id = event.query?.provider_id;
+  const name = event.query?.name;
   const limit = event.query?.limit || 10;
   let exclusiveStartKey = event.query?.exclusiveStartKey
-    ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
+    ? JSON.parse(decodeURIComponent(event.query?.exclusiveStartKey))
     : null;
 
-  if (!provider_id) {
+  if (!provider_id || !name) {
     return {
       statusCode: 400,
       headers: {
         "Content-Type": "application/json",
       },
       body: {
-        message: "The 'providerId' parameter is required.",
+        message: "The 'provider_id' and 'name' parameters are required.",
       },
     };
   }
 
   const params = {
     TableName: TABLE_NAME,
-    KeyConditionExpression: "provider_id = :provider_id",
+    IndexName: GSI_NAME,
+    KeyConditionExpression: "provider_id = :provider_id AND #name = :name",
+    ExpressionAttributeNames: {
+      "#name": "name",
+    },
     ExpressionAttributeValues: {
       ":provider_id": provider_id,
+      ":name": name,
     },
     Limit: limit,
     ExclusiveStartKey: exclusiveStartKey ? exclusiveStartKey : undefined,
@@ -44,7 +52,7 @@ export async function handler(event) {
           "Content-Type": "application/json",
         },
         body: {
-          message: "No songs found",
+          message: "No items found",
         },
       };
     } else {
@@ -69,7 +77,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Error retrieving songs",
+        message: "Error retrieving items",
         error: error.message,
       },
     };

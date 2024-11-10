@@ -44,7 +44,7 @@ export async function handler(event) {
           "Content-Type": "application/json",
         },
         body: {
-          message: "No songs found",
+          message: "No artists found",
         },
       };
     } else {
@@ -69,7 +69,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Error retrieving songs",
+        message: "Error retrieving artists",
         error: error.message,
       },
     };

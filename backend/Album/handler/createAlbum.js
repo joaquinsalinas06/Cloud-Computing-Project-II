@@ -6,12 +6,13 @@ const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  const song =
+  const album =
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
 
-  const provider_id = song.provider_id;
+  const provider_id = album.provider_id;
 
-  let highestSongId = 0;
+  let highestAlbumId = 0;
+
   try {
     const response = await dynamodb
       .query({
@@ -26,7 +27,7 @@ export async function handler(event) {
       .promise();
 
     if (response.Items.length > 0) {
-      highestSongId = response.Items[0].song_id;
+      highestAlbumId = response.Items[0].album_id;
     }
   } catch (error) {
     return {
@@ -35,19 +36,19 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "An error occurred while getting the highest song id",
+        message: "Error getting highest album id",
         error: error.message,
       },
     };
   }
 
-  song.song_id = highestSongId + 1;
+  album.album_id = highestAlbumId + 1;
 
   const params = {
     TableName: TABLE_NAME,
-    Item: song,
+    Item: album,
     ConditionExpression:
-      "attribute_not_exists(provider_id) AND attribute_not_exists(song_id)",
+      "attribute_not_exists(provider_id) AND attribute_not_exists(album_id)",
   };
 
   try {
@@ -58,8 +59,8 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Song was created successfully",
-        song: song,
+        message: "Album was created successfully",
+        album: album,
       },
     };
   } catch (error) {
@@ -69,7 +70,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "An error occurred while creating the song",
+        message: "An error occurred while creating the album",
         error: error.message,
       },
     };

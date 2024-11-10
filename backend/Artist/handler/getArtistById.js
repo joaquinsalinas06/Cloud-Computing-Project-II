@@ -1,4 +1,3 @@
-import "dotenv/config";
 import AWS from "aws-sdk";
 
 const { DynamoDB } = AWS;
@@ -7,13 +6,13 @@ const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
   const provider_id = event.path?.provider_id;
-  const song_id = event.path?.song_id;
+  const artist_id = event.path?.artist_id;
 
-  if (!provider_id || !song_id) {
+  if (!provider_id || !artist_id) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
-      body: { message: "The parameters: provider_id or song_id are missing" },
+      body: { message: "The parameters: provider_id or artist_id are missing" },
     };
   }
 
@@ -21,7 +20,7 @@ export async function handler(event) {
     TableName: TABLE_NAME,
     Key: {
       provider_id,
-      song_id: parseInt(song_id, 10),
+      artist_id: parseInt(artist_id, 10),
     },
   };
 
@@ -37,14 +36,19 @@ export async function handler(event) {
       return {
         statusCode: 404,
         headers: { "Content-Type": "application/json" },
-        body: { message: "Canción no encontrada" },
+        body: { message: "Artist not found" },
       };
     }
   } catch (error) {
     return {
       statusCode: 500,
-      headers: { "Content-Type": "application/json" },
-      body: { message: "Error al buscar la canción", error: error.message },
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        message: "An error occurred while searching for the artist",
+        error: error.message,
+      },
     };
   }
 }

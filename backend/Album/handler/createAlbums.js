@@ -6,27 +6,27 @@ const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  const songs =
+  const albums =
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
 
-  if (!Array.isArray(songs) || songs.length === 0) {
+  if (!Array.isArray(albums) || albums.length === 0) {
     return {
       statusCode: 400,
       headers: {
         "Content-Type": "application/json",
       },
       body: {
-        message: "A list of songs is required",
+        message: "A list of albums is required",
       },
     };
   }
 
-  let failedSongs = [];
-  let createdSongs = [];
+  let failedAlbums = [];
+  let createdAlbums = [];
 
-  for (let song of songs) {
-    const provider_id = song.provider_id;
-    let highestSongId = 0;
+  for (let album of albums) {
+    const provider_id = album.provider_id;
+    let highestAlbumId = 0;
 
     try {
       const response = await dynamodb
@@ -42,32 +42,32 @@ export async function handler(event) {
         .promise();
 
       if (response.Items.length > 0) {
-        highestSongId = response.Items[0].song_id;
+        highestAlbumId = response.Items[0].album_id;
       }
     } catch (error) {
-      failedSongs.push({
-        song,
-        error: `Error al consultar el songId más alto: ${error.message}`,
+      failedAlbums.push({
+        album,
+        error: `Error querying the highest albumId: ${error.message}`,
       });
       continue;
     }
 
-    song.song_id = highestSongId + 1;
+    album.album_id = highestAlbumId + 1;
 
     const params = {
       TableName: TABLE_NAME,
-      Item: song,
+      Item: album,
       ConditionExpression:
-        "attribute_not_exists(provider_id) AND attribute_not_exists(song_id)",
+        "attribute_not_exists(provider_id) AND attribute_not_exists(album_id)",
     };
 
     try {
       await dynamodb.put(params).promise();
-      createdSongs.push(song);
+      createdAlbums.push(album);
     } catch (error) {
-      failedSongs.push({
-        song,
-        error: `Error creating the song: ${error.message}`,
+      failedAlbums.push({
+        album,
+        error: `Error creating the album: ${error.message}`,
       });
     }
   }
@@ -79,8 +79,8 @@ export async function handler(event) {
     },
     body: {
       message: "Process completed",
-      createdSongs,
-      failedSongs,
+      createdAlbums,
+      failedAlbums,
     },
   };
 }

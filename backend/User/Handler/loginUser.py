@@ -1,10 +1,12 @@
 import boto3
 import hashlib
 import secrets
+
 import os
 import json
 from datetime import datetime, timedelta
 from boto3.dynamodb.conditions import Key
+
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()

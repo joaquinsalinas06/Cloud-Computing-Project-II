@@ -38,7 +38,7 @@ export async function handler(event) {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
       body: {
-        message: "An error occurred while getting the song by title",
+        message: "An error occurred while creating the album by title",
         error: error.message,
       },
     };

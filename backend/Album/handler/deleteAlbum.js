@@ -4,41 +4,40 @@ import AWS from "aws-sdk";
 const { DynamoDB } = AWS;
 const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
-const INDEX_NAME = process.env.INDEX_NAME;
 
 export async function handler(event) {
-  const title = event.query?.title;
+  const provider_id = event.path?.provider_id;
+  const album_id = event.path?.album_id;
 
-  if (!title) {
+  if (!provider_id || !album_id) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
-      body: { message: "The parameter: title is missing" },
+      body: { message: "The parameters: provider_id or album_id are missing" },
     };
   }
 
   const params = {
     TableName: TABLE_NAME,
-    IndexName: INDEX_NAME,
-    KeyConditionExpression: "title = :title",
-    ExpressionAttributeValues: {
-      ":title": title,
+    Key: {
+      provider_id,
+      album_id: parseInt(album_id, 10),
     },
   };
 
   try {
-    const data = await dynamodb.query(params).promise();
+    await dynamodb.delete(params).promise();
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: data.Items,
+      body: { message: "Album was succesfuly created" },
     };
   } catch (error) {
     return {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
       body: {
-        message: "An error occurred while getting the song by title",
+        message: "An error occurred while deleting the album",
         error: error.message,
       },
     };

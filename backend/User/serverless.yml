@@ -19,6 +19,7 @@ provider:
     INDEXLSI1_TABLE2_NAME: ${sls:stage}-${env:INDEXLSI1_TABLE2_NAME_e}
     AUTHORIZER_FUNCTION_NAME: ${env:AUTHORIZER_FUNCTION_NAME}
 
+
 functions:
   createUser:
     handler: Handler/registerUser.lambda_handler

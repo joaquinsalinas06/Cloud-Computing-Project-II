@@ -3,31 +3,32 @@ import AWS from "aws-sdk";
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
+const INDEX_NAME = process.env.INDEX_NAME;
 
 export async function handler(event) {
-  const provider_id = event.query?.provider_id;
+  const title = event.query?.title;
   const limit = event.query?.limit || 10;
   let exclusiveStartKey = event.query?.exclusiveStartKey
     ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
     : null;
 
-  if (!provider_id) {
+  console.log(event);
+
+  if (!title) {
     return {
       statusCode: 400,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: {
-        message: "The 'providerId' parameter is required.",
+        message: "The parameter: title is missing",
       },
     };
   }
-
   const params = {
     TableName: TABLE_NAME,
-    KeyConditionExpression: "provider_id = :provider_id",
+    IndexName: INDEX_NAME,
+    KeyConditionExpression: "title = :title",
     ExpressionAttributeValues: {
-      ":provider_id": provider_id,
+      ":title": title,
     },
     Limit: limit,
     ExclusiveStartKey: exclusiveStartKey ? exclusiveStartKey : undefined,
@@ -44,7 +45,7 @@ export async function handler(event) {
           "Content-Type": "application/json",
         },
         body: {
-          message: "No songs found",
+          message: "No albums found",
         },
       };
     } else {
@@ -62,14 +63,13 @@ export async function handler(event) {
       };
     }
   } catch (error) {
-    console.error("Error querying DynamoDB:", error);
     return {
       statusCode: 500,
       headers: {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Error retrieving songs",
+        message: "An error occurred while getting the album by title",
         error: error.message,
       },
     };

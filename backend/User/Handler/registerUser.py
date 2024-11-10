@@ -5,6 +5,7 @@ import json
 from datetime import datetime
 from boto3.dynamodb.conditions import Key
 
+
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
