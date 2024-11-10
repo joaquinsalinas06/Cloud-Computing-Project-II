@@ -2,8 +2,8 @@ const AWS = require("aws-sdk");
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = async function (event) {
-  const { provider_id, post_id } = event.pathParameters;
-
+  const provider_id = event.path?.provider_id;
+  const post_id = event.path?.post_id;
   const params = {
     TableName: process.env.TABLE_NAME,
     Key: { provider_id, post_id }
@@ -14,7 +14,7 @@ module.exports.handler = async function (event) {
     if (result.Item) {
       return {
         statusCode: 200,
-        body: JSON.stringify(result.Item),
+        body: result.Item,
       };
     } else {
       return {
@@ -25,7 +25,7 @@ module.exports.handler = async function (event) {
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Could not retrieve post", details: error.message }),
+      body: { error: "Could not retrieve post", details: error.message },
     };
   }
 }
