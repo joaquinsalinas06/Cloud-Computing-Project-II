@@ -12,15 +12,21 @@ export async function handler(event) {
     .map((key, index) => `#key${index} = :value${index}`)
     .join(", ");
 
-  const expressionAttributeNames = Object.keys(updateData).reduce((acc, key, index) => {
-    acc[`#key${index}`] = key;
-    return acc;
-  }, {});
+  const expressionAttributeNames = Object.keys(updateData).reduce(
+    (acc, key, index) => {
+      acc[`#key${index}`] = key;
+      return acc;
+    },
+    {}
+  );
 
-  const expressionAttributeValues = Object.keys(updateData).reduce((acc, key, index) => {
-    acc[`:value${index}`] = updateData[key];
-    return acc;
-  }, {});
+  const expressionAttributeValues = Object.keys(updateData).reduce(
+    (acc, key, index) => {
+      acc[`:value${index}`] = updateData[key];
+      return acc;
+    },
+    {}
+  );
 
   const params = {
     TableName: TABLE_NAME,
@@ -37,11 +43,11 @@ export async function handler(event) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
+      body: {
         message: "Artista actualizado con éxito",
         artistId,
         updateData,
-      }),
+      },
     };
   } catch (error) {
     return {
@@ -49,10 +55,10 @@ export async function handler(event) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
+      body: {
         message: "Error al actualizar el artista",
         error: error.message,
-      }),
+      },
     };
   }
 }
