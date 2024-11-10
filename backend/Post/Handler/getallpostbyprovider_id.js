@@ -6,11 +6,12 @@ module.exports.handler = async function (event) {
 
   const page = parseInt(event.query?.page) || 1;
   const pageSize = parseInt(event.query?.limit) || 10;
+
   if (!provider_id) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ error: "Missing provider_id" }),
+      body: { error: "Missing provider_id" },
     };
   }
 
@@ -18,7 +19,7 @@ module.exports.handler = async function (event) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ error: "Page and pageSize must be greater than 0" }),
+      body: { error: "Page and pageSize must be greater than 0" },
     };
   }
 
@@ -29,6 +30,7 @@ module.exports.handler = async function (event) {
       ":provider_id": provider_id,
     },
     Limit: pageSize,
+    ScanIndexForward: true, 
   };
 
   let items = [];
@@ -41,21 +43,7 @@ module.exports.handler = async function (event) {
       lastEvaluatedKey = result.LastEvaluatedKey;
 
       if (!lastEvaluatedKey) {
-        return {
-          statusCode: 200,
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            items: [], 
-            pagination: {
-              currentPage: page,
-              pageSize: pageSize,
-              totalItems: 0,
-              totalPages: currentPage - 1,
-              hasNextPage: false,
-              hasPreviousPage: page > 1
-            }
-          }),
-        };
+        break;
       }
       currentPage++;
     }
@@ -67,22 +55,22 @@ module.exports.handler = async function (event) {
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: {
-        items: items,
+      body: JSON.stringify({
+        items: items.length > 0 ? items : [{ message: "No more items" }],  
         pagination: {
           currentPage: page,
           pageSize: pageSize,
           hasNextPage: !!lastEvaluatedKey,
           hasPreviousPage: page > 1,
-          lastEvaluatedKey: lastEvaluatedKey ?lastEvaluatedKey : null
+          lastEvaluatedKey: lastEvaluatedKey || null
         }
-      },
+      }),
     };
   } catch (error) {
     return {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
-      body: { error: "Could not retrieve posts", details: error.message },
+      body: JSON.stringify({ error: "Could not retrieve posts", details: error.message }),
     };
   }
 };
