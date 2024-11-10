@@ -38,7 +38,16 @@ functions:
     events:
       - http:
           path: /artist/all
-          method: post
+          method: get
+          cors: true
+          integration: lambda
+
+  getAllArtistsWP:
+    handler: handler/getAllArtistsWP.handler
+    events:
+      - http:
+          path: /artist/allWP
+          method: get
           cors: true
           integration: lambda
 
