@@ -86,15 +86,6 @@ functions:
           method: put
           cors: true
           integration: lambda
-
-  getRecentPosts:
-    handler: Handler/getrecentposts.handler
-    events:
-      - http:
-          path: /post/getRecentPosts/{provider_id}
-          method: get
-          cors: true
-          integration: lambda
 resources:
   Resources:
     PostTable:
