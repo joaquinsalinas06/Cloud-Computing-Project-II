@@ -18,7 +18,7 @@ module.exports.handler = async function (event) {
   const invokeParams = {
     FunctionName: process.env.LAMBDA_FUNCTION_NAME,
     InvocationType: "RequestResponse",
-    Payload: JSON.stringify({ token })
+    Payload: JSON.stringify({ token }),
   };
 
   try {
@@ -42,7 +42,7 @@ module.exports.handler = async function (event) {
   }
   const params = {
     TableName: process.env.TABLE_NAME,
-    Key: { provider_id, post_id }
+    Key: { provider_id, post_id },
   };
 
   try {
@@ -64,4 +64,4 @@ module.exports.handler = async function (event) {
       body: { error: "Could not retrieve post", details: error.message },
     };
   }
-}
+};

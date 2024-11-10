@@ -18,7 +18,7 @@ module.exports.handler = async function (event) {
   const invokeParams = {
     FunctionName: process.env.LAMBDA_FUNCTION_NAME,
     InvocationType: "RequestResponse",
-    Payload: JSON.stringify({ token })
+    Payload: JSON.stringify({ token }),
   };
 
   try {
@@ -46,8 +46,8 @@ module.exports.handler = async function (event) {
     KeyConditionExpression: "provider_id = :provider_id AND post_id = :post_id",
     ExpressionAttributeValues: {
       ":provider_id": provider_id,
-      ":post_id": post_id
-    }
+      ":post_id": post_id,
+    },
   };
 
   try {
@@ -63,7 +63,7 @@ module.exports.handler = async function (event) {
 
     const deleteParams = {
       TableName: process.env.TABLE_NAME,
-      Key: { provider_id, post_id }
+      Key: { provider_id, post_id },
     };
 
     await dynamoDb.delete(deleteParams).promise();

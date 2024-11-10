@@ -2,12 +2,12 @@ const AWS = require("aws-sdk");
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = async function (event) {
-  const provider_id =event.path?.provider_id;
+  const provider_id = event.path?.provider_id;
   const album_id = event.path?.album_id;
   const page = parseInt(event.query?.page) || 1;
   const pageSize = parseInt(event.query?.limit) || 10;
   const token = event.headers?.Authorization;
-  if (!provider_id  || !album_id || !token) {
+  if (!provider_id || !album_id || !token) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
@@ -20,7 +20,7 @@ module.exports.handler = async function (event) {
   const invokeParams = {
     FunctionName: process.env.LAMBDA_FUNCTION_NAME,
     InvocationType: "RequestResponse",
-    Payload: JSON.stringify({ token })
+    Payload: JSON.stringify({ token }),
   };
 
   try {
@@ -50,11 +50,11 @@ module.exports.handler = async function (event) {
     };
   }
 
-
   const params = {
     TableName: process.env.TABLE_NAME,
     IndexName: process.env.INDEXGSI2_TABLE1_NAME,
-    KeyConditionExpression: "provider_id = :provider_id AND album_id = :album_id",
+    KeyConditionExpression:
+      "provider_id = :provider_id AND album_id = :album_id",
     ExpressionAttributeValues: {
       ":provider_id": provider_id,
       ":album_id": album_id,
@@ -68,7 +68,9 @@ module.exports.handler = async function (event) {
 
   try {
     while (currentPage < page) {
-      const result = await dynamoDb.query({ ...params, ExclusiveStartKey: lastEvaluatedKey }).promise();
+      const result = await dynamoDb
+        .query({ ...params, ExclusiveStartKey: lastEvaluatedKey })
+        .promise();
       lastEvaluatedKey = result.LastEvaluatedKey;
 
       if (!lastEvaluatedKey) {
@@ -77,7 +79,9 @@ module.exports.handler = async function (event) {
       currentPage++;
     }
 
-    const result = await dynamoDb.query({ ...params, ExclusiveStartKey: lastEvaluatedKey }).promise();
+    const result = await dynamoDb
+      .query({ ...params, ExclusiveStartKey: lastEvaluatedKey })
+      .promise();
     items = result.Items;
     lastEvaluatedKey = result.LastEvaluatedKey;
 
@@ -85,14 +89,14 @@ module.exports.handler = async function (event) {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
       body: {
-        items: items.length > 0 ? items : [{ message: "No more items" }],  
+        items: items.length > 0 ? items : [{ message: "No more items" }],
         pagination: {
           currentPage: page,
           pageSize: pageSize,
           hasNextPage: !!lastEvaluatedKey,
           hasPreviousPage: page > 1,
-          lastEvaluatedKey: lastEvaluatedKey || null
-        }
+          lastEvaluatedKey: lastEvaluatedKey || null,
+        },
       },
     };
   } catch (error) {
@@ -103,7 +107,7 @@ module.exports.handler = async function (event) {
         pageSize: pageSize,
         hasNextPage: false,
         hasPreviousPage: page > 1,
-        lastEvaluatedKey: lastEvaluatedKey || null
+        lastEvaluatedKey: lastEvaluatedKey || null,
       },
       headers: { "Content-Type": "application/json" },
       body: { error: "Could not retrieve posts", details: error.message },

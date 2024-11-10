@@ -13,7 +13,7 @@ export async function handler(event) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: { 
+      body: {
         message: "The 'providerId' parameter is required.",
       },
     };
