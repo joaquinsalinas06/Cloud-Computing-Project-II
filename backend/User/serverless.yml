@@ -9,16 +9,15 @@ provider:
   iam:
     role: ${env:LAB_ROLE}
   environment:
-    TABLE_NAME: ${sls:stage}-users-table
+    TABLE_NAME: ${sls:stage}-t_user
     INDEXGSI1_TABLE1_NAME: ${sls:stage}-provider-user-index
     INDEXGSI2_TABLE1_NAME: ${sls:stage}-provider-username-index
     INDEXLSI1_TABLE1_NAME: ${sls:stage}-provider-email-index
     INDEXLSI2_TABLE1_NAME: ${sls:stage}-provider-username-lsi
-    TABLE2_NAME: ${sls:stage}-tokens-table
+    TABLE2_NAME: ${sls:stage}-t_token
     INDEXGSI1_TABLE2_NAME: ${sls:stage}-TokenIndex
     INDEXLSI1_TABLE2_NAME: ${sls:stage}-user-token-lsi
-    AUTHORIZER_FUNCTION_NAME: api-mure-user-dev-validateToken 
-
+    AUTHORIZER_FUNCTION_NAME: api-mure-user-dev-validateToken
 
 functions:
   createUser:
@@ -142,7 +141,6 @@ resources:
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
-      DeletionPolicy: Retain
 
     TokensTable:
       Type: AWS::DynamoDB::Table
@@ -177,4 +175,3 @@ resources:
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
-      DeletionPolicy: Retain
