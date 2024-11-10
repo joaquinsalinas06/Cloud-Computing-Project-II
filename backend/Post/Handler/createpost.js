@@ -2,7 +2,7 @@ const AWS = require("aws-sdk");
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 const { v4: uuidv4 } = require("uuid");
 
-export async function handler(event) {
+module.exports.handler = async function (event) {
   const { provider_id, user_id, song_id, playlist_id, titulo, descripcion } = JSON.parse(event.body);
   const post_id = uuidv4();
 
@@ -32,4 +32,4 @@ export async function handler(event) {
       body: JSON.stringify({ error: "Could not create post", details: error.message }),
     };
   }
-}
+};
