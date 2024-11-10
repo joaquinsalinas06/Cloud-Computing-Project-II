@@ -2,8 +2,8 @@ const AWS = require("aws-sdk");
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = async function (event) {
-  const provider_id = event.pathParameters?.provider_id;
-  const post_id = event.pathParameters?.post_id;
+  const provider_id = event.path?.provider_id;
+  const post_id = event.path?.post_id;
   const token = event.headers?.Authorization;
 
   if (!provider_id || !post_id || !token) {
