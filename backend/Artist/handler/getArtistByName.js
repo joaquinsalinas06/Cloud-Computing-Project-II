@@ -6,7 +6,8 @@ const TABLE_NAME = process.env.TABLE_NAME;
 const GSI_NAME = process.env.GSI_NAME;
 
 export async function handler(event) {
-	const { provider_id, name } = JSON.parse(event.body);
+  const provider_id = event.path?.provider_id;
+  const name = event.path?.name;
 
   const params = {
     TableName: TABLE_NAME,
