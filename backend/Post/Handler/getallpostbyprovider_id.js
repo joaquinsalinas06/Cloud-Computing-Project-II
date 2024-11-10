@@ -55,7 +55,7 @@ module.exports.handler = async function (event) {
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+      body: {
         items: items.length > 0 ? items : [{ message: "No more items" }],  
         pagination: {
           currentPage: page,
@@ -64,13 +64,20 @@ module.exports.handler = async function (event) {
           hasPreviousPage: page > 1,
           lastEvaluatedKey: lastEvaluatedKey || null
         }
-      }),
+      },
     };
   } catch (error) {
     return {
       statusCode: 500,
+      pagination: {
+        currentPage: page,
+        pageSize: pageSize,
+        hasNextPage: false,
+        hasPreviousPage: page > 1,
+        lastEvaluatedKey: lastEvaluatedKey || null
+      },
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ error: "Could not retrieve posts", details: error.message }),
+      body: { error: "Could not retrieve posts", details: error.message },
     };
   }
 };
