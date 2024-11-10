@@ -13,7 +13,7 @@ provider:
     INDEXGSI1_TABLE1_NAME: ${sls:stage}-${env:INDEXGSI1_TABLE1_NAME_e}
     INDEXGSI2_TABLE1_NAME: ${sls:stage}-${env:INDEXGSI2_TABLE1_NAME_e}
     INDEXLSI1_TABLE1_NAME: ${sls:stage}-${env:INDEXLSI1_TABLE1_NAME_e}
-
+    LAMBDA_FUNCTION_NAME: ${env:LAMBDA_FUNCTION_NAME}
 functions:
   createPost:
     handler: Handler/createpost.handler
