@@ -1,4 +1,4 @@
-org: zamcloud
+org: ${env:ORG_NAME}
 service: api-mure-post
 
 provider:
@@ -7,13 +7,13 @@ provider:
   memorySize: 1024
   timeout: 30
   iam:
-    role: arn:aws:iam::418515024637:role/LabRole
+    role: ${env:LAB_ROLE}
   environment:
-    TABLE_NAME: ${sls:stage}-${env:TABLE_NAME}
-    INDEXGSI1_TABLE1_NAME: ${sls:stage}-${env:INDEXGSI1_TABLE1_NAME_e}
-    INDEXGSI2_TABLE1_NAME: ${sls:stage}-${env:INDEXGSI2_TABLE1_NAME_e}
-    INDEXLSI1_TABLE1_NAME: ${sls:stage}-${env:INDEXLSI1_TABLE1_NAME_e}
-    LAMBDA_FUNCTION_NAME: ${env:LAMBDA_FUNCTION_NAME}
+    TABLE_NAME: ${sls:stage}-t_post
+    INDEXGSI1_TABLE1_NAME: ${sls:stage}-provider-user-index
+    INDEXGSI2_TABLE1_NAME: ${sls:stage}-provider-post-index
+    INDEXLSI1_TABLE1_NAME: ${sls:stage}-providerlsi-user-index
+    LAMBDA_FUNCTION_NAME: api-mure-user-dev-validateToken
 functions:
   createPost:
     handler: Handler/createpost.handler
@@ -91,7 +91,7 @@ resources:
     PostTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${sls:stage}-${env:TABLE_NAME}
+        TableName: ${sls:stage}-t_post
         AttributeDefinitions:
           - AttributeName: provider_id
             AttributeType: S
@@ -135,4 +135,3 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
-      DeletionPolicy: Retain

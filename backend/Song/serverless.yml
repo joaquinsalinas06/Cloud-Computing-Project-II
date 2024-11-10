@@ -1,4 +1,4 @@
-org: salinsuwu
+org: ${env:ORG_NAME}
 service: song-api
 
 provider:
@@ -7,10 +7,10 @@ provider:
   memorySize: 1024
   timeout: 30
   iam:
-    role: arn:aws:iam::164273947020:role/LabRole
+    role: ${env:LAB_ROLE}
   environment:
-    TABLE_NAME: ${sls:stage}-${env:TABLE_NAME_e}
-    INDEX_NAME: ${env:INDEX_NAME_e}
+    TABLE_NAME: ${sls:stage}-t_song
+    INDEX_NAME: title-index
 
 functions:
   createSong:

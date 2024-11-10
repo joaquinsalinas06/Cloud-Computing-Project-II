@@ -1,4 +1,4 @@
-org: zamcloud
+org: ${env:ORG_NAME}
 service: api-mure-user
 
 provider:
@@ -7,18 +7,17 @@ provider:
   memorySize: 1024
   timeout: 30
   iam:
-    role: arn:aws:iam::418515024637:role/LabRole
+    role: ${env:LAB_ROLE}
   environment:
-    TABLE_NAME: ${sls:stage}-${env:TABLE_NAME_e}
-    INDEXGSI1_TABLE1_NAME: ${sls:stage}-${env:INDEXGSI1_TABLE1_NAME_e}
-    INDEXGSI2_TABLE1_NAME: ${sls:stage}-${env:INDEXGSI2_TABLE1_NAME_e}
-    INDEXLSI1_TABLE1_NAME: ${sls:stage}-${env:INDEXLSI1_TABLE1_NAME_e}
-    INDEXLSI2_TABLE1_NAME: ${sls:stage}-${env:INDEXLSI2_TABLE1_NAME_e}
-    TABLE2_NAME: ${sls:stage}-${env:TABLE2_NAME_e}
-    INDEXGSI1_TABLE2_NAME: ${sls:stage}-${env:INDEXGSI1_TABLE2_NAME_e}
-    INDEXLSI1_TABLE2_NAME: ${sls:stage}-${env:INDEXLSI1_TABLE2_NAME_e}
-    AUTHORIZER_FUNCTION_NAME: ${env:AUTHORIZER_FUNCTION_NAME}
-
+    TABLE_NAME: ${sls:stage}-t_user
+    INDEXGSI1_TABLE1_NAME: ${sls:stage}-provider-user-index
+    INDEXGSI2_TABLE1_NAME: ${sls:stage}-provider-username-index
+    INDEXLSI1_TABLE1_NAME: ${sls:stage}-provider-email-index
+    INDEXLSI2_TABLE1_NAME: ${sls:stage}-provider-username-lsi
+    TABLE2_NAME: ${sls:stage}-t_token
+    INDEXGSI1_TABLE2_NAME: ${sls:stage}-TokenIndex
+    INDEXLSI1_TABLE2_NAME: ${sls:stage}-user-token-lsi
+    AUTHORIZER_FUNCTION_NAME: api-mure-user-dev-validateToken
 
 functions:
   createUser:
@@ -142,7 +141,6 @@ resources:
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
-      DeletionPolicy: Retain
 
     TokensTable:
       Type: AWS::DynamoDB::Table
@@ -177,4 +175,3 @@ resources:
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
-      DeletionPolicy: Retain

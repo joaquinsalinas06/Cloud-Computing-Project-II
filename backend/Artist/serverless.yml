@@ -1,4 +1,4 @@
-org: salinsuwu
+org: ${env:ORG_NAME}
 service: artist-api
 
 provider:
@@ -7,9 +7,9 @@ provider:
   memorySize: 1024
   timeout: 30
   iam:
-    role: arn:aws:iam::164273947020:role/LabRole
+    role: ${env:LAB_ROLE}
   environment:
-    TABLE_NAME: ${sls:stage}-${env:TABLE_NAME_e}
+    TABLE_NAME: ${sls:stage}-t_artist
     GSI_NAME: artistNameIndex
     LSI_NAME_1: countryIndex
     LSI_NAME_2: genreIndex
