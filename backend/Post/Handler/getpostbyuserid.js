@@ -3,11 +3,11 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = async function (event) {
   const provider_id = event.path?.provider_id;
-  const album_id = event.path?.album_id;
+  const user_id = event.path?.user_id;
   const token = event.headers?.Authorization;
   const page = parseInt(event.query?.page) || 1;
   const pageSize = parseInt(event.query?.limit) || 10;
-  if (!provider_id  || !album_id || !token) {
+  if (!provider_id  || !user_id || !token) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
@@ -54,10 +54,10 @@ module.exports.handler = async function (event) {
   const params = {
     TableName: process.env.TABLE_NAME,
     IndexName: process.env.INDEXGSI2_TABLE1_NAME,
-    KeyConditionExpression: "provider_id = :provider_id AND album_id = :album_id",
+    KeyConditionExpression: "provider_id = :provider_id AND user_id = :user_id",
     ExpressionAttributeValues: {
       ":provider_id": provider_id,
-      ":album_id": album_id,
+      ":user_id": user_id,
     },
     Limit: pageSize,
     ScanIndexForward: true, 
