@@ -1,7 +1,7 @@
-import "dotenv/config";
 import AWS from "aws-sdk";
 
-const dynamodb = new AWS.DynamoDB.DocumentClient();
+const { DynamoDB } = AWS;
+const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
@@ -13,7 +13,7 @@ export async function handler(event) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: { 
+      body: {
         message: "The 'providerId' parameter is required.",
       },
     };
@@ -48,14 +48,13 @@ export async function handler(event) {
       body: { items },
     };
   } catch (error) {
-    console.error("Error querying DynamoDB:", error);
     return {
       statusCode: 500,
       headers: {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Error retrieving songs",
+        message: "Error retrieving artists",
         error: error.message,
       },
     };
