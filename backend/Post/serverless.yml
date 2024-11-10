@@ -29,7 +29,7 @@ functions:
     events:
       - http:
           path: /post/delete/{provider_id}/{post_id}
-          method: delete          
+          method: delete
           cors: true
           integration: lambda
 
