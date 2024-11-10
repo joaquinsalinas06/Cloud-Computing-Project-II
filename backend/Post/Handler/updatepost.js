@@ -1,18 +1,74 @@
 const AWS = require("aws-sdk");
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-module.exports.handler = async function (event){
-  const { provider_id, post_id } = event.pathParameters;
+module.exports.handler = async function (event) {
+  const provider_id = event.pathParameters?.provider_id;
+  const post_id = event.pathParameters?.post_id;
+  const token = event.headers?.Authorization;
   const { titulo, descripcion } = JSON.parse(event.body);
+
+  if (!provider_id || !post_id || !token) {
+    return {
+      statusCode: 400,
+      headers: { "Content-Type": "application/json" },
+      body: { error: "Missing required parameters or token" },
+    };
+  }
+
+  const lambda = new AWS.Lambda();
+  const invokeParams = {
+    FunctionName: process.env.LAMBDA_FUNCTION_NAME,
+    InvocationType: "RequestResponse",
+    Payload: JSON.stringify({ token }),
+  };
+
+  try {
+    const invokeResponse = await lambda.invoke(invokeParams).promise();
+    const responsePayload = JSON.parse(invokeResponse.Payload);
+
+    if (!responsePayload.statusCode || responsePayload.statusCode !== 200) {
+      const errorMessage = responsePayload.body?.error || "Unauthorized access";
+      return {
+        statusCode: 401,
+        headers: { "Content-Type": "application/json" },
+        body: { error: "Unauthorized", message: errorMessage },
+      };
+    }
+  } catch (error) {
+    return {
+      statusCode: 500,
+      headers: { "Content-Type": "application/json" },
+      body: { error: "Authorization check failed", details: error.message },
+    };
+  }
+
+  let updateExpression = "SET";
+  const expressionAttributeValues = {};
+  if (titulo) {
+    updateExpression += " titulo = :titulo,";
+    expressionAttributeValues[":titulo"] = titulo;
+  }
+  if (descripcion) {
+    updateExpression += " descripcion = :descripcion,";
+    expressionAttributeValues[":descripcion"] = descripcion;
+  }
+
+  // Remueve la coma final
+  updateExpression = updateExpression.slice(0, -1);
+
+  if (Object.keys(expressionAttributeValues).length === 0) {
+    return {
+      statusCode: 400,
+      headers: { "Content-Type": "application/json" },
+      body: { error: "No fields provided to update" },
+    };
+  }
 
   const params = {
     TableName: process.env.TABLE_NAME,
     Key: { provider_id, post_id },
-    UpdateExpression: "SET titulo = :titulo, descripcion = :descripcion",
-    ExpressionAttributeValues: {
-      ":titulo": titulo,
-      ":descripcion": descripcion,
-    },
+    UpdateExpression: updateExpression,
+    ExpressionAttributeValues: expressionAttributeValues,
     ReturnValues: "ALL_NEW",
   };
 
@@ -20,12 +76,14 @@ module.exports.handler = async function (event){
     const result = await dynamoDb.update(params).promise();
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "Post updated successfully", post: result.Attributes }),
+      headers: { "Content-Type": "application/json" },
+      body: { message: "Post updated successfully", post: result.Attributes },
     };
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Could not update post", details: error.message }),
+      headers: { "Content-Type": "application/json" },
+      body: { error: "Could not update post", details: error.message },
     };
   }
-}
+};
