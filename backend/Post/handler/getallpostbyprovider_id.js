@@ -2,15 +2,13 @@ const AWS = require("aws-sdk");
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 export async function handler(event) {
-  const { provider_id, album_id } = event.pathParameters;
+  const { provider_id } = event.pathParameters;
 
   const params = {
     TableName: process.env.TABLE_NAME,
-    IndexName: process.env.INDEXGSI2_TABLE1_NAME,
-    KeyConditionExpression: "provider_id = :provider_id AND album_id = :album_id",
+    KeyConditionExpression: "provider_id = :provider_id",
     ExpressionAttributeValues: {
       ":provider_id": provider_id,
-      ":album_id": album_id,
     },
   };
 
@@ -23,7 +21,7 @@ export async function handler(event) {
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Could not retrieve posts by album_id", details: error.message }),
+      body: JSON.stringify({ error: "Could not retrieve posts", details: error.message }),
     };
   }
 }

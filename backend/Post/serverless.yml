@@ -13,83 +13,89 @@ provider:
     INDEXGSI1_TABLE1_NAME: ${sls:stage}-${env:INDEXGSI1_TABLE1_NAME_e}
     INDEXGSI2_TABLE1_NAME: ${sls:stage}-${env:INDEXGSI2_TABLE1_NAME_e}
     INDEXLSI1_TABLE1_NAME: ${sls:stage}-${env:INDEXLSI1_TABLE1_NAME_e}
-  
-  functions:
-    createPost:
-      handler: Handler/createPost.lambda_handler
-      events:
-        - http:
+
+functions:
+  createPost:
+    handler: Handler/createpost.handler
+    events:
+      - http:
           path: /post/create
           method: post
           cors: true
           integration: lambda
-    
-    deletePost:
-      handler: Handler/deletePost.lambda_handler
-      events:
-        - http:
+
+  deletePost:
+    handler: Handler/deletepost.handler
+    events:
+      - http:
           path: /post/delete/{provider_id}/{post_id}
           method: delete          
           cors: true
           integration: lambda
-    getPost:
-      handler: Handler/getPost.lambda_handler
-      events:
-        - http:
+
+  getPost:
+    handler: Handler/getpost.handler
+    events:
+      - http:
           path: /post/get/{provider_id}/{post_id}
           method: get
           cors: true
           integration: lambda
-    getallPOstByProvider:
-      handler: Handler/getallPOstByProvider.lambda_handler
-      events:
-        - http:
+
+  getAllPostsByProvider:
+    handler: Handler/getAllpostbyprovider_id.handler
+    events:
+      - http:
           path: /post/getall/{provider_id}
           method: get
           cors: true
           integration: lambda
-    getPostBySongId:
-      handler: Handler/getPostBySongId.lambda_handler
-      events:
-        - http:
+
+  getPostBySongId:
+    handler: Handler/getpostbysongid.handler
+    events:
+      - http:
           path: /post/getbysong/{provider_id}/{song_id}
           method: get
           cors: true
           integration: lambda
-    getPostsByAlbumId:
-      handler: Handler/getPostsByAlbumId.lambda_handler
-      events:
-        - http:
+
+  getPostsByAlbumId:
+    handler: Handler/getpostbyalbumid.handler
+    events:
+      - http:
           path: /post/getbyalbum/{provider_id}/{album_id}
           method: get
           cors: true
           integration: lambda
-    getPostsByUserId:
-      handler: Handler/getPostsByUserId.lambda_handler
-      events:
-        - http:
+
+  getPostsByUserId:
+    handler: Handler/getpostbyuserid.handler
+    events:
+      - http:
           path: /post/getbyuser/{provider_id}/{user_id}
           method: get
           cors: true
           integration: lambda
-    updatePost:
-      handler: Handler/updatePost.lambda_handler
-      events:
-        - http:
+
+  updatePost:
+    handler: Handler/updatepost.handler
+    events:
+      - http:
           path: /post/update/{provider_id}/{post_id}
           method: put
           cors: true
           integration: lambda
 
-      getRecentPosts:
-        handler: Handler/getRecentPosts.lambda_handler
-        events:
-          - http:
-            path: /post/getRecentPosts/{provider_id}
-            method: get
-            cors: true
-            integration: lambda
-          
+  getRecentPosts:
+    handler: Handler/getrecentposts.handler
+    events:
+      - http:
+          path: /post/getRecentPosts/{provider_id}
+          method: get
+          cors: true
+          integration: lambda
+
 resources:
   Resources:
     PostTable:
@@ -151,4 +157,3 @@ resources:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
       DeletionPolicy: Retain
- 
