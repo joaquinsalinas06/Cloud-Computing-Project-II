@@ -23,14 +23,18 @@ module.exports.handler = async function (event) {
 
   try {
     await dynamoDb.put(params).promise();
-    return {
+    const response = {
       statusCode: 201,
-      body: JSON.stringify({ message: "Post created successfully", post_id }),
+      body: { message: "Post created successfully", post_id }
     };
+    response.body = JSON.stringify(response.body);
+    return response;
   } catch (error) {
-    return {
+    const errorResponse = {
       statusCode: 500,
-      body: JSON.stringify({ error: "Could not create post", details: error.message }),
+      body: { error: "Could not create post", details: error.message }
     };
+    errorResponse.body = JSON.stringify(errorResponse.body); 
+    return errorResponse;
   }
 };
