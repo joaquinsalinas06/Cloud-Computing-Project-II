@@ -9,6 +9,9 @@ export async function handler(event) {
   const provider_id = event.path?.provider_id;
   const name = event.path?.name;
 
+  console.log("provider_id:", provider_id);
+  console.log("name:", name);
+
   const params = {
     TableName: TABLE_NAME,
     IndexName: GSI_NAME,
@@ -29,7 +32,7 @@ export async function handler(event) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data.Items),
+      body: data.Items,
     };
   } catch (error) {
     return {
@@ -37,10 +40,10 @@ export async function handler(event) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
+      body: {
         message: "Error al obtener los artistas por nombre",
         error: error.message,
-      }),
+      },
     };
   }
 }
