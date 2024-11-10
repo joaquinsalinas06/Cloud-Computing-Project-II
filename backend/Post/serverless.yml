@@ -101,7 +101,7 @@ resources:
     PostTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${sls:stage}-${env:TABLE_NAME_e}
+        TableName: ${sls:stage}-${env:TABLE_NAME}
         AttributeDefinitions:
           - AttributeName: provider_id
             AttributeType: S
