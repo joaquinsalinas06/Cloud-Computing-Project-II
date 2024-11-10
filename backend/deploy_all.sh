@@ -15,9 +15,6 @@ for dir in */; do
         if [ -n "$BASE_URL" ]; then
             BASE_URLS["$BASE_URL"]="$dir"
         fi
-        echo "Resultados de despliegue para $dir:" >> "../$RESULTS_FILE"
-        echo "$DEPLOY_OUTPUT" >> "../$RESULTS_FILE"
-        echo "-----------------------------" >> "../$RESULTS_FILE"
         cd ..
     fi
 done
@@ -27,9 +24,7 @@ for url in "${!BASE_URLS[@]}"; do
     echo "BaseURL de ${BASE_URLS[$url]}: $url"
 done
 
-echo "Base URLs detectadas:" >> $RESULTS_FILE
+echo "Base URLs detectadas:" > $RESULTS_FILE
 for url in "${!BASE_URLS[@]}"; do
     echo "BaseURL de ${BASE_URLS[$url]}: $url" >> $RESULTS_FILE
 done
-
-echo "Los resultados completos del despliegue se han guardado en $RESULTS_FILE."
