@@ -112,14 +112,12 @@ resources:
             AttributeType: S
           - AttributeName: user_id
             AttributeType: S
-          - AttributeName: created_at
-            AttributeType: S
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
           - AttributeName: post_id
             KeyType: RANGE
-        BillingMode: PAY_PER_REQUEST  
+        BillingMode: PAY_PER_REQUEST
         GlobalSecondaryIndexes:
           - IndexName: ${self:provider.environment.INDEXGSI1_TABLE1_NAME}
             KeySchema:
