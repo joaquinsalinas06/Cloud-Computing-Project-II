@@ -1,4 +1,4 @@
-org: zamcloud
+org: ${env:ORG_NAME}
 service: api-mure-post
 
 provider:
@@ -7,7 +7,7 @@ provider:
   memorySize: 1024
   timeout: 30
   iam:
-    role: arn:aws:iam::418515024637:role/LabRole
+    role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_post
     INDEXGSI1_TABLE1_NAME: ${sls:stage}-provider-user-index
