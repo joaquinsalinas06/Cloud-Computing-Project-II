@@ -9,8 +9,8 @@ provider:
   iam:
     role: arn:aws:iam::164273947020:role/LabRole
   environment:
-    TABLE_NAME: ${sls:stage}-${env:TABLE_NAME_e}
-    INDEX_NAME: ${env:INDEX_NAME_e}
+    TABLE_NAME: ${sls:stage}-t_album
+    INDEX_NAME: title-index
 
 functions:
   createAlbum:
