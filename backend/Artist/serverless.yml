@@ -55,8 +55,8 @@ functions:
     handler: handler/getArtistById.handler
     events:
       - http:
-          path: /artist/{artistId}
-          method: post
+          path: /artist/{provider_id}/{artist_id}
+          method: get
           cors: true
           integration: lambda
 
