@@ -42,13 +42,7 @@ module.exports.handler = async function (event) {
       body: { error: "Authorization check failed", details: error.message },
     };
   }
-  if (!provider_id) {
-    return {
-      statusCode: 400,
-      headers: { "Content-Type": "application/json" },
-      body: { error: "Missing provider_id" },
-    };
-  }
+
 
   if (page < 1 || pageSize < 1) {
     return {
