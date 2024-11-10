@@ -43,7 +43,7 @@ functions:
           integration: lambda
 
   getAllPostsByProvider:
-    handler: Handler/getAllpostbyprovider_id.handler
+    handler: Handler/getallpostbyprovider_id.handler
     events:
       - http:
           path: /post/getall/{provider_id}
