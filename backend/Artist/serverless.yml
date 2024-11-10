@@ -83,7 +83,16 @@ functions:
     events:
       - http:
           path: /artist/by-country
-          method: post
+          method: get
+          cors: true
+          integration: lambda
+
+  getArtistByCountryWP:
+    handler: handler/getArtistByCountryWP.handler
+    events:
+      - http:
+          path: /artist/by-countryWP
+          method: get
           cors: true
           integration: lambda
 
