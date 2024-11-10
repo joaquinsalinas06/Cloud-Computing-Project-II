@@ -6,8 +6,8 @@ const TABLE_NAME = process.env.TABLE_NAME;
 const GSI_NAME = process.env.GSI_NAME;
 
 export async function handler(event) {
-  const provider_id = event.path?.provider_id;
-  const name = event.path?.name;
+  const provider_id = event.query?.provider_id;
+  const name = event.query?.name;
 
   console.log("provider_id:", provider_id);
   console.log("name:", name);

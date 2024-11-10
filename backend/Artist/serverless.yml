@@ -64,7 +64,7 @@ functions:
     handler: handler/getArtistByName.handler
     events:
       - http:
-          path: /artist/by-name/{provider_id}/{name}
+          path: /artist/by-name
           method: get
           cors: true
           integration: lambda
