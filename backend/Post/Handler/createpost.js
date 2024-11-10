@@ -10,7 +10,7 @@ module.exports.handler = async function (event) {
   if (!provider_id || !user_id || !token) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ error: "Missing parameters or token" })
+      body: { error: "Missing parameters or token" }
     };
   }
 
@@ -31,13 +31,13 @@ module.exports.handler = async function (event) {
       const errorMessage = responsePayload.body?.error || "Unknown error";
       return {
         statusCode: 401,
-        body: JSON.stringify({ error: "Unauthorized", message: errorMessage })
+        body: { error: "Unauthorized", message: errorMessage }
       };
     }
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Authorization check failed", details: error.message })
+      body: { error: "Authorization check failed", details: error.message }
     };
   }
 
@@ -60,12 +60,12 @@ module.exports.handler = async function (event) {
     await dynamoDb.put(params).promise();
     return {
       statusCode: 201,
-      body: JSON.stringify({ message: "Post created successfully", post_id })
+      body: { message: "Post created successfully", post_id }
     };
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Could not create post", details: error.message })
+      body: { error: "Could not create post", details: error.message }
     };
   }
 };
