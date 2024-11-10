@@ -37,7 +37,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Song was deleted successfully",
+        message: "Artist was deleted successfully",
       },
     };
   } catch (error) {
