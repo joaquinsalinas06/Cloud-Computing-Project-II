@@ -14,6 +14,7 @@ module.exports.handler = async function (event) {
       body: { error: "Missing required parameters or token" },
     };
   }
+  //para deployar
 
   const lambda = new AWS.Lambda();
   const invokeParams = {
