@@ -40,21 +40,11 @@ def lambda_handler(event, context):
         query_params = {
             'IndexName': 'user-date-index',
             'KeyConditionExpression': Key('user_id').eq(user_id) & Key('date').between(start_date.isoformat(), end_date.isoformat()),
+            'FilterExpression': Attr('provider_id').eq(provider_id),
             'ScanIndexForward': False,  # Sort in descending order (newest first)
         }
-        
         response = table.query(**query_params)
-        comment_ids = [item['comment_id'] for item in response.get('Items', [])]
-
-        # Second query to get comments with the specific comment_ids and provider_id
-        all_items = []
-        for comment_id in comment_ids:
-            comment_params = {
-                'TableName': table.name,
-                'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('comment_id').eq(comment_id)
-            }
-            comment_response = table.query(**comment_params)
-            all_items.extend(comment_response.get('Items', []))
+        all_items = response.get('Items', [])
     else:
         query_params = {
             'IndexName': 'user-date-index',
