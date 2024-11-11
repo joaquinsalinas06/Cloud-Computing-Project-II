@@ -18,8 +18,8 @@ def lambda_handler(event, context):
     # Get user_id and provider_id from path/query parameters
     user_id = int(event['path']['user_id'])
     provider_id = event['query']['provider_id']
-    start_date = datetime.strptime(query_params.get('start_date'), '%Y-%m-%d')
-    end_date = datetime.strptime(query_params.get('end_date'), '%Y-%m-%d')
+    start_date = query_params.get('start_date'), '%Y-%m-%d'
+    end_date = query_params.get('end_date'), '%Y-%m-%d'
 
     # Get pagination parameters from query parameters
     page = int(query_params.get('page', '1'))
