@@ -57,7 +57,9 @@ def lambda_handler(event, context):
             all_items.extend(comment_response.get('Items', []))
     else:
         query_params = {
-            'FilterExpresion': Attr('user_id').eq(user_id) & Attr('provider_id').eq(provider_id),
+            'IndexName': 'user-date-index',
+            'KeyConditionExpression': Key('user_id').eq(user_id),
+            'FilterExpression': Attr('provider_id').eq(provider_id),
             'ScanIndexForward': False  # Sort in descending order
         }
         response = table.get(**query_params)
