@@ -45,15 +45,14 @@ def lambda_handler(event, context):
 
     # Second query to get comments with the specific comment_ids and provider_id
     all_items = []
-    paginator = table.meta.client.get_paginator('query')
-    operation_params = {
-        'TableName': table.name,
-        'KeyConditionExpression': Key('provider_id').eq(provider_id) & Attr('comment_id').is_in(comment_ids),
-        'ScanIndexForward': False,
-    }
-    
-    for page_response in paginator.paginate(**operation_params):
-        all_items.extend(page_response['Items'])
+    for comment_id in comment_ids:
+        comment_params = {
+            'TableName': table.name,
+            'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('comment_id').eq(comment_id)
+        }
+        comment_response = table.query(**comment_params)
+        all_items.extend(comment_response.get('Items', []))
+
     
     # Apply pagination
     start_index = (page - 1) * page_size
