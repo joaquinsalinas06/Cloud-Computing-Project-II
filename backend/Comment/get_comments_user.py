@@ -48,7 +48,7 @@ def lambda_handler(event, context):
     paginator = table.meta.client.get_paginator('query')
     operation_params = {
         'TableName': table.name,
-        'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('comment_id').is_in(comment_ids),
+        'KeyConditionExpression': Key('provider_id').eq(provider_id) & Attr('comment_id').is_in(comment_ids),
         'ScanIndexForward': False,
     }
     
