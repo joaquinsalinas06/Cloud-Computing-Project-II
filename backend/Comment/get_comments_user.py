@@ -49,7 +49,7 @@ def lambda_handler(event, context):
         comment_ids.extend([item['comment_id'] for item in page_response['Items']])
     # Query parameters for DynamoDB (table)
     table_query_params = {
-        'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('comment_id').in_(comment_ids),
+        'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('comment_id') in (comment_ids),
         'Limit': page_size,
         'ScanIndexForward': False,
     }
