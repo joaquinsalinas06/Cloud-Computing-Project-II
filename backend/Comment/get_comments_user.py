@@ -13,15 +13,15 @@ def lambda_handler(event, context):
     # Initialize DynamoDB client
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(os.environ['TABLE_NAME'])
-    
+    query_params = event.get('query', {}) or {}
+
     # Get user_id and provider_id from path/query parameters
     user_id = int(event['path']['user_id'])
     provider_id = event['query']['provider_id']
-    start_date = datetime.strptime(event['query']['start_date'], '%Y-%m-%d')
-    end_date = datetime.strptime(event['query']['end_date'], '%Y-%m-%d')
+    start_date = datetime.strptime(query_params.get('start_date'), '%Y-%m-%d')
+    end_date = datetime.strptime(query_params.get('end_date'), '%Y-%m-%d')
 
     # Get pagination parameters from query parameters
-    query_params = event.get('query', {}) or {}
     page = int(query_params.get('page', '1'))
     page_size = int(query_params.get('pageSize', '10'))
     
@@ -34,25 +34,34 @@ def lambda_handler(event, context):
         page_size = 10
         
     # Query parameters for DynamoDB
-    query_params = {
-        'IndexName': 'user-date-index',
-        'KeyConditionExpression': Key('user_id').eq(user_id) & Key('date').between(start_date.isoformat(), end_date.isoformat()),
-        'ScanIndexForward': False,  # Sort in descending order (newest first)
-    }
-    
-    response = table.query(**query_params)
-    comment_ids = [item['comment_id'] for item in response.get('Items', [])]
-
-    # Second query to get comments with the specific comment_ids and provider_id
-    all_items = []
-    for comment_id in comment_ids:
-        comment_params = {
-            'TableName': table.name,
-            'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('comment_id').eq(comment_id)
+    if start_date and end_date:
+        query_params = {
+            'IndexName': 'user-date-index',
+            'KeyConditionExpression': Key('user_id').eq(user_id) & Key('date').between(start_date.isoformat(), end_date.isoformat()),
+            'ScanIndexForward': False,  # Sort in descending order (newest first)
         }
-        comment_response = table.query(**comment_params)
-        all_items.extend(comment_response.get('Items', []))
+        
+        response = table.query(**query_params)
+        comment_ids = [item['comment_id'] for item in response.get('Items', [])]
 
+        # Second query to get comments with the specific comment_ids and provider_id
+        all_items = []
+        for comment_id in comment_ids:
+            comment_params = {
+                'TableName': table.name,
+                'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('comment_id').eq(comment_id)
+            }
+            comment_response = table.query(**comment_params)
+            all_items.extend(comment_response.get('Items', []))
+    else:
+        query_params = {
+            'IndexName': 'provider-user-index',
+            'KeyConditionExpression': Key('user_id').eq(user_id) & Key('provider_id').eq(provider_id),
+            'ScanIndexForward': False  # Sort in descending order
+        }
+        
+        response = table.query(**query_params)
+        all_items = response.get('Items', [])
     
     # Apply pagination
     start_index = (page - 1) * page_size
