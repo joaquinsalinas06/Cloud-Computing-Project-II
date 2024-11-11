@@ -62,7 +62,7 @@ def lambda_handler(event, context):
             'FilterExpression': Attr('provider_id').eq(provider_id),
             'ScanIndexForward': False  # Sort in descending order
         }
-        response = table.get(**query_params)
+        response = table.query(**query_params)
         all_items = response.get('Items', [])
     
     # Apply pagination
