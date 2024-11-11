@@ -79,14 +79,14 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
-          - IndexName: provider-user-index
-            KeySchema:
-              - AttributeName: provider_id
-                KeyType: HASH
-              - AttributeName: user_id
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
+          # - IndexName: provider-user-index
+          #   KeySchema:
+          #     - AttributeName: provider_id
+          #       KeyType: HASH
+          #     - AttributeName: user_id
+          #       KeyType: RANGE
+          #   Projection:
+          #     ProjectionType: ALL
         GlobalSecondaryIndexes:
           - IndexName: user-date-index
             KeySchema:

@@ -57,12 +57,10 @@ def lambda_handler(event, context):
             all_items.extend(comment_response.get('Items', []))
     else:
         query_params = {
-            'IndexName': 'provider-user-index',
-            'KeyConditionExpression': Key('user_id').eq(user_id) & Key('provider_id').eq(provider_id),
+            'FilterExpresion': Attr('user_id').eq(user_id) & Attr('provider_id').eq(provider_id),
             'ScanIndexForward': False  # Sort in descending order
         }
-        
-        response = table.query(**query_params)
+        response = table.get(**query_params)
         all_items = response.get('Items', [])
     
     # Apply pagination
