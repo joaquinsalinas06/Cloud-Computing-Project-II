@@ -35,8 +35,8 @@ def lambda_handler(event, context):
         
     # Query parameters for DynamoDB
     if start_date and end_date:
-        start_date = datetime.strptime(start_date, '%Y-%m-%d')
-        end_date = datetime.strptime(end_date, '%Y-%m-%d')
+        start_date = datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S')
+        end_date = datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S')
         query_params = {
             'IndexName': 'user-date-index',
             'KeyConditionExpression': Key('user_id').eq(user_id) & Key('date').between(start_date.isoformat(), end_date.isoformat()),
