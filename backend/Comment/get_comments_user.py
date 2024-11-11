@@ -1,7 +1,7 @@
 import json
 import os
 import boto3
-from boto3.dynamodb.conditions import Key, Attr
+from boto3.dynamodb.conditions import Key
 from datetime import datetime, timedelta
 
 def lambda_handler(event, context):
@@ -18,7 +18,7 @@ def lambda_handler(event, context):
         user_id = int(event['path']['user_id'])
         provider_id = event['query']['provider_id']
         start_date = datetime.strptime(event['query']['start_date'], '%Y-%m-%d')
-        end_date = datetime.strptime(event['query']['end_date'], '%Y-%m-%d')
+        end_date = datetime.strptime(event['query']['end_date'], '%Y-%m-%d') + timedelta(days=1)
 
         # Get pagination parameters from query parameters
         query_params = event.get('query', {}) or {}
@@ -38,10 +38,11 @@ def lambda_handler(event, context):
             'IndexName': 'user-date-index',
             'KeyConditionExpression': Key('user_id').eq(user_id) & Key('date').between(start_date.isoformat(), end_date.isoformat()),
             'ProjectionExpression': 'comment_id, provider_id',
+            'Limit': page_size * 2,  # Fetch extra to handle pagination
             'ScanIndexForward': False,
         }
 
-        # First, get matching comment_ids and provider_ids
+        # First, get the matching comment_ids and provider_ids
         comment_ids = []
         provider_ids = []
         paginator = table.meta.client.get_paginator('query')
@@ -49,24 +50,25 @@ def lambda_handler(event, context):
             comment_ids.extend([item['comment_id'] for item in page_response['Items']])
             provider_ids.extend([item['provider_id'] for item in page_response['Items']])
 
-        # Query parameters for DynamoDB (provider-user-index)
-        provider_user_query_params = {
-            'IndexName': 'provider-user-index',
-            'KeyConditionExpression': Key('provider_id').in_(provider_ids) & Key('user_id').eq(user_id),
-            'FilterExpression': Attr('comment_id').in_(comment_ids),
+        # Query parameters for DynamoDB (table)
+        table_query_params = {
+            'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('comment_id').in_(comment_ids),
             'Limit': page_size,
             'ScanIndexForward': False,
         }
 
+        # Query the table with pagination
+        all_items = []
+        paginator = table.meta.client.get_paginator('query')
+        for page_response in paginator.paginate(**table_query_params):
+            all_items.extend(page_response['Items'])
+            if len(all_items) >= (page - 1) * page_size + page_size:
+                break
+
         # Calculate pagination values
         start_index = (page - 1) * page_size
-
-        # Query the provider-user-index with pagination
-        all_items = []
-        for page_response in paginator.paginate(**provider_user_query_params):
-            all_items.extend(page_response['Items'])
-            if len(all_items) >= start_index + page_size:
-                break
+        total_items = len(all_items)
+        total_pages = (total_items + page_size - 1) // page_size
 
         # Format the comments
         comments = []
@@ -79,8 +81,6 @@ def lambda_handler(event, context):
             })
 
         # Prepare pagination metadata
-        total_items = len(all_items)
-        total_pages = (total_items + page_size - 1) // page_size
         pagination = {
             'currentPage': page,
             'pageSize': page_size,
