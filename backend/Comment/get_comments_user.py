@@ -2,6 +2,7 @@ import json
 import os
 import boto3
 from boto3.dynamodb.conditions import Key
+from boto3.dynamodb.conditions import Attr
 from datetime import datetime
 
 def lambda_handler(event, context):
