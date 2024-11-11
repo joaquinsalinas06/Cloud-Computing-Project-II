@@ -37,19 +37,16 @@ def lambda_handler(event, context):
         user_date_query_params = {
             'IndexName': 'user-date-index',
             'KeyConditionExpression': Key('user_id').eq(user_id) & Key('date').between(start_date.isoformat(), end_date.isoformat()),
-            'ProjectionExpression': 'comment_id, provider_id',
+            'ProjectionExpression': 'comment_id',
             'Limit': page_size * 2,  # Fetch extra to handle pagination
             'ScanIndexForward': False,
         }
 
         # First, get the matching comment_ids and provider_ids
         comment_ids = []
-        provider_ids = []
         paginator = table.meta.client.get_paginator('query')
         for page_response in paginator.paginate(**user_date_query_params):
             comment_ids.extend([item['comment_id'] for item in page_response['Items']])
-            provider_ids.extend([item['provider_id'] for item in page_response['Items']])
-
         # Query parameters for DynamoDB (table)
         table_query_params = {
             'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('comment_id').in_(comment_ids),
