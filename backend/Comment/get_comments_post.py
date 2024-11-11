@@ -58,8 +58,7 @@ def lambda_handler(event, context):
             'comment_id': item['comment_id'],
             'user_id': item['user_id'],
             'text': item['text'],
-            'date': item['date'],
-            'post_id': item['post_id']
+            'date': item['date']
         } for item in items]
         
         # Prepare response

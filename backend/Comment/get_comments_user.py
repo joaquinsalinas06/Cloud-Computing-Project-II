@@ -21,7 +21,7 @@ def lambda_handler(event, context):
         query_params = event.get('query', {}) or {}
         
         # Parse pagination parameters with defaults
-        provider_id = query_params.get('provider_id', '1')
+        provider_id = event['query']['provider_id']
         page = int(query_params.get('page', '1'))
         page_size = int(query_params.get('pageSize', '10'))
         
@@ -84,7 +84,7 @@ def lambda_handler(event, context):
                 'text': item['text'],
                 'date': item['date'],
                 'post_id': item['post_id']
-                })
+            })
             
         # Prepare pagination metadata
         pagination = {
@@ -101,6 +101,7 @@ def lambda_handler(event, context):
             'comments': comments,
             'pagination': pagination,
             'user_id': user_id,
+            'provider_id': provider_id,
             'total_comments': total_items
         }
             
