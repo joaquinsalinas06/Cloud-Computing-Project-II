@@ -21,6 +21,7 @@ def lambda_handler(event, context):
         query_params = event.get('query', {}) or {}
         
         # Parse pagination parameters with defaults
+        provider_id = query_params.get('provider_id', '1')
         page = int(query_params.get('page', '1'))
         page_size = int(query_params.get('pageSize', '10'))
         
@@ -59,8 +60,8 @@ def lambda_handler(event, context):
             paginator = table.meta.client.get_paginator('query')
             operation_params = {
                 'TableName': table.name,
-                'IndexName': 'user-date-index',
-                'KeyConditionExpression': Key('user_id').eq(user_id),
+                'IndexName': 'provider-user-index',
+                'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('user_id').eq(user_id),
                 'ScanIndexForward': False,
             }
             
