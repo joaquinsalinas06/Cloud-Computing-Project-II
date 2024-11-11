@@ -38,7 +38,7 @@ def lambda_handler(event, context):
             'body': {'error': 'Unauthorized', 'message': error_message}
         }
 
-    ################
+    #################
 
     # Get user_id and provider_id from path/query parameters
     user_id = int(event['path']['user_id'])
