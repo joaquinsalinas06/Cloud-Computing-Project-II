@@ -18,8 +18,8 @@ def lambda_handler(event, context):
     # Get user_id and provider_id from path/query parameters
     user_id = int(event['path']['user_id'])
     provider_id = event['query']['provider_id']
-    start_date = query_params.get('start_date'), '%Y-%m-%d'
-    end_date = query_params.get('end_date'), '%Y-%m-%d'
+    start_date = query_params.get('start_date')
+    end_date = query_params.get('end_date')
 
     # Get pagination parameters from query parameters
     page = int(query_params.get('page', '1'))
@@ -35,6 +35,8 @@ def lambda_handler(event, context):
         
     # Query parameters for DynamoDB
     if start_date and end_date:
+        start_date = datetime.strptime(start_date, '%Y-%m-%d')
+        end_date = datetime.strptime(end_date, '%Y-%m-%d')
         query_params = {
             'IndexName': 'user-date-index',
             'KeyConditionExpression': Key('user_id').eq(user_id) & Key('date').between(start_date.isoformat(), end_date.isoformat()),
