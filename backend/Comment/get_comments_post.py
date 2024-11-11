@@ -34,7 +34,7 @@ def lambda_handler(event, context):
         end_date = datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S')
         query_params = {
             'IndexName': 'provider-post-index',
-            'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('post').eq(post_id),
+            'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('post_id').eq(post_id),
             'FilterExpression': Attr('date').between(start_date.isoformat(), end_date.isoformat())
         }
     else:
