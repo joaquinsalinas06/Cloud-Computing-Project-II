@@ -14,6 +14,31 @@ def lambda_handler(event, context):
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(os.environ['TABLE_NAME'])
     query_params = event.get('query', {}) or {}
+    
+    
+    ################
+    token = event['headers']['Authorization']
+    
+    lambda_client = boto3.client('lambda')
+    payload = '{ "token": "' + token +  '" }'
+    
+    invoke_response = lambda_client.invoke(
+        FunctionName='api-mure-user-dev-validateToken',
+        InvocationType='RequestResponse',
+        Payload=payload
+    )
+    
+    response_payload = json.loads(invoke_response['Payload'].read())
+    print("Response Payload:", response_payload)
+    
+    if 'statusCode' not in response_payload or response_payload['statusCode'] != 200:
+        error_message = response_payload.get('body', {}).get('error', 'Unknown error')
+        return {
+            'statusCode': 401,
+            'body': {'error': 'Unauthorized', 'message': error_message}
+        }
+
+    ################
 
     # Get user_id and provider_id from path/query parameters
     user_id = int(event['path']['user_id'])
