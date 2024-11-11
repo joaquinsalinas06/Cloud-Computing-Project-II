@@ -34,6 +34,7 @@ def lambda_handler(event, context):
 
     # Query parameters for DynamoDB (user-date-index)
     user_date_query_params = {
+        'TableName': os.environ['TABLE_NAME'],
         'IndexName': 'user-date-index',
         'KeyConditionExpression': Key('user_id').eq(user_id) & Key('date').between(start_date.isoformat(), end_date.isoformat()),
         'ProjectionExpression': 'comment_id',
