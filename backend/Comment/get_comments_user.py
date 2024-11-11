@@ -35,7 +35,7 @@ def lambda_handler(event, context):
     # Query parameters for DynamoDB
     query_params = {
         'IndexName': 'user-date-index',
-        'KeyConditionExpression': Key('user_id').eq(user_id) & Key('date').between(start_date, end_date),
+        'KeyConditionExpression': Key('user_id').eq(user_id) & Key('date').between(start_date.isoformat(), end_date.isoformat()),
         'ScanIndexForward': False,  # Sort in descending order (newest first)
     }
     
