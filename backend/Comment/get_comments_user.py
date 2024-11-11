@@ -35,9 +35,9 @@ def lambda_handler(event, context):
             
         # Query parameters for DynamoDB
         query_params = {
-            'IndexName': 'user-date-index',
-            'KeyConditionExpression': Key('user_id').eq(user_id),
-            'ScanIndexForward': False,  # Sort in descending order (newest first)
+            'IndexName': 'provider-user-index',
+            'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('user_id').eq(user_id),
+            'ScanIndexForward': False,
         }
         
         # First, get total count of comments for this user
@@ -83,8 +83,8 @@ def lambda_handler(event, context):
                 'comment_id': item['comment_id'],
                 'text': item['text'],
                 'date': item['date'],
-                'post_id': item['post_id'],
-                'provider_id': item['provider_id']})
+                'post_id': item['post_id']
+                })
             
         # Prepare pagination metadata
         pagination = {
