@@ -4,11 +4,12 @@ import json
 
 def lambda_handler(event, context):
     try:
+        provider_id = event['pathParameters'].get('provider_id')
         playlist_id = event['pathParameters'].get('playlist_id')
         song_id = event['pathParameters'].get('song_id')
         song_details = json.loads(event['body']).get('song_details')
 
-        if not playlist_id or not song_id or not song_details:
+        if not provider_id or not playlist_id or not song_id or not song_details:
             return {
                 'statusCode': 400,
                 'body': json.dumps({'error': 'Missing parameters'})
@@ -18,7 +19,7 @@ def lambda_handler(event, context):
         playlist_table = dynamodb.Table(os.getenv('PLAYLIST_TABLE_NAME'))
 
         playlist_table.update_item(
-            Key={'playlist_id': playlist_id},
+            Key={'provider_id': provider_id, 'playlist_id': playlist_id},
             UpdateExpression="SET songs.#song_id = :song_details",
             ExpressionAttributeNames={'#song_id': song_id},
             ExpressionAttributeValues={':song_details': song_details},
