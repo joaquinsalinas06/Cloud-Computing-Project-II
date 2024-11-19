@@ -37,12 +37,12 @@ def get_artist_details(artist_id: str):
     return image_url, genres
 
 
-def get_albums_by_artist(artist_id: str, limit=10):
+def get_albums_by_artist(artist_id: str, limit=18):
     albums: Any = sp.artist_albums(artist_id, limit=limit, album_type="album,single")
     return albums["items"]
 
 
-def get_tracks_by_album(album_id: str, limit=10):
+def get_tracks_by_album(album_id: str, limit=15):
     tracks: Any = sp.album_tracks(album_id, limit=limit)
     tracks_with_preview = [track for track in tracks["items"] if track["preview_url"]]
     return tracks_with_preview

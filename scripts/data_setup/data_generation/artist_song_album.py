@@ -25,9 +25,7 @@ def generate_artists_songs_albums(
 
     print(provider_id)
 
-    # Seleccionar un subconjunto aleatorio de artistas
-    num_artists_to_select = random.randint(1, min(70, len(artists_dict)))  # Ajusta el rango
-
+    num_artists_to_select = random.randint(3, 5)
     selected_artists = dict(random.sample(list(artists_dict.items()), num_artists_to_select))
 
     for artist_id, artist_info in selected_artists.items():
@@ -41,7 +39,7 @@ def generate_artists_songs_albums(
         image_url, artist_genre = get_artist_details(artist_spotify_id)
 
         if artist_genre is None:
-            artist_genre = artist_info["genre"]
+            artist_genre = artist_info["genre"][0]
 
         birth_date = faker.date_of_birth(minimum_age=20, maximum_age=70)
         artist_status = faker.random_element(elements=('Active', 'Inactive'))
@@ -50,7 +48,7 @@ def generate_artists_songs_albums(
         artists_csv_list.append(
             {
                 "providerId": provider_id,
-                "artistId": artist_id,
+                "artistId": artist_count,
                 "name": artist_info["name"],
                 "genre": artist_genre,
                 "status": artist_status,
@@ -60,7 +58,7 @@ def generate_artists_songs_albums(
             }
 
         )
-        artists_keys.append(artist_id)
+        artists_keys.append(artist_count)
 
         albums = get_albums_by_artist(artist_spotify_id)
 

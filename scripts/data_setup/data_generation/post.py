@@ -15,7 +15,7 @@ def generate_post_data(
     post_csv_list: list[dict[str, Any]] = []
     post_likes_csv_list: list[dict[str, Any]] = []
 
-    for _ in range(rows_amount):
+    for post_id in range(rows_amount):
         likes = random.randint(0, 25)
         created_at = faker.date_time_between(start_date="-1y", end_date="now").strftime(
             "%Y-%m-%d %H:%M:%S"
@@ -33,11 +33,11 @@ def generate_post_data(
         post_csv_list.append(
             {
                 "provider_id": provider_id,
-                "post_id": 123,
+                "post_id": post_id,
                 "user_id": user_id,
                 "song_id": song_id,
                 "album_id": album_id,
-                "descripcion": description,
+                "description": description,
                 "created_at": created_at
             }
         )
@@ -51,8 +51,6 @@ def generate_post_data(
                     "user_id": user_id,
                 }
             )
-
-
 
     write_to_csv(post_csv_list, "posts")
     write_to_csv(post_likes_csv_list, "post_likes")
