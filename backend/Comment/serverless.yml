@@ -51,8 +51,6 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:service}-${sls:stage}
-        PointInTimeRecoverySpecification:
-          PointInTimeRecoveryEnabled: true
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: provider_id
@@ -88,3 +86,5 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true              

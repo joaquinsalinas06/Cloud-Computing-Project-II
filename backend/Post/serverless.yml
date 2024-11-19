@@ -135,3 +135,5 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true              
