@@ -2,10 +2,35 @@ import boto3
 import uuid
 import os
 from boto3.dynamodb.conditions import Key
+import json
 
 def lambda_handler(event, context):
     # Entrada (json)
     print(event)
+
+    token = event['headers']['Authorization']
+    
+    lambda_client = boto3.client('lambda')
+    payload = '{ "token": "' + token +  '" }'
+    
+    invoke_response = lambda_client.invoke(
+        FunctionName='api-mure-user-dev-validateToken',
+        InvocationType='RequestResponse',
+        Payload=payload
+    )
+    
+    response_payload = json.loads(invoke_response['Payload'].read())
+    print("Response Payload:", response_payload)
+    
+    if 'statusCode' not in response_payload or response_payload['statusCode'] != 200:
+        error_message = response_payload.get('body', {}).get('error', 'Unknown error')
+        return {
+            'statusCode': 401,
+            'body': {'error': 'Unauthorized', 'message': error_message}
+        }
+
+
+
     provider_id = event['body']['provider_id']
     user_id = event['body']['user_id']
     post_id = event['body']['post_id']
