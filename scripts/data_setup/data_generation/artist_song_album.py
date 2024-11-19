@@ -23,7 +23,6 @@ def generate_artists_songs_albums(
     song_counter = 0
     artist_count = 0
 
-
     num_artists_to_select = random.randint(3, 5)
     selected_artists = dict(random.sample(list(artists_dict.items()), num_artists_to_select))
 
@@ -45,14 +44,14 @@ def generate_artists_songs_albums(
 
         artists_csv_list.append(
             {
-                "providerId": provider_id,
-                "artistId": artist_count,
+                "provider_id": provider_id,
+                "artist_id": artist_count,
                 "name": artist_info["name"],
                 "genre": artist_genre,
                 "status": artist_status,
                 "birth_date": birth_date,
                 "country": artist_country,
-                "coverImageURL": image_url
+                "cover_image_url": image_url
             }
 
         )
@@ -86,13 +85,13 @@ def generate_artists_songs_albums(
                     "provider_id": provider_id,
                     "album_id": album_counter,
                     "title": album_title,
-                    "releaseDate": pd.to_datetime(
+                    "release_date": pd.to_datetime(
                         album_release_date, errors="coerce"
                     ).strftime("%Y-%m-%d"),
-                    "songsCount": songs_count,
-                    "coverImageUrl": album_cover_image_url,
-                    "spotifyUrl": album_link,
-                    "artistId": artist_id
+                    "songs_count": songs_count,
+                    "cover_image_url": album_cover_image_url,
+                    "spotify_url": album_link,
+                    "artist_id": artist_id
                 }
 
             )
@@ -113,17 +112,17 @@ def generate_artists_songs_albums(
                         "song_id": song_counter,
                         "title": song_title,
                         "genre": genre,
-                        "releaseDate": pd.to_datetime(
+                        "release_date": pd.to_datetime(
                             song_release_date, errors="coerce"
                         ).strftime("%Y-%m-%d"),
                         "duration": str(song_duration // 60).zfill(2)
                                     + ":"
                                     + str(song_duration % 60).zfill(2),
-                        "coverImageURL": album_cover_image_url,
-                        "timesPlayed": faker.random_int(min=0, max=100000),
-                        "musicURL": song_link,
-                        "previewMusicURL": song_preview_url,
-                        "albumId": album_counter,
+                        "cover_image_url": album_cover_image_url,
+                        "times_played": faker.random_int(min=0, max=100000),
+                        "song_url": song_link,
+                        "preview_music_url": song_preview_url,
+                        "album_id": album_counter,
                     }
 
                 )
