@@ -1,9 +1,9 @@
 providerId,artistId,name,genre,status,birth_date,country,coverImageURL
-Spotify,1,Ariana Grande,pop,Active,1980-03-24,Isle of Man,https://i.scdn.co/image/ab6761610000e5eb40b5c07ab77b6b1a9075fdc0
-Spotify,2,The Weeknd,canadian contemporary r&b,Inactive,1970-11-03,Guadeloupe,https://i.scdn.co/image/ab6761610000e5eb9e528993a2820267b97f6aae
-Spotify,3,Beyoncé,pop,Inactive,1973-11-24,Greenland,https://i.scdn.co/image/ab6761610000e5eb247f44069c0bd1781df2f785
-Apple,1,Taylor Swift,pop,Active,1980-03-15,Micronesia,https://i.scdn.co/image/ab6761610000e5ebe672b5f553298dcdccb0e676
-Apple,2,The Weeknd,canadian contemporary r&b,Active,1986-04-22,Azerbaijan,https://i.scdn.co/image/ab6761610000e5eb9e528993a2820267b97f6aae
-Apple,3,Drake,canadian hip hop,Active,1999-03-21,Maldives,https://i.scdn.co/image/ab6761610000e5eb4293385d324db8558179afd9
-Apple,4,Doja Cat,dance pop,Inactive,1984-07-28,Peru,https://i.scdn.co/image/ab6761610000e5ebe94f88ff74ae4ddcab961f97
-Apple,5,TWICE,k-pop,Active,1958-06-29,Malaysia,https://i.scdn.co/image/ab6761610000e5ebca6c145421fa9ceb58d6f9d4
+Spotify,1,Bruno Mars,dance pop,Inactive,1998-12-10,Benin,https://i.scdn.co/image/ab6761610000e5ebc36dd9eb55fb0db4911f25dd
+Spotify,2,Drake,canadian hip hop,Active,1962-01-02,Slovakia (Slovak Republic),https://i.scdn.co/image/ab6761610000e5eb4293385d324db8558179afd9
+Spotify,3,Rihanna,barbadian pop,Inactive,1971-11-16,French Polynesia,https://i.scdn.co/image/ab6761610000e5eb99e4fca7c0b7cb166d915789
+Spotify,4,Bad Bunny,reggaeton,Inactive,2004-08-06,Vietnam,https://i.scdn.co/image/ab6761610000e5eb744a4243fb6cc938011a98f4
+Spotify,5,Ed Sheeran,pop,Active,1978-05-22,Indonesia,https://i.scdn.co/image/ab6761610000e5eb784daff754ecfe0464ddbeb9
+Apple,1,BTS,alternative pop rock,Inactive,1960-09-05,Kazakhstan,https://i.scdn.co/image/0078316432cdfb6733c3bde0dc61754d45442d0f
+Apple,2,Harry Styles,pop,Inactive,1958-09-18,Qatar,https://i.scdn.co/image/ab6761610000e5ebf7db7c8ede90a019c54590bb
+Apple,3,Drake,canadian hip hop,Inactive,1979-02-05,Sudan,https://i.scdn.co/image/ab6761610000e5eb4293385d324db8558179afd9

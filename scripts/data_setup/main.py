@@ -15,7 +15,7 @@ provider_ids = ["Spotify", "Apple"]
 def clear_output_directory(directory):
     files = glob.glob(f"{directory}/*")
     for file in files:
-        if os.path.isfile(file) and file.endswith('.csv'):
+        if os.path.isfile(file) and (file.endswith('.csv') or file.endswith('.json')):
             os.remove(file)
 
 
@@ -31,5 +31,5 @@ for provider_id in provider_ids:
     )
     user_keys = generate_user_data(400, provider_id)
     generate_post_data(len(user_keys) * 12, user_keys, song_keys, albums_keys, provider_id)
-    generate_playlist_data(len(user_keys) * 7, user_keys, song_keys)
+    generate_playlist_data(len(user_keys) * 5, user_keys, song_keys, provider_id)
     generate_comment_data(len(user_keys) * 14, user_keys, song_keys, provider_id)

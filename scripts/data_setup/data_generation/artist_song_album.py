@@ -23,14 +23,12 @@ def generate_artists_songs_albums(
     song_counter = 0
     artist_count = 0
 
-    print(provider_id)
 
     num_artists_to_select = random.randint(3, 5)
     selected_artists = dict(random.sample(list(artists_dict.items()), num_artists_to_select))
 
     for artist_id, artist_info in selected_artists.items():
         artist_count += 1
-        print(artist_info["name"], " ", artist_count)
         artist_spotify_id = get_artist_id(artist_info["name"])
 
         if not artist_spotify_id:

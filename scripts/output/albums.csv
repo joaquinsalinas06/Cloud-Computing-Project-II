@@ -1,55 +1,59 @@
 provider_id,album_id,title,releaseDate,songsCount,coverImageUrl,spotifyUrl,artistId
-Spotify,1,Sympathy is a knife featuring ariana grande,2024-10-10,1,https://i.scdn.co/image/ab67616d0000b273cb260d46ad3b5cc7f91dc6ee,https://open.spotify.com/album/0BL4n7JwPd0Ml4nhpjRCFv,12
-Spotify,2,COWBOY CARTER,2024-03-29,15,https://i.scdn.co/image/ab67616d0000b2731572698fff8a1db257a53599,https://open.spotify.com/album/6BzxX6zkDsYKFJ04ziU5xQ,8
-Spotify,3,RENAISSANCE,2022-07-29,15,https://i.scdn.co/image/ab67616d0000b2730e58a0f8308c1ad403d105e7,https://open.spotify.com/album/6FJxoadUE4JNVwWHghBwnb,8
-Spotify,4,The Lion King: The Gift,2019-07-19,15,https://i.scdn.co/image/ab67616d0000b2734ccc03169b086af698178a99,https://open.spotify.com/album/552zi1M53PQAX5OH4FIdTx,8
-Spotify,5,HOMECOMING: THE LIVE ALBUM,2019-04-17,15,https://i.scdn.co/image/ab67616d0000b2738e525253c87c568cd84e491b,https://open.spotify.com/album/35S1JCj5paIfElT2GODl6x,8
-Spotify,6,Lemonade,2016-04-23,13,https://i.scdn.co/image/ab67616d0000b27389992f4d7d4ab94937bf9e23,https://open.spotify.com/album/7dK54iZuOxXFarGhXwEXfF,8
-Spotify,7,BEYONCÉ [Platinum Edition],2014-11-24,15,https://i.scdn.co/image/ab67616d0000b2730d1d6e9325275f104f8e33f3,https://open.spotify.com/album/2UJwKSBUz6rtW4QLK74kQu,8
-Spotify,8,4,2011-06-24,14,https://i.scdn.co/image/ab67616d0000b273ff5429125128b43572dbdccd,https://open.spotify.com/album/1gIC63gC3B7o7FfpPACZQJ,8
-Spotify,9,I Am...World Tour,2010-11-26,15,https://i.scdn.co/image/ab67616d0000b27336bc260ada14991aae54fd39,https://open.spotify.com/album/5O7PYNgE3VLWrvB80fIaDZ,8
-Spotify,10,I AM...SASHA FIERCE,2008-11-14,15,https://i.scdn.co/image/ab67616d0000b273e13de7b8662b085b0885ffef,https://open.spotify.com/album/23Y5wdyP5byMFktZf8AcWU,8
-Spotify,11,The Beyonce Experience Live Audio,2007-11-19,15,https://i.scdn.co/image/ab67616d0000b2736e2a79e50b23f1409a449eea,https://open.spotify.com/album/46BXsx30qaCaAyyGtWyx7e,8
-Spotify,12,B'Day Deluxe Edition,2007-05-29,15,https://i.scdn.co/image/ab67616d0000b273026e88f624dfb96f2e1ef10b,https://open.spotify.com/album/0Zd10MKN5j9KwUST0TdBBB,8
-Spotify,13,B'Day,2006-09-04,11,https://i.scdn.co/image/ab67616d0000b273632e4eafb2ffba59a2ae4500,https://open.spotify.com/album/77eZ5eMEh3U0KWricrbevO,8
-Spotify,14,Dangerously In Love,2003-03-10,15,https://i.scdn.co/image/ab67616d0000b273a9fd4a0405945cd51e8de130,https://open.spotify.com/album/06v9eHnqhMK2tbM2Iz3p0Y,8
-Spotify,15,II MOST WANTED,2024-03-27,1,https://i.scdn.co/image/ab67616d0000b27377d273de7f082a959837cdd4,https://open.spotify.com/album/4OOnmd1Igt4LiZYXLMUxcX,8
-Spotify,16,TEXAS HOLD 'EM (PONY UP) REMIX,2024-03-26,1,https://i.scdn.co/image/ab67616d0000b2737c7be0f960b04241aff6f5bb,https://open.spotify.com/album/1X75jBTdqVxa8tOs15yPoi,8
-Spotify,17,TEXAS HOLD 'EM,2024-02-10,3,https://i.scdn.co/image/ab67616d0000b2736c1836a40380c147eab9c98f,https://open.spotify.com/album/2NXwHjhgaAdkDy6GPSxMAd,8
-Spotify,18,16 CARRIAGES,2024-02-09,1,https://i.scdn.co/image/ab67616d0000b273f5220893852002a2a3078bab,https://open.spotify.com/album/6PeoltoiWQWCyWA0JBHVGN,8
-Spotify,19,MY HOUSE,2023-12-01,1,https://i.scdn.co/image/ab67616d0000b2730e05818e7479f703c800a3ff,https://open.spotify.com/album/1H1ivGeE2LjPjE71OITTZs,8
-Apple,1,Scarlet 2 CLAUDE,2024-05-17,15,https://i.scdn.co/image/ab67616d0000b273cf5685eced152b546f7833ce,https://open.spotify.com/album/5ho4S2bnJJdF0uwT8YiQsw,15
-Apple,2,Scarlet,2023-09-22,15,https://i.scdn.co/image/ab67616d0000b27394203dd82d27b494c777d07c,https://open.spotify.com/album/6DmPNcfpkXBVRJsEIJY9tl,15
-Apple,3,Planet Her (Deluxe),2021-06-27,15,https://i.scdn.co/image/ab67616d0000b2733b017bad9fa5f880745c59cc,https://open.spotify.com/album/4XLPYMERZZaBzkJg0mkdvO,15
-Apple,4,Planet Her,2021-06-25,14,https://i.scdn.co/image/ab67616d0000b273be841ba4bc24340152e3a79a,https://open.spotify.com/album/1nAQbHeOWTfQzbOoFrvndW,15
-Apple,5,Hot Pink,2019-11-07,12,https://i.scdn.co/image/ab67616d0000b273f14aa81116510d3a6df8432b,https://open.spotify.com/album/1MmVkhiwTH0BkNOU3nw5d3,15
-Apple,6,Amala (Deluxe Version),2019-03-01,15,https://i.scdn.co/image/ab67616d0000b273e0c9d69f356c8b8a378a4d3c,https://open.spotify.com/album/3wOMqxNHgkga91RBC7BaZU,15
-Apple,7,Amala,2018-03-30,13,https://i.scdn.co/image/ab67616d0000b2730f4f19f09818756f25916e45,https://open.spotify.com/album/54tInqO543zy0Y5F2VsUQI,15
-Apple,8,MASC (feat. Teezo Touchdown),2024-04-03,1,https://i.scdn.co/image/ab67616d0000b273d94013f88a368ce7f3e00d62,https://open.spotify.com/album/1aN3LYbdOm7vBEZRXjt0MA,15
-Apple,9,OKLOSER,2024-04-01,1,https://i.scdn.co/image/ab67616d0000b27325f77c1f058fbce7c88591c6,https://open.spotify.com/album/6Dp4fwNoZD6Sum7PEheLrJ,15
-Apple,10,n.h.i.e.,2024-01-10,1,https://i.scdn.co/image/ab67616d0000b27308d6d95f9f2407bbd95ee1f5,https://open.spotify.com/album/4aUwPpYxVIaKzzSTA9qmK8,15
-Apple,11,Balut,2023-09-15,1,https://i.scdn.co/image/ab67616d0000b27392971b880a41ed286410a28b,https://open.spotify.com/album/3lCIdX7XZlrO6SbxAne7QG,15
-Apple,12,Demons + Paint The Town Red,2023-09-01,6,https://i.scdn.co/image/ab67616d0000b2731536c13fd5ebbe3d56d9dc99,https://open.spotify.com/album/6nFN6jMhxevXL4Y7tuivv9,15
-Apple,13,Demons,2023-08-31,1,https://i.scdn.co/image/ab67616d0000b273d5fe37ec6d8f78ffc5437859,https://open.spotify.com/album/7iduRgQGVmm0Thy4v734Py,15
-Apple,14,Paint The Town Red,2023-08-04,1,https://i.scdn.co/image/ab67616d0000b2737acee948ecac8380c1b6ce30,https://open.spotify.com/album/54dZypaXHAIDzBe9ujAZ63,15
-Apple,15,Attention,2023-06-16,1,https://i.scdn.co/image/ab67616d0000b27324b893fb9e7953ebc9517c6a,https://open.spotify.com/album/38xgBOLAcKoYWMSXWUDH1E,15
-Apple,16,Kill Bill (feat. Doja Cat),2023-04-14,1,https://i.scdn.co/image/ab67616d0000b273c3b70a0848d577bf5ae67b49,https://open.spotify.com/album/4OanbmuJAWz8JPVE4cJA9L,15
-Apple,17,I Don't Do Drugs (Y2K Remix),2023-01-20,1,https://i.scdn.co/image/ab67616d0000b2736033361211c3a118a7f7a6c2,https://open.spotify.com/album/4XAXBh39t3KoD7Ta0x7Toi,15
-Apple,18,DIVE,2024-07-17,10,https://i.scdn.co/image/ab67616d0000b273c1486a2a27cac1ee68afe003,https://open.spotify.com/album/7tgTOUXm74GKA12wsQIUPu,3
-Apple,19,I GOT YOU (Voyage ver.),2024-02-06,12,https://i.scdn.co/image/ab67616d0000b273d112b7516a0a23058a819764,https://open.spotify.com/album/5cnrcbdcdt6BJgAig9Tn3P,3
-Apple,20,THE REMIXES,2023-11-22,7,https://i.scdn.co/image/ab67616d0000b27385567802f7f91610875b2669,https://open.spotify.com/album/37WsLE5Eny9CTmF9CPzWIq,3
-Apple,21,READY TO BE,2023-03-10,7,https://i.scdn.co/image/ab67616d0000b27359f57a5ca507a3d3fed81ea6,https://open.spotify.com/album/7hzP5i7StxYG4StECA0rrJ,3
-Apple,22,BETWEEN 1&2,2022-08-26,7,https://i.scdn.co/image/ab67616d0000b273c3040848e6ef0e132c5c8340,https://open.spotify.com/album/3NZ94nQbqimcu2i71qhc4f,3
-Apple,23,Celebrate,2022-07-27,9,https://i.scdn.co/image/ab67616d0000b27396f409e230a8f42400c901f1,https://open.spotify.com/album/1nqz3cEjuvCMo8RHLBI9kM,3
-Apple,24,Formula of Love: O+T=<3,2021-11-12,15,https://i.scdn.co/image/ab67616d0000b273d1961ecb307c9e05ec8f7e82,https://open.spotify.com/album/5052Ip89wdW8EGdpjEpNeq,3
-Apple,25,Perfect World,2021-07-28,10,https://i.scdn.co/image/ab67616d0000b273579e945923463492cb43a5ce,https://open.spotify.com/album/17rk8h2IU4wwSFXw9j2uR6,3
-Apple,26,Eyes Wide Open,2020-10-26,13,https://i.scdn.co/image/ab67616d0000b2736570fd05bcff5edcb16e617d,https://open.spotify.com/album/33jypnU7WULxPaVrjj4RXH,3
-Apple,27,MORE & MORE,2020-06-01,7,https://i.scdn.co/image/ab67616d0000b27324869424ae632466b839a8a8,https://open.spotify.com/album/5KsduuDNWzt65TaHzmtciv,3
-Apple,28,&TWICE (Repackage),2020-02-05,11,https://i.scdn.co/image/ab67616d0000b27329e7568dbd16f270b3d96db4,https://open.spotify.com/album/64Tvx7Ca3BjA4STHq1wFap,3
-Apple,29,Feel Special,2019-09-23,7,https://i.scdn.co/image/ab67616d0000b273a6b5e9128d7029ebb48bcf2b,https://open.spotify.com/album/3NQBPabmRm3LzVcmtkTLfo,3
-Apple,30,&TWICE,2019-09-23,10,https://i.scdn.co/image/ab67616d0000b273e1a385e04bf82e0313fd6375,https://open.spotify.com/album/2MwyDQhotK4B1WcZ5ogrtB,3
-Apple,31,BDZ (Repackage),2018-12-26,11,https://i.scdn.co/image/ab67616d0000b273cc72cf8eb5fc820d2cb571d6,https://open.spotify.com/album/1dZtA3Lt9sUGqkM6KWY92x,3
-Apple,32,"The year of ""YES""",2018-12-12,9,https://i.scdn.co/image/ab67616d0000b2734a56fcda1fac62cef09790e4,https://open.spotify.com/album/0pzmyJftuTK7i4HLjnfq1n,3
-Apple,33,YES or YES,2018-11-05,7,https://i.scdn.co/image/ab67616d0000b273140ba24506e300382e08e6ec,https://open.spotify.com/album/25VunQEW0x2W6ALND2Mh4g,3
-Apple,34,Summer Nights,2018-07-09,9,https://i.scdn.co/image/ab67616d0000b27340d7efd2594a2b6bda60ea18,https://open.spotify.com/album/2GKTroaa4ysyhEdvzpvUoM,3
-Apple,35,Merry & Happy,2017-12-11,15,https://i.scdn.co/image/ab67616d0000b273f0d00e054e9a9cb2e86cdf72,https://open.spotify.com/album/0R7pj4tnmcoUulrZGPo6nw,3
+Spotify,1,An Evening With Silk Sonic,2021-11-12,10,https://i.scdn.co/image/ab67616d0000b273d0bbd3ea2ec554f17a6603cc,https://open.spotify.com/album/4VZ7jhV0wHpoNPCB7Vmiml,17
+Spotify,2,24K Magic,2016-11-17,9,https://i.scdn.co/image/ab67616d0000b273232711f7d66a1e19e89e28c5,https://open.spotify.com/album/4PgleR09JVnm3zY1fW3XBA,17
+Spotify,3,Unorthodox Jukebox,2012-12-07,10,https://i.scdn.co/image/ab67616d0000b273926f43e7cce571e62720fd46,https://open.spotify.com/album/58ufpQsJ1DS5kq4hhzQDiI,17
+Spotify,4,Doo-Wops & Hooligans,2010-05-11,12,https://i.scdn.co/image/ab67616d0000b273f60070dce96a2c1b70cf6ff0,https://open.spotify.com/album/6J84szYCnMfzEcvIcfWMFL,17
+Spotify,5,APT.,2024-10-18,1,https://i.scdn.co/image/ab67616d0000b273f8c8297efc6022534f1357e1,https://open.spotify.com/album/2IYQwwgxgOIn7t3iF6ufFD,17
+Spotify,6,Leave The Door Open (Live),2021-04-02,2,https://i.scdn.co/image/ab67616d0000b2730d18a58b311b58820ba4735f,https://open.spotify.com/album/4rRB9bAIwawVcrdLXuq9Qu,17
+Spotify,7,BLOW (with Chris Stapleton & Bruno Mars),2019-07-05,1,https://i.scdn.co/image/ab67616d0000b2733d75fe24ebd1741bb74603b9,https://open.spotify.com/album/4uoEruXjt0APvHaSqrwqPH,17
+Spotify,8,Please Me,2019-02-15,1,https://i.scdn.co/image/ab67616d0000b273288883647008cefba0db5402,https://open.spotify.com/album/5a4sJJ3qjn6hqRsvm0Veso,17
+Spotify,9,Wake Up in the Sky,2018-09-14,1,https://i.scdn.co/image/ab67616d0000b273b64fc7036d0fccef26f9f7e8,https://open.spotify.com/album/7mkyc2BUahNfo0orKzqNGB,17
+Spotify,10,Finesse (Remix) [feat. Cardi B],2018-03-23,3,https://i.scdn.co/image/ab67616d0000b273ec9f67dfe2aa11fbbc304c17,https://open.spotify.com/album/5AVEtKtguEa8sqYhSj3zFW,17
+Spotify,11,Versace On The Floor (Bruno Mars vs. David Guetta),2017-06-27,1,https://i.scdn.co/image/ab67616d0000b27362dc1f2be95dc25beea9f857,https://open.spotify.com/album/0yDiMZdbFwO5lGB9Dq5wlL,17
+Spotify,12,24K Magic (R3hab Remix),2017-05-26,1,https://i.scdn.co/image/ab67616d0000b2734a444edc610388167c9dd1b9,https://open.spotify.com/album/1onK6XeDccA2NW6SlzQMNK,17
+Spotify,13,That's What I Like (feat. Gucci Mane) [Remix],2017-04-21,1,https://i.scdn.co/image/ab67616d0000b273b5595f8eddba5334f694bce6,https://open.spotify.com/album/1z4Zl2hcCiRyB4uIPeqEfr,17
+Spotify,14,BELIEVE IT,2020-03-26,1,https://i.scdn.co/image/ab67616d0000b273ad140820a035170b607f1cdf,https://open.spotify.com/album/3tGSYeqxybK0Z3OJDaar8C,14
+Spotify,15,Lemon (feat. Drake) [Drake Remix],2018-03-18,1,https://i.scdn.co/image/ab67616d0000b273e9dc25b00ec96141e0090d9f,https://open.spotify.com/album/2TKbBIv3QaM46sT9BtHKm1,14
+Spotify,16,nadie sabe lo que va a pasar mañana,2023-10-13,15,https://i.scdn.co/image/ab67616d0000b2737b1fc51ff3257b5286a1ecec,https://open.spotify.com/album/4FftCsAcXXD1nFO9RFUNFO,1
+Spotify,17,Un Verano Sin Ti,2022-05-06,15,https://i.scdn.co/image/ab67616d0000b27349d694203245f241a1bcaa72,https://open.spotify.com/album/3RQQmkQEvNCY4prGKE6oc5,1
+Spotify,18,EL ÚLTIMO TOUR DEL MUNDO,2020-11-27,15,https://i.scdn.co/image/ab67616d0000b273005ee342f4eef2cc6e8436ab,https://open.spotify.com/album/2d9BCZeAAhiZWPpbX9aPCW,1
+Spotify,19,LAS QUE NO IBAN A SALIR,2020-05-10,9,https://i.scdn.co/image/ab67616d0000b273ae879683217d488c39600092,https://open.spotify.com/album/4gvQO5mEuhbMSrLIuwXkmz,1
+Spotify,20,YHLQMDLG,2020-02-29,15,https://i.scdn.co/image/ab67616d0000b273548f7ec52da7313de0c5e4a0,https://open.spotify.com/album/5lJqux7orBlA1QzyiBGti1,1
+Spotify,21,X 100PRE,2018-12-23,15,https://i.scdn.co/image/ab67616d0000b273519266cd05491a5b5bc22d1e,https://open.spotify.com/album/7CjJb2mikwAWA1V6kewFBF,1
+Spotify,22,Qué Pasaría...,2024-11-14,1,https://i.scdn.co/image/ab67616d0000b273de2dac1219174d337e9bee1c,https://open.spotify.com/album/0uuqkIU29zH9mpChddc5Tn,1
+Spotify,23,Una Velita,2024-09-19,1,https://i.scdn.co/image/ab67616d0000b273eb5efee120bead72cefb2f0d,https://open.spotify.com/album/2HQzboxa5GyWpk2aiPP5i6,1
+Spotify,24,ADIVINO,2024-04-25,1,https://i.scdn.co/image/ab67616d0000b273b41f34aa51be675c5cfd3d94,https://open.spotify.com/album/3sRyLQf04m9vm40JNRFiCl,1
+Spotify,25,UN PREVIEW,2023-09-25,1,https://i.scdn.co/image/ab67616d0000b273c1156c6f6dedd4b9bdf89428,https://open.spotify.com/album/72GhGik5fsSeFkgpjsllVj,1
+Spotify,26,K-POP,2023-07-21,1,https://i.scdn.co/image/ab67616d0000b273893489768de0c42b4d217b82,https://open.spotify.com/album/10eNMeTimUzAKLhCOpIUlb,1
+Spotify,27,WHERE SHE GOES,2023-05-18,1,https://i.scdn.co/image/ab67616d0000b273ab5c9cd818ad6ed3e9b79cd1,https://open.spotify.com/album/5gCcb5fsSb6w5K8SyJrgtB,1
+Spotify,28,un x100to,2023-04-17,1,https://i.scdn.co/image/ab67616d0000b273716c0b0ad51594ff788b5f06,https://open.spotify.com/album/7aGzSSUD8S6IhPCsZSiuMT,1
+Spotify,29,Gato de Noche,2022-12-22,1,https://i.scdn.co/image/ab67616d0000b273ed132404686f567c8f793058,https://open.spotify.com/album/2GS2h80Dp8rFdGEa0j0JhH,1
+Spotify,30,La Jumpa,2022-11-30,1,https://i.scdn.co/image/ab67616d0000b2731e0950bcdb5495e2038e0d14,https://open.spotify.com/album/6LOhj1aK7vkGHJXtKU16PN,1
+Spotify,31,Lo Siento BB:/ (with Bad Bunny & Julieta Venegas),2021-10-05,1,https://i.scdn.co/image/ab67616d0000b273abe9c2b5f03653d6b87696e6,https://open.spotify.com/album/4589OIFRZp41qbsp7TWFCx,1
+Spotify,32,Volví,2021-08-03,1,https://i.scdn.co/image/ab67616d0000b27312bcec4f18ee130369ce170c,https://open.spotify.com/album/23zzZlUiABIg4ftZbJ7peK,1
+Spotify,33,+-=÷× (Tour Collection),2024-09-27,15,https://i.scdn.co/image/ab67616d0000b2733f3b7c61765b74bd5cbce636,https://open.spotify.com/album/5xD1PSd5c5APDM0SdkkqnH,11
+Spotify,34,x (10th Anniversary Edition),2024-06-21,15,https://i.scdn.co/image/ab67616d0000b273eeef5eff0ccede9a1c9c30b4,https://open.spotify.com/album/1upLfaShcnjVjey0FdY7aO,11
+Spotify,35,Autumn Variations (Fan Living Room Sessions),2023-10-02,15,https://i.scdn.co/image/ab67616d0000b273b89a4c6fd745bd3751938201,https://open.spotify.com/album/5bLE2kmkZWlzAYeb6To6LA,11
+Spotify,36,Autumn Variations,2023-09-29,14,https://i.scdn.co/image/ab67616d0000b273f6549a3f99e338b94d7ddc08,https://open.spotify.com/album/5LXOgcszGvUkYzYL4v6wYg,11
+Spotify,37,- (Deluxe),2023-05-05,15,https://i.scdn.co/image/ab67616d0000b273a0aea3805ed6a87aa394c796,https://open.spotify.com/album/2WFFcvzM0CgLaSq4MSkyZk,11
+Spotify,38,= (Tour Edition),2022-05-27,15,https://i.scdn.co/image/ab67616d0000b2734fde7fa3d1ccfab7c41a96ff,https://open.spotify.com/album/5PGxLbdxJa0nds8PefyTBf,11
+Spotify,39,=,2021-10-25,14,https://i.scdn.co/image/ab67616d0000b273ef24c3fdbf856340d55cfeb2,https://open.spotify.com/album/32iAEBstCjauDhyKpGjTuq,11
+Spotify,40,2step (The Remixes),2021-10-25,14,https://i.scdn.co/image/ab67616d0000b27320384043656216cb372f9739,https://open.spotify.com/album/0a28QsFN8zbrWSvbSQ40PI,11
+Spotify,41,No.6 Collaborations Project,2019-07-12,15,https://i.scdn.co/image/ab67616d0000b27373304ce0653c7758dd94b259,https://open.spotify.com/album/3oIFxDIo2fwuk4lwCmFZCx,11
+Spotify,42,÷ (Deluxe),2017-03-03,15,https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96,https://open.spotify.com/album/3T4tUhGYeRNVUGevb0wThu,11
+Spotify,43,x (Wembley Edition),2015-11-13,15,https://i.scdn.co/image/ab67616d0000b273407981084d79d283e24d428e,https://open.spotify.com/album/0MeOIA0wwSa6nW79jy8QcZ,11
+Spotify,44,x (Deluxe Edition),2014-06-21,15,https://i.scdn.co/image/ab67616d0000b27313b3e37318a0c247b550bccd,https://open.spotify.com/album/1xn54DMo2qIqBuMqHtUsFd,11
+Spotify,45,5,2014-06-20,15,https://i.scdn.co/image/ab67616d0000b2732fec3ad10ab2f3a637e7a127,https://open.spotify.com/album/2hyDesSAYNefikDJXlqhPE,11
+Spotify,46,Loose Change,2011-12-09,8,https://i.scdn.co/image/ab67616d0000b273bc17a9c21d5a81d341945ed2,https://open.spotify.com/album/3QbPtoOWiJqZurXXxJwaOD,11
+Spotify,47,Live at the Bedford,2011-12-09,6,https://i.scdn.co/image/ab67616d0000b2734dc715d4872af21780dc2b1e,https://open.spotify.com/album/4JUtnlZKdLr01xEIymhm0G,11
+Spotify,48,No.5 Collaborations Project,2011-09-09,8,https://i.scdn.co/image/ab67616d0000b2733c33fbe943babf9510e3715c,https://open.spotify.com/album/6DpIyaMgt5p9HlGd1c0LDM,11
+Spotify,49,+,2011-09-09,15,https://i.scdn.co/image/ab67616d0000b2736567a393a964a845a89b7f70,https://open.spotify.com/album/02pi98kE0nra0yBqCStzbC,11
+Spotify,50,kiss me under the light of a thousand stars,2024-09-18,6,https://i.scdn.co/image/ab67616d0000b27387b85225d24eda2d6d77d330,https://open.spotify.com/album/5uwmamGSJ3ayFsFflf8Wp5,11
+Apple,1,Medicine,2014-12-16,11,https://i.scdn.co/image/ab67616d0000b273d769902adf30cbac5f57813a,https://open.spotify.com/album/1rzYGG9bjKtnER0TRwXJBj,7
+Apple,2,Remember This (Anniversary Edition),2013-04-29,10,https://i.scdn.co/image/ab67616d0000b273038892a20bdfad90ec3ceb3e,https://open.spotify.com/album/5KZ46SfLC1KiGvWN8ZRp6z,7
+Apple,3,Remember This,2012-04-25,8,https://i.scdn.co/image/ab67616d0000b2730f4b00c66ca8a72c5090b176,https://open.spotify.com/album/3glBFwFiRWH7z868H1oXDg,7
+Apple,4,Sleep EP,2013-08-21,6,https://i.scdn.co/image/ab67616d0000b273e6bf42423d91ba49661b5ae5,https://open.spotify.com/album/0XFtE7NwZl6mYLIxV4MiAN,7
+Apple,5,Harry's House,2022-05-20,13,https://i.scdn.co/image/ab67616d0000b2732e8ed79e177ff6011076f5f0,https://open.spotify.com/album/5r36AJ6VOJtp00oxSkBZ5h,16
+Apple,6,Fine Line,2019-12-13,12,https://i.scdn.co/image/ab67616d0000b27377fdcfda6535601aff081b6a,https://open.spotify.com/album/7xV2TzoaVc0ycW7fwBwAml,16
+Apple,7,Harry Styles,2017-05-12,10,https://i.scdn.co/image/ab67616d0000b2736c619c39c853f8b1d67b7859,https://open.spotify.com/album/1FZKIm3JVDCxTchXDo5jOV,16
+Apple,8,Spotify Singles,2017-09-27,2,https://i.scdn.co/image/ab67616d0000b273828f29c88bf2b2ac07cfd3a7,https://open.spotify.com/album/7neiWgd56IO7vi2cRUP8Tj,16
