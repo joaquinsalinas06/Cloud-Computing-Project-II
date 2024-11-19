@@ -1,0 +1,158 @@
+[
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "name": {
+      "S": "Ed Sheeran"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1961-10-31"
+    }, 
+    "country": {
+      "S": "Bhutan"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb784daff754ecfe0464ddbeb9"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "artist_id": {
+      "N": 2
+    }, 
+    "name": {
+      "S": "Bad Bunny"
+    }, 
+    "genre": {
+      "S": "reggaeton"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1981-05-26"
+    }, 
+    "country": {
+      "S": "Belize"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb744a4243fb6cc938011a98f4"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "artist_id": {
+      "N": 3
+    }, 
+    "name": {
+      "S": "Rihanna"
+    }, 
+    "genre": {
+      "S": "barbadian pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1991-07-03"
+    }, 
+    "country": {
+      "S": "Argentina"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb99e4fca7c0b7cb166d915789"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "name": {
+      "S": "Ed Sheeran"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1966-06-04"
+    }, 
+    "country": {
+      "S": "Togo"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb784daff754ecfe0464ddbeb9"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "artist_id": {
+      "N": 2
+    }, 
+    "name": {
+      "S": "Taylor Swift"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1958-10-25"
+    }, 
+    "country": {
+      "S": "Cameroon"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebe672b5f553298dcdccb0e676"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "artist_id": {
+      "N": 3
+    }, 
+    "name": {
+      "S": "Olivia Rodrigo"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1988-11-01"
+    }, 
+    "country": {
+      "S": "Mauritius"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebe03a98785f3658f0b6461ec4"
+    }
+  }
+]

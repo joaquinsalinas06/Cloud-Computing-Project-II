@@ -19,12 +19,12 @@ def generate_playlist_data(
 
         playlists_json_list.append(
             {
-                "provider_id": provider_id,
-                "user_id": user_id,
-                "playlist_id": playlist_id,
-                "playlist_name": playlist_name,
-                "song_ids": unique_songs_ids,
-                "created_at": faker.date_time_between(start_date="-5y", end_date="now").strftime("%Y-%m-%d %H:%M:%S"),
+                "provider_id": {"S": provider_id},
+                "user_id": {"N": user_id},
+                "playlist_id": {"N": playlist_id},
+                "playlist_name": {"S": playlist_name},
+                "song_ids": {"NS": [str(song_id) for song_id in unique_songs_ids]},
+                "created_at": {"S": faker.date_time_this_year().strftime("%Y-%m-%d %H:%M:%S")},
             }
         )
 

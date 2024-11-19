@@ -4,16 +4,15 @@ import pandas as pd
 
 from data_setup.utils.shared_faker import faker
 from data_setup.utils.spotify_methods import *
-from data_setup.utils.write_to_csv import write_to_csv
+from data_setup.utils.write_to_json import write_to_json
 
 
 def generate_artists_songs_albums(
         artists_dict: dict[int, dict[str, Any]], provider_id: str
 ) -> tuple[tuple, tuple, tuple]:
-    artists_csv_list: list[dict[str, Any]] = []
-    albums_csv_list: list[dict[str, Any]] = []
-    songs_csv_list: list[dict[str, Any]] = []
-    artist_songs_csv_list: list[dict[str, Any]] = []
+    artists_json_list: list[dict[str, Any]] = []
+    albums_json_list: list[dict[str, Any]] = []
+    songs_json_list: list[dict[str, Any]] = []
 
     artists_keys: list[int] = []
     albums_keys: list[int] = []
@@ -27,6 +26,7 @@ def generate_artists_songs_albums(
     selected_artists = dict(random.sample(list(artists_dict.items()), num_artists_to_select))
 
     for artist_id, artist_info in selected_artists.items():
+        print(f"Processing artist {artist_info['name']}")
         artist_count += 1
         artist_spotify_id = get_artist_id(artist_info["name"])
 
@@ -38,22 +38,21 @@ def generate_artists_songs_albums(
         if artist_genre is None:
             artist_genre = artist_info["genre"][0]
 
-        birth_date = faker.date_of_birth(minimum_age=20, maximum_age=70)
+        birth_date = faker.date_of_birth(minimum_age=20, maximum_age=70).strftime("%Y-%m-%d")
         artist_status = faker.random_element(elements=('Active', 'Inactive'))
         artist_country = faker.country()
 
-        artists_csv_list.append(
+        artists_json_list.append(
             {
-                "provider_id": provider_id,
-                "artist_id": artist_count,
-                "name": artist_info["name"],
-                "genre": artist_genre,
-                "status": artist_status,
-                "birth_date": birth_date,
-                "country": artist_country,
-                "cover_image_url": image_url
+                "provider_id": {"S": provider_id},
+                "artist_id": {"N": artist_count},
+                "name": {"S": artist_info["name"]},
+                "genre": {"S": artist_genre},
+                "status": {"BOOL": artist_status == 'Active'},
+                "birth_date": {"S": birth_date},
+                "country": {"S": artist_country},
+                "cover_image_url": {"S": image_url}
             }
-
         )
         artists_keys.append(artist_count)
 
@@ -79,23 +78,7 @@ def generate_artists_songs_albums(
                 continue
 
             songs_count = len(songs)
-
-            albums_csv_list.append(
-                {
-                    "provider_id": provider_id,
-                    "album_id": album_counter,
-                    "title": album_title,
-                    "release_date": pd.to_datetime(
-                        album_release_date, errors="coerce"
-                    ).strftime("%Y-%m-%d"),
-                    "songs_count": songs_count,
-                    "cover_image_url": album_cover_image_url,
-                    "spotify_url": album_link,
-                    "artist_id": artist_id
-                }
-
-            )
-            albums_keys.append(album_counter)
+            song_ids = []
 
             for song in songs:
                 song_counter += 1
@@ -106,38 +89,47 @@ def generate_artists_songs_albums(
                 song_preview_url = song["preview_url"]
                 genre = random.choice(artist_info["genre"])
 
-                songs_csv_list.append(
+                songs_json_list.append(
                     {
-                        "provider_id": provider_id,
-                        "song_id": song_counter,
-                        "title": song_title,
-                        "genre": genre,
-                        "release_date": pd.to_datetime(
+                        "provider_id": {"S": provider_id},
+                        "song_id": {"N": song_counter},
+                        "title": {"S": song_title},
+                        "genre": {"S": genre},
+                        "release_date": {"S": pd.to_datetime(
                             song_release_date, errors="coerce"
-                        ).strftime("%Y-%m-%d"),
-                        "duration": str(song_duration // 60).zfill(2)
-                                    + ":"
-                                    + str(song_duration % 60).zfill(2),
-                        "cover_image_url": album_cover_image_url,
-                        "times_played": faker.random_int(min=0, max=100000),
-                        "song_url": song_link,
-                        "preview_music_url": song_preview_url,
-                        "album_id": album_counter,
+                        ).strftime("%Y-%m-%d")},
+                        "duration": {"S": str(song_duration // 60).zfill(2)
+                                          + ":" + str(song_duration % 60).zfill(2)},
+                        "cover_image_url": {"S": album_cover_image_url},
+                        "times_played": {"N": faker.random_int(min=0, max=100000)},
+                        "song_url": {"S": song_link},
+                        "preview_music_url": {"S": song_preview_url},
+                        "album_id": {"N": album_counter},
+                        "artist_id": {"N": artist_id},
                     }
-
                 )
                 songs_keys.append(song_counter)
+                song_ids.append(song_counter)
 
-                artist_songs_csv_list.append(
-                    {
-                        "artist_id": artist_id,
-                        "song_id": song_counter,
-                    }
-                )
+            albums_json_list.append(
+                {
+                    "provider_id": {"S": provider_id},
+                    "album_id": {"N": album_counter},
+                    "title": {"S": album_title},
+                    "release_date": {"S": pd.to_datetime(
+                        album_release_date, errors="coerce"
+                    ).strftime("%Y-%m-%d")},
+                    "songs_count": {"N": songs_count},
+                    "cover_image_url": {"S": album_cover_image_url},
+                    "spotify_url": {"S": album_link},
+                    "artist_id": {"N": artist_id},
+                    "song_ids": {"NS": [str(song_id) for song_id in song_ids]}
+                }
+            )
+            albums_keys.append(album_counter)
 
-    write_to_csv(artists_csv_list, "artists")
-    write_to_csv(albums_csv_list, "albums")
-    write_to_csv(songs_csv_list, "songs")
-    write_to_csv(artist_songs_csv_list, "artist_songs")
+    write_to_json(artists_json_list, "artists")
+    write_to_json(albums_json_list, "albums")
+    write_to_json(songs_json_list, "songs")
 
     return tuple(artists_keys), tuple(albums_keys), tuple(songs_keys)

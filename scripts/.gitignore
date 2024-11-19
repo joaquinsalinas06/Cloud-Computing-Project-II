@@ -1,5 +1,4 @@
 .env
 .idea
-/output/*.csv
-/output/*.json
-.cache
+./output
+*.cache

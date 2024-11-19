@@ -13,7 +13,6 @@ def generate_post_data(
         provider_id: str,
 ) -> None:
     post_csv_list: list[dict[str, Any]] = []
-    post_likes_csv_list: list[dict[str, Any]] = []
 
     for post_id in range(rows_amount):
         likes = random.randint(0, 25)
@@ -42,15 +41,4 @@ def generate_post_data(
             }
         )
 
-        unique_user_ids = random.sample(user_keys, likes)
-
-        for user_id in unique_user_ids:
-            post_likes_csv_list.append(
-                {
-                    "post_id": len(post_csv_list),
-                    "user_id": user_id,
-                }
-            )
-
     write_to_csv(post_csv_list, "posts")
-    write_to_csv(post_likes_csv_list, "post_likes")
