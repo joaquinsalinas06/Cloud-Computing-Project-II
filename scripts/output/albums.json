@@ -1,0 +1,2219 @@
+[
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 1
+    }, 
+    "title": {
+      "S": "+-=÷× (Tour Collection)"
+    }, 
+    "release_date": {
+      "S": "2024-09-27"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b2733f3b7c61765b74bd5cbce636"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/5xD1PSd5c5APDM0SdkkqnH"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "1", 
+        "2", 
+        "3", 
+        "4", 
+        "5", 
+        "6", 
+        "7", 
+        "8", 
+        "9", 
+        "10", 
+        "11", 
+        "12", 
+        "13", 
+        "14", 
+        "15"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 2
+    }, 
+    "title": {
+      "S": "x (10th Anniversary Edition)"
+    }, 
+    "release_date": {
+      "S": "2024-06-21"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273eeef5eff0ccede9a1c9c30b4"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/1upLfaShcnjVjey0FdY7aO"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "16", 
+        "17", 
+        "18", 
+        "19", 
+        "20", 
+        "21", 
+        "22", 
+        "23", 
+        "24", 
+        "25", 
+        "26", 
+        "27", 
+        "28", 
+        "29", 
+        "30"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 3
+    }, 
+    "title": {
+      "S": "Autumn Variations (Fan Living Room Sessions)"
+    }, 
+    "release_date": {
+      "S": "2023-10-02"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273b89a4c6fd745bd3751938201"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/5bLE2kmkZWlzAYeb6To6LA"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "31", 
+        "32", 
+        "33", 
+        "34", 
+        "35", 
+        "36", 
+        "37", 
+        "38", 
+        "39", 
+        "40", 
+        "41", 
+        "42", 
+        "43", 
+        "44", 
+        "45"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 4
+    }, 
+    "title": {
+      "S": "Autumn Variations"
+    }, 
+    "release_date": {
+      "S": "2023-09-29"
+    }, 
+    "songs_count": {
+      "N": 14
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273f6549a3f99e338b94d7ddc08"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/5LXOgcszGvUkYzYL4v6wYg"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "46", 
+        "47", 
+        "48", 
+        "49", 
+        "50", 
+        "51", 
+        "52", 
+        "53", 
+        "54", 
+        "55", 
+        "56", 
+        "57", 
+        "58", 
+        "59"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 5
+    }, 
+    "title": {
+      "S": "- (Deluxe)"
+    }, 
+    "release_date": {
+      "S": "2023-05-05"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273a0aea3805ed6a87aa394c796"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/2WFFcvzM0CgLaSq4MSkyZk"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "60", 
+        "61", 
+        "62", 
+        "63", 
+        "64", 
+        "65", 
+        "66", 
+        "67", 
+        "68", 
+        "69", 
+        "70", 
+        "71", 
+        "72", 
+        "73", 
+        "74"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 6
+    }, 
+    "title": {
+      "S": "= (Tour Edition)"
+    }, 
+    "release_date": {
+      "S": "2022-05-27"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b2734fde7fa3d1ccfab7c41a96ff"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/5PGxLbdxJa0nds8PefyTBf"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "75", 
+        "76", 
+        "77", 
+        "78", 
+        "79", 
+        "80", 
+        "81", 
+        "82", 
+        "83", 
+        "84", 
+        "85", 
+        "86", 
+        "87", 
+        "88", 
+        "89"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 7
+    }, 
+    "title": {
+      "S": "="
+    }, 
+    "release_date": {
+      "S": "2021-10-25"
+    }, 
+    "songs_count": {
+      "N": 14
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273ef24c3fdbf856340d55cfeb2"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/32iAEBstCjauDhyKpGjTuq"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "90", 
+        "91", 
+        "92", 
+        "93", 
+        "94", 
+        "95", 
+        "96", 
+        "97", 
+        "98", 
+        "99", 
+        "100", 
+        "101", 
+        "102", 
+        "103"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 8
+    }, 
+    "title": {
+      "S": "2step (The Remixes)"
+    }, 
+    "release_date": {
+      "S": "2021-10-25"
+    }, 
+    "songs_count": {
+      "N": 14
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b27320384043656216cb372f9739"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/0a28QsFN8zbrWSvbSQ40PI"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "104", 
+        "105", 
+        "106", 
+        "107", 
+        "108", 
+        "109", 
+        "110", 
+        "111", 
+        "112", 
+        "113", 
+        "114", 
+        "115", 
+        "116", 
+        "117"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 9
+    }, 
+    "title": {
+      "S": "No.6 Collaborations Project"
+    }, 
+    "release_date": {
+      "S": "2019-07-12"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b27373304ce0653c7758dd94b259"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/3oIFxDIo2fwuk4lwCmFZCx"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "118", 
+        "119", 
+        "120", 
+        "121", 
+        "122", 
+        "123", 
+        "124", 
+        "125", 
+        "126", 
+        "127", 
+        "128", 
+        "129", 
+        "130", 
+        "131", 
+        "132"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 10
+    }, 
+    "title": {
+      "S": "÷ (Deluxe)"
+    }, 
+    "release_date": {
+      "S": "2017-03-03"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/3T4tUhGYeRNVUGevb0wThu"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "133", 
+        "134", 
+        "135", 
+        "136", 
+        "137", 
+        "138", 
+        "139", 
+        "140", 
+        "141", 
+        "142", 
+        "143", 
+        "144", 
+        "145", 
+        "146", 
+        "147"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 11
+    }, 
+    "title": {
+      "S": "x (Wembley Edition)"
+    }, 
+    "release_date": {
+      "S": "2015-11-13"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273407981084d79d283e24d428e"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/0MeOIA0wwSa6nW79jy8QcZ"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "148", 
+        "149", 
+        "150", 
+        "151", 
+        "152", 
+        "153", 
+        "154", 
+        "155", 
+        "156", 
+        "157", 
+        "158", 
+        "159", 
+        "160", 
+        "161", 
+        "162"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 12
+    }, 
+    "title": {
+      "S": "x (Deluxe Edition)"
+    }, 
+    "release_date": {
+      "S": "2014-06-21"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b27313b3e37318a0c247b550bccd"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/1xn54DMo2qIqBuMqHtUsFd"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "163", 
+        "164", 
+        "165", 
+        "166", 
+        "167", 
+        "168", 
+        "169", 
+        "170", 
+        "171", 
+        "172", 
+        "173", 
+        "174", 
+        "175", 
+        "176", 
+        "177"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 13
+    }, 
+    "title": {
+      "S": "5"
+    }, 
+    "release_date": {
+      "S": "2014-06-20"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b2732fec3ad10ab2f3a637e7a127"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/2hyDesSAYNefikDJXlqhPE"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "178", 
+        "179", 
+        "180", 
+        "181", 
+        "182", 
+        "183", 
+        "184", 
+        "185", 
+        "186", 
+        "187", 
+        "188", 
+        "189", 
+        "190", 
+        "191", 
+        "192"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 14
+    }, 
+    "title": {
+      "S": "Loose Change"
+    }, 
+    "release_date": {
+      "S": "2011-12-09"
+    }, 
+    "songs_count": {
+      "N": 8
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273bc17a9c21d5a81d341945ed2"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/3QbPtoOWiJqZurXXxJwaOD"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "193", 
+        "194", 
+        "195", 
+        "196", 
+        "197", 
+        "198", 
+        "199", 
+        "200"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 15
+    }, 
+    "title": {
+      "S": "Live at the Bedford"
+    }, 
+    "release_date": {
+      "S": "2011-12-09"
+    }, 
+    "songs_count": {
+      "N": 6
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b2734dc715d4872af21780dc2b1e"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/4JUtnlZKdLr01xEIymhm0G"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "201", 
+        "202", 
+        "203", 
+        "204", 
+        "205", 
+        "206"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 16
+    }, 
+    "title": {
+      "S": "No.5 Collaborations Project"
+    }, 
+    "release_date": {
+      "S": "2011-09-09"
+    }, 
+    "songs_count": {
+      "N": 8
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b2733c33fbe943babf9510e3715c"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/6DpIyaMgt5p9HlGd1c0LDM"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "207", 
+        "208", 
+        "209", 
+        "210", 
+        "211", 
+        "212", 
+        "213", 
+        "214"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 17
+    }, 
+    "title": {
+      "S": "+"
+    }, 
+    "release_date": {
+      "S": "2011-09-09"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b2736567a393a964a845a89b7f70"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/02pi98kE0nra0yBqCStzbC"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "215", 
+        "216", 
+        "217", 
+        "218", 
+        "219", 
+        "220", 
+        "221", 
+        "222", 
+        "223", 
+        "224", 
+        "225", 
+        "226", 
+        "227", 
+        "228", 
+        "229"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 18
+    }, 
+    "title": {
+      "S": "kiss me under the light of a thousand stars"
+    }, 
+    "release_date": {
+      "S": "2024-09-18"
+    }, 
+    "songs_count": {
+      "N": 6
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b27387b85225d24eda2d6d77d330"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/5uwmamGSJ3ayFsFflf8Wp5"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "230", 
+        "231", 
+        "232", 
+        "233", 
+        "234", 
+        "235"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 19
+    }, 
+    "title": {
+      "S": "nadie sabe lo que va a pasar mañana"
+    }, 
+    "release_date": {
+      "S": "2023-10-13"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b2737b1fc51ff3257b5286a1ecec"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/4FftCsAcXXD1nFO9RFUNFO"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "236", 
+        "237", 
+        "238", 
+        "239", 
+        "240", 
+        "241", 
+        "242", 
+        "243", 
+        "244", 
+        "245", 
+        "246", 
+        "247", 
+        "248", 
+        "249", 
+        "250"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 20
+    }, 
+    "title": {
+      "S": "Un Verano Sin Ti"
+    }, 
+    "release_date": {
+      "S": "2022-05-06"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b27349d694203245f241a1bcaa72"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/3RQQmkQEvNCY4prGKE6oc5"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "251", 
+        "252", 
+        "253", 
+        "254", 
+        "255", 
+        "256", 
+        "257", 
+        "258", 
+        "259", 
+        "260", 
+        "261", 
+        "262", 
+        "263", 
+        "264", 
+        "265"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 21
+    }, 
+    "title": {
+      "S": "EL ÚLTIMO TOUR DEL MUNDO"
+    }, 
+    "release_date": {
+      "S": "2020-11-27"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273005ee342f4eef2cc6e8436ab"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/2d9BCZeAAhiZWPpbX9aPCW"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "266", 
+        "267", 
+        "268", 
+        "269", 
+        "270", 
+        "271", 
+        "272", 
+        "273", 
+        "274", 
+        "275", 
+        "276", 
+        "277", 
+        "278", 
+        "279", 
+        "280"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 22
+    }, 
+    "title": {
+      "S": "LAS QUE NO IBAN A SALIR"
+    }, 
+    "release_date": {
+      "S": "2020-05-10"
+    }, 
+    "songs_count": {
+      "N": 9
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273ae879683217d488c39600092"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/4gvQO5mEuhbMSrLIuwXkmz"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "281", 
+        "282", 
+        "283", 
+        "284", 
+        "285", 
+        "286", 
+        "287", 
+        "288", 
+        "289"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 23
+    }, 
+    "title": {
+      "S": "YHLQMDLG"
+    }, 
+    "release_date": {
+      "S": "2020-02-29"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273548f7ec52da7313de0c5e4a0"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/5lJqux7orBlA1QzyiBGti1"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "290", 
+        "291", 
+        "292", 
+        "293", 
+        "294", 
+        "295", 
+        "296", 
+        "297", 
+        "298", 
+        "299", 
+        "300", 
+        "301", 
+        "302", 
+        "303", 
+        "304"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 24
+    }, 
+    "title": {
+      "S": "X 100PRE"
+    }, 
+    "release_date": {
+      "S": "2018-12-23"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273519266cd05491a5b5bc22d1e"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/7CjJb2mikwAWA1V6kewFBF"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "305", 
+        "306", 
+        "307", 
+        "308", 
+        "309", 
+        "310", 
+        "311", 
+        "312", 
+        "313", 
+        "314", 
+        "315", 
+        "316", 
+        "317", 
+        "318", 
+        "319"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 25
+    }, 
+    "title": {
+      "S": "Qué Pasaría..."
+    }, 
+    "release_date": {
+      "S": "2024-11-14"
+    }, 
+    "songs_count": {
+      "N": 1
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273de2dac1219174d337e9bee1c"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/0uuqkIU29zH9mpChddc5Tn"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "320"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 26
+    }, 
+    "title": {
+      "S": "Una Velita"
+    }, 
+    "release_date": {
+      "S": "2024-09-19"
+    }, 
+    "songs_count": {
+      "N": 1
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273eb5efee120bead72cefb2f0d"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/2HQzboxa5GyWpk2aiPP5i6"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "321"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 27
+    }, 
+    "title": {
+      "S": "ADIVINO"
+    }, 
+    "release_date": {
+      "S": "2024-04-25"
+    }, 
+    "songs_count": {
+      "N": 1
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273b41f34aa51be675c5cfd3d94"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/3sRyLQf04m9vm40JNRFiCl"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "322"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 28
+    }, 
+    "title": {
+      "S": "UN PREVIEW"
+    }, 
+    "release_date": {
+      "S": "2023-09-25"
+    }, 
+    "songs_count": {
+      "N": 1
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273c1156c6f6dedd4b9bdf89428"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/72GhGik5fsSeFkgpjsllVj"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "323"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 29
+    }, 
+    "title": {
+      "S": "K-POP"
+    }, 
+    "release_date": {
+      "S": "2023-07-21"
+    }, 
+    "songs_count": {
+      "N": 1
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273893489768de0c42b4d217b82"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/10eNMeTimUzAKLhCOpIUlb"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "324"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 30
+    }, 
+    "title": {
+      "S": "WHERE SHE GOES"
+    }, 
+    "release_date": {
+      "S": "2023-05-18"
+    }, 
+    "songs_count": {
+      "N": 1
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273ab5c9cd818ad6ed3e9b79cd1"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/5gCcb5fsSb6w5K8SyJrgtB"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "325"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 31
+    }, 
+    "title": {
+      "S": "un x100to"
+    }, 
+    "release_date": {
+      "S": "2023-04-17"
+    }, 
+    "songs_count": {
+      "N": 1
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273716c0b0ad51594ff788b5f06"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/7aGzSSUD8S6IhPCsZSiuMT"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "326"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 32
+    }, 
+    "title": {
+      "S": "Gato de Noche"
+    }, 
+    "release_date": {
+      "S": "2022-12-22"
+    }, 
+    "songs_count": {
+      "N": 1
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273ed132404686f567c8f793058"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/2GS2h80Dp8rFdGEa0j0JhH"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "327"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 33
+    }, 
+    "title": {
+      "S": "La Jumpa"
+    }, 
+    "release_date": {
+      "S": "2022-11-30"
+    }, 
+    "songs_count": {
+      "N": 1
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b2731e0950bcdb5495e2038e0d14"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/6LOhj1aK7vkGHJXtKU16PN"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "328"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 34
+    }, 
+    "title": {
+      "S": "Lo Siento BB:/ (with Bad Bunny & Julieta Venegas)"
+    }, 
+    "release_date": {
+      "S": "2021-10-05"
+    }, 
+    "songs_count": {
+      "N": 1
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273abe9c2b5f03653d6b87696e6"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/4589OIFRZp41qbsp7TWFCx"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "329"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 35
+    }, 
+    "title": {
+      "S": "Volví"
+    }, 
+    "release_date": {
+      "S": "2021-08-03"
+    }, 
+    "songs_count": {
+      "N": 1
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b27312bcec4f18ee130369ce170c"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/23zzZlUiABIg4ftZbJ7peK"
+    }, 
+    "artist_id": {
+      "N": 1
+    }, 
+    "song_ids": {
+      "NS": [
+        "330"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 36
+    }, 
+    "title": {
+      "S": "BELIEVE IT"
+    }, 
+    "release_date": {
+      "S": "2020-03-26"
+    }, 
+    "songs_count": {
+      "N": 1
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273ad140820a035170b607f1cdf"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/3tGSYeqxybK0Z3OJDaar8C"
+    }, 
+    "artist_id": {
+      "N": 14
+    }, 
+    "song_ids": {
+      "NS": [
+        "331"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Spotify"
+    }, 
+    "album_id": {
+      "N": 37
+    }, 
+    "title": {
+      "S": "Lemon (feat. Drake) [Drake Remix]"
+    }, 
+    "release_date": {
+      "S": "2018-03-18"
+    }, 
+    "songs_count": {
+      "N": 1
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273e9dc25b00ec96141e0090d9f"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/2TKbBIv3QaM46sT9BtHKm1"
+    }, 
+    "artist_id": {
+      "N": 14
+    }, 
+    "song_ids": {
+      "NS": [
+        "332"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 1
+    }, 
+    "title": {
+      "S": "+-=÷× (Tour Collection)"
+    }, 
+    "release_date": {
+      "S": "2024-09-27"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b2733f3b7c61765b74bd5cbce636"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/5xD1PSd5c5APDM0SdkkqnH"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "1", 
+        "2", 
+        "3", 
+        "4", 
+        "5", 
+        "6", 
+        "7", 
+        "8", 
+        "9", 
+        "10", 
+        "11", 
+        "12", 
+        "13", 
+        "14", 
+        "15"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 2
+    }, 
+    "title": {
+      "S": "x (10th Anniversary Edition)"
+    }, 
+    "release_date": {
+      "S": "2024-06-21"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273eeef5eff0ccede9a1c9c30b4"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/1upLfaShcnjVjey0FdY7aO"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "16", 
+        "17", 
+        "18", 
+        "19", 
+        "20", 
+        "21", 
+        "22", 
+        "23", 
+        "24", 
+        "25", 
+        "26", 
+        "27", 
+        "28", 
+        "29", 
+        "30"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 3
+    }, 
+    "title": {
+      "S": "Autumn Variations (Fan Living Room Sessions)"
+    }, 
+    "release_date": {
+      "S": "2023-10-02"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273b89a4c6fd745bd3751938201"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/5bLE2kmkZWlzAYeb6To6LA"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "31", 
+        "32", 
+        "33", 
+        "34", 
+        "35", 
+        "36", 
+        "37", 
+        "38", 
+        "39", 
+        "40", 
+        "41", 
+        "42", 
+        "43", 
+        "44", 
+        "45"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 4
+    }, 
+    "title": {
+      "S": "Autumn Variations"
+    }, 
+    "release_date": {
+      "S": "2023-09-29"
+    }, 
+    "songs_count": {
+      "N": 14
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273f6549a3f99e338b94d7ddc08"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/5LXOgcszGvUkYzYL4v6wYg"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "46", 
+        "47", 
+        "48", 
+        "49", 
+        "50", 
+        "51", 
+        "52", 
+        "53", 
+        "54", 
+        "55", 
+        "56", 
+        "57", 
+        "58", 
+        "59"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 5
+    }, 
+    "title": {
+      "S": "- (Deluxe)"
+    }, 
+    "release_date": {
+      "S": "2023-05-05"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273a0aea3805ed6a87aa394c796"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/2WFFcvzM0CgLaSq4MSkyZk"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "60", 
+        "61", 
+        "62", 
+        "63", 
+        "64", 
+        "65", 
+        "66", 
+        "67", 
+        "68", 
+        "69", 
+        "70", 
+        "71", 
+        "72", 
+        "73", 
+        "74"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 6
+    }, 
+    "title": {
+      "S": "= (Tour Edition)"
+    }, 
+    "release_date": {
+      "S": "2022-05-27"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b2734fde7fa3d1ccfab7c41a96ff"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/5PGxLbdxJa0nds8PefyTBf"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "75", 
+        "76", 
+        "77", 
+        "78", 
+        "79", 
+        "80", 
+        "81", 
+        "82", 
+        "83", 
+        "84", 
+        "85", 
+        "86", 
+        "87", 
+        "88", 
+        "89"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 7
+    }, 
+    "title": {
+      "S": "="
+    }, 
+    "release_date": {
+      "S": "2021-10-25"
+    }, 
+    "songs_count": {
+      "N": 14
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273ef24c3fdbf856340d55cfeb2"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/32iAEBstCjauDhyKpGjTuq"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "90", 
+        "91", 
+        "92", 
+        "93", 
+        "94", 
+        "95", 
+        "96", 
+        "97", 
+        "98", 
+        "99", 
+        "100", 
+        "101", 
+        "102", 
+        "103"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 8
+    }, 
+    "title": {
+      "S": "2step (The Remixes)"
+    }, 
+    "release_date": {
+      "S": "2021-10-25"
+    }, 
+    "songs_count": {
+      "N": 14
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b27320384043656216cb372f9739"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/0a28QsFN8zbrWSvbSQ40PI"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "104", 
+        "105", 
+        "106", 
+        "107", 
+        "108", 
+        "109", 
+        "110", 
+        "111", 
+        "112", 
+        "113", 
+        "114", 
+        "115", 
+        "116", 
+        "117"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 9
+    }, 
+    "title": {
+      "S": "No.6 Collaborations Project"
+    }, 
+    "release_date": {
+      "S": "2019-07-12"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b27373304ce0653c7758dd94b259"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/3oIFxDIo2fwuk4lwCmFZCx"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "118", 
+        "119", 
+        "120", 
+        "121", 
+        "122", 
+        "123", 
+        "124", 
+        "125", 
+        "126", 
+        "127", 
+        "128", 
+        "129", 
+        "130", 
+        "131", 
+        "132"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 10
+    }, 
+    "title": {
+      "S": "÷ (Deluxe)"
+    }, 
+    "release_date": {
+      "S": "2017-03-03"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/3T4tUhGYeRNVUGevb0wThu"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "133", 
+        "134", 
+        "135", 
+        "136", 
+        "137", 
+        "138", 
+        "139", 
+        "140", 
+        "141", 
+        "142", 
+        "143", 
+        "144", 
+        "145", 
+        "146", 
+        "147"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 11
+    }, 
+    "title": {
+      "S": "x (Wembley Edition)"
+    }, 
+    "release_date": {
+      "S": "2015-11-13"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273407981084d79d283e24d428e"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/0MeOIA0wwSa6nW79jy8QcZ"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "148", 
+        "149", 
+        "150", 
+        "151", 
+        "152", 
+        "153", 
+        "154", 
+        "155", 
+        "156", 
+        "157", 
+        "158", 
+        "159", 
+        "160", 
+        "161", 
+        "162"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 12
+    }, 
+    "title": {
+      "S": "x (Deluxe Edition)"
+    }, 
+    "release_date": {
+      "S": "2014-06-21"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b27313b3e37318a0c247b550bccd"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/1xn54DMo2qIqBuMqHtUsFd"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "163", 
+        "164", 
+        "165", 
+        "166", 
+        "167", 
+        "168", 
+        "169", 
+        "170", 
+        "171", 
+        "172", 
+        "173", 
+        "174", 
+        "175", 
+        "176", 
+        "177"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 13
+    }, 
+    "title": {
+      "S": "5"
+    }, 
+    "release_date": {
+      "S": "2014-06-20"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b2732fec3ad10ab2f3a637e7a127"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/2hyDesSAYNefikDJXlqhPE"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "178", 
+        "179", 
+        "180", 
+        "181", 
+        "182", 
+        "183", 
+        "184", 
+        "185", 
+        "186", 
+        "187", 
+        "188", 
+        "189", 
+        "190", 
+        "191", 
+        "192"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 14
+    }, 
+    "title": {
+      "S": "Loose Change"
+    }, 
+    "release_date": {
+      "S": "2011-12-09"
+    }, 
+    "songs_count": {
+      "N": 8
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273bc17a9c21d5a81d341945ed2"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/3QbPtoOWiJqZurXXxJwaOD"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "193", 
+        "194", 
+        "195", 
+        "196", 
+        "197", 
+        "198", 
+        "199", 
+        "200"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 15
+    }, 
+    "title": {
+      "S": "Live at the Bedford"
+    }, 
+    "release_date": {
+      "S": "2011-12-09"
+    }, 
+    "songs_count": {
+      "N": 6
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b2734dc715d4872af21780dc2b1e"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/4JUtnlZKdLr01xEIymhm0G"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "201", 
+        "202", 
+        "203", 
+        "204", 
+        "205", 
+        "206"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 16
+    }, 
+    "title": {
+      "S": "No.5 Collaborations Project"
+    }, 
+    "release_date": {
+      "S": "2011-09-09"
+    }, 
+    "songs_count": {
+      "N": 8
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b2733c33fbe943babf9510e3715c"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/6DpIyaMgt5p9HlGd1c0LDM"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "207", 
+        "208", 
+        "209", 
+        "210", 
+        "211", 
+        "212", 
+        "213", 
+        "214"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 17
+    }, 
+    "title": {
+      "S": "+"
+    }, 
+    "release_date": {
+      "S": "2011-09-09"
+    }, 
+    "songs_count": {
+      "N": 15
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b2736567a393a964a845a89b7f70"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/02pi98kE0nra0yBqCStzbC"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "215", 
+        "216", 
+        "217", 
+        "218", 
+        "219", 
+        "220", 
+        "221", 
+        "222", 
+        "223", 
+        "224", 
+        "225", 
+        "226", 
+        "227", 
+        "228", 
+        "229"
+      ]
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "Apple"
+    }, 
+    "album_id": {
+      "N": 18
+    }, 
+    "title": {
+      "S": "kiss me under the light of a thousand stars"
+    }, 
+    "release_date": {
+      "S": "2024-09-18"
+    }, 
+    "songs_count": {
+      "N": 6
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b27387b85225d24eda2d6d77d330"
+    }, 
+    "spotify_url": {
+      "S": "https://open.spotify.com/album/5uwmamGSJ3ayFsFflf8Wp5"
+    }, 
+    "artist_id": {
+      "N": 11
+    }, 
+    "song_ids": {
+      "NS": [
+        "230", 
+        "231", 
+        "232", 
+        "233", 
+        "234", 
+        "235"
+      ]
+    }
+  }
+]

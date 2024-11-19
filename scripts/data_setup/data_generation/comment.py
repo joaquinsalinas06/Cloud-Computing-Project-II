@@ -6,9 +6,9 @@ from data_setup.utils.write_to_csv import write_to_csv
 
 
 def generate_comment_data(
-    rows_amount: int, user_keys: tuple[int, ...], post_keys: tuple[int, ...], provider_id: str
+        rows_amount: int, user_keys: tuple[int, ...], post_keys: tuple[int, ...], provider_id: str
 ) -> None:
-    commment_csv_list: list[dict[str, Any]] = []
+    comment_csv_list: list[dict[str, Any]] = []
 
     for comment_id in range(rows_amount):
         comment_id_val = comment_id + 1
@@ -18,7 +18,7 @@ def generate_comment_data(
         )
         user_id = random.choice(user_keys)
         text = faker.text(max_nb_chars=50).replace("\n", " ")
-        commment_csv_list.append(
+        comment_csv_list.append(
             {
                 "provider_id": provider_id,
                 "comment_id": comment_id_val,
@@ -29,5 +29,4 @@ def generate_comment_data(
             }
         )
 
-
-    write_to_csv(commment_csv_list, "comments")
+    write_to_csv(comment_csv_list, "comments")
