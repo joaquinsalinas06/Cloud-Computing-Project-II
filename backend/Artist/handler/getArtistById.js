@@ -18,19 +18,20 @@ export async function handler(event) {
 
   const params = {
     TableName: TABLE_NAME,
-    Key: {
-      provider_id,
-      artist_id: parseInt(artist_id, 10),
+    KeyConditionExpression: "provider_id = :provider_id and artist_id = :artist_id",
+    ExpressionAttributeValues: {
+      ":provider_id": provider_id,
+      ":artist_id": parseInt(artist_id, 10),
     },
   };
 
   try {
-    const data = await dynamodb.get(params).promise();
-    if (data.Item) {
+    const data = await dynamodb.query(params).promise();
+    if (data.Items && data.Items.length > 0) {
       return {
         statusCode: 200,
         headers: { "Content-Type": "application/json" },
-        body: data.Item,
+        body: data.Items[0],
       };
     } else {
       return {
