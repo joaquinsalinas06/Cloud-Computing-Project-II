@@ -13,7 +13,7 @@ provider:
     INDEXGSI1_TABLE1_NAME: ${sls:stage}-provider-user-index
     INDEXGSI2_TABLE1_NAME: ${sls:stage}-provider-post-index
     INDEXLSI1_TABLE1_NAME: ${sls:stage}-providerlsi-user-index
-    LAMBDA_FUNCTION_NAME: api-mure-user-dev-validateToken
+    LAMBDA_FUNCTION_NAME:  ${sls-stage}-validateToken
 functions:
   createPost:
     handler: Handler/createPost.handler
@@ -96,13 +96,13 @@ resources:
           - AttributeName: provider_id
             AttributeType: S
           - AttributeName: post_id
-            AttributeType: S
+            AttributeType: N
           - AttributeName: song_id
-            AttributeType: S
+            AttributeType: N
           - AttributeName: album_id
-            AttributeType: S
+            AttributeType: N
           - AttributeName: user_id
-            AttributeType: S
+            AttributeType: N
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
