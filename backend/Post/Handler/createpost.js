@@ -1,6 +1,5 @@
 const AWS = require("aws-sdk");
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
-const { v4: uuidv4 } = require("uuid");
 
 module.exports.handler = async function (event) {
   const body = typeof event.body === "string" ? JSON.parse(event.body) : event.body;
@@ -11,6 +10,30 @@ module.exports.handler = async function (event) {
     return {
       statusCode: 400,
       body: { error: "Missing parameters or token" }
+    };
+  }
+
+  let highestPostId = 0;
+  try{
+    const response =  await dynamoDb.query({
+      TableName: process.env.TABLE_NAME,
+      KeyConditionExpression: "provider_id = :provider_id",
+      ExpressionAttributeValues: {
+        ":provider_id": provider_id
+      },
+      ScanIndexForward: false,
+      Limit: 1
+    })
+    .promise();
+    if (response.Items.length > 0) {
+      highestPostId = response.Items[0].post_id;
+    }
+
+  }catch (error) {
+    return {
+      statusCode: 500,
+      message: { error: "Error querying highest post_id", 
+      details: error.message }
     };
   }
 
@@ -52,7 +75,7 @@ module.exports.handler = async function (event) {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   }
 
-  const post_id = uuidv4();
+  const post_id =  highestPostId + 1;
   const params = {
     TableName: process.env.TABLE_NAME,
     Item: {

@@ -13,7 +13,7 @@ provider:
     INDEXGSI1_TABLE1_NAME: ${sls:stage}-${env:INDEXGSI1_TABLE1_NAME_e}
     INDEXGSI2_TABLE1_NAME: ${sls:stage}-${env:INDEXGSI2_TABLE1_NAME_e}
     INDEXLSI1_TABLE1_NAME: ${sls:stage}-${env:INDEXLSI1_TABLE1_NAME_e}
-    LAMBDA_FUNCTION_NAME: ${env:LAMBDA_FUNCTION_NAME}
+    LAMBDA_FUNCTION_NAME:  api-user-mure-${sls:stage}-${env:LAMBDA_FUNCTION_NAME}
 functions:
   createPost:
     handler: Handler/createpost.handler
@@ -96,13 +96,13 @@ resources:
           - AttributeName: provider_id
             AttributeType: S
           - AttributeName: post_id
-            AttributeType: S
+            AttributeType: N
           - AttributeName: song_id
-            AttributeType: S
+            AttributeType: N
           - AttributeName: album_id
-            AttributeType: S
+            AttributeType: N
           - AttributeName: user_id
-            AttributeType: S
+            AttributeType: N
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
