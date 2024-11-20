@@ -17,7 +17,7 @@ provider:
     TABLE2_NAME: ${sls:stage}-${env:TABLE2_NAME_e}
     INDEXGSI1_TABLE2_NAME: ${sls:stage}-${env:INDEXGSI1_TABLE2_NAME_e}
     INDEXLSI1_TABLE2_NAME: ${sls:stage}-${env:INDEXLSI1_TABLE2_NAME_e}
-    AUTHORIZER_FUNCTION_NAME: ${env:AUTHORIZER_FUNCTION_NAME}
+    AUTHORIZER_FUNCTION_NAME: api-user-mure-${sls:stage}-${env:AUTHORIZER_FUNCTION_NAME}
 
 functions:
   createUser:
@@ -92,7 +92,7 @@ resources:
           - AttributeName: provider_id
             AttributeType: S
           - AttributeName: user_id
-            AttributeType: S
+            AttributeType: N
           - AttributeName: provider_user_id
             AttributeType: S
           - AttributeName: email

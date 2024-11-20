@@ -4,10 +4,7 @@ import json
 from boto3.dynamodb.conditions import Key
 
 def lambda_handler(event, context):
-    """
-    Lambda handler to retrieve paginated users for a specific provider.
-    Supports pagination using page number and page size parameters.
-    """
+ 
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(os.getenv('TABLE_NAME'))
 

@@ -9,7 +9,13 @@ def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 def lambda_handler(event, context):
+    dynamodb = boto3.resource('dynamodb')
+    table_name = os.environ['TABLE_NAME']
+    index_name = os.environ['INDEXLSI1_TABLE1_NAME']
+    table = dynamodb.Table(table_name)
+        
     try:
+
         provider_id = event['body']['provider_id']
         password = event['body']['password']
         email = event['body']['email']
@@ -21,7 +27,18 @@ def lambda_handler(event, context):
                 'body': json.dumps({'error': 'Missing required fields'})
             }
         
-        user_id = datetime.now().strftime('%Y%m%d%H%M%S%f')
+        response = table.query(
+            KeyConditionExpression=Key('provider_id').eq(provider_id),
+            ScanIndexForward=False,  
+            Limit=1  
+        )
+        highestUserId  = 0
+
+        if 'Items' in response and response['Items']:
+            highestUserId = int(response['Items'][0]['user_id'])
+
+
+        user_id = highestUserId + 1        
         nombre = event['body']['data']['nombre']
         apellido = event['body']['data']['apellido']
         telefono = event['body']['data']['telefono']
@@ -33,11 +50,7 @@ def lambda_handler(event, context):
         datecreated = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         hashed_password = hash_password(password)
 
-        dynamodb = boto3.resource('dynamodb')
-        table_name = os.environ['TABLE_NAME']
-        index_name = os.environ['INDEXLSI1_TABLE1_NAME']
-        table = dynamodb.Table(table_name)
-        
+       
         existentes = table.query(
             IndexName=index_name,
             KeyConditionExpression=Key('provider_id').eq(provider_id) & Key('email').eq(email)
@@ -55,14 +68,12 @@ def lambda_handler(event, context):
                 'email': email,
                 'username': username,
                 'password': hashed_password,
-                'data': {
-                    'nombre': nombre,
-                    'apellido': apellido,
-                    'telefono': telefono,
-                    'fecha_nacimiento': fecha_nacimiento,
-                    'genero': genero,
-                    'edad': edad
-                },
+                'nombre': nombre,
+                'apellido': apellido,
+                'telefono': telefono,
+                'fecha_nacimiento': fecha_nacimiento,
+                'genero': genero,
+                'edad': edad,
                 'active': active,
                 'datecreated': datecreated
             }
