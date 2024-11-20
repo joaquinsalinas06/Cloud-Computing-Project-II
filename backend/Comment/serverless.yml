@@ -1,5 +1,5 @@
-org: flauta
-service: comments
+org: ${env:ORG_NAME}
+service: comment-api
 
 provider:
   name: aws
@@ -7,7 +7,7 @@ provider:
   environment:
     TABLE_NAME: ${self:service}-${sls:stage}
   iam:
-    role: arn:aws:iam::481751701457:role/LabRole
+    role: ${env:LAB_ROLE}
 
 functions:
   getPostComments:
@@ -50,7 +50,7 @@ resources:
     TablaComentarios:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:service}-${sls:stage}
+        TableName: ${sls:stage}-t_comment
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: provider_id
