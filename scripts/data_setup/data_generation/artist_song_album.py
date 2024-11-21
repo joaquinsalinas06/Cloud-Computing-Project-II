@@ -22,12 +22,9 @@ def generate_artists_songs_albums(
     song_counter = 0
     artist_count = 0
 
-    num_artists_to_select = random.randint(3, 5)
-    selected_artists = dict(random.sample(list(artists_dict.items()), num_artists_to_select))
-
-    for artist_id, artist_info in selected_artists.items():
-        print(f"Processing artist {artist_info['name']}")
+    for artist_id, artist_info in artists_dict.items():
         artist_count += 1
+        print(f"Processing artist {artist_info['name']} with the id {artist_count}")
         artist_spotify_id = get_artist_id(artist_info["name"])
 
         if not artist_spotify_id:
@@ -45,7 +42,7 @@ def generate_artists_songs_albums(
         artists_json_list.append(
             {
                 "provider_id": {"S": provider_id},
-                "artist_id": {"N": artist_count},
+                "artist_id": {"N": str(artist_count)},
                 "name": {"S": artist_info["name"]},
                 "genre": {"S": artist_genre},
                 "status": {"BOOL": artist_status == 'Active'},
@@ -92,7 +89,7 @@ def generate_artists_songs_albums(
                 songs_json_list.append(
                     {
                         "provider_id": {"S": provider_id},
-                        "song_id": {"N": song_counter},
+                        "song_id": {"N": str(song_counter)},
                         "title": {"S": song_title},
                         "genre": {"S": genre},
                         "release_date": {"S": pd.to_datetime(
@@ -101,11 +98,11 @@ def generate_artists_songs_albums(
                         "duration": {"S": str(song_duration // 60).zfill(2)
                                           + ":" + str(song_duration % 60).zfill(2)},
                         "cover_image_url": {"S": album_cover_image_url},
-                        "times_played": {"N": faker.random_int(min=0, max=100000)},
+                        "times_played": {"N": str(faker.random_int(min=0, max=100000))},
                         "song_url": {"S": song_link},
                         "preview_music_url": {"S": song_preview_url},
-                        "album_id": {"N": album_counter},
-                        "artist_id": {"N": artist_id},
+                        "album_id": {"N": str(album_counter)},
+                        "artist_id": {"N": str(artist_id)},
                     }
                 )
                 songs_keys.append(song_counter)
@@ -114,15 +111,15 @@ def generate_artists_songs_albums(
             albums_json_list.append(
                 {
                     "provider_id": {"S": provider_id},
-                    "album_id": {"N": album_counter},
+                    "album_id": {"N": str(album_counter)},
                     "title": {"S": album_title},
                     "release_date": {"S": pd.to_datetime(
                         album_release_date, errors="coerce"
                     ).strftime("%Y-%m-%d")},
-                    "songs_count": {"N": songs_count},
+                    "songs_count": {"N": str(songs_count)},
                     "cover_image_url": {"S": album_cover_image_url},
                     "spotify_url": {"S": album_link},
-                    "artist_id": {"N": artist_id},
+                    "artist_id": {"N": str(artist_id)},
                     "song_ids": {"NS": [str(song_id) for song_id in song_ids]}
                 }
             )

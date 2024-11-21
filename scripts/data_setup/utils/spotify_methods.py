@@ -37,7 +37,7 @@ def get_artist_details(artist_id: str):
     return image_url, genres
 
 
-def get_albums_by_artist(artist_id: str, limit=18):
+def get_albums_by_artist(artist_id: str, limit=22):
     albums: Any = sp.artist_albums(artist_id, limit=limit, album_type="album,single")
     return albums["items"]
 

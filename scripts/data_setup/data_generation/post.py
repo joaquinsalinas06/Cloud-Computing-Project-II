@@ -2,7 +2,7 @@ import random
 from typing import Any
 
 from data_setup.utils.shared_faker import faker
-from data_setup.utils.write_to_csv import write_to_csv
+from data_setup.utils.write_to_json import write_to_json
 
 
 def generate_post_data(
@@ -15,7 +15,6 @@ def generate_post_data(
     post_csv_list: list[dict[str, Any]] = []
 
     for post_id in range(rows_amount):
-        likes = random.randint(0, 25)
         created_at = faker.date_time_between(start_date="-1y", end_date="now").strftime(
             "%Y-%m-%d %H:%M:%S"
         )
@@ -31,14 +30,14 @@ def generate_post_data(
 
         post_csv_list.append(
             {
-                "provider_id": provider_id,
-                "post_id": post_id,
-                "user_id": user_id,
-                "song_id": song_id,
-                "album_id": album_id,
-                "description": description,
-                "created_at": created_at
+                "provider_id": {"S": provider_id},
+                "post_id": {"N": str(post_id)},
+                "user_id": {"N": str(user_id)},
+                "song_id": {"N": str(song_id)},
+                "album_id": {"N": str(album_id)},
+                "description": {"S": description},
+                "created_at": {"S": created_at}
             }
         )
 
-    write_to_csv(post_csv_list, "posts")
+    write_to_json(post_csv_list, "posts")

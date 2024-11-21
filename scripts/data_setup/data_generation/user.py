@@ -2,9 +2,8 @@ import datetime
 from typing import Any
 from datetime import date, datetime
 
-from data_setup.utils.normalize_text import normalize_text
 from data_setup.utils.shared_faker import faker
-from data_setup.utils.write_to_csv import write_to_csv
+from data_setup.utils.write_to_json import write_to_json
 
 
 def generate_user_data(rows_amount: int , provider_id: str) -> tuple:
@@ -19,32 +18,33 @@ def generate_user_data(rows_amount: int , provider_id: str) -> tuple:
         user_password = faker.unique.password()
         user_name = faker.first_name()
         user_last_name = faker.last_name()
-        user_phone = faker.phone_number()
-        user_birth_date = faker.date_of_birth(minimum_age=10, maximum_age=50)
+        user_phone = faker.basic_phone_number()
+        user_birth_date = faker.date_of_birth(minimum_age=10, maximum_age=50).strftime("%Y-%m-%d")
         user_gender = faker.random_element(elements=('M', 'F'))
-        user_age = (date.today() - user_birth_date).days // 365.25
+        user_age = int((date.today() - datetime.strptime(user_birth_date, "%Y-%m-%d").date()).days // 365.25)
         active = faker.boolean()
-        user_created_at = faker.date_time_this_year()
+        user_created_at = faker.date_time_this_year().strftime("%Y-%m-%d %H:%M:%S")
+
         users_csv_list.append(
             {
-                "provider_id": user_provider_id,
-                "user_id": user_id,
-                "email": user_email,
-                "username": user_username,
-                "password": user_password,
-                "name": user_name,
-                "last_name": user_last_name,
-                "phone_number": user_phone,
-                "birth_date": user_birth_date,
-                "gender": user_gender,
-                "age": user_age,
-                "active": active,
-                "created_at": user_created_at
+                "provider_id": {"S": user_provider_id},
+                "user_id": {"N": str(user_id)},
+                "email": {"S": user_email},
+                "username": {"S": user_username},
+                "password": {"S": user_password},
+                "name": {"S": user_name},
+                "last_name": {"S": user_last_name},
+                "phone_number": {"S": user_phone},
+                "birth_date": {"S": user_birth_date},
+                "gender": {"S": user_gender},
+                "age": {"N": str(user_age)},
+                "active": {"BOOL": active},
+                "created_at": {"S": user_created_at}
             }
         )
 
-        user_keys.append(user_id + 1)
+        user_keys.append(user_id)
 
-    write_to_csv(users_csv_list, "users")
+    write_to_json(users_csv_list, "users")
 
     return tuple(user_keys)
