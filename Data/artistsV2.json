@@ -1,0 +1,3174 @@
+[
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "1"
+    }, 
+    "name": {
+      "S": "Bad Bunny"
+    }, 
+    "genre": {
+      "S": "reggaeton"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1954-01-25"
+    }, 
+    "country": {
+      "S": "Palestinian Territory"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb744a4243fb6cc938011a98f4"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "2"
+    }, 
+    "name": {
+      "S": "Mora"
+    }, 
+    "genre": {
+      "S": "Reggaeton"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1998-09-05"
+    }, 
+    "country": {
+      "S": "Cape Verde"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb58559e457e6c0c5b86b13fe1"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "3"
+    }, 
+    "name": {
+      "S": "TWICE"
+    }, 
+    "genre": {
+      "S": "k-pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1957-07-25"
+    }, 
+    "country": {
+      "S": "Saudi Arabia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebca6c145421fa9ceb58d6f9d4"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "4"
+    }, 
+    "name": {
+      "S": "Billie Eilish"
+    }, 
+    "genre": {
+      "S": "art pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1987-06-02"
+    }, 
+    "country": {
+      "S": "Grenada"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb4a21b4760d2ecb7b0dcdc8da"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "5"
+    }, 
+    "name": {
+      "S": "Taylor Swift"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1965-04-17"
+    }, 
+    "country": {
+      "S": "Nepal"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebe672b5f553298dcdccb0e676"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "6"
+    }, 
+    "name": {
+      "S": "Drake"
+    }, 
+    "genre": {
+      "S": "canadian hip hop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1995-12-21"
+    }, 
+    "country": {
+      "S": "Sierra Leone"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb4293385d324db8558179afd9"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "7"
+    }, 
+    "name": {
+      "S": "BTS"
+    }, 
+    "genre": {
+      "S": "K-Pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1995-04-18"
+    }, 
+    "country": {
+      "S": "Pakistan"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273fbe03a412497b6264b08a03f"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "8"
+    }, 
+    "name": {
+      "S": "Beyoncé"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1958-04-02"
+    }, 
+    "country": {
+      "S": "Mozambique"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb247f44069c0bd1781df2f785"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "9"
+    }, 
+    "name": {
+      "S": "The Weeknd"
+    }, 
+    "genre": {
+      "S": "canadian contemporary r&b"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1989-09-18"
+    }, 
+    "country": {
+      "S": "Chad"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb9e528993a2820267b97f6aae"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "10"
+    }, 
+    "name": {
+      "S": "Olivia Rodrigo"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1995-05-15"
+    }, 
+    "country": {
+      "S": "Madagascar"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebe03a98785f3658f0b6461ec4"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "11"
+    }, 
+    "name": {
+      "S": "Ed Sheeran"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1961-06-04"
+    }, 
+    "country": {
+      "S": "Monaco"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb784daff754ecfe0464ddbeb9"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "12"
+    }, 
+    "name": {
+      "S": "Ariana Grande"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1971-11-28"
+    }, 
+    "country": {
+      "S": "Estonia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb40b5c07ab77b6b1a9075fdc0"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "13"
+    }, 
+    "name": {
+      "S": "Kendrick Lamar"
+    }, 
+    "genre": {
+      "S": "conscious hip hop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1968-01-21"
+    }, 
+    "country": {
+      "S": "Burkina Faso"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb39ba6dcd4355c03de0b50918"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "14"
+    }, 
+    "name": {
+      "S": "Rihanna"
+    }, 
+    "genre": {
+      "S": "barbadian pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1994-04-19"
+    }, 
+    "country": {
+      "S": "Tokelau"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb99e4fca7c0b7cb166d915789"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "15"
+    }, 
+    "name": {
+      "S": "Doja Cat"
+    }, 
+    "genre": {
+      "S": "dance pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1969-07-12"
+    }, 
+    "country": {
+      "S": "Eritrea"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebe94f88ff74ae4ddcab961f97"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "16"
+    }, 
+    "name": {
+      "S": "Harry Styles"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1996-09-08"
+    }, 
+    "country": {
+      "S": "Tanzania"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebf7db7c8ede90a019c54590bb"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "17"
+    }, 
+    "name": {
+      "S": "Bruno Mars"
+    }, 
+    "genre": {
+      "S": "dance pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1970-08-04"
+    }, 
+    "country": {
+      "S": "Oman"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebc36dd9eb55fb0db4911f25dd"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "18"
+    }, 
+    "name": {
+      "S": "Justin Bieber"
+    }, 
+    "genre": {
+      "S": "canadian pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1967-05-02"
+    }, 
+    "country": {
+      "S": "India"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb8ae7f2aaa9817a704a87ea36"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "19"
+    }, 
+    "name": {
+      "S": "Lady Gaga"
+    }, 
+    "genre": {
+      "S": "art pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1988-12-07"
+    }, 
+    "country": {
+      "S": "Canada"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb4b09cd0839c6129c29d22f79"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "20"
+    }, 
+    "name": {
+      "S": "Eminem"
+    }, 
+    "genre": {
+      "S": "detroit hip hop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1975-04-16"
+    }, 
+    "country": {
+      "S": "Zimbabwe"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eba00b11c129b27a88fc72f36b"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "21"
+    }, 
+    "name": {
+      "S": "Dua Lipa"
+    }, 
+    "genre": {
+      "S": "dance pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1962-04-09"
+    }, 
+    "country": {
+      "S": "Azerbaijan"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb0c68f6c95232e716f0abee8d"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "22"
+    }, 
+    "name": {
+      "S": "Post Malone"
+    }, 
+    "genre": {
+      "S": "dfw rap"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1979-10-15"
+    }, 
+    "country": {
+      "S": "Bahamas"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebe17c0aa1714a03d62b5ce4e0"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "23"
+    }, 
+    "name": {
+      "S": "Maroon 5"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1971-06-07"
+    }, 
+    "country": {
+      "S": "Iran"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebf8349dfb619a7f842242de77"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "24"
+    }, 
+    "name": {
+      "S": "BLACKPINK"
+    }, 
+    "genre": {
+      "S": "k-pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1980-03-02"
+    }, 
+    "country": {
+      "S": "Korea"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebc9690bc711d04b3d4fd4b87c"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "25"
+    }, 
+    "name": {
+      "S": "Coldplay"
+    }, 
+    "genre": {
+      "S": "permanent wave"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "2001-04-26"
+    }, 
+    "country": {
+      "S": "Thailand"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb1ba8fc5f5c73e7e9313cc6eb"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "26"
+    }, 
+    "name": {
+      "S": "Adele"
+    }, 
+    "genre": {
+      "S": "clap and tap"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1977-07-14"
+    }, 
+    "country": {
+      "S": "Croatia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b27308779bde4ae1e4010f9dcf61"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "27"
+    }, 
+    "name": {
+      "S": "Imagine Dragons"
+    }, 
+    "genre": {
+      "S": "modern rock"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1960-04-03"
+    }, 
+    "country": {
+      "S": "Antigua and Barbuda"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebab47d8dae2b24f5afe7f9d38"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "28"
+    }, 
+    "name": {
+      "S": "SZA"
+    }, 
+    "genre": {
+      "S": "musical advocacy"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1981-04-11"
+    }, 
+    "country": {
+      "S": "Ecuador"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b2733e5e82855f1cf77c1659919b"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "29"
+    }, 
+    "name": {
+      "S": "Travis Scott"
+    }, 
+    "genre": {
+      "S": "rap"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1976-11-02"
+    }, 
+    "country": {
+      "S": "Afghanistan"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb19c2790744c792d05570bb71"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "30"
+    }, 
+    "name": {
+      "S": "Lil Nas X"
+    }, 
+    "genre": {
+      "S": "lgbtq+ hip hop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1969-05-10"
+    }, 
+    "country": {
+      "S": "Anguilla"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb3758a33e782b46bd7f174e1d"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "31"
+    }, 
+    "name": {
+      "S": "Lizzo"
+    }, 
+    "genre": {
+      "S": "escape room"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "2001-09-11"
+    }, 
+    "country": {
+      "S": "Tuvalu"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb0d66b3670294bf801847dae2"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "32"
+    }, 
+    "name": {
+      "S": "21 Savage"
+    }, 
+    "genre": {
+      "S": "atl hip hop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1983-06-02"
+    }, 
+    "country": {
+      "S": "Bangladesh"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb4f8f76117470957c0e81e5b2"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "33"
+    }, 
+    "name": {
+      "S": "Halsey"
+    }, 
+    "genre": {
+      "S": "electropop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1965-09-17"
+    }, 
+    "country": {
+      "S": "Palestinian Territory"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb7f17140567e7df5799d5c3a9"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "34"
+    }, 
+    "name": {
+      "S": "Megan Thee Stallion"
+    }, 
+    "genre": {
+      "S": "houston rap"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1964-01-21"
+    }, 
+    "country": {
+      "S": "Estonia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eba300c2e412844ab60e397b1b"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "35"
+    }, 
+    "name": {
+      "S": "Lil Baby"
+    }, 
+    "genre": {
+      "S": "atl hip hop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "2003-05-28"
+    }, 
+    "country": {
+      "S": "Jamaica"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb6cad3eff5adc29e20f189a6c"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "36"
+    }, 
+    "name": {
+      "S": "Future"
+    }, 
+    "genre": {
+      "S": "atl hip hop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1968-11-13"
+    }, 
+    "country": {
+      "S": "Russian Federation"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb7565b356bc9d9394eefa2ccb"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "37"
+    }, 
+    "name": {
+      "S": "Lana Del Rey"
+    }, 
+    "genre": {
+      "S": "art pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1982-06-15"
+    }, 
+    "country": {
+      "S": "Jordan"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebb99cacf8acd5378206767261"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "38"
+    }, 
+    "name": {
+      "S": "Karol G"
+    }, 
+    "genre": {
+      "S": "reggaeton"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1996-12-23"
+    }, 
+    "country": {
+      "S": "Uzbekistan"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb4b0754aefc9db490e02205ec"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "39"
+    }, 
+    "name": {
+      "S": "J Balvin"
+    }, 
+    "genre": {
+      "S": "reggaeton"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "2002-01-16"
+    }, 
+    "country": {
+      "S": "Grenada"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebdea08796d296a58c5d060439"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "40"
+    }, 
+    "name": {
+      "S": "Anuel AA"
+    }, 
+    "genre": {
+      "S": "reggaeton"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1959-10-13"
+    }, 
+    "country": {
+      "S": "Montenegro"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eba23ceb177745632b517cb7b2"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "41"
+    }, 
+    "name": {
+      "S": "Ozuna"
+    }, 
+    "genre": {
+      "S": "puerto rican pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1971-02-18"
+    }, 
+    "country": {
+      "S": "Martinique"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebc80f303b208a480f52e8180b"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "42"
+    }, 
+    "name": {
+      "S": "Daddy Yankee"
+    }, 
+    "genre": {
+      "S": "latin hip hop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1995-04-23"
+    }, 
+    "country": {
+      "S": "Australia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebaa534de724c7a565c07bb3f5"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "43"
+    }, 
+    "name": {
+      "S": "ROSALÍA"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1993-05-19"
+    }, 
+    "country": {
+      "S": "Antarctica (the territory South of 60 deg S)"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebd7bb678bef6d2f26110cae49"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "44"
+    }, 
+    "name": {
+      "S": "Rauw Alejandro"
+    }, 
+    "genre": {
+      "S": "puerto rican pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1955-07-17"
+    }, 
+    "country": {
+      "S": "South Georgia and the South Sandwich Islands"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebb271c8a0507c4c1ea795d989"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "45"
+    }, 
+    "name": {
+      "S": "Myke Towers"
+    }, 
+    "genre": {
+      "S": "reggaeton"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1982-01-19"
+    }, 
+    "country": {
+      "S": "Sao Tome and Principe"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb8372345609bebaf1e948ef7f"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "46"
+    }, 
+    "name": {
+      "S": "Maluma"
+    }, 
+    "genre": {
+      "S": "latin pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1962-09-13"
+    }, 
+    "country": {
+      "S": "Albania"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eba9bc74fbec09e03f06cddf44"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "47"
+    }, 
+    "name": {
+      "S": "Farruko"
+    }, 
+    "genre": {
+      "S": "reggaeton"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1955-12-29"
+    }, 
+    "country": {
+      "S": "French Polynesia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb7d36b670eff30cc4de53f67c"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "48"
+    }, 
+    "name": {
+      "S": "Sech"
+    }, 
+    "genre": {
+      "S": "panamanian pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1963-06-05"
+    }, 
+    "country": {
+      "S": "Latvia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb2ef2187023b7df95a70b4587"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "49"
+    }, 
+    "name": {
+      "S": "Arcángel"
+    }, 
+    "genre": {
+      "S": "latin hip hop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1957-03-02"
+    }, 
+    "country": {
+      "S": "Italy"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebafdf17286a0d7a23ad388587"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "50"
+    }, 
+    "name": {
+      "S": "Feid"
+    }, 
+    "genre": {
+      "S": "colombian pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1973-04-05"
+    }, 
+    "country": {
+      "S": "Papua New Guinea"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebe82c62cc8cf019aecfd71ee8"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "51"
+    }, 
+    "name": {
+      "S": "Young Miko"
+    }, 
+    "genre": {
+      "S": "trap latino"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1957-08-19"
+    }, 
+    "country": {
+      "S": "Pitcairn Islands"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb17b6dc4231e9e0292d8dc5d8"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "52"
+    }, 
+    "name": {
+      "S": "Nio Garcia"
+    }, 
+    "genre": {
+      "S": "reggaeton"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1992-08-12"
+    }, 
+    "country": {
+      "S": "Bahrain"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb896f795cb3e4125f4f6f394d"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "53"
+    }, 
+    "name": {
+      "S": "Tokischa"
+    }, 
+    "genre": {
+      "S": "rap latina"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1962-11-01"
+    }, 
+    "country": {
+      "S": "Madagascar"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebef5f39dfc3f133ab974dbf3b"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "54"
+    }, 
+    "name": {
+      "S": "Sabrina Carpenter"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1964-02-06"
+    }, 
+    "country": {
+      "S": "Slovenia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebe053b8338322b9c8609ee7ae"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "55"
+    }, 
+    "name": {
+      "S": "David Guetta"
+    }, 
+    "genre": {
+      "S": "big room"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1981-01-28"
+    }, 
+    "country": {
+      "S": "Peru"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebf150017ca69c8793503c2d4f"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "56"
+    }, 
+    "name": {
+      "S": "Calvin Harris"
+    }, 
+    "genre": {
+      "S": "dance pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1982-03-17"
+    }, 
+    "country": {
+      "S": "Kuwait"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb014a3c1730d960c66396ed63"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "57"
+    }, 
+    "name": {
+      "S": "Kanye West"
+    }, 
+    "genre": {
+      "S": "chicago rap"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1997-10-01"
+    }, 
+    "country": {
+      "S": "Finland"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb6e835a500e791bf9c27a422a"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "58"
+    }, 
+    "name": {
+      "S": "Shakira"
+    }, 
+    "genre": {
+      "S": "colombian pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1965-04-28"
+    }, 
+    "country": {
+      "S": "Georgia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb2528c726e5ddb90a7197e527"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "59"
+    }, 
+    "name": {
+      "S": "Marshmello"
+    }, 
+    "genre": {
+      "S": "brostep"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1957-08-05"
+    }, 
+    "country": {
+      "S": "Finland"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb53ca421f91678c26b4f15512"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "60"
+    }, 
+    "name": {
+      "S": "OneRepublic"
+    }, 
+    "genre": {
+      "S": "piano rock"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1961-04-05"
+    }, 
+    "country": {
+      "S": "Tanzania"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb57138b98e7ddd5a86ee97a9b"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "61"
+    }, 
+    "name": {
+      "S": "Miley Cyrus"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1960-06-18"
+    }, 
+    "country": {
+      "S": "Anguilla"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebb4ba86c361191d48cbeb4b32"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "62"
+    }, 
+    "name": {
+      "S": "Metro Boomin"
+    }, 
+    "genre": {
+      "S": "rap"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1983-02-11"
+    }, 
+    "country": {
+      "S": "United Kingdom"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebdf9a1555f53a20087b8c5a5c"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "63"
+    }, 
+    "name": {
+      "S": "Sia"
+    }, 
+    "genre": {
+      "S": "musical advocacy"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1980-06-24"
+    }, 
+    "country": {
+      "S": "Iceland"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b2733e5e82855f1cf77c1659919b"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "64"
+    }, 
+    "name": {
+      "S": "Katy Perry"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1976-08-13"
+    }, 
+    "country": {
+      "S": "Germany"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb5e5f676a99a81dba06cc3db6"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "65"
+    }, 
+    "name": {
+      "S": "Benson Boone"
+    }, 
+    "genre": {
+      "S": "singer-songwriter pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1986-01-14"
+    }, 
+    "country": {
+      "S": "Zambia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebd2b2a1cea3b6b44f4bae14b2"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "66"
+    }, 
+    "name": {
+      "S": "Queen"
+    }, 
+    "genre": {
+      "S": "classic rock"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1989-03-18"
+    }, 
+    "country": {
+      "S": "Comoros"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/b040846ceba13c3e9c125d68389491094e7f2982"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "67"
+    }, 
+    "name": {
+      "S": "Elton John"
+    }, 
+    "genre": {
+      "S": "glam rock"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1987-01-19"
+    }, 
+    "country": {
+      "S": "Philippines"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb0a7388b95df960b5c0da8970"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "68"
+    }, 
+    "name": {
+      "S": "Pitbull"
+    }, 
+    "genre": {
+      "S": "dance pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1962-06-21"
+    }, 
+    "country": {
+      "S": "Canada"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb4051627b19277613e0e62a34"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "69"
+    }, 
+    "name": {
+      "S": "Sam Smith"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1998-03-01"
+    }, 
+    "country": {
+      "S": "Saint Lucia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebf057d1dce23e7f4d5d0f32e5"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "70"
+    }, 
+    "name": {
+      "S": "The Chainsmokers"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1990-05-16"
+    }, 
+    "country": {
+      "S": "Chile"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb44434ab91c37f5407f8e83b6"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "71"
+    }, 
+    "name": {
+      "S": "Tiësto"
+    }, 
+    "genre": {
+      "S": "big room"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1996-07-30"
+    }, 
+    "country": {
+      "S": "Palau"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebe84e08fb1dfa2bf9b5a61563"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "72"
+    }, 
+    "name": {
+      "S": "Arctic Monkeys"
+    }, 
+    "genre": {
+      "S": "garage rock"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "2002-12-25"
+    }, 
+    "country": {
+      "S": "Croatia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb7da39dea0a72f581535fb11f"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "73"
+    }, 
+    "name": {
+      "S": "Chris Brown"
+    }, 
+    "genre": {
+      "S": "r&b"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1964-04-11"
+    }, 
+    "country": {
+      "S": "Anguilla"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eba48397e590a1c70e2cda7728"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "74"
+    }, 
+    "name": {
+      "S": "Peso Pluma"
+    }, 
+    "genre": {
+      "S": "corridos tumbados"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1961-10-21"
+    }, 
+    "country": {
+      "S": "Brunei Darussalam"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebe5283f5b671cf618b82a2696"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "75"
+    }, 
+    "name": {
+      "S": "KAROL G"
+    }, 
+    "genre": {
+      "S": "reggaeton"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1983-01-20"
+    }, 
+    "country": {
+      "S": "Netherlands Antilles"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb4b0754aefc9db490e02205ec"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "76"
+    }, 
+    "name": {
+      "S": "Nicki Minaj"
+    }, 
+    "genre": {
+      "S": "hip pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1980-02-05"
+    }, 
+    "country": {
+      "S": "Guinea"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb07a50f0a9a8f11e5a1102cbd"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "77"
+    }, 
+    "name": {
+      "S": "One Direction"
+    }, 
+    "genre": {
+      "S": "boy band"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1957-08-18"
+    }, 
+    "country": {
+      "S": "Slovenia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/5bb443424a1ad71603c43d67f5af1a04da6bb3c8"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "78"
+    }, 
+    "name": {
+      "S": "Playboi Carti"
+    }, 
+    "genre": {
+      "S": "atl hip hop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1966-01-16"
+    }, 
+    "country": {
+      "S": "Saint Vincent and the Grenadines"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebba50ca67ffc3097f6ea1710a"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "79"
+    }, 
+    "name": {
+      "S": "Linkin Park"
+    }, 
+    "genre": {
+      "S": "alternative metal"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1982-12-22"
+    }, 
+    "country": {
+      "S": "Estonia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebc7e6bd9e65eab62a53355576"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "80"
+    }, 
+    "name": {
+      "S": "Camila Cabello"
+    }, 
+    "genre": {
+      "S": "dance pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1962-04-23"
+    }, 
+    "country": {
+      "S": "Northern Mariana Islands"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb76470faf6330235edbcb90a9"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "81"
+    }, 
+    "name": {
+      "S": "Black Eyed Peas"
+    }, 
+    "genre": {
+      "S": "dance pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1961-04-09"
+    }, 
+    "country": {
+      "S": "Antigua and Barbuda"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb6abca3789c7f4826ed99db2e"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "82"
+    }, 
+    "name": {
+      "S": "The Neighbourhood"
+    }, 
+    "genre": {
+      "S": "modern alternative rock"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1983-11-05"
+    }, 
+    "country": {
+      "S": "Afghanistan"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebdf0b5ac84376a0a4b2166816"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "83"
+    }, 
+    "name": {
+      "S": "Michael Jackson"
+    }, 
+    "genre": {
+      "S": "r&b"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "2002-01-06"
+    }, 
+    "country": {
+      "S": "Egypt"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb997cc9a4aec335d46c9481fd"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "84"
+    }, 
+    "name": {
+      "S": "USHER"
+    }, 
+    "genre": {
+      "S": "atl hip hop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1959-12-19"
+    }, 
+    "country": {
+      "S": "Panama"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb716114797a4a644c67c5fa72"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "85"
+    }, 
+    "name": {
+      "S": "Charlie Puth"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1967-05-10"
+    }, 
+    "country": {
+      "S": "Kazakhstan"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebd5594e3ae145bbb2c096366d"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "86"
+    }, 
+    "name": {
+      "S": "YoungBoy Never Broke Again"
+    }, 
+    "genre": {
+      "S": "baton rouge rap"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1992-02-12"
+    }, 
+    "country": {
+      "S": "Benin"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebb1d6eaf7ad3417765577cac4"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "87"
+    }, 
+    "name": {
+      "S": "XXXTENTACION"
+    }, 
+    "genre": {
+      "S": "emo rap"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1992-08-28"
+    }, 
+    "country": {
+      "S": "Bangladesh"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebf0c20db5ef6c6fbe5135d2e4"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "88"
+    }, 
+    "name": {
+      "S": "Selena Gomez"
+    }, 
+    "genre": {
+      "S": "pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1990-11-08"
+    }, 
+    "country": {
+      "S": "Nicaragua"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebc3c753851496854e29abff7a"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "89"
+    }, 
+    "name": {
+      "S": "AC/DC"
+    }, 
+    "genre": {
+      "S": "australian rock"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1988-08-28"
+    }, 
+    "country": {
+      "S": "Norfolk Island"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebc4c77549095c86acb4e77b37"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "90"
+    }, 
+    "name": {
+      "S": "Avicii"
+    }, 
+    "genre": {
+      "S": "dance pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1962-10-06"
+    }, 
+    "country": {
+      "S": "Swaziland"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebae07171f989fb39736674113"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "91"
+    }, 
+    "name": {
+      "S": "Justin Timberlake"
+    }, 
+    "genre": {
+      "S": "dance pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "2003-08-05"
+    }, 
+    "country": {
+      "S": "Algeria"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb7a5cfe2597665a3d160e805e"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "92"
+    }, 
+    "name": {
+      "S": "Red Hot Chili Peppers"
+    }, 
+    "genre": {
+      "S": "alternative rock"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "2004-01-17"
+    }, 
+    "country": {
+      "S": "Turkey"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebc33cc15260b767ddec982ce8"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "93"
+    }, 
+    "name": {
+      "S": "Britney Spears"
+    }, 
+    "genre": {
+      "S": "dance pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1979-07-20"
+    }, 
+    "country": {
+      "S": "Australia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb3a49b0a3954e460a8a76ed90"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "94"
+    }, 
+    "name": {
+      "S": "Madonna"
+    }, 
+    "genre": {
+      "S": "dance pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1955-03-21"
+    }, 
+    "country": {
+      "S": "Mali"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb4b36d28b55620959821f4a5b"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "95"
+    }, 
+    "name": {
+      "S": "Central Cee"
+    }, 
+    "genre": {
+      "S": "melodic drill"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1967-04-18"
+    }, 
+    "country": {
+      "S": "Jamaica"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb5fe7cabb8de1c0266cd2179c"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "96"
+    }, 
+    "name": {
+      "S": "Manuel Turizo"
+    }, 
+    "genre": {
+      "S": "colombian pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1968-08-25"
+    }, 
+    "country": {
+      "S": "Namibia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebfb87d42d66722931e826d630"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "97"
+    }, 
+    "name": {
+      "S": "50 Cent"
+    }, 
+    "genre": {
+      "S": "east coast hip hop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1991-06-30"
+    }, 
+    "country": {
+      "S": "Chile"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/dd031b9c5d1b6eba4a691cd89c954255aae787f2"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "98"
+    }, 
+    "name": {
+      "S": "A$AP Rocky"
+    }, 
+    "genre": {
+      "S": "east coast hip hop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1965-10-22"
+    }, 
+    "country": {
+      "S": "Cocos (Keeling) Islands"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb5c58c41a506a0d6b32cc6cad"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "99"
+    }, 
+    "name": {
+      "S": "The Beatles"
+    }, 
+    "genre": {
+      "S": "british invasion"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1981-03-04"
+    }, 
+    "country": {
+      "S": "Eritrea"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebe9348cc01ff5d55971b22433"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "100"
+    }, 
+    "name": {
+      "S": "Bizarrap"
+    }, 
+    "genre": {
+      "S": "argentine hip hop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "2000-09-11"
+    }, 
+    "country": {
+      "S": "Mayotte"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb14add0d3419426b84158b913"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "101"
+    }, 
+    "name": {
+      "S": "Macklemore"
+    }, 
+    "genre": {
+      "S": "pop rap"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1997-07-07"
+    }, 
+    "country": {
+      "S": "Mayotte"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb488b3b242f97163a7f8e17b9"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "102"
+    }, 
+    "name": {
+      "S": "P!nk"
+    }, 
+    "genre": {
+      "S": "Pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1965-04-27"
+    }, 
+    "country": {
+      "S": "Ghana"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab67616d0000b273dea2d7ef77ad8e3ec3739d23"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "103"
+    }, 
+    "name": {
+      "S": "Lil Wayne"
+    }, 
+    "genre": {
+      "S": "hip hop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1960-09-04"
+    }, 
+    "country": {
+      "S": "Syrian Arab Republic"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebc1c08e541eae3cc82c6988c4"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "104"
+    }, 
+    "name": {
+      "S": "Frank Ocean"
+    }, 
+    "genre": {
+      "S": "lgbtq+ hip hop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1991-09-07"
+    }, 
+    "country": {
+      "S": "Saint Martin"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebee3123e593174208f9754fab"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "105"
+    }, 
+    "name": {
+      "S": "Kesha"
+    }, 
+    "genre": {
+      "S": "dance pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1980-04-20"
+    }, 
+    "country": {
+      "S": "Australia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb2ac07249400857d8b16dc17a"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "106"
+    }, 
+    "name": {
+      "S": "JENNIE"
+    }, 
+    "genre": {
+      "S": "k-pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1971-07-17"
+    }, 
+    "country": {
+      "S": "Vanuatu"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebcab652097be01bf194cdf11d"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "107"
+    }, 
+    "name": {
+      "S": "Tyler, The Creator"
+    }, 
+    "genre": {
+      "S": "hip hop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1991-04-25"
+    }, 
+    "country": {
+      "S": "Cambodia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebdfa2b0c7544a772042a12e52"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "108"
+    }, 
+    "name": {
+      "S": "Twenty One Pilots"
+    }, 
+    "genre": {
+      "S": "modern rock"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1971-01-15"
+    }, 
+    "country": {
+      "S": "Iraq"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb274df4dfcb960867eccedfb5"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "109"
+    }, 
+    "name": {
+      "S": "ABBA"
+    }, 
+    "genre": {
+      "S": "europop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1969-06-14"
+    }, 
+    "country": {
+      "S": "Spain"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb124eba6bf3476404531bd7b2"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "110"
+    }, 
+    "name": {
+      "S": "Zach Bryan"
+    }, 
+    "genre": {
+      "S": "classic oklahoma country"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "2004-08-27"
+    }, 
+    "country": {
+      "S": "Rwanda"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb4fd54df35bfcfa0fc9fc2da7"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "111"
+    }, 
+    "name": {
+      "S": "The Kid LAROI"
+    }, 
+    "genre": {
+      "S": "australian hip hop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1984-03-27"
+    }, 
+    "country": {
+      "S": "Wallis and Futuna"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebebf5c408f4d003817161e061"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "112"
+    }, 
+    "name": {
+      "S": "Pharrell Williams"
+    }, 
+    "genre": {
+      "S": "dance pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1967-12-21"
+    }, 
+    "country": {
+      "S": "Peru"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5ebf0789cd783c20985ec3deb4e"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "113"
+    }, 
+    "name": {
+      "S": "Noah Kahan"
+    }, 
+    "genre": {
+      "S": "pov: indie"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1991-02-09"
+    }, 
+    "country": {
+      "S": "Malaysia"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb8c52b10e110f62fe45761590"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "114"
+    }, 
+    "name": {
+      "S": "Kali Uchis"
+    }, 
+    "genre": {
+      "S": "colombian pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1970-12-11"
+    }, 
+    "country": {
+      "S": "Iran"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb51dfdac248da65a860963b68"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "115"
+    }, 
+    "name": {
+      "S": "Vance Joy"
+    }, 
+    "genre": {
+      "S": "folk-pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1955-05-26"
+    }, 
+    "country": {
+      "S": "Kiribati"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb8f074ec8c25406680bf26422"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "116"
+    }, 
+    "name": {
+      "S": "Flo Rida"
+    }, 
+    "genre": {
+      "S": "dance pop"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1968-05-31"
+    }, 
+    "country": {
+      "S": "China"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb655ca8f3196953554b479452"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "117"
+    }, 
+    "name": {
+      "S": "Becky G"
+    }, 
+    "genre": {
+      "S": "latin pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1980-05-04"
+    }, 
+    "country": {
+      "S": "Christmas Island"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb689f28b643fd40a523e00a96"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "118"
+    }, 
+    "name": {
+      "S": "Nirvana"
+    }, 
+    "genre": {
+      "S": "grunge"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1995-03-30"
+    }, 
+    "country": {
+      "S": "Chad"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/84282c28d851a700132356381fcfbadc67ff498b"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "119"
+    }, 
+    "name": {
+      "S": "Anitta"
+    }, 
+    "genre": {
+      "S": "funk pop"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1956-04-22"
+    }, 
+    "country": {
+      "S": "Greece"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb03479cd9d2eec574230368d4"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "120"
+    }, 
+    "name": {
+      "S": "Hombres G"
+    }, 
+    "genre": {
+      "S": "latin alternative"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1994-12-03"
+    }, 
+    "country": {
+      "S": "Heard Island and McDonald Islands"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb75b47b1df7cbb577259a0c9d"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "121"
+    }, 
+    "name": {
+      "S": "Enanitos Verdes"
+    }, 
+    "genre": {
+      "S": "argentine rock"
+    }, 
+    "status": {
+      "BOOL": true
+    }, 
+    "birth_date": {
+      "S": "1970-10-08"
+    }, 
+    "country": {
+      "S": "Aruba"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/0a44319db623b112c3fddca7a1ef88b5756265cd"
+    }
+  }, 
+  {
+    "provider_id": {
+      "S": "YouTube Music"
+    }, 
+    "artist_id": {
+      "N": "122"
+    }, 
+    "name": {
+      "S": "Soda Stereo"
+    }, 
+    "genre": {
+      "S": "argentine rock"
+    }, 
+    "status": {
+      "BOOL": false
+    }, 
+    "birth_date": {
+      "S": "1973-06-14"
+    }, 
+    "country": {
+      "S": "Korea"
+    }, 
+    "cover_image_url": {
+      "S": "https://i.scdn.co/image/ab6761610000e5eb79b7db5f179c0a503d8a8158"
+    }
+  }
+]
