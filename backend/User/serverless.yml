@@ -92,7 +92,7 @@ resources:
           - AttributeName: provider_id
             AttributeType: S
           - AttributeName: user_id
-            AttributeType: S
+            AttributeType: N
           - AttributeName: provider_user_id
             AttributeType: S
           - AttributeName: email

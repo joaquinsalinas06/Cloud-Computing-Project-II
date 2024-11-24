@@ -13,15 +13,15 @@ tablas_archivos = {
     "dev-t_artist": ["artistsV1.json", "artistsV2.json"],
     # "dev-t_artist": ["artistsV1.json", "artistsV2.json", "artistsData.json"],
 
-    "dev-t_post": ["postsV1.json", "postsV2.json"],
+    "dev-t_post": ["posts.json"],
 
     "dev-t_song": ["songsV1.json", "songsV2.json"],
     # "dev-t_song": ["songsV1.json", "songsV2.json", "songsData.json"],
 
-    "dev-t_user": ["usersV1.json", "usersV2.json"],
+    "dev-t_user": ["users.json"],
 
-    # "dev-t_comment": ["commentsV1.json", "commentsV2.json"],
-    # "dev-t_playlist": ["playlistsV1.json", "playlistsV2.json"],
+    "dev-t_comment": ["comments.json"],
+    # "dev-t_playlist": ["playlists.json"],
 }
 
 
