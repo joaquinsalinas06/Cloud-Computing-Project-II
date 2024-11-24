@@ -23,9 +23,9 @@ def generate_post_data(
 
         if random.choice([True, False]):
             song_id = random.choice(song_keys)
-            album_id = None
+            album_id = -1
         else:
-            song_id = None
+            song_id = -1
             album_id = random.choice(album_keys)
 
         post_csv_list.append(
