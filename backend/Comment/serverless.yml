@@ -5,7 +5,7 @@ provider:
   name: aws
   runtime: python3.12
   environment:
-    TABLE_NAME: ${self:service}-${sls:stage}
+    TABLE_NAME: ${sls:stage}-t_comment
   iam:
     role: ${env:LAB_ROLE}
 
@@ -50,7 +50,7 @@ resources:
     TablaComentarios:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${sls:stage}-t_comment
+        TableName: ${self:provider.environment.TABLE_NAME}
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: provider_id
