@@ -68,12 +68,12 @@ def lambda_handler(event, context):
                 'email': email,
                 'username': username,
                 'password': hashed_password,
-                'nombre': nombre,
-                'apellido': apellido,
-                'telefono': telefono,
-                'fecha_nacimiento': fecha_nacimiento,
-                'genero': genero,
-                'edad': edad,
+                'name': nombre,
+                'lastname': apellido,
+                'phone_number': telefono,
+                'date_birth': fecha_nacimiento,
+                'genre': genero,
+                'age': edad,
                 'active': active,
                 'datecreated': datecreated
             }
