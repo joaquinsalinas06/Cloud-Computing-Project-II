@@ -127,14 +127,14 @@ resources:
         AttributeDefinitions:
           - AttributeName: provider_id
             AttributeType: S
-          - AttributeName: email
-            AttributeType: S
+          - AttributeName: user_id
+            AttributeType: N
           - AttributeName: token
             AttributeType: S
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
-          - AttributeName: email
+          - AttributeName: user_id
             KeyType: RANGE
         LocalSecondaryIndexes:
           - IndexName: ${self:provider.environment.INDEXLSI1_TABLE2_NAME}
