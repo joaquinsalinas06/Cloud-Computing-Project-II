@@ -66,19 +66,13 @@ resources:
         AttributeDefinitions:
           - AttributeName: playlist_id
             AttributeType: N
-          - AttributeName: user_id
-            AttributeType: N
-          - AttributeName: playlist_name
-            AttributeType: S
-          - AttributeName: created_at
-            AttributeType: S
           - AttributeName: provider_id
             AttributeType: S
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
           - AttributeName: playlist_id
-            KeyType: HASH
+            KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         PointInTimeRecoverySpecification:
           PointInTimeRecoveryEnabled: true
