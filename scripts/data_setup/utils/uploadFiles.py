@@ -41,7 +41,6 @@ def batch_write_to_dynamodb(table_name, items, max_retries=5):
     lotes = [items[i:i + 25] for i in range(0, len(items), 25)]
     for lote in lotes:
         request_items = {table_name: [{'PutRequest': {'Item': item}} for item in lote]}
-        response = None
         retry_count = 0
 
         while retry_count < max_retries:
@@ -49,24 +48,16 @@ def batch_write_to_dynamodb(table_name, items, max_retries=5):
                 response = dynamodb.batch_write_item(RequestItems=request_items)
                 if 'UnprocessedItems' not in response or not response['UnprocessedItems']:
                     break
-            except Exception as e:
-                print(f"Error procesando el lote para la tabla {table_name}: {e}")
-                for item in lote:
-                    print(f"Elemento que falló: {item}")
+            except Exception:
                 break
 
             if 'UnprocessedItems' in response and response['UnprocessedItems']:
-                print(f"Reintentando elementos no procesados en la tabla {table_name}... (Intento {retry_count + 1})")
-                unprocessed = response['UnprocessedItems'].get(table_name, [])
-                for unprocessed_item in unprocessed:
-                    print(f"Elemento no procesado: {unprocessed_item}")
-                time.sleep(2 ** retry_count)
                 request_items = response['UnprocessedItems']
+                time.sleep(2 ** retry_count)
                 retry_count += 1
 
-        if retry_count == max_retries and response and 'UnprocessedItems' in response:
-            print(f"No se pudieron procesar los siguientes elementos después de {max_retries} intentos:")
-            print(response['UnprocessedItems'])
+        time.sleep(0.5)
+
 
 
 def main():
