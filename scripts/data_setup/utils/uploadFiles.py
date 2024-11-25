@@ -56,7 +56,6 @@ def batch_write_to_dynamodb(table_name, items, max_retries=5):
                 time.sleep(2 ** retry_count)
                 retry_count += 1
 
-        time.sleep(0.5)
 
 
 
@@ -76,6 +75,7 @@ def main():
             except Exception as e:
                 print(f"Error procesando {archivo_s3}: {e}")
 
+            time.sleep(5)
 
 if __name__ == "__main__":
     main()
