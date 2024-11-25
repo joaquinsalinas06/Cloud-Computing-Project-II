@@ -39,12 +39,12 @@ def lambda_handler(event, context):
 
 
         user_id = highestUserId + 1        
-        nombre = event['body']['data']['nombre']
-        apellido = event['body']['data']['apellido']
-        telefono = event['body']['data']['telefono']
-        fecha_nacimiento = event['body']['data']['fecha_nacimiento']
-        genero = event['body']['data']['genero']
-        edad = event['body']['data']['edad']
+        nombre = event['body']['name']
+        apellido = event['body']['last_name']
+        telefono = event['body']['phone_number']
+        fecha_nacimiento = event['body']['birth_date']
+        genero = event['body']['genre']
+        edad = event['body']['age']
 
         active = 'true'
         datecreated = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -69,7 +69,7 @@ def lambda_handler(event, context):
                 'username': username,
                 'password': hashed_password,
                 'name': nombre,
-                'lastname': apellido,
+                'last_name': apellido,
                 'phone_number': telefono,
                 'date_birth': fecha_nacimiento,
                 'genre': genero,
