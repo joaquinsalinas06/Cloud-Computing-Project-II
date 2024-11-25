@@ -119,7 +119,7 @@ functions:
     events:
       - http:
           path: /artist/{artistId}
-          method: put
+          method: put 
           cors: true
           integration: lambda
 
