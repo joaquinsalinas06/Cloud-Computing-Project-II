@@ -1,5 +1,5 @@
 org: ${env:ORG_NAME}
-service: api-mure-post
+service: post-api
 
 provider:
   name: aws
@@ -91,7 +91,7 @@ resources:
     PostTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${sls:stage}-t_post
+        TableName: ${self:provider.environment.TABLE_NAME}
         AttributeDefinitions:
           - AttributeName: provider_id
             AttributeType: S

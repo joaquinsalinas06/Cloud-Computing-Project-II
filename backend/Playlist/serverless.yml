@@ -1,5 +1,5 @@
 org: ${env:ORG_NAME}
-service: api-playlist
+service: playlist-api
 
 provider:
   name: aws
@@ -9,7 +9,7 @@ provider:
   iam:
     role: ${env:LAB_ROLE}
   environment:
-    PLAYLIST_TABLE_NAME: ${sls:stage}-${env:PLAYLIST_TABLE_NAME_e}
+    TABLE_NAME: ${sls:stage}-t_playlist
 
 functions:
   createPlaylist:
@@ -62,7 +62,7 @@ resources:
     PlaylistsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.PLAYLIST_TABLE_NAME}
+        TableName: ${self:provider.environment.TABLE_NAME}
         AttributeDefinitions:
           - AttributeName: playlist_id
             AttributeType: N
