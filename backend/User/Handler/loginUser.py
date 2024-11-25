@@ -41,6 +41,7 @@ def lambda_handler(event, context):
 
     user = response['Items'][0]
     hashed_password_bd = user['password']
+    user_id_response = user['user_id']
     
     if hashed_password == hashed_password_bd:
         token = secrets.token_hex(32)
@@ -70,7 +71,8 @@ def lambda_handler(event, context):
             'message': 'Authentication successful',
             'data': {
                 'token': token,
-                'expiration': expiration.strftime('%Y-%m-%d %H:%M:%S')
+                'expiration': expiration.strftime('%Y-%m-%d %H:%M:%S'),
+                'user_id': user_id_response
             }
         },
         'headers': {

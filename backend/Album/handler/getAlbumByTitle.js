@@ -1,4 +1,3 @@
-import "dotenv/config";
 import AWS from "aws-sdk";
 
 const { DynamoDB } = AWS;

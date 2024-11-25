@@ -18,7 +18,7 @@ module.exports.handler = async function (event) {
   const invokeParams = {
     FunctionName: process.env.LAMBDA_FUNCTION_NAME,
     InvocationType: "RequestResponse",
-    Payload: JSON.stringify({ token })
+    Payload: JSON.stringify({ token }),
   };
 
   try {
@@ -40,17 +40,23 @@ module.exports.handler = async function (event) {
       body: { error: "Authorization check failed", details: error.message },
     };
   }
+
   const params = {
-    TableName: process.env.TABLE_NAME,
-    Key: { provider_id, post_id }
+    TableName: TABLE_NAME,
+    KeyConditionExpression:
+      "provider_id = :provider_id and artist_id = :artist_id",
+    ExpressionAttributeValues: {
+      ":provider_id": provider_id,
+      ":artist_id": parseInt(artist_id, 10),
+    },
   };
 
   try {
-    const result = await dynamoDb.get(params).promise();
-    if (result.Item) {
+    const data = await dynamodb.query(params).promise();
+    if (data.Items && data.Items.length > 0) {
       return {
         statusCode: 200,
-        body: result.Item,
+        body: result.Items[0],
       };
     } else {
       return {
@@ -64,4 +70,4 @@ module.exports.handler = async function (event) {
       body: { error: "Could not retrieve post", details: error.message },
     };
   }
-}
+};

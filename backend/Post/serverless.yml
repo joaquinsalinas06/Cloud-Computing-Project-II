@@ -1,5 +1,5 @@
-org: zamcloud
-service: api-mure-post
+org: ${env:ORG_NAME}
+service: post-api
 
 provider:
   name: aws
@@ -7,16 +7,16 @@ provider:
   memorySize: 1024
   timeout: 30
   iam:
-    role: arn:aws:iam::418515024637:role/LabRole
+    role: ${env:LAB_ROLE}
   environment:
-    TABLE_NAME: ${sls:stage}-${env:TABLE_NAME}
-    INDEXGSI1_TABLE1_NAME: ${sls:stage}-${env:INDEXGSI1_TABLE1_NAME_e}
-    INDEXGSI2_TABLE1_NAME: ${sls:stage}-${env:INDEXGSI2_TABLE1_NAME_e}
-    INDEXLSI1_TABLE1_NAME: ${sls:stage}-${env:INDEXLSI1_TABLE1_NAME_e}
-    LAMBDA_FUNCTION_NAME: ${env:LAMBDA_FUNCTION_NAME}
+    TABLE_NAME: ${sls:stage}-t_post
+    INDEXGSI1_TABLE1_NAME: ${sls:stage}-provider-user-index
+    INDEXGSI2_TABLE1_NAME: ${sls:stage}-provider-post-index
+    INDEXLSI1_TABLE1_NAME: ${sls:stage}-providerlsi-user-index
+    LAMBDA_FUNCTION_NAME:  ${sls-stage}-validateToken
 functions:
   createPost:
-    handler: Handler/createpost.handler
+    handler: Handler/createPost.handler
     events:
       - http:
           path: /post/create
@@ -25,16 +25,16 @@ functions:
           integration: lambda
 
   deletePost:
-    handler: Handler/deletepost.handler
+    handler: Handler/deletePost.handler
     events:
       - http:
           path: /post/delete/{provider_id}/{post_id}
-          method: delete          
+          method: delete
           cors: true
           integration: lambda
 
   getPost:
-    handler: Handler/getpost.handler
+    handler: Handler/getPost.handler
     events:
       - http:
           path: /post/get/{provider_id}/{post_id}
@@ -43,7 +43,7 @@ functions:
           integration: lambda
 
   getAllPostsByProvider:
-    handler: Handler/getallpostbyprovider_id.handler
+    handler: Handler/getAllPostByProviderId.handler
     events:
       - http:
           path: /post/getall/{provider_id}
@@ -52,7 +52,7 @@ functions:
           integration: lambda
 
   getPostBySongId:
-    handler: Handler/getpostbysongid.handler
+    handler: Handler/getPostbySongId.handler
     events:
       - http:
           path: /post/getbysong/{provider_id}/{song_id}
@@ -61,7 +61,7 @@ functions:
           integration: lambda
 
   getPostsByAlbumId:
-    handler: Handler/getpostbyalbumid.handler
+    handler: Handler/getPostByAlbumId.handler
     events:
       - http:
           path: /post/getbyalbum/{provider_id}/{album_id}
@@ -70,7 +70,7 @@ functions:
           integration: lambda
 
   getPostsByUserId:
-    handler: Handler/getpostbyuserid.handler
+    handler: Handler/getPostByUserId.handler
     events:
       - http:
           path: /post/getbyuser/{provider_id}/{user_id}
@@ -79,7 +79,7 @@ functions:
           integration: lambda
 
   updatePost:
-    handler: Handler/updatepost.handler
+    handler: Handler/updatePost.handler
     events:
       - http:
           path: /post/update/{provider_id}/{post_id}
@@ -91,18 +91,18 @@ resources:
     PostTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${sls:stage}-${env:TABLE_NAME}
+        TableName: ${self:provider.environment.TABLE_NAME}
         AttributeDefinitions:
           - AttributeName: provider_id
             AttributeType: S
           - AttributeName: post_id
-            AttributeType: S
+            AttributeType: N
           - AttributeName: song_id
-            AttributeType: S
+            AttributeType: N
           - AttributeName: album_id
-            AttributeType: S
+            AttributeType: N
           - AttributeName: user_id
-            AttributeType: S
+            AttributeType: N
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
@@ -135,4 +135,5 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
-      DeletionPolicy: Retain
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true              

@@ -1,4 +1,3 @@
-import "dotenv/config";
 import AWS from "aws-sdk";
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -13,7 +12,7 @@ export async function handler(event) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: { 
+      body: {
         message: "The 'providerId' parameter is required.",
       },
     };

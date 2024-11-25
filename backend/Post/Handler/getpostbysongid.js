@@ -4,11 +4,11 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 module.exports.handler = async function (event) {
   const provider_id = event.path?.provider_id;
   const song_id = event.path?.song_id;
-  const token = event.headers?.Authorization;  
+  const token = event.headers?.Authorization;
   const page = parseInt(event.query?.page) || 1;
   const pageSize = parseInt(event.query?.limit) || 10;
-  
-  if (!provider_id  || !song_id || !token) {
+
+  if (!provider_id || !song_id || !token) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
@@ -20,7 +20,7 @@ module.exports.handler = async function (event) {
   const invokeParams = {
     FunctionName: process.env.LAMBDA_FUNCTION_NAME,
     InvocationType: "RequestResponse",
-    Payload: JSON.stringify({ token })
+    Payload: JSON.stringify({ token }),
   };
 
   try {
@@ -43,7 +43,6 @@ module.exports.handler = async function (event) {
     };
   }
 
-
   if (page < 1 || pageSize < 1) {
     return {
       statusCode: 400,
@@ -51,7 +50,6 @@ module.exports.handler = async function (event) {
       body: { error: "Page and pageSize must be greater than 0" },
     };
   }
-
 
   const params = {
     TableName: process.env.TABLE_NAME,
@@ -69,7 +67,9 @@ module.exports.handler = async function (event) {
   let lastEvaluatedKey = null;
   try {
     while (currentPage < page) {
-      const result = await dynamoDb.query({ ...params, ExclusiveStartKey: lastEvaluatedKey }).promise();
+      const result = await dynamoDb
+        .query({ ...params, ExclusiveStartKey: lastEvaluatedKey })
+        .promise();
       lastEvaluatedKey = result.LastEvaluatedKey;
 
       if (!lastEvaluatedKey) {
@@ -78,7 +78,9 @@ module.exports.handler = async function (event) {
       currentPage++;
     }
 
-    const result = await dynamoDb.query({ ...params, ExclusiveStartKey: lastEvaluatedKey }).promise();
+    const result = await dynamoDb
+      .query({ ...params, ExclusiveStartKey: lastEvaluatedKey })
+      .promise();
     items = result.Items;
     lastEvaluatedKey = result.LastEvaluatedKey;
 
@@ -86,14 +88,14 @@ module.exports.handler = async function (event) {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
       body: {
-        items: items.length > 0 ? items : [{ message: "No more items" }],  
+        items: items.length > 0 ? items : [{ message: "No more items" }],
         pagination: {
           currentPage: page,
           pageSize: pageSize,
           hasNextPage: !!lastEvaluatedKey,
           hasPreviousPage: page > 1,
-          lastEvaluatedKey: lastEvaluatedKey || null
-        }
+          lastEvaluatedKey: lastEvaluatedKey || null,
+        },
       },
     };
   } catch (error) {
@@ -104,7 +106,7 @@ module.exports.handler = async function (event) {
         pageSize: pageSize,
         hasNextPage: false,
         hasPreviousPage: page > 1,
-        lastEvaluatedKey: lastEvaluatedKey || null
+        lastEvaluatedKey: lastEvaluatedKey || null,
       },
       headers: { "Content-Type": "application/json" },
       body: { error: "Could not retrieve posts", details: error.message },
