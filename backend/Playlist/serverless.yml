@@ -80,6 +80,5 @@ resources:
           - AttributeName: playlist_id
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
-      DeletionPolicy: Retain
-      PointInTimeRecoverySpecification:
-        PointInTimeRecoveryEnabled: true
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
