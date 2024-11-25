@@ -1,93 +1,98 @@
 import boto3
 import hashlib
+import os
+import json
 from datetime import datetime
+from boto3.dynamodb.conditions import Key
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 def lambda_handler(event, context):
+    dynamodb = boto3.resource('dynamodb')
+    table_name = os.environ['TABLE_NAME']
+    index_name = os.environ['INDEXLSI1_TABLE1_NAME']
+    table = dynamodb.Table(table_name)
+        
     try:
-        provider_id = event.get('provider_id')
-        user_id = datetime.now().strftime('%Y%m%d%H%M%S%f')
-        password = event.get('password')
-        email = event.get('email')
-        username = event.get('username')
-        token = ''
-        data = event.get('data')
-        nombre = data.get('nombre')
-        apellido = data.get('apellido')
-        telefono = data.get('telefono')
-        fecha_nacimiento = data.get('fecha_nacimiento')
-        genero = data.get('genero')
+
+        provider_id = event['body']['provider_id']
+        password = event['body']['password']
+        email = event['body']['email']
+        username = event['body']['username']
+
+        if not all([provider_id, password, email, username]):
+            return {
+                'statusCode': 400,
+                'body': json.dumps({'error': 'Missing required fields'})
+            }
+        
+        response = table.query(
+            KeyConditionExpression=Key('provider_id').eq(provider_id),
+            ScanIndexForward=False,  
+            Limit=1  
+        )
+        highestUserId  = 0
+
+        if 'Items' in response and response['Items']:
+            highestUserId = int(response['Items'][0]['user_id'])
+
+
+        user_id = highestUserId + 1        
+        nombre = event['body']['data']['nombre']
+        apellido = event['body']['data']['apellido']
+        telefono = event['body']['data']['telefono']
+        fecha_nacimiento = event['body']['data']['fecha_nacimiento']
+        genero = event['body']['data']['genero']
+        edad = event['body']['data']['edad']
+
         active = 'true'
         datecreated = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        edad = data.get('edad')
         hashed_password = hash_password(password)
-        dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('mure_user')
-        existentes = table.get_item(
-            Key={
-                'email': email
+
+       
+        existentes = table.query(
+            IndexName=index_name,
+            KeyConditionExpression=Key('provider_id').eq(provider_id) & Key('email').eq(email)
+        )
+        if 'Items' in existentes and existentes['Items']:
+            return {
+                'statusCode': 400,
+                'body': json.dumps({'error': 'User already exists'})
+            }
+
+        table.put_item(
+            Item={
+                'provider_id': provider_id,
+                'user_id': user_id,
+                'email': email,
+                'username': username,
+                'password': hashed_password,
+                'name': nombre,
+                'lastname': apellido,
+                'phone_number': telefono,
+                'date_birth': fecha_nacimiento,
+                'genre': genero,
+                'age': edad,
+                'active': active,
+                'datecreated': datecreated
             }
         )
-        if 'Item' in existentes:
-            mensaje = {
-                'error': 'User already exists'
-            }
-            return {
-                'statusCode': 400,
-                'body': mensaje
-            }
 
-
-        if user_id and password and provider_id and email and username and data:
-            t_usuarios = dynamodb.Table('mure_user')
-            t_usuarios.put_item(
-                Item={
-                    'user_id': user_id,
-                    'provider_id': provider_id,
-                    'email': email,
-                    'username': username,
-                    'password': hashed_password,
-                    'token': token,
-                    'data': {
-                        'nombre': nombre,
-                        'apellido': apellido,
-                        'telefono': telefono,
-                        'fecha_nacimiento': fecha_nacimiento,
-                        'genero': genero,
-                        'edad': edad
-                        
-                    },
-                    'active': active,
-                    'datecreated': datecreated
-                }
-            )
-            mensaje = {
+        return {
+            'statusCode': 200,
+            'body': {
                 'message': 'User registered successfully',
                 'user_id': user_id
+            },
+            'headers': {
+                'Content-Type': 'application/json'
             }
-            return {
-                'statusCode': 200,
-                'body': mensaje
-            }
-        else:
-            mensaje = {
-                'error': 'Invalid request body: missing user_id or password'
-            }
-            return {
-                'statusCode': 400,
-                'body': mensaje
-            }
+        }
+
     except Exception as e:
         print("Exception:", str(e))
-        mensaje = {
-            'error': str(e)
-        }        
         return {
             'statusCode': 500,
-            'body': mensaje
+            'body': json.dumps({'error': str(e)})
         }
-        
-        
-        

@@ -1,4 +1,4 @@
-org: salinsuwu
+org: ${env:ORG_NAME}
 service: song-api
 
 provider:
@@ -7,30 +7,12 @@ provider:
   memorySize: 1024
   timeout: 30
   iam:
-    role: arn:aws:iam::164273947020:role/LabRole
+    role: ${env:LAB_ROLE}
   environment:
-    TABLE_NAME: ${sls:stage}-${env:TABLE_NAME}
-    INDEX_NAME: ${env:INDEX_NAME}
+    TABLE_NAME: ${sls:stage}-t_song
+    INDEX_NAME: title-index
 
 functions:
-  getSongById:
-    handler: handler/getSongById.handler
-    events:
-      - http:
-          path: /getSongById
-          method: post
-          cors: true
-          integration: lambda
-
-  getSongByTitle:
-    handler: handler/getSongByTitle.handler
-    events:
-      - http:
-          path: /getSongByTitle
-          method: post
-          cors: true
-          integration: lambda
-
   createSong:
     handler: handler/createSong.handler
     events:
@@ -40,32 +22,86 @@ functions:
           cors: true
           integration: lambda
 
+  createSongs:
+    handler: handler/createSongs.handler
+    events:
+      - http:
+          path: /songs
+          method: post
+          cors: true
+          integration: lambda
+
   deleteSong:
     handler: handler/deleteSong.handler
     events:
       - http:
-          path: /deleteSong
-          method: post
+          path: /deleteSong/{provider_id}/{song_id}
+          method: delete
+          cors: true
+          integration: lambda
+
+  getSongById:
+    handler: handler/getSongById.handler
+    events:
+      - http:
+          path: /getSongById/{provider_id}/{song_id}
+          method: get
+          cors: true
+          integration: lambda
+
+  getSongByTitle:
+    handler: handler/getSongByTitle.handler
+    events:
+      - http:
+          path: /getSongByTitle
+          method: get
+          cors: true
+          integration: lambda
+
+  getSongByTitleWP:
+    handler: handler/getSongByTitleWP.handler
+    events:
+      - http:
+          path: /getSongByTitleWP
+          method: get
+          cors: true
+          integration: lambda
+
+  getAllSongs:
+    handler: handler/getAllSongs.handler
+    events:
+      - http:
+          path: /getAllSongs
+          method: get
+          cors: true
+          integration: lambda
+
+  getAllSongsWP:
+    handler: handler/getAllSongsWP.handler
+    events:
+      - http:
+          path: /getAllSongsWP
+          method: get
           cors: true
           integration: lambda
 
 resources:
   Resources:
-    TablaCanciones:
+    SongsTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:provider.environment.TABLE_NAME}
         AttributeDefinitions:
-          - AttributeName: providerId
+          - AttributeName: provider_id
             AttributeType: S
-          - AttributeName: songId
+          - AttributeName: song_id
             AttributeType: N
           - AttributeName: title
             AttributeType: S
         KeySchema:
-          - AttributeName: providerId
+          - AttributeName: provider_id
             KeyType: HASH
-          - AttributeName: songId
+          - AttributeName: song_id
             KeyType: RANGE
         GlobalSecondaryIndexes:
           - IndexName: ${self:provider.environment.INDEX_NAME}
@@ -75,3 +111,5 @@ resources:
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true

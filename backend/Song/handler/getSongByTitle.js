@@ -1,4 +1,3 @@
-import "dotenv/config";
 import AWS from "aws-sdk";
 
 const { DynamoDB } = AWS;
@@ -7,14 +6,13 @@ const TABLE_NAME = process.env.TABLE_NAME;
 const INDEX_NAME = process.env.INDEX_NAME;
 
 export async function handler(event) {
-  const { title } =
-    typeof event.body === "string" ? JSON.parse(event.body) : event.body;
+  const title = event.query?.title;
 
   if (!title) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
-      body: { message: "Falta el parámetro: title" },
+      body: { message: "The parameter: title is missing" },
     };
   }
 
@@ -39,7 +37,7 @@ export async function handler(event) {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
       body: {
-        message: "Error al buscar la canción por título",
+        message: "An error occurred while getting the song by title",
         error: error.message,
       },
     };

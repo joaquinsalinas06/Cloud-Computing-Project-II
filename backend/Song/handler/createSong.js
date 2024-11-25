@@ -1,4 +1,3 @@
-import "dotenv/config";
 import AWS from "aws-sdk";
 
 const { DynamoDB } = AWS;
@@ -9,9 +8,45 @@ export async function handler(event) {
   const song =
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
 
+  const provider_id = song.provider_id;
+
+  let highestSongId = 0;
+  try {
+    const response = await dynamodb
+      .query({
+        TableName: TABLE_NAME,
+        KeyConditionExpression: "provider_id = :provider_id",
+        ExpressionAttributeValues: {
+          ":provider_id": provider_id,
+        },
+        ScanIndexForward: false,
+        Limit: 1,
+      })
+      .promise();
+
+    if (response.Items.length > 0) {
+      highestSongId = response.Items[0].song_id;
+    }
+  } catch (error) {
+    return {
+      statusCode: 500,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        message: "An error occurred while getting the highest song id",
+        error: error.message,
+      },
+    };
+  }
+
+  song.song_id = highestSongId + 1;
+
   const params = {
     TableName: TABLE_NAME,
     Item: song,
+    ConditionExpression:
+      "attribute_not_exists(provider_id) AND attribute_not_exists(song_id)",
   };
 
   try {
@@ -22,7 +57,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Canción creada con éxito",
+        message: "Song was created successfully",
         song: song,
       },
     };
@@ -33,7 +68,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Error al crear la canción",
+        message: "An error occurred while creating the song",
         error: error.message,
       },
     };

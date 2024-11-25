@@ -1,10 +1,14 @@
 from typing import Any
 
+import os
+from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-client_id = "43c8bc6f843b48f29839f88fd4fd93a7"
-client_secret = "c57162f8943c4a9b8d4034e2633b5de6"
+load_dotenv()
+
+client_id = os.getenv("SPOTIFY_CLIENT_ID")
+client_secret = os.getenv("SPOTIFY_CLIENT_SECRET")
 
 sp = spotipy.Spotify(
     auth_manager=SpotifyClientCredentials(
@@ -33,12 +37,12 @@ def get_artist_details(artist_id: str):
     return image_url, genres
 
 
-def get_albums_by_artist(artist_id: str, limit=10):
+def get_albums_by_artist(artist_id: str, limit=22):
     albums: Any = sp.artist_albums(artist_id, limit=limit, album_type="album,single")
     return albums["items"]
 
 
-def get_tracks_by_album(album_id: str, limit=10):
+def get_tracks_by_album(album_id: str, limit=15):
     tracks: Any = sp.album_tracks(album_id, limit=limit)
     tracks_with_preview = [track for track in tracks["items"] if track["preview_url"]]
     return tracks_with_preview
