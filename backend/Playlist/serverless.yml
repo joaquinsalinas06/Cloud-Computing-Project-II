@@ -65,14 +65,18 @@ resources:
         TableName: ${self:provider.environment.PLAYLIST_TABLE_NAME}
         AttributeDefinitions:
           - AttributeName: playlist_id
-            AttributeType: S
+            AttributeType: N
           - AttributeName: user_id
-            AttributeType: S
+            AttributeType: N
           - AttributeName: playlist_name
             AttributeType: S
           - AttributeName: date_created
             AttributeType: S
+          - AttributeName: provider_id
+            AttributeType: S
         KeySchema:
+          - AttributeName: provider_id
+            KeyType: HASH
           - AttributeName: playlist_id
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
