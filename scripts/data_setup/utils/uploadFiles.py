@@ -1,5 +1,6 @@
 import boto3
 import json
+import time
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 
 s3 = boto3.client('s3', region_name='us-east-1')
@@ -8,20 +9,20 @@ dynamodb = boto3.client('dynamodb', region_name='us-east-1')
 bucket_name = "jss-proyecto2cloud"
 tablas_archivos = {
     "dev-t_album": ["albumsV1.json", "albumsV2.json"],
-    # "dev-t_album": ["albumsV1.json", "albumsV2.json", "albumsData.json"],
+    #"dev-t_album": ["albumsV1.json", "albumsV2.json", "albumsData.json"], // Uncomment this line to include the albumsData.json file for Data Science
 
     "dev-t_artist": ["artistsV1.json", "artistsV2.json"],
-    # "dev-t_artist": ["artistsV1.json", "artistsV2.json", "artistsData.json"],
+    #"dev-t_artist": ["artistsV1.json", "artistsV2.json", "artistsData.json"], // Uncomment this line to include the artistsData.json file for Data Science
 
     "dev-t_post": ["posts.json"],
 
     "dev-t_song": ["songsV1.json", "songsV2.json"],
-    # "dev-t_song": ["songsV1.json", "songsV2.json", "songsData.json"],
+    #"dev-t_song": ["songsV1.json", "songsV2.json", "songsData.json"], // Uncomment this line to include the songsData.json file for Data Science
 
     "dev-t_user": ["users.json"],
 
     "dev-t_comment": ["comments.json"],
-    # "dev-t_playlist": ["playlists.json"],
+    "dev-t_playlist": ["playlists.json"],
 }
 
 
@@ -41,16 +42,23 @@ def descargar_archivo_s3(bucket, key):
         raise
 
 
-def batch_write_to_dynamodb(table_name, items):
+def batch_write_to_dynamodb(table_name, items, max_retries=5, backoff_time=2):
     lotes = [items[i:i + 25] for i in range(0, len(items), 25)]
 
     for lote in lotes:
         request_items = {table_name: [{'PutRequest': {'Item': item}} for item in lote]}
         response = dynamodb.batch_write_item(RequestItems=request_items)
 
-    while 'UnprocessedItems' in response and response['UnprocessedItems']:
-        print(f"Reintentando elementos no procesados en la tabla {table_name}...")
-        response = dynamodb.batch_write_item(RequestItems=response['UnprocessedItems'])
+        retry_count = 0
+        while 'UnprocessedItems' in response and response['UnprocessedItems']:
+            if retry_count >= max_retries:
+                print(f"No se pudieron procesar todos los elementos en la tabla {table_name} después de {max_retries} reintentos.")
+                break
+
+            print(f"Reintentando elementos no procesados en la tabla {table_name}... (Intento {retry_count + 1})")
+            time.sleep(backoff_time)  # Pausa entre intentos
+            response = dynamodb.batch_write_item(RequestItems=response['UnprocessedItems'])
+            retry_count += 1
 
 
 def main():
