@@ -70,7 +70,7 @@ resources:
             AttributeType: N
           - AttributeName: playlist_name
             AttributeType: S
-          - AttributeName: date_created
+          - AttributeName: created_at
             AttributeType: S
           - AttributeName: provider_id
             AttributeType: S
