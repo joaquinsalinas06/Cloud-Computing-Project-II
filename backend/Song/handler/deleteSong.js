@@ -1,4 +1,3 @@
-import "dotenv/config";
 import AWS from "aws-sdk";
 
 const { DynamoDB } = AWS;
@@ -6,22 +5,22 @@ const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  const providerId = event.path?.providerId;
-  const songId = event.path?.songId
-  
-  if (!providerId || !songId) {
+  const provider_id = event.path?.provider_id;
+  const song_id = event.path?.song_id;
+
+  if (!provider_id || !song_id) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
-      body: { message: "Faltan parámetros: providerId o songId" },
+      body: { message: "The parameters: provider_id or song_id are missing" },
     };
   }
 
   const params = {
     TableName: TABLE_NAME,
     Key: {
-      providerId,
-      songId: parseInt(songId, 10),
+      provider_id,
+      song_id: parseInt(song_id, 10),
     },
   };
 
@@ -30,13 +29,16 @@ export async function handler(event) {
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: { message: "Canción eliminada con éxito" },
+      body: { message: "Song was deleted successfully" },
     };
   } catch (error) {
     return {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
-      body: { message: "Error al eliminar la canción", error: error.message },
+      body: {
+        message: "An error occurred while deleting the song ",
+        error: error.message,
+      },
     };
   }
 }

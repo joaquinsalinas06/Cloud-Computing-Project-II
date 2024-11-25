@@ -1,4 +1,3 @@
-import "dotenv/config";
 import AWS from "aws-sdk";
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -19,7 +18,7 @@ export async function handler(event) {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
       body: {
-        message: "Falta el parámetro: title",
+        message: "The parameter: title is missing",
       },
     };
   }
@@ -70,7 +69,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Error al buscar la canción por título",
+        message: "An error occurred while getting the song by title",
         error: error.message,
       },
     };

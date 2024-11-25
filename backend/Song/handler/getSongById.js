@@ -1,4 +1,3 @@
-import "dotenv/config";
 import AWS from "aws-sdk";
 
 const { DynamoDB } = AWS;
@@ -6,32 +5,32 @@ const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  const providerId = event.path?.providerId;
-  const songId = event.path?.songId;
+  const provider_id = event.path?.provider_id;
+  const song_id = event.path?.song_id;
 
-  if (!providerId || !songId) {
+  if (!provider_id || !song_id) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
-      body: { message: "Faltan parámetros: providerId o songId" },
+      body: { message: "The parameters: provider_id or song_id are missing" },
     };
   }
 
   const params = {
     TableName: TABLE_NAME,
-    Key: {
-      providerId,
-      songId: parseInt(songId, 10),
+    KeyConditionExpression: "provider_id = :provider_id and song_id = :song_id",
+    ExpressionAttributeValues: {
+      ":provider_id": provider_id,
+      ":song_id": parseInt(song_id, 10),
     },
   };
-
   try {
-    const data = await dynamodb.get(params).promise();
-    if (data.Item) {
+    const data = await dynamodb.query(params).promise();
+    if (data.Items && data.Items.length > 0) {
       return {
         statusCode: 200,
         headers: { "Content-Type": "application/json" },
-        body: data.Item,
+        body: data.Items[0],
       };
     } else {
       return {

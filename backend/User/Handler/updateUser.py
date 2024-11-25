@@ -3,31 +3,31 @@ import os
 import json
 
 def lambda_handler(event, context):
-    user_id = event['pathParameters'].get('user_id')
-    provider_id = event['pathParameters'].get('provider_id')
-    token = event['headers'].get('Authorization')
+    user_id = event['path']['user_id']
+    provider_id = event['path']['provider_id']
+    token = event['headers']['Authorization']
     
     lambda_client = boto3.client('lambda')
-    payload = {
-        "token": token
-    }
-    
+    payload = '{ "token": "' + token +  '" }'
+    token_function = os.environ['AUTHORIZER_FUNCTION_NAME']
+
     invoke_response = lambda_client.invoke(
-        FunctionName=os.getenv('AUTHORIZER_FUNCTION_NAME'),
+        FunctionName=token_function,
         InvocationType='RequestResponse',
-        Payload=json.dumps(payload)
+        Payload=payload
     )
     
-    response_payload = json.load(invoke_response['Payload'])
-    print(response_payload)  
+    response_payload = json.loads(invoke_response['Payload'].read())
+    print("Response Payload:", response_payload)
     
-    if invoke_response['StatusCode'] != 200 or response_payload.get('statusCode') != 200:
+    if 'statusCode' not in response_payload or response_payload['statusCode'] != 200:
+        error_message = response_payload.get('body', {}).get('error', 'Unknown error')
         return {
             'statusCode': 401,
-            'body': json.dumps({'error': 'Unauthorized'})
+            'body': {'error': 'Unauthorized', 'message': error_message}
         }
-    
-    table_name = os.getenv('TABLE_NAME_e')
+        
+    table_name = os.environ['TABLE_NAME']
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(table_name)
     
@@ -40,10 +40,14 @@ def lambda_handler(event, context):
         if 'Items' not in response or len(response['Items']) == 0:
             return {
                 'statusCode': 404,
-                'body': json.dumps({'error': 'User not found'})
+                'body': {'error': 'User not found'}
             }
         
-        datos = event.get('data')
+        body_content = event['body']
+        if isinstance(body_content, str):
+            body_content = json.loads(body_content)
+        
+        datos = body_content.get('data')
         if datos:
             update_expression = "SET "
             expression_attribute_values = {}
@@ -64,15 +68,15 @@ def lambda_handler(event, context):
             )
             return {
                 'statusCode': 200,
-                'body': json.dumps({'message': 'User updated'})
+                'body': {'message': 'User updated'}
             }
         else:
             return {
                 'statusCode': 400,
-                'body': json.dumps({'error': 'Data not provided'})
+                'body': {'error': 'Data not provided'}
             }
     else:
         return {
             'statusCode': 400,
-            'body': json.dumps({'error': 'Missing parameters'})
+            'body': {'error': 'Missing parameters'}
         }

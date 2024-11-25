@@ -1,4 +1,3 @@
-import "dotenv/config";
 import AWS from "aws-sdk";
 
 const { DynamoDB } = AWS;
@@ -9,16 +8,16 @@ export async function handler(event) {
   const song =
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
 
-  const providerId = song.providerId;
+  const provider_id = song.provider_id;
 
   let highestSongId = 0;
   try {
     const response = await dynamodb
       .query({
         TableName: TABLE_NAME,
-        KeyConditionExpression: "providerId = :providerId",
+        KeyConditionExpression: "provider_id = :provider_id",
         ExpressionAttributeValues: {
-          ":providerId": providerId,
+          ":provider_id": provider_id,
         },
         ScanIndexForward: false,
         Limit: 1,
@@ -26,7 +25,7 @@ export async function handler(event) {
       .promise();
 
     if (response.Items.length > 0) {
-      highestSongId = response.Items[0].songId;
+      highestSongId = response.Items[0].song_id;
     }
   } catch (error) {
     return {
@@ -35,19 +34,19 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Error al consultar el songId más alto",
+        message: "An error occurred while getting the highest song id",
         error: error.message,
       },
     };
   }
 
-  song.songId = highestSongId + 1;
+  song.song_id = highestSongId + 1;
 
   const params = {
     TableName: TABLE_NAME,
     Item: song,
     ConditionExpression:
-      "attribute_not_exists(providerId) AND attribute_not_exists(songId)",
+      "attribute_not_exists(provider_id) AND attribute_not_exists(song_id)",
   };
 
   try {
@@ -58,7 +57,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Canción creada con éxito",
+        message: "Song was created successfully",
         song: song,
       },
     };
@@ -69,7 +68,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "Error al crear la canción",
+        message: "An error occurred while creating the song",
         error: error.message,
       },
     };

@@ -1,4 +1,4 @@
-org: salinsuwu
+org: ${env:ORG_NAME}
 service: song-api
 
 provider:
@@ -7,10 +7,10 @@ provider:
   memorySize: 1024
   timeout: 30
   iam:
-    role: arn:aws:iam::164273947020:role/LabRole
+    role: ${env:LAB_ROLE}
   environment:
-    TABLE_NAME: ${sls:stage}-${env:TABLE_NAME_e}
-    INDEX_NAME: ${env:INDEX_NAME_e}
+    TABLE_NAME: ${sls:stage}-t_song
+    INDEX_NAME: title-index
 
 functions:
   createSong:
@@ -35,7 +35,7 @@ functions:
     handler: handler/deleteSong.handler
     events:
       - http:
-          path: /deleteSong/{providerId}/{songId}
+          path: /deleteSong/{provider_id}/{song_id}
           method: delete
           cors: true
           integration: lambda
@@ -44,7 +44,7 @@ functions:
     handler: handler/getSongById.handler
     events:
       - http:
-          path: /getSongById/{providerId}/{songId}
+          path: /getSongById/{provider_id}/{song_id}
           method: get
           cors: true
           integration: lambda
@@ -92,16 +92,16 @@ resources:
       Properties:
         TableName: ${self:provider.environment.TABLE_NAME}
         AttributeDefinitions:
-          - AttributeName: providerId
+          - AttributeName: provider_id
             AttributeType: S
-          - AttributeName: songId
+          - AttributeName: song_id
             AttributeType: N
           - AttributeName: title
             AttributeType: S
         KeySchema:
-          - AttributeName: providerId
+          - AttributeName: provider_id
             KeyType: HASH
-          - AttributeName: songId
+          - AttributeName: song_id
             KeyType: RANGE
         GlobalSecondaryIndexes:
           - IndexName: ${self:provider.environment.INDEX_NAME}
@@ -111,3 +111,5 @@ resources:
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true

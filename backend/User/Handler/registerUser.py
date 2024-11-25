@@ -9,31 +9,48 @@ def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 def lambda_handler(event, context):
-    try:
-        provider_id = event.get('provider_id')
-        user_id = datetime.now().strftime('%Y%m%d%H%M%S%f')
-        password = event.get('password')
-        email = event.get('email')
-        username = event.get('username')
-        data = event.get('data') or {}
+    dynamodb = boto3.resource('dynamodb')
+    table_name = os.environ['TABLE_NAME']
+    index_name = os.environ['INDEXLSI1_TABLE1_NAME']
+    table = dynamodb.Table(table_name)
         
-        nombre = data.get('nombre')
-        apellido = data.get('apellido')
-        telefono = data.get('telefono')
-        fecha_nacimiento = data.get('fecha_nacimiento')
-        genero = data.get('genero')
-        edad = data.get('edad')
+    try:
+
+        provider_id = event['body']['provider_id']
+        password = event['body']['password']
+        email = event['body']['email']
+        username = event['body']['username']
+
+        if not all([provider_id, password, email, username]):
+            return {
+                'statusCode': 400,
+                'body': json.dumps({'error': 'Missing required fields'})
+            }
+        
+        response = table.query(
+            KeyConditionExpression=Key('provider_id').eq(provider_id),
+            ScanIndexForward=False,  
+            Limit=1  
+        )
+        highestUserId  = 0
+
+        if 'Items' in response and response['Items']:
+            highestUserId = int(response['Items'][0]['user_id'])
+
+
+        user_id = highestUserId + 1        
+        nombre = event['body']['name']
+        apellido = event['body']['last_name']
+        telefono = event['body']['phone_number']
+        fecha_nacimiento = event['body']['birth_date']
+        genero = event['body']['genre']
+        edad = event['body']['age']
 
         active = 'true'
         datecreated = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         hashed_password = hash_password(password)
 
-        dynamodb = boto3.resource('dynamodb')
-        table_name = os.getenv('TABLE_NAME')
-        index_name = os.getenv('INDEXLSI1_TABLE1_NAME')
-
-        table = dynamodb.Table(table_name)
-        
+       
         existentes = table.query(
             IndexName=index_name,
             KeyConditionExpression=Key('provider_id').eq(provider_id) & Key('email').eq(email)
@@ -44,39 +61,35 @@ def lambda_handler(event, context):
                 'body': json.dumps({'error': 'User already exists'})
             }
 
-        if all([user_id, password, provider_id, email, username]):
-            table.put_item(
-                Item={
-                    'provider_id': provider_id,
-                    'user_id': user_id,
-                    'email': email,
-                    'username': username,
-                    'password': hashed_password,
-                    'data': {
-                        'nombre': nombre,
-                        'apellido': apellido,
-                        'telefono': telefono,
-                        'fecha_nacimiento': fecha_nacimiento,
-                        'genero': genero,
-                        'edad': edad
-                    },
-                    'active': active,
-                    'datecreated': datecreated
-                }
-            )
-            mensaje = {
+        table.put_item(
+            Item={
+                'provider_id': provider_id,
+                'user_id': user_id,
+                'email': email,
+                'username': username,
+                'password': hashed_password,
+                'name': nombre,
+                'last_name': apellido,
+                'phone_number': telefono,
+                'date_birth': fecha_nacimiento,
+                'genre': genero,
+                'age': edad,
+                'active': active,
+                'datecreated': datecreated
+            }
+        )
+
+        return {
+            'statusCode': 200,
+            'body': {
                 'message': 'User registered successfully',
                 'user_id': user_id
+            },
+            'headers': {
+                'Content-Type': 'application/json'
             }
-            return {
-                'statusCode': 200,
-                'body': json.dumps(mensaje)
-            }
-        else:
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'error': 'Invalid request body: missing required fields'})
-            }
+        }
+
     except Exception as e:
         print("Exception:", str(e))
         return {
