@@ -8,7 +8,7 @@ export async function handler(event) {
   const albums =
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
   const token = event.headers?.Authorization;
-  const token_function = process.env.LAMBDA_FUNCTION_NAME; 
+  const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
   if (!Array.isArray(albums) || albums.length === 0) {
     return {
@@ -18,6 +18,19 @@ export async function handler(event) {
       },
       body: {
         message: "A list of albums is required",
+      },
+    };
+  }
+
+  if (!token) {
+    return {
+      statusCode: 401,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        error: "Unauthorized",
+        message: "Token is required",
       },
     };
   }

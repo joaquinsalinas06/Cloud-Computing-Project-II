@@ -13,6 +13,20 @@ export async function handler(event) {
     ? JSON.parse(decodeURIComponent(event.query?.exclusiveStartKey))
     : null;
   const token = event.headers?.Authorization;
+
+  if (!token) {
+    return {
+      statusCode: 401,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        error: "Unauthorized",
+        message: "Token is required",
+      },
+    };
+  }
+
   const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
   if (!provider_id || !name) {
@@ -43,7 +57,7 @@ export async function handler(event) {
       return {
         statusCode: 401,
         headers: { "Content-Type": "application/json" },
-        body: { error: "Unauthorized", message: errorMessage }, 
+        body: { error: "Unauthorized", message: errorMessage },
       };
     }
   } catch (error) {
@@ -53,7 +67,6 @@ export async function handler(event) {
       body: { error: "Authorization check failed", details: error.message },
     };
   }
-
 
   const params = {
     TableName: TABLE_NAME,

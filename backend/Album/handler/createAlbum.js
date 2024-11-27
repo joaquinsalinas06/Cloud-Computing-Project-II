@@ -1,7 +1,7 @@
 import AWS from "aws-sdk";
 
 const { DynamoDB } = AWS;
-const dynamodb = new DynamoDB.DocumentClient(); 
+const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
@@ -11,6 +11,20 @@ export async function handler(event) {
   const provider_id = album.provider_id;
 
   const token = event.headers?.Authorization;
+
+  if (!token) {
+    return {
+      statusCode: 401,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        error: "Unauthorized",
+        message: "Token is required",
+      },
+    };
+  }
+
   const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
   const lambda = new AWS.Lambda();
@@ -18,7 +32,7 @@ export async function handler(event) {
     FunctionName: token_function,
     InvocationType: "RequestResponse",
     Payload: JSON.stringify({ token }),
-  }; 
+  };
 
   try {
     const invokeResponse = await lambda.invoke(invokeParams).promise();

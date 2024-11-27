@@ -8,6 +8,20 @@ export async function handler(event) {
   const artists =
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
   const token = event.headers?.Authorization;
+
+  if (!token) {
+    return {
+      statusCode: 401,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        error: "Unauthorized",
+        message: "Token is required",
+      },
+    };
+  }
+
   const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
   if (!Array.isArray(artists) || artists.length === 0) {
@@ -30,7 +44,7 @@ export async function handler(event) {
   };
 
   try {
-    const invokeResponse = await lambda.invoke(invokeParams).promise(); 
+    const invokeResponse = await lambda.invoke(invokeParams).promise();
     const responsePayload = JSON.parse(invokeResponse.Payload);
 
     if (!responsePayload.statusCode || responsePayload.statusCode !== 200) {
@@ -48,7 +62,6 @@ export async function handler(event) {
       body: { error: "Authorization check failed", details: error.message },
     };
   }
-
 
   let failedArtists = [];
   let createdArtists = [];

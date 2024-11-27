@@ -8,6 +8,20 @@ export async function handler(event) {
   const provider_id = event.path?.provider_id;
   const song_id = event.path?.song_id;
   const token = event.headers?.Authorization;
+
+  if (!token) {
+    return {
+      statusCode: 401,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        error: "Unauthorized",
+        message: "Token is required",
+      },
+    };
+  }
+
   const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
   if (!provider_id || !song_id) {
@@ -34,7 +48,7 @@ export async function handler(event) {
       return {
         statusCode: 401,
         headers: { "Content-Type": "application/json" },
-        body: { error: "Unauthorized", message: errorMessage }, 
+        body: { error: "Unauthorized", message: errorMessage },
       };
     }
   } catch (error) {
@@ -44,7 +58,6 @@ export async function handler(event) {
       body: { error: "Authorization check failed", details: error.message },
     };
   }
-
 
   const params = {
     TableName: TABLE_NAME,

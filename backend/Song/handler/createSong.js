@@ -9,6 +9,20 @@ export async function handler(event) {
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
   const provider_id = song.provider_id;
   const token = event.headers?.Authorization;
+
+  if (!token) {
+    return {
+      statusCode: 401,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        error: "Unauthorized",
+        message: "Token is required",
+      },
+    };
+  }
+
   const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
   const lambda = new AWS.Lambda();
@@ -23,7 +37,7 @@ export async function handler(event) {
     const responsePayload = JSON.parse(invokeResponse.Payload);
 
     if (!responsePayload.statusCode || responsePayload.statusCode !== 200) {
-      const errorMessage = responsePayload.body?.error || "Unauthorized access"; 
+      const errorMessage = responsePayload.body?.error || "Unauthorized access";
       return {
         statusCode: 401,
         headers: { "Content-Type": "application/json" },

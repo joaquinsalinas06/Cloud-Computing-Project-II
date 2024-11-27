@@ -8,6 +8,20 @@ export async function handler(event) {
   const provider_id = event.path?.provider_id;
   const artist_id = event.path?.artist_id;
   const token = event.headers?.Authorization;
+
+  if (!token) {
+    return {
+      statusCode: 401,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        error: "Unauthorized",
+        message: "Token is required",
+      },
+    };
+  }
+
   const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
   if (!provider_id || !artist_id) {
@@ -45,7 +59,6 @@ export async function handler(event) {
     };
   }
 
- 
   const params = {
     TableName: TABLE_NAME,
     Key: {

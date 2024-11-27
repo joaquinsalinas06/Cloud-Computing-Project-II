@@ -11,6 +11,20 @@ export async function handler(event) {
     ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
     : null;
   const token = event.headers?.Authorization;
+
+  if (!token) {
+    return {
+      statusCode: 401,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        error: "Unauthorized",
+        message: "Token is required",
+      },
+    };
+  }
+
   const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
   console.log(event);
@@ -32,7 +46,7 @@ export async function handler(event) {
     Payload: JSON.stringify({ token }),
   };
 
-  try { 
+  try {
     const invokeResponse = await lambda.invoke(invokeParams).promise();
     const responsePayload = JSON.parse(invokeResponse.Payload);
 
