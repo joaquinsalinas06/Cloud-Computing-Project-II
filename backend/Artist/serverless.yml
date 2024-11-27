@@ -34,15 +34,6 @@ functions:
           cors: true
           integration: lambda
 
-  getAllArtists:
-    handler: handler/getAllArtists.handler
-    events:
-      - http:
-          path: /artist/all
-          method: get
-          cors: true
-          integration: lambda
-
   getAllArtistsWP:
     handler: handler/getAllArtistsWP.handler
     events:
@@ -61,15 +52,6 @@ functions:
           cors: true
           integration: lambda
 
-  getArtistByName:
-    handler: handler/getArtistByName.handler
-    events:
-      - http:
-          path: /artist/by-name
-          method: get
-          cors: true
-          integration: lambda
-
   getArtistByNameWP:
     handler: handler/getArtistByNameWP.handler
     events:
@@ -79,29 +61,11 @@ functions:
           cors: true
           integration: lambda
 
-  getArtistByCountry:
-    handler: handler/getArtistsByCountry.handler
-    events:
-      - http:
-          path: /artist/by-country
-          method: get
-          cors: true
-          integration: lambda
-
   getArtistByCountryWP:
     handler: handler/getArtistsByCountryWP.handler
     events:
       - http:
           path: /artist/by-countryWP
-          method: get
-          cors: true
-          integration: lambda
-
-  getArtistByGenre:
-    handler: handler/getArtistsByGenre.handler
-    events:
-      - http:
-          path: /artist/by-genre
           method: get
           cors: true
           integration: lambda

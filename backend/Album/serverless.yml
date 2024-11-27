@@ -50,29 +50,11 @@ functions:
           cors: true
           integration: lambda
 
-  getAlbumByTitle:
-    handler: handler/getAlbumByTitle.handler
-    events:
-      - http:
-          path: /getAlbumByTitle
-          method: get
-          cors: true
-          integration: lambda
-
   getAlbumByTitleWP:
     handler: handler/getAlbumByTitleWP.handler
     events:
       - http:
           path: /getAlbumByTitleWP
-          method: get
-          cors: true
-          integration: lambda
-
-  getAllAlbums:
-    handler: handler/getAllAlbums.handler
-    events:
-      - http:
-          path: /getAllAlbums
           method: get
           cors: true
           integration: lambda
