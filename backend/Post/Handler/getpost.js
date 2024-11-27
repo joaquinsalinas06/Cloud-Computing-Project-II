@@ -27,7 +27,7 @@ module.exports.handler = async function (event) {
 
     if (!responsePayload.statusCode || responsePayload.statusCode !== 200) {
       const errorMessage = responsePayload.body?.error || "Unauthorized access";
-      return {
+      return { 
         statusCode: 401,
         headers: { "Content-Type": "application/json" },
         body: { error: "Unauthorized", message: errorMessage },

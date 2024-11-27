@@ -45,7 +45,7 @@ export async function handler(event) {
         headers: { "Content-Type": "application/json" },
         body: { error: "Unauthorized", message: errorMessage },
       };
-    }
+    } 
   } catch (error) {
     return {
       statusCode: 500,

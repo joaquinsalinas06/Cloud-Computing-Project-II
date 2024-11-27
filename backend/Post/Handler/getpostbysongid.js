@@ -21,7 +21,7 @@ module.exports.handler = async function (event) {
     FunctionName: process.env.LAMBDA_FUNCTION_NAME,
     InvocationType: "RequestResponse",
     Payload: JSON.stringify({ token }),
-  };
+  }; 
 
   try {
     const invokeResponse = await lambda.invoke(invokeParams).promise();

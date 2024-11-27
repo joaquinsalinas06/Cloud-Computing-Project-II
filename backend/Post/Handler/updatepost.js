@@ -23,7 +23,7 @@ module.exports.handler = async function (event) {
     InvocationType: "RequestResponse",
     Payload: JSON.stringify({ token }),
   };
-
+ 
   try {
     const invokeResponse = await lambda.invoke(invokeParams).promise();
     const responsePayload = JSON.parse(invokeResponse.Payload);

@@ -45,7 +45,7 @@ export async function handler(event) {
     };
   }
 
-
+ 
   const params = {
     TableName: TABLE_NAME,
     Key: {

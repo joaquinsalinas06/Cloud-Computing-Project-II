@@ -32,7 +32,7 @@ export async function handler(event) {
     if (!responsePayload.statusCode || responsePayload.statusCode !== 200) {
       const errorMessage = responsePayload.body?.error || "Unauthorized access";
       return {
-        statusCode: 401,
+        statusCode: 401, 
         headers: { "Content-Type": "application/json" },
         body: { error: "Unauthorized", message: errorMessage },
       };

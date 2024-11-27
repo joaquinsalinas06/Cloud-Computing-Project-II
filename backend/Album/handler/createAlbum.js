@@ -18,7 +18,7 @@ export async function handler(event) {
     FunctionName: token_function,
     InvocationType: "RequestResponse",
     Payload: JSON.stringify({ token }),
-  };
+  }; 
 
   try {
     const invokeResponse = await lambda.invoke(invokeParams).promise();

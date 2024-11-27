@@ -34,7 +34,7 @@ export async function handler(event) {
       return {
         statusCode: 401,
         headers: { "Content-Type": "application/json" },
-        body: { error: "Unauthorized", message: errorMessage },
+        body: { error: "Unauthorized", message: errorMessage }, 
       };
     }
   } catch (error) {

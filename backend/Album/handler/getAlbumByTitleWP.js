@@ -32,7 +32,7 @@ export async function handler(event) {
     Payload: JSON.stringify({ token }),
   };
 
-  try {
+  try { 
     const invokeResponse = await lambda.invoke(invokeParams).promise();
     const responsePayload = JSON.parse(invokeResponse.Payload);
 

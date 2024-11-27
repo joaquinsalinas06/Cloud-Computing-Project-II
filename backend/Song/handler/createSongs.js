@@ -18,7 +18,7 @@ export async function handler(event) {
       },
       body: {
         message: "A list of songs is required",
-      },
+      }, 
     };
   }
 

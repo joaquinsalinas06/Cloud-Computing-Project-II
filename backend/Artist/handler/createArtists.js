@@ -21,7 +21,7 @@ export async function handler(event) {
       },
     };
   }
-  
+
   const lambda = new AWS.Lambda();
   const invokeParams = {
     FunctionName: token_function,
@@ -30,7 +30,7 @@ export async function handler(event) {
   };
 
   try {
-    const invokeResponse = await lambda.invoke(invokeParams).promise();
+    const invokeResponse = await lambda.invoke(invokeParams).promise(); 
     const responsePayload = JSON.parse(invokeResponse.Payload);
 
     if (!responsePayload.statusCode || responsePayload.statusCode !== 200) {

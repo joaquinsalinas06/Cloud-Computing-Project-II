@@ -8,7 +8,7 @@ export async function handler(event) {
   const provider_id = event.path?.provider_id;
   const album_id = event.path?.album_id;
   const token = event.headers?.Authorization;
-  const token_function = process.env.LAMBDA_FUNCTION_NAME;
+  const token_function = process.env.LAMBDA_FUNCTION_NAME; 
 
   if (!provider_id || !album_id) {
     return {

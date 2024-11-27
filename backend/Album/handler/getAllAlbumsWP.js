@@ -26,7 +26,7 @@ export async function handler(event) {
 
   const lambda = new AWS.Lambda();
   const invokeParams = {
-    FunctionName: token_function,
+    FunctionName: token_function, 
     InvocationType: "RequestResponse",
     Payload: JSON.stringify({ token }),
   };

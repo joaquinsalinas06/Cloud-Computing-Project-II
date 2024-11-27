@@ -21,7 +21,7 @@ export async function handler(event) {
         message: "The parameter: title is missing",
       },
     };
-  }
+  } 
 
   const lambda = new AWS.Lambda();
   const invokeParams = {
