@@ -7,6 +7,8 @@ const TABLE_NAME = process.env.TABLE_NAME;
 export async function handler(event) {
   const songs =
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
+  const token = event.headers?.Authorization;
+  const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
   if (!Array.isArray(songs) || songs.length === 0) {
     return {
@@ -19,6 +21,34 @@ export async function handler(event) {
       },
     };
   }
+
+  const lambda = new AWS.Lambda();
+  const invokeParams = {
+    FunctionName: token_function,
+    InvocationType: "RequestResponse",
+    Payload: JSON.stringify({ token }),
+  };
+
+  try {
+    const invokeResponse = await lambda.invoke(invokeParams).promise();
+    const responsePayload = JSON.parse(invokeResponse.Payload);
+
+    if (!responsePayload.statusCode || responsePayload.statusCode !== 200) {
+      const errorMessage = responsePayload.body?.error || "Unauthorized access";
+      return {
+        statusCode: 401,
+        headers: { "Content-Type": "application/json" },
+        body: { error: "Unauthorized", message: errorMessage },
+      };
+    }
+  } catch (error) {
+    return {
+      statusCode: 500,
+      headers: { "Content-Type": "application/json" },
+      body: { error: "Authorization check failed", details: error.message },
+    };
+  }
+
 
   let failedSongs = [];
   let createdSongs = [];

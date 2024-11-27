@@ -7,8 +7,36 @@ const TABLE_NAME = process.env.TABLE_NAME;
 export async function handler(event) {
   const song =
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
-
   const provider_id = song.provider_id;
+  const token = event.headers?.Authorization;
+  const token_function = process.env.LAMBDA_FUNCTION_NAME;
+
+  const lambda = new AWS.Lambda();
+  const invokeParams = {
+    FunctionName: token_function,
+    InvocationType: "RequestResponse",
+    Payload: JSON.stringify({ token }),
+  };
+
+  try {
+    const invokeResponse = await lambda.invoke(invokeParams).promise();
+    const responsePayload = JSON.parse(invokeResponse.Payload);
+
+    if (!responsePayload.statusCode || responsePayload.statusCode !== 200) {
+      const errorMessage = responsePayload.body?.error || "Unauthorized access";
+      return {
+        statusCode: 401,
+        headers: { "Content-Type": "application/json" },
+        body: { error: "Unauthorized", message: errorMessage },
+      };
+    }
+  } catch (error) {
+    return {
+      statusCode: 500,
+      headers: { "Content-Type": "application/json" },
+      body: { error: "Authorization check failed", details: error.message },
+    };
+  }
 
   let highestSongId = 0;
   try {
