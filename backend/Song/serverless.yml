@@ -50,29 +50,11 @@ functions:
           cors: true
           integration: lambda
 
-  getSongByTitle:
-    handler: handler/getSongByTitle.handler
-    events:
-      - http:
-          path: /getSongByTitle
-          method: get
-          cors: true
-          integration: lambda
-
   getSongByTitleWP:
     handler: handler/getSongByTitleWP.handler
     events:
       - http:
           path: /getSongByTitleWP
-          method: get
-          cors: true
-          integration: lambda
-
-  getAllSongs:
-    handler: handler/getAllSongs.handler
-    events:
-      - http:
-          path: /getAllSongs
           method: get
           cors: true
           integration: lambda
