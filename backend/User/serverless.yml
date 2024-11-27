@@ -80,10 +80,10 @@ functions:
     handler: Handler/logoutUser.lambda_handler
     events:
       - http:
-        path: /user/logout
-        method: post
-        cors: true
-        integration: lambda
+          path: /user/logout
+          method: post
+          cors: true
+          integration: lambda
 
   validateToken:
     handler: Handler/validarToken.lambda_handler
