@@ -22,11 +22,11 @@ export interface RegisterRequest {
 	name: string;
 	last_name: string;
 	phone_number: string;
-	date_birth: string;
-	genre: string;
+	birth_date: string;
+	gender: string;
 	age: number;
 	active: boolean;
-	date_created: string;
+	created_at: string;
 }
 
 export interface RegisterResponse {
