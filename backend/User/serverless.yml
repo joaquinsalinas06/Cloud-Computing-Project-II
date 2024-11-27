@@ -77,7 +77,7 @@ functions:
                 limit: true
           integration: lambda
   logoutUser:
-    handler: Handler/logoutUser.lambda_handler
+    handler: Handler/logout.lambda_handler
     events:
       - http:
           path: /user/logout
