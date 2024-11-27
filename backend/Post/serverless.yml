@@ -13,7 +13,8 @@ provider:
     INDEXGSI1_TABLE1_NAME: ${sls:stage}-provider-user-index
     INDEXGSI2_TABLE1_NAME: ${sls:stage}-provider-post-index
     INDEXLSI1_TABLE1_NAME: ${sls:stage}-providerlsi-user-index
-    AUTHORIZER_FUNCTION_NAME:  ${sls-stage}-validateToken
+    LAMBDA_FUNCTION_NAME:  user-api-${sls-stage}-validateToken
+    
 functions:
   createPost:
     handler: Handler/createPost.handler
