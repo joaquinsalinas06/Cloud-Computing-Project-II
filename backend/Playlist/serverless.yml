@@ -10,6 +10,7 @@ provider:
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_playlist
+    AUTHORIZER_FUNCTION_NAME: ${sls:stage}-validateToken
 
 functions:
   createPlaylist:

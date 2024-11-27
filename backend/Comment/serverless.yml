@@ -6,6 +6,7 @@ provider:
   runtime: python3.12
   environment:
     TABLE_NAME: ${sls:stage}-t_comment
+    AUTHORIZER_FUNCTION_NAME: ${sls:stage}-validateToken
   iam:
     role: ${env:LAB_ROLE}
 
