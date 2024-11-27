@@ -50,7 +50,7 @@ def lambda_handler(event, context):
         token_table.put_item(
             Item={
                 'provider_id': provider_id,
-                'email': email,
+                'user_id': user_id_response,
                 'token': token,
                 'expiration': expiration.strftime('%Y-%m-%d %H:%M:%S')
             }
