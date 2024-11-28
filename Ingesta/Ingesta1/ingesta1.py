@@ -10,7 +10,7 @@ glue = boto3.client('glue', region_name='us-east-1')
 tabla_dynamo = 'dev-t_user' 
 nombre_bucket = 'ingesta-stage-prod'  
 archivo_csv = 'stage-prod-usuarios.csv'
-glue_database = 'stage-prod'  
+glue_database = 'stage-prod'  # La base de datos en Glue
 glue_table_name = 'stage-prod-usuarios'
 
 def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
@@ -24,21 +24,33 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
             items = respuesta['Items']
             
             if not escritor_csv:
-                fieldnames = list(items[0].keys())  
-                escritor_csv = csv.DictWriter(archivo, fieldnames=fieldnames)
+                # Usamos la primera fila para determinar los campos (suponemos que todas las filas tienen los mismos atributos)
+                writer_fields = []
+                for item in items:
+                    for key, value in item.items():
+                        if isinstance(value, dict):
+                            if 'S' in value:
+                                writer_fields.append(key)
+                            elif 'N' in value:
+                                writer_fields.append(key)
+                escritor_csv = csv.DictWriter(archivo, fieldnames=writer_fields)
                 escritor_csv.writeheader()
             
+            # Procesamos los items de DynamoDB para que solo contengan 'S' o 'N'
+            rows = []
             for item in items:
                 row = {}
                 for key, value in item.items():
-                    if 'S' in value:
-                        row[key] = value['S']
-                    elif 'N' in value:
-                        row[key] = int(value['N'])  
-                    else:
-                        row[key] = None  
-                escritor_csv.writerow(row)
+                    if isinstance(value, dict):
+                        if 'S' in value:
+                            row[key] = value['S']  # String
+                        elif 'N' in value:
+                            row[key] = value['N']  # Número
+                rows.append(row)
+            
+            escritor_csv.writerows(rows)
 
+            # Verifica si hay más datos
             if 'LastEvaluatedKey' in respuesta:
                 scan_kwargs['ExclusiveStartKey'] = respuesta['LastEvaluatedKey']
             else:
@@ -61,7 +73,7 @@ def subir_csv_a_s3(archivo_csv, nombre_bucket):
 def crear_base_de_datos_en_glue(glue_database):
     """Crear base de datos en Glue si no existe."""
     try:
-        glue.get_database(Name=glue_database)  
+        glue.get_database(Name=glue_database)  # Verificar si la base de datos ya existe
         print(f"La base de datos {glue_database} ya existe.")
     except glue.exceptions.EntityNotFoundException:
         print(f"La base de datos {glue_database} no existe. Creando base de datos...")
@@ -90,7 +102,7 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
                 'StorageDescriptor': {
                     'Columns': [
                         {'Name': 'provider_id', 'Type': 'string'},
-                        {'Name': 'user_id', 'Type': 'int'},
+                        {'Name': 'user_id', 'Type': 'string'},
                         {'Name': 'email', 'Type': 'string'},
                         {'Name': 'username', 'Type': 'string'},
                         {'Name': 'password', 'Type': 'string'},
@@ -99,7 +111,7 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
                         {'Name': 'phone_number', 'Type': 'string'},
                         {'Name': 'birth_date', 'Type': 'string'},
                         {'Name': 'gender', 'Type': 'string'},
-                        {'Name': 'age', 'Type': 'int'},
+                        {'Name': 'age', 'Type': 'string'},
                         {'Name': 'active', 'Type': 'string'},
                         {'Name': 'created_at', 'Type': 'string'}
                     ],
@@ -117,14 +129,8 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
             }
         )
         print(f"Tabla {glue_table_name} registrada exitosamente en la base de datos {glue_database}.")
-    except glue.exceptions.AlreadyExistsException:
-        print(f"La tabla {glue_table_name} ya existe. Actualizando la tabla...")
-        # Si la tabla ya existe, puedes actualizarla o ignorarla (según el caso)
-        pass
     except Exception as e:
-        print(f"Error al registrar o crear la tabla en Glue: {e}")
-        return False
-    return True
+        print(f"Error al registrar la tabla en Glue: {e}")
 
 if __name__ == "__main__":
     if crear_base_de_datos_en_glue(glue_database):
