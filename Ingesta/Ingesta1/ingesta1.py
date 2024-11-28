@@ -20,7 +20,6 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
     
     with open(archivo_csv, 'w', newline='') as archivo:
         escritor_csv = csv.writer(archivo)  # Usamos csv.writer para escribir los datos
-        first_write = True
         
         while True:
             respuesta = tabla.scan(**scan_kwargs)
@@ -30,14 +29,6 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
                 break
             
             for item in items:
-                # Convertimos `user_id` a int, si no es un valor vacío
-                user_id = item.get('user_id', '')
-                if user_id:
-                    try:
-                        user_id = int(user_id)
-                    except ValueError:
-                        user_id = ''  # Si no puede convertirse, lo dejamos como vacío
-                
                 # Aseguramos que los datos se escriben en el orden correcto
                 row = [
                     item.get('birth_date', ''),
@@ -48,18 +39,12 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
                     item.get('gender', ''),
                     item.get('active', ''),
                     item.get('password', ''),
-                    user_id,  # Escribimos `user_id` como int
+                    item.get('user_id', ''),
                     item.get('last_name', ''),
                     item.get('phone_number', ''),
                     item.get('username', ''),
                     item.get('age', '')
                 ]
-
-                if first_write:
-                    # Escribimos los encabezados solo la primera vez
-                    headers = ['birth_date', 'created_at', 'provider_id', 'email', 'name', 'gender', 'active', 'password', 'user_id', 'last_name', 'phone_number', 'username', 'age']
-                    escritor_csv.writerow(headers)
-                    first_write = False
                 
                 escritor_csv.writerow(row)
             
@@ -123,7 +108,7 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
                         {'Name': 'gender', 'Type': 'string'},
                         {'Name': 'active', 'Type': 'string'},
                         {'Name': 'password', 'Type': 'string'},
-                        {'Name': 'user_id', 'Type': 'int'},  # Cambio aquí a `int`
+                        {'Name': 'user_id', 'Type': 'string'},  # Asegúrate de que 'user_id' esté como 'string' en Glue
                         {'Name': 'last_name', 'Type': 'string'},
                         {'Name': 'phone_number', 'Type': 'string'},
                         {'Name': 'username', 'Type': 'string'},
