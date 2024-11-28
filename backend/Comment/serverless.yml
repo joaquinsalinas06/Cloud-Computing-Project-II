@@ -22,6 +22,12 @@ functions:
             parameters:
               paths:
                 post_id: true
+              querystrings:
+                provider_id: true
+                start_date: false
+                end_date: false
+                page: false
+                pageSize: false
           integration: lambda
 
   getUserComments:
@@ -35,6 +41,12 @@ functions:
             parameters:
               paths:
                 user_id: true
+              querystrings:
+                provider_id: true
+                start_date: false
+                end_date: false
+                page: false
+                pageSize: false
           integration: lambda
 
   postComment:
@@ -88,4 +100,4 @@ resources:
             Projection:
               ProjectionType: ALL
         PointInTimeRecoverySpecification:
-          PointInTimeRecoveryEnabled: true              
+          PointInTimeRecoveryEnabled: true

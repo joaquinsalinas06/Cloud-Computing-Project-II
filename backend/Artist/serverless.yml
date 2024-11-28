@@ -29,7 +29,7 @@ functions:
     handler: handler/deleteArtist.handler
     events:
       - http:
-          path: /deleteArtist/{provider_id}/{artist_id}
+          path: /artist/delete/{provider_id}/{artist_id}
           method: delete
           cors: true
           integration: lambda
@@ -38,16 +38,22 @@ functions:
     handler: handler/getAllArtistsWP.handler
     events:
       - http:
-          path: /artist/allWP
+          path: /artist/all
           method: get
           cors: true
           integration: lambda
+          request:
+            parameters:
+              querystrings:
+                provider_id: false
+                limit: false
+                exclusiveStartKey: false
 
   getArtistById:
     handler: handler/getArtistById.handler
     events:
       - http:
-          path: /getById/{provider_id}/{artist_id}
+          path: /artist/{provider_id}/{artist_id}
           method: get
           cors: true
           integration: lambda
@@ -56,35 +62,56 @@ functions:
     handler: handler/getArtistByNameWP.handler
     events:
       - http:
-          path: /artist/by-nameWP
+          path: /artist/by-name
           method: get
           cors: true
           integration: lambda
+          request:
+            parameters:
+              querystrings:
+                provider_id: true
+                name: true
+                limit: false
+                exclusiveStartKey: false
 
   getArtistByCountryWP:
     handler: handler/getArtistsByCountryWP.handler
     events:
       - http:
-          path: /artist/by-countryWP
+          path: /artist/by-country
           method: get
           cors: true
           integration: lambda
+          request:
+            parameters:
+              querystrings:
+                provider_id: true
+                country: true
+                limit: false
+                exclusiveStartKey: false
 
   getArtistByGenreWP:
     handler: handler/getArtistsByGenreWP.handler
     events:
       - http:
-          path: /artist/by-genreWP
+          path: /artist/by-genre
           method: get
           cors: true
           integration: lambda
+          request:
+            parameters:
+              querystrings:
+                provider_id: true
+                genre: true
+                limit: false
+                exclusiveStartKey: false
 
   updateArtist:
     handler: handler/updateArtist.handler
     events:
       - http:
           path: /artist/{artistId}
-          method: put 
+          method: put
           cors: true
           integration: lambda
 

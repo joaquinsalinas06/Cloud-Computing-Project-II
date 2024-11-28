@@ -14,7 +14,7 @@ provider:
     INDEXGSI2_TABLE1_NAME: ${sls:stage}-provider-post-index
     INDEXLSI1_TABLE1_NAME: ${sls:stage}-providerlsi-user-index
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
-    
+
 functions:
   createPost:
     handler: Handler/createPost.handler
@@ -33,6 +33,11 @@ functions:
           method: delete
           cors: true
           integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                post_id: true
 
   getPost:
     handler: Handler/getPost.handler
@@ -42,6 +47,11 @@ functions:
           method: get
           cors: true
           integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                post_id: true
 
   getAllPostsByProvider:
     handler: Handler/getAllPostByProviderId.handler
@@ -51,6 +61,13 @@ functions:
           method: get
           cors: true
           integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+              querystrings:
+                page: false
+                limit: false
 
   getPostBySongId:
     handler: Handler/getPostbySongId.handler
@@ -60,6 +77,14 @@ functions:
           method: get
           cors: true
           integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                song_id: true
+              querystrings:
+                page: false
+                limit: false
 
   getPostsByAlbumId:
     handler: Handler/getPostByAlbumId.handler
@@ -69,6 +94,14 @@ functions:
           method: get
           cors: true
           integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                album_id: true
+              querystrings:
+                page: false
+                limit: false
 
   getPostsByUserId:
     handler: Handler/getPostByUserId.handler
@@ -78,6 +111,14 @@ functions:
           method: get
           cors: true
           integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                user_id: true
+              querystrings:
+                page: false
+                limit: false
 
   updatePost:
     handler: Handler/updatePost.handler
@@ -87,6 +128,12 @@ functions:
           method: put
           cors: true
           integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                post_id: true
+
 resources:
   Resources:
     PostTable:
@@ -137,4 +184,4 @@ resources:
             Projection:
               ProjectionType: ALL
         PointInTimeRecoverySpecification:
-          PointInTimeRecoveryEnabled: true              
+          PointInTimeRecoveryEnabled: true
