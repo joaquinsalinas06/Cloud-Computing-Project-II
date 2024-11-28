@@ -1,19 +1,41 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../services/auth";
-import { LogOut } from "lucide-react";
 import ProviderContext from "../contexts/ProviderContext";
+import UserContext from "../contexts/UserContext";
 
 interface ThemeWrapperProps {
 	children: React.ReactNode;
 }
 
 const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ children }) => {
-	const { theme } = useContext(ProviderContext)!;
+	const { theme, provider } = useContext(ProviderContext)!;
+	const { user_id } = useContext(UserContext)!;
+
 	const navigate = useNavigate();
 
+	const handleAlbumPage = () => {
+		navigate("/albums");
+	};
+
+	const handleArtistPage = () => {
+		navigate("/artists");
+	};
+
+	const handleSongPage = () => {
+		navigate("/songs");
+	};
+
+	const handleProfilePage = () => {
+		navigate("/profile");
+	};
+
 	const handleLogout = () => {
-		logout();
+		const payload = {
+			provider_id: provider,
+			user_id,
+		};
+		logout(payload);
 		navigate("/login");
 	};
 
@@ -39,38 +61,64 @@ const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ children }) => {
 				style={{
 					backgroundColor: theme.primaryColor,
 					color: theme.textColor,
-					padding: "1.5rem",
+					padding: "0.01rem",
 					width: "100%",
 					display: "flex",
 					justifyContent: "center",
 					alignItems: "center",
 					position: "relative",
-					borderBottom: `4px solid ${theme.accentColor}`,
 					boxShadow: `0px 4px 6px rgba(0, 0, 0, 0.2)`,
 				}}
 			>
-				<h1
+				<button
+					onClick={handleArtistPage}
+					style={{ position: "absolute", left: "2rem" }}
+				>
+					Artists
+				</button>
+				<button
+					onClick={handleAlbumPage}
+					style={{ position: "absolute", left: "8.5rem" }}
+				>
+					Albums
+				</button>
+
+				<button
+					onClick={handleSongPage}
+					style={{ position: "absolute", left: "15.2rem" }}
+				>
+					Songs
+				</button>
+
+				<button
+					onClick={() => navigate("/home")}
 					style={{
 						fontSize: "1.5rem",
 						fontWeight: "bold",
+						backgroundColor: "transparent",
 					}}
 				>
 					{theme.name}
-				</h1>
+				</button>
+				<button
+					onClick={handleProfilePage}
+					style={{ position: "absolute", right: "8.5rem" }}
+				>
+					Profile
+				</button>
 				{tokenExists && (
 					<button
 						onClick={handleLogout}
 						style={{
 							position: "absolute",
 							right: "1.5rem",
-							background: "none",
 							border: "none",
 							cursor: "pointer",
 							color: theme.textColor,
 						}}
 						aria-label="Logout"
 					>
-						<LogOut size={24} />
+						Logout
 					</button>
 				)}
 			</header>

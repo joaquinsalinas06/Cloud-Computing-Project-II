@@ -1,11 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Post as PostType } from "../types/post";
+import { UserResponse } from "../types/user";
+import { fetchUser } from "../services/user";
 
 interface PostProps {
 	post: PostType;
 }
 
 const Post: React.FC<PostProps> = ({ post }) => {
+	const [username, setUsername] = useState<string | null>(null);
+	const [, setLoading] = useState<boolean>(false);
+	const [, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		const loadUsername = async () => {
+			if (!post.provider_id || !post.user_id) {
+				setError("Provider ID or User ID is missing.");
+				return;
+			}
+
+			setLoading(true);
+			try {
+				const userData: UserResponse = await fetchUser({
+					provider_id: post.provider_id,
+					user_id: post.user_id,
+				});
+				setUsername(userData.username);
+				setError(null);
+			} catch (err) {
+				console.error("Error fetching username:", err);
+				setError("Failed to load username.");
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		loadUsername();
+	}, [post.provider_id, post.user_id]);
+
 	return (
 		<div
 			style={{
@@ -15,13 +47,13 @@ const Post: React.FC<PostProps> = ({ post }) => {
 				marginBottom: "1rem",
 				boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
 				maxWidth: "600px",
-				width: "100%",
+				width: "80%",
 			}}
 		>
 			<h3 style={{ fontSize: "1.25rem", fontWeight: "bold" }}>
-				Post ID: {post.post_id} - {post.description}
+				{username}
 			</h3>
-			<p>Provider: {post.provider_id}</p>
+			<p>{post.description}</p>
 			<p>
 				Song ID: {post.song_id} | Album ID: {post.album_id}
 			</p>
