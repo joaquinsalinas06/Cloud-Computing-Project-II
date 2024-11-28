@@ -10,7 +10,7 @@ from data_setup.data_generation.post import generate_post_data
 from data_setup.data_generation.user import generate_user_data
 from data_setup.data_generation.comment import generate_comment_data
 
-provider_ids = ["Spotify", "AppleMusic", "YouTubeMusic"]
+provider_ids = ["Spotify", "Apple", "Youtube Music"]
 
 
 def clear_output_directory(directory):

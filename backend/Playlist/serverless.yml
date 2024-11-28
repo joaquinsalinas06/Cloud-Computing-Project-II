@@ -10,7 +10,7 @@ provider:
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_playlist
-    LAMBDA_FUNCTION_NAME:  user-api-${sls-stage}-validateToken
+    LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
     GSI1: ${sls:stage}-user_id-index
 
 functions:
@@ -22,6 +22,12 @@ functions:
           method: post
           cors: true
           integration: lambda
+          request:
+            parameters:
+              querystrings:
+                provider_id: true
+                playlist_id: true
+                user_id: true
 
   addSong:
     handler: addSong.lambda_handler
@@ -31,6 +37,13 @@ functions:
           method: put
           cors: true
           integration: lambda
+          request:
+            parameters:
+              paths:
+                playlist_id: true
+                song_id: true
+              querystrings:
+                provider_id: true
 
   deleteSong:
     handler: deleteSong.lambda_handler
@@ -40,6 +53,11 @@ functions:
           method: delete
           cors: true
           integration: lambda
+          request:
+            parameters:
+              paths:
+                playlist_id: true
+                song_id: true
 
   getSongsPlaylist:
     handler: getSongsPlaylist.lambda_handler
@@ -49,6 +67,10 @@ functions:
           method: get
           cors: true
           integration: lambda
+          request:
+            parameters:
+              paths:
+                playlist_id: true
 
   deletePlaylist:
     handler: deletePlaylist.lambda_handler
@@ -58,6 +80,25 @@ functions:
           method: delete
           cors: true
           integration: lambda
+          request:
+            parameters:
+              paths:
+                playlist_id: true
+
+  getPlaylistByUserId:
+    handler: getPlaylistByUserId.lambda_handler
+    events:
+      - http:
+          path: /playlist/user/{user_id}
+          method: get
+          cors: true
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                user_id: true
+              querystrings:
+                provider_id: true
 
 resources:
   Resources:
@@ -65,12 +106,13 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:provider.environment.TABLE_NAME}
+        BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: provider_id
             AttributeType: S
           - AttributeName: playlist_id
             AttributeType: N
-          - AtributeName: user_id
+          - AttributeName: user_id
             AttributeType: N
         KeySchema:
           - AttributeName: provider_id
@@ -84,6 +126,5 @@ resources:
                 KeyType: HASH
             Projection:
               ProjectionType: ALL
-        BillingMode: PAY_PER_REQUEST
         PointInTimeRecoverySpecification:
           PointInTimeRecoveryEnabled: true
