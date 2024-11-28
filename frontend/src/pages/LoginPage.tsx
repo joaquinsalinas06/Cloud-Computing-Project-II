@@ -19,7 +19,8 @@ const LoginPage: React.FC = () => {
 				email,
 				password,
 			};
-			await login(payload);
+			const response = await login(payload);
+			console.log(response);
 			navigate("/home");
 		} catch (error) {
 			console.error(error);

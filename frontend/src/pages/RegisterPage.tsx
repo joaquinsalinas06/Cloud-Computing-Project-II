@@ -47,17 +47,18 @@ const RegisterPage: React.FC = () => {
 				name,
 				last_name: lastname,
 				phone_number: phoneNumber,
-				date_birth: birthDate,
-				genre: gender,
+				birth_date: birthDate,
+				gender,
 				age,
 				active: true,
-				date_created: new Date()
+				created_at: new Date()
 					.toISOString()
 					.replace("T", " ")
 					.split(".")[0],
 			};
 
 			const response = await register(payload);
+			console.log(response);
 			alert(response.body.message);
 			navigate("/login");
 		} catch (error) {

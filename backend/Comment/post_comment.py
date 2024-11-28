@@ -9,12 +9,13 @@ def lambda_handler(event, context):
     print(event)
 
     token = event['headers']['Authorization']
+    token_function = os.environ['LAMBDA_FUNCTION_NAME']        
     
     lambda_client = boto3.client('lambda')
     payload = '{ "token": "' + token +  '" }'
     
     invoke_response = lambda_client.invoke(
-        FunctionName='api-mure-user-dev-validateToken',
+        FunctionName=token_function,
         InvocationType='RequestResponse',
         Payload=payload
     )

@@ -76,6 +76,14 @@ functions:
                 page: true
                 limit: true
           integration: lambda
+  logoutUser:
+    handler: Handler/logout.lambda_handler
+    events:
+      - http:
+          path: /user/logout
+          method: post
+          cors: true
+          integration: lambda
 
   validateToken:
     handler: Handler/validarToken.lambda_handler

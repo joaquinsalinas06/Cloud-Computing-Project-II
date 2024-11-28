@@ -15,32 +15,34 @@ module.exports.handler = async function (event) {
   }
 
   let highestPostId = 0;
-  try{
-    const response =  await dynamoDb.query({
-      TableName: process.env.TABLE_NAME,
-      KeyConditionExpression: "provider_id = :provider_id",
-      ExpressionAttributeValues: {
-        ":provider_id": provider_id
-      },
-      ScanIndexForward: false,
-      Limit: 1
-    })
-    .promise();
+  try {
+    const response = await dynamoDb
+      .query({
+        TableName: process.env.TABLE_NAME,
+        KeyConditionExpression: "provider_id = :provider_id",
+        ExpressionAttributeValues: {
+          ":provider_id": provider_id,
+        },
+        ScanIndexForward: false,
+        Limit: 1,
+      })
+      .promise();
     if (response.Items.length > 0) {
       highestPostId = response.Items[0].post_id;
     }
-
-  }catch (error) {
+  } catch (error) {
     return {
       statusCode: 500,
-      message: { error: "Error querying highest post_id", 
-      details: error.message }
+      message: {
+        error: "Error querying highest post_id",
+        details: error.message,
+      },
     };
   }
 
   const lambda = new AWS.Lambda();
   const invokeParams = {
-    FunctionName: process.env.AUTHORIZER_FUNCTION_NAME,
+    FunctionName: process.env.LAMBDA_FUNCTION_NAME,
     InvocationType: "RequestResponse",
     Payload: JSON.stringify({ token }),
   };
@@ -76,7 +78,7 @@ module.exports.handler = async function (event) {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   }
 
-  const post_id =  highestPostId + 1;
+  const post_id = highestPostId + 1;
   const params = {
     TableName: process.env.TABLE_NAME,
     Item: {
