@@ -1,0 +1,80 @@
+openapi: "3.0.1"
+info:
+  title: "comment-api"
+  version: "2024-11-28T15:11:42Z"
+servers:
+- url: "https://7weswwv8jg.execute-api.us-east-1.amazonaws.com/{basePath}"
+  variables:
+    basePath:
+      default: "dev"
+paths:
+  /comments/posts/{post_id}:
+    get:
+      parameters:
+      - name: "page"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "provider_id"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      - name: "pageSize"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "start_date"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "end_date"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "post_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "Comments for the post retrieved successfully"
+  /comments/users/{user_id}:
+    get:
+      parameters:
+      - name: "page"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "provider_id"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      - name: "pageSize"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "start_date"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "user_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "end_date"
+        in: "query"
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "Comments by the user retrieved successfully"
+  /comments:
+    post:
+      responses:
+        "200":
+          description: "Comment created successfully"
+components: {}
