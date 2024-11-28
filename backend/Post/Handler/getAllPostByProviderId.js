@@ -18,7 +18,7 @@ module.exports.handler = async function (event) {
 
   const lambda = new AWS.Lambda();
   const invokeParams = {
-    FunctionName: process.env.LAMBDA_FUNCTION_NAME,
+    FunctionName: "user-api-dev-validateToken",
     InvocationType: "RequestResponse",
     Payload: JSON.stringify({ token }),
   };
