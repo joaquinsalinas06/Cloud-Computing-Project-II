@@ -17,45 +17,41 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
     print(f"Exportando datos desde DynamoDB ({tabla_dynamo})...")
     tabla = dynamodb.Table(tabla_dynamo)
     scan_kwargs = {}
+    
     with open(archivo_csv, 'w', newline='') as archivo:
-        escritor_csv = None
+        escritor_csv = csv.writer(archivo)  # Usamos csv.writer para escribir los datos
+        first_write = True
+        
         while True:
             respuesta = tabla.scan(**scan_kwargs)
             items = respuesta['Items']
             
-            if not escritor_csv:
-                # Usamos la primera fila para determinar los campos
-                writer_fields = []
-                for item in items:
-                    for key, value in item.items():
-                        if isinstance(value, dict):
-                            if 'S' in value:
-                                writer_fields.append(key)
-                            elif 'N' in value:
-                                writer_fields.append(key)
-                # Se elimina la llamada a writeheader(), ya que los datos ya no lo incluirán.
-                escritor_csv = csv.DictWriter(archivo, fieldnames=writer_fields)
+            if not items:
+                break
             
-            # Procesamos los items de DynamoDB para que solo contengan 'S' o 'N'
-            rows = []
             for item in items:
-                row = {}
+                # Solo escribimos los valores, no las claves (sin headers)
+                row = []
                 for key, value in item.items():
                     if isinstance(value, dict):
                         if 'S' in value:
-                            row[key] = value['S']  # String
+                            row.append(value['S'])  # String
                         elif 'N' in value:
-                            row[key] = value['N']  # Número
-                rows.append(row)
-            
-            # Se escriben los datos (sin encabezado explícito)
-            escritor_csv.writerows(rows)
+                            row.append(value['N'])  # Número
+                    else:
+                        row.append(value)  # Si el valor no es un dict, lo agregamos directamente
 
+                if first_write:
+                    # Solo escribimos los headers una vez
+                    first_write = False
+                escritor_csv.writerow(row)
+            
             # Verifica si hay más datos
             if 'LastEvaluatedKey' in respuesta:
                 scan_kwargs['ExclusiveStartKey'] = respuesta['LastEvaluatedKey']
             else:
                 break
+                
     print(f"Datos exportados a {archivo_csv}")
 
 def subir_csv_a_s3(archivo_csv, nombre_bucket):
