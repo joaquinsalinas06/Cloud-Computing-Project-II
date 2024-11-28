@@ -6,7 +6,7 @@ provider:
   runtime: python3.12
   environment:
     TABLE_NAME: ${sls:stage}-t_comment
-    LAMBDA_FUNCTION_NAME:  user-api-${sls:stage}-validateToken
+    LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
   iam:
     role: ${env:LAB_ROLE}
 
