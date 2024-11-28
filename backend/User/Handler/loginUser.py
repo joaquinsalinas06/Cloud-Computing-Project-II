@@ -90,7 +90,7 @@ def lambda_handler(event, context):
 
     return {
         'statusCode': 200,
-        'body': json.dumps({
+        'body': {
             'status': 'success',
             'message': 'Authentication successful',
             'data': {
@@ -98,7 +98,7 @@ def lambda_handler(event, context):
                 'expiration': expiration.strftime('%Y-%m-%d %H:%M:%S'),
                 'user_id': user_id_response
             }
-        }),
+        },
         'headers': {
             'Content-Type': 'application/json'
         }
