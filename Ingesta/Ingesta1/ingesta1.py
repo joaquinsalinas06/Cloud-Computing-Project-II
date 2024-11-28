@@ -30,20 +30,29 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
                 break
             
             for item in items:
-                # Solo escribimos los valores, no las claves (sin headers)
-                row = []
-                for key, value in item.items():
-                    if isinstance(value, dict):
-                        if 'S' in value:
-                            row.append(value['S'])  # String
-                        elif 'N' in value:
-                            row.append(value['N'])  # Número
-                    else:
-                        row.append(value)  # Si el valor no es un dict, lo agregamos directamente
+                # Aseguramos que los datos se escriben en el orden correcto
+                row = [
+                    item.get('birth_date', ''),
+                    item.get('created_at', ''),
+                    item.get('provider_id', ''),
+                    item.get('email', ''),
+                    item.get('name', ''),
+                    item.get('gender', ''),
+                    item.get('active', ''),
+                    item.get('password', ''),
+                    item.get('user_id', ''),
+                    item.get('last_name', ''),
+                    item.get('phone_number', ''),
+                    item.get('username', ''),
+                    item.get('age', '')
+                ]
 
                 if first_write:
-                    # Solo escribimos los headers una vez
+                    # Escribimos los encabezados solo la primera vez
+                    headers = ['birth_date', 'created_at', 'provider_id', 'email', 'name', 'gender', 'active', 'password', 'user_id', 'last_name', 'phone_number', 'username', 'age']
+                    escritor_csv.writerow(headers)
                     first_write = False
+                
                 escritor_csv.writerow(row)
             
             # Verifica si hay más datos
@@ -98,19 +107,19 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
                 'Name': glue_table_name,
                 'StorageDescriptor': {
                     'Columns': [
+                        {'Name': 'birth_date', 'Type': 'string'},
+                        {'Name': 'created_at', 'Type': 'string'},
                         {'Name': 'provider_id', 'Type': 'string'},
-                        {'Name': 'user_id', 'Type': 'string'},
                         {'Name': 'email', 'Type': 'string'},
-                        {'Name': 'username', 'Type': 'string'},
-                        {'Name': 'password', 'Type': 'string'},
                         {'Name': 'name', 'Type': 'string'},
+                        {'Name': 'gender', 'Type': 'string'},
+                        {'Name': 'active', 'Type': 'string'},
+                        {'Name': 'password', 'Type': 'string'},
+                        {'Name': 'user_id', 'Type': 'string'},
                         {'Name': 'last_name', 'Type': 'string'},
                         {'Name': 'phone_number', 'Type': 'string'},
-                        {'Name': 'birth_date', 'Type': 'string'},
-                        {'Name': 'gender', 'Type': 'string'},
-                        {'Name': 'age', 'Type': 'string'},
-                        {'Name': 'active', 'Type': 'string'},
-                        {'Name': 'created_at', 'Type': 'string'}
+                        {'Name': 'username', 'Type': 'string'},
+                        {'Name': 'age', 'Type': 'string'}
                     ],
                     'Location': input_path,
                     'InputFormat': 'org.apache.hadoop.mapred.TextInputFormat',
