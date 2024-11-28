@@ -11,7 +11,7 @@ provider:
   environment:
     TABLE_NAME: ${sls:stage}-t_album
     INDEX_NAME: title-index
-    LAMBDA_FUNCTION_NAME:  user-api-${sls-stage}-validateToken
+    LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
   createAlbum:
@@ -21,7 +21,18 @@ functions:
           path: /album
           method: post
           cors: true
-          integration: lambda
+          request:
+            parameters:
+              headers:
+                Authorization: true
+            schema:
+              application/json:
+                type: object
+                properties:
+                  provider_id:
+                    type: string
+                required:
+                  - provider_id
 
   createAlbums:
     handler: handler/createAlbums.handler
@@ -30,7 +41,20 @@ functions:
           path: /albums
           method: post
           cors: true
-          integration: lambda
+          request:
+            parameters:
+              headers:
+                Authorization: true
+            schema:
+              application/json:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    provider_id:
+                      type: string
+                  required:
+                    - provider_id
 
   deleteAlbum:
     handler: handler/deleteAlbum.handler
@@ -39,7 +63,13 @@ functions:
           path: /deleteAlbum/{provider_id}/{album_id}
           method: delete
           cors: true
-          integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                album_id: true
+              headers:
+                Authorization: true
 
   getAlbumById:
     handler: handler/getAlbumById.handler
@@ -48,7 +78,13 @@ functions:
           path: /getAlbumById/{provider_id}/{album_id}
           method: get
           cors: true
-          integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                album_id: true
+              headers:
+                Authorization: true
 
   getAlbumByTitleWP:
     handler: handler/getAlbumByTitleWP.handler
@@ -57,7 +93,14 @@ functions:
           path: /getAlbumByTitleWP
           method: get
           cors: true
-          integration: lambda
+          request:
+            parameters:
+              querystrings:
+                title: true
+                limit: false
+                exclusiveStartKey: false
+              headers:
+                Authorization: true
 
   getAllAlbumsWP:
     handler: handler/getAllAlbumsWP.handler
@@ -66,7 +109,14 @@ functions:
           path: /getAllAlbumsWP
           method: get
           cors: true
-          integration: lambda
+          request:
+            parameters:
+              querystrings:
+                provider_id: true
+                limit: false
+                exclusiveStartKey: false
+              headers:
+                Authorization: true
 
 resources:
   Resources:
