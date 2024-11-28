@@ -11,7 +11,7 @@ def hash_password(password):
 def lambda_handler(event, context):
     dynamodb = boto3.resource('dynamodb')
     table_name = os.environ['TABLE_NAME']
-    index_name = os.environ['INDEXLSI1_TABLE1_NAME']
+    index_name = os.environ['LSI1']
     table = dynamodb.Table(table_name)
         
     try:

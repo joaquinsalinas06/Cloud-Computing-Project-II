@@ -6,7 +6,7 @@ provider:
   runtime: nodejs20.x
   memorySize: 1024
   timeout: 30
-  iam:
+  iam: 
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_post

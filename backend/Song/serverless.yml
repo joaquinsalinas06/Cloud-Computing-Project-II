@@ -11,7 +11,7 @@ provider:
   environment:
     TABLE_NAME: ${sls:stage}-t_song
     GSI1: ${sls:stage}-title-index
-    LSI1: ${sls:stage}-genre-index
+    LSI1: ${sls:stage}-genre-index 
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:

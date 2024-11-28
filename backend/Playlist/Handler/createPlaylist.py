@@ -39,7 +39,7 @@ def lambda_handler(event, context):
             }            
             
         dynamodb = boto3.resource('dynamodb')
-        playlist_table = dynamodb.Table(os.getenv('PLAYLIST_TABLE_NAME'))
+        playlist_table = dynamodb.Table(os.getenv('TABLE_NAME'))
 
         date_created = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         playlist_table.put_item(

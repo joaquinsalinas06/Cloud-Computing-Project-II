@@ -4,7 +4,7 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 module.exports.handler = async function (event) {
   const body =
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
-  const { provider_id, user_id, song_id, album_id, titulo, descripcion } = body;
+  const { provider_id, user_id, song_id, album_id, titulo, descripcion } = body; //TODO Change this to match the body of the request
   const token = event.headers?.Authorization;
 
   if (!provider_id || !user_id || !token) {

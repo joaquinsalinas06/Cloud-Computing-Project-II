@@ -51,7 +51,7 @@ module.exports.handler = async function (event) {
 
   const params = {
     TableName: process.env.TABLE_NAME,
-    IndexName: process.env.INDEXLSI1_TABLE1_NAME,
+    IndexName: process.env.LSI1,
     KeyConditionExpression: "provider_id = :provider_id AND user_id = :user_id",
     ExpressionAttributeValues: {
       ":provider_id": provider_id,

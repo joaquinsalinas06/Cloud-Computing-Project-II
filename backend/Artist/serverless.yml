@@ -7,12 +7,12 @@ provider:
   memorySize: 1024
   timeout: 30
   iam:
-    role: ${env:LAB_ROLE}
+    role: ${env:LAB_ROLE} 
   environment:
     TABLE_NAME: ${sls:stage}-t_artist
-    GSI1: ${sls:stage}-artistNameIndex
-    LSI1: ${sls:stage}-countryIndex
-    LSI2: ${sls:stage}-genreIndex
+    GSI1: ${sls:stage}-artist_name-index
+    LSI1: ${sls:stage}-country-index
+    LSI2: ${sls:stage}-genre-index
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:

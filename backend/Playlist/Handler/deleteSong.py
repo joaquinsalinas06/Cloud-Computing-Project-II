@@ -35,7 +35,7 @@ def lambda_handler(event, context):
             }      
 
         dynamodb = boto3.resource('dynamodb')
-        playlist_table = dynamodb.Table(os.getenv('PLAYLIST_TABLE_NAME'))
+        playlist_table = dynamodb.Table(os.getenv('TABLE_NAME'))
 
         playlist_table.update_item(
             Key={'playlist_id': playlist_id},

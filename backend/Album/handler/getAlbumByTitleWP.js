@@ -2,7 +2,7 @@ import AWS from "aws-sdk";
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
-const INDEX_NAME = process.env.INDEX_NAME;
+const INDEX_NAME = process.env.GSI1;
 
 export async function handler(event) {
   const title = event.query?.title;
