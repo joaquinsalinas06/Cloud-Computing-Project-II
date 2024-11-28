@@ -6,6 +6,7 @@ def lambda_handler(event, context):
     try:
         provider_id = event['path']['provider_id']
         user_id = event['path']['user_id']
+        user_id = int(user_id)
         token = event['headers']['Authorization']
         
         if not provider_id or not user_id or not token:

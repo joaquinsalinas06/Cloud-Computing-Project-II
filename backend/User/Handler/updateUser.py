@@ -6,7 +6,7 @@ def lambda_handler(event, context):
     user_id = event['path']['user_id']
     provider_id = event['path']['provider_id']
     token = event['headers']['Authorization']
-    
+    user_id = int(user_id)
     lambda_client = boto3.client('lambda')
     payload = '{ "token": "' + token +  '" }'
     token_function = os.environ['AUTHORIZER_FUNCTION_NAME']
