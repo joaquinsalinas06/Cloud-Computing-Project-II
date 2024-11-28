@@ -75,7 +75,7 @@ export async function handler(event) {
       return {
         statusCode: 200,
         headers: { "Content-Type": "application/json" },
-        body: data.Itemm[0],
+        body: data.Items[0],
       };
     } else {
       return {
