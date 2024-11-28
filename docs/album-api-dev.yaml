@@ -1,0 +1,123 @@
+openapi: "3.0.1"
+info:
+  title: "album-api"
+  version: "2024-11-28T15:09:49Z"
+servers:
+- url: "https://6sshbre9fj.execute-api.us-east-1.amazonaws.com/{basePath}"
+  variables:
+    basePath:
+      default: "dev"
+paths:
+  /albums:
+    post:
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "201":
+          description: "Album created successfully"
+  /getAllAlbumsWP:
+    get:
+      parameters:
+      - name: "exclusiveStartKey"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "limit"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "provider_id"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      - name: "Authorization"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "Albums retrieved successfully"
+  /getAlbumById/{provider_id}/{album_id}:
+    get:
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "album_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "Authorization"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "Album retrieved successfully"
+  /album:
+    post:
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "201":
+          description: "Album created successfully"
+  /getAlbumByTitleWP:
+    get:
+      parameters:
+      - name: "exclusiveStartKey"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "limit"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "title"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      - name: "Authorization"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "Album retrieved successfully by title"
+  /deleteAlbum/{provider_id}/{album_id}:
+    delete:
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "album_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "Authorization"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "204":
+          description: "Album deleted successfully"
+components: {}

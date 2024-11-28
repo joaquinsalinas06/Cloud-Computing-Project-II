@@ -1,0 +1,93 @@
+openapi: "3.0.1"
+info:
+  title: "user-api"
+  version: "2024-11-28T15:15:23Z"
+servers:
+- url: "https://3a0u3khvkl.execute-api.us-east-1.amazonaws.com/{basePath}"
+  variables:
+    basePath:
+      default: "dev"
+paths:
+  /user/update/{provider_id}/{user_id}:
+    put:
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "user_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "User updated successfully"
+  /user/login:
+    post:
+      responses:
+        "200":
+          description: "User logged in successfully"
+  /user/get/{provider_id}/{user_id}:
+    get:
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "user_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "User retrieved successfully"
+  /user/delete/{provider_id}/{user_id}:
+    delete:
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "user_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "User deleted successfully"
+  /user/register:
+    post:
+      responses:
+        "200":
+          description: "User registered successfully"
+  /user/logout:
+    post:
+      responses:
+        "200":
+          description: "User logged out successfully"
+  /user/getall/{provider_id}:
+    get:
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "limit"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "page"
+        in: "query"
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "All users retrieved successfully"
+components: {}

@@ -11,6 +11,7 @@ provider:
   environment:
     TABLE_NAME: ${sls:stage}-t_album
     INDEX_NAME: title-index
+    LSI_NAME: ${sls_stage}-album_id-index
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
@@ -140,6 +141,13 @@ resources:
           - IndexName: ${self:provider.environment.INDEX_NAME}
             KeySchema:
               - AttributeName: title
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+        LocalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.LSI_NAME}
+            KeySchema:
+              - AttributeName: album_id
                 KeyType: HASH
             Projection:
               ProjectionType: ALL
