@@ -108,7 +108,7 @@ def crear_base_de_datos_en_glue(glue_database):
 def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archivo_csv):
     """Registrar datos en Glue Data Catalog."""
     print(f"Registrando datos en Glue Data Catalog...")
-    input_path = f"s3://{nombre_bucket}/usuarios/{archivo_csv}"
+    input_path = f"s3://{nombre_bucket}/usuarios/"
     
     try:
         glue.create_table(
