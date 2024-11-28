@@ -24,30 +24,21 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
             items = respuesta['Items']
             
             if not escritor_csv:
-                fieldnames = [
-                    'provider_id', 'user_id', 'email', 'username', 'password', 
-                    'name', 'last_name', 'phone_number', 'birth_date', 'gender', 
-                    'age', 'active', 'created_at'
-                ]
+                fieldnames = list(items[0].keys())  
                 escritor_csv = csv.DictWriter(archivo, fieldnames=fieldnames)
                 escritor_csv.writeheader()
             
             for item in items:
-                row = {
-                    'provider_id': item.get('provider_id', {}).get('S', ''),
-                    'user_id': int(item.get('user_id', {}).get('N', 0)),
-                    'email': item.get('email', {}).get('S', ''),
-                    'username': item.get('username', {}).get('S', ''),
-                    'password': item.get('password', {}).get('S', ''),
-                    'name': item.get('name', {}).get('S', ''),
-                    'last_name': item.get('last_name', {}).get('S', ''),
-                    'phone_number': item.get('phone_number', {}).get('S', ''),
-                    'birth_date': item.get('birth_date', {}).get('S', ''),
-                    'gender': item.get('gender', {}).get('S', ''),
-                    'age': int(item.get('age', {}).get('N', 0)),
-                    'active': str(item.get('active', {}).get('BOOL', False)),
-                    'created_at': item.get('created_at', {}).get('S', '')
-                }
+                row = {}
+                for key, value in item.items():
+                    if 'S' in value:
+                        row[key] = value['S']
+                    elif 'N' in value:
+                        row[key] = int(value['N'])  
+                    elif 'BOOL' in value:
+                        row[key] = str(value['BOOL'])  # 
+                    else:
+                        row[key] = None  
                 escritor_csv.writerow(row)
 
             if 'LastEvaluatedKey' in respuesta:
@@ -72,24 +63,19 @@ def subir_csv_a_s3(archivo_csv, nombre_bucket):
 def crear_base_de_datos_en_glue(glue_database):
     """Crear base de datos en Glue si no existe."""
     try:
-        glue.get_database(Name=glue_database)
+        glue.get_database(Name=glue_database)  
         print(f"La base de datos {glue_database} ya existe.")
     except glue.exceptions.EntityNotFoundException:
-        # Crear la base de datos si no existe
         print(f"La base de datos {glue_database} no existe. Creando base de datos...")
-        try:
-            glue.create_database(
-                DatabaseInput={
-                    'Name': glue_database,
-                    'Description': 'Base de datos para almacenamiento de usuarios en Glue.'
-                }
-            )
-            print(f"Base de datos {glue_database} creada exitosamente.")
-        except Exception as e:
-            print(f"Error al crear la base de datos en Glue: {e}")
-            return False
+        glue.create_database(
+            DatabaseInput={
+                'Name': glue_database,
+                'Description': 'Base de datos para almacenamiento de usuarios en Glue.'
+            }
+        )
+        print(f"Base de datos {glue_database} creada exitosamente.")
     except Exception as e:
-        print(f"Error al verificar la base de datos en Glue: {e}")
+        print(f"Error al verificar o crear la base de datos en Glue: {e}")
         return False
     return True
 
@@ -135,6 +121,7 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
         print(f"Tabla {glue_table_name} registrada exitosamente en la base de datos {glue_database}.")
     except glue.exceptions.AlreadyExistsException:
         print(f"La tabla {glue_table_name} ya existe. Actualizando la tabla...")
+        # Si la tabla ya existe, puedes actualizarla o ignorarla (según el caso)
         pass
     except Exception as e:
         print(f"Error al registrar o crear la tabla en Glue: {e}")
