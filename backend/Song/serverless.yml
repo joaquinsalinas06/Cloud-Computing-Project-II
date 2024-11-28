@@ -10,8 +10,8 @@ provider:
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_song
-    INDEX_NAME: title-index
-    LSI: ${sls:stage}-genre-index
+    GSI1: ${sls:stage}-title-index
+    LSI1: ${sls:stage}-genre-index
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
@@ -110,14 +110,14 @@ resources:
           - AttributeName: song_id
             KeyType: RANGE
         GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.INDEX_NAME}
+          - IndexName: ${self:provider.environment.GSI1}
             KeySchema:
               - AttributeName: title
                 KeyType: HASH
             Projection:
               ProjectionType: ALL
         LocalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.LSI}
+          - IndexName: ${self:provider.environment.LSI1}
             KeySchema:
               - AttributeName: genre
                 KeyType: HASH

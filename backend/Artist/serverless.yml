@@ -10,9 +10,9 @@ provider:
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_artist
-    GSI_NAME: artistNameIndex
-    LSI_NAME_1: countryIndex
-    LSI_NAME_2: genreIndex
+    GSI1: ${sls:stage}-artistNameIndex
+    LSI1: ${sls:stage}-countryIndex
+    LSI2: ${sls:stage}-genreIndex
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
@@ -138,7 +138,7 @@ resources:
           - AttributeName: artist_id
             KeyType: RANGE
         GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.GSI_NAME}
+          - IndexName: ${self:provider.environment.GSI1}
             KeySchema:
               - AttributeName: name
                 KeyType: HASH
@@ -147,7 +147,7 @@ resources:
             Projection:
               ProjectionType: ALL
         LocalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.LSI_NAME_1}
+          - IndexName: ${self:provider.environment.LSI1}
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH
@@ -155,7 +155,7 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
-          - IndexName: ${self:provider.environment.LSI_NAME_2}
+          - IndexName: ${self:provider.environment.LSI1}
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH

@@ -10,8 +10,8 @@ provider:
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_album
-    INDEX_NAME: title-index
-    LSI_NAME: ${sls_stage}-album_id-index
+    GSI1: ${sls:stage}-title-index
+    LSI1: ${sls:stage}-album_id-index
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
@@ -138,14 +138,14 @@ resources:
           - AttributeName: album_id
             KeyType: RANGE
         GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.INDEX_NAME}
+          - IndexName: ${self:provider.environment.GSI1}
             KeySchema:
               - AttributeName: title
                 KeyType: HASH
             Projection:
               ProjectionType: ALL
         LocalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.LSI_NAME}
+          - IndexName: ${self:provider.environment.LSI1}
             KeySchema:
               - AttributeName: album_id
                 KeyType: HASH
