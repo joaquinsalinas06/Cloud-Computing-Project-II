@@ -13,7 +13,7 @@ provider:
     GSI_NAME: artistNameIndex
     LSI_NAME_1: countryIndex
     LSI_NAME_2: genreIndex
-    LAMBDA_FUNCTION_NAME:  user-api-${sls-stage}-validateToken
+    LAMBDA_FUNCTION_NAME:  user-api-${sls:stage}-validateToken
 
 functions:
   createArtists:
