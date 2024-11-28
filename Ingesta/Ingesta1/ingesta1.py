@@ -4,8 +4,8 @@ import os
 import time
 
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')  
-s3 = boto3.client('s3')
-glue = boto3.client('glue')
+s3 = boto3.client('s3', region_name='us-east-1')
+glue = boto3.client('glue', region_name='us-east-1')
 
 tabla_dynamo = 'dev-t_user' 
 nombre_bucket = 'ingesta-stage-prod'  
