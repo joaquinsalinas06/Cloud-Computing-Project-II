@@ -110,7 +110,7 @@ functions:
     handler: handler/updateArtist.handler
     events:
       - http:
-          path: /artist/{artistId}
+          path: /artist/update/{artistId}
           method: put
           cors: true
           integration: lambda
