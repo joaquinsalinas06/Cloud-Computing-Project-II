@@ -11,6 +11,7 @@ provider:
   environment:
     TABLE_NAME: ${sls:stage}-t_playlist
     LAMBDA_FUNCTION_NAME:  user-api-${sls-stage}-validateToken
+    GSI1: ${sls:stage}-user_id-index
 
 functions:
   createPlaylist:
@@ -65,15 +66,24 @@ resources:
       Properties:
         TableName: ${self:provider.environment.TABLE_NAME}
         AttributeDefinitions:
-          - AttributeName: playlist_id
-            AttributeType: N
           - AttributeName: provider_id
             AttributeType: S
+          - AttributeName: playlist_id
+            AttributeType: N
+          - AtributeName: user_id
+            AttributeType: N
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
           - AttributeName: playlist_id
             KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.GSI1}
+            KeySchema:
+              - AttributeName: user_id
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
         PointInTimeRecoverySpecification:
           PointInTimeRecoveryEnabled: true
