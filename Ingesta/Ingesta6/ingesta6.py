@@ -76,11 +76,11 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
 def subir_csv_a_s3(archivo_csv, nombre_bucket):
     carpeta_destino = 'songs/'  
     archivo_s3 = f"{carpeta_destino}{archivo_csv}" 
-    print(f"Subiendo {archivo_csv} al bucket S3 ({nombre_bucket}) en la carpeta 'posts'...")
+    print(f"Subiendo {archivo_csv} al bucket S3 ({nombre_bucket}) en la carpeta 'song'...")
     
     try:
         s3.upload_file(archivo_csv, nombre_bucket, archivo_s3)
-        print(f"Archivo subido exitosamente a S3 en la carpeta 'posts'.")
+        print(f"Archivo subido exitosamente a S3 en la carpeta 'song'.")
         return True
     except Exception as e:
         print(f"Error al subir el archivo a S3: {e}")
