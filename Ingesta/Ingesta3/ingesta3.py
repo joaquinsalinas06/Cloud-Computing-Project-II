@@ -65,21 +65,24 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
     print(f"Datos exportados a {archivo_csv_playlist} y {archivo_csv_playlist_song}")
 
 def subir_csv_a_s3(archivo_csv_playlist, archivo_csv_playlist_song, nombre_bucket):
-    carpeta_destino = 'playlists/'  
-    carpeta_destino2 = 'playlists/songs'
-    archivo_s3_playlist = f"{carpeta_destino}{archivo_csv_playlist}"
-    archivo_s3_playlist_song = f"{carpeta_destino2}{archivo_csv_playlist_song}"
+    carpeta_destino_playlist = 'playlists/'  
+    carpeta_destino_playlist_song = 'playlists/songs/'
     
-    print(f"Subiendo {archivo_csv_playlist} y {archivo_csv_playlist_song} al bucket S3 ({nombre_bucket}) en la carpeta 'playlists'...")
+    archivo_s3_playlist = f"{carpeta_destino_playlist}{archivo_csv_playlist}"
+    archivo_s3_playlist_song = f"{carpeta_destino_playlist_song}{archivo_csv_playlist_song}"
+    
+    print(f"Subiendo {archivo_csv_playlist} al bucket S3 ({nombre_bucket}) en la carpeta 'playlists'...")
+    print(f"Subiendo {archivo_csv_playlist_song} al bucket S3 ({nombre_bucket}) en la carpeta 'playlists/songs'...")
     
     try:
         s3.upload_file(archivo_csv_playlist, nombre_bucket, archivo_s3_playlist)
         s3.upload_file(archivo_csv_playlist_song, nombre_bucket, archivo_s3_playlist_song)
-        print(f"Archivos subidos exitosamente a S3 en la carpeta 'playlists'.")
+        print(f"Archivos subidos exitosamente a S3.")
         return True
     except Exception as e:
         print(f"Error al subir los archivos a S3: {e}")
         return False
+
 
 def crear_base_de_datos_en_glue(glue_database):
     """Crear base de datos en Glue si no existe."""
