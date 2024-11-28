@@ -5,7 +5,7 @@ import json
 def lambda_handler(event, context):
     provider_id = event['body']['provider_id']
     user_id = event['body']['user_id']
-
+    user_id = int(user_id)
     token_table_name = os.environ['TABLE2_NAME']
     
     dynamodb = boto3.resource('dynamodb')
