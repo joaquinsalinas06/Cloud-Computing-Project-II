@@ -48,7 +48,7 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
                 
                 playlists.append([provider_id, playlist_id, created_at, playlist_name, user_id])
                 
-1               for song_id in song_ids:
+                for song_id in song_ids:
                     playlist_song_relations.append([playlist_id, song_id])
             
             if 'LastEvaluatedKey' in respuesta:
