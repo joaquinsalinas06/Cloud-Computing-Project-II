@@ -3,16 +3,19 @@ import csv
 import os
 import time
 
+# Configuración de servicios de AWS
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')  
 s3 = boto3.client('s3', region_name='us-east-1')
 glue = boto3.client('glue', region_name='us-east-1')
 
+# Parámetros de configuración
 tabla_dynamo = 'dev-t_user' 
 nombre_bucket = 'ingesta-stage-prod'  
 archivo_csv = 'stage-prod-usuarios.csv'
 glue_database = 'stage-prod'  # La base de datos en Glue
 glue_table_name = 'stage-prod-usuarios'
 
+# Función para exportar datos desde DynamoDB a CSV
 def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
     print(f"Exportando datos desde DynamoDB ({tabla_dynamo})...")
     tabla = dynamodb.Table(tabla_dynamo)
@@ -29,6 +32,17 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
                 break
             
             for item in items:
+                # Convertir 'user_id' y 'age' a enteros (si es posible)
+                try:
+                    user_id = int(item.get('user_id', 0))  # Convertir a int (por defecto 0 si no es un número)
+                except ValueError:
+                    user_id = 0
+                
+                try:
+                    age = int(item.get('age', 0))  # Convertir a int (por defecto 0 si no es un número)
+                except ValueError:
+                    age = 0
+
                 # Aseguramos que los datos se escriben en el orden correcto
                 row = [
                     item.get('birth_date', ''),
@@ -39,11 +53,11 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
                     item.get('gender', ''),
                     item.get('active', ''),
                     item.get('password', ''),
-                    item.get('user_id', ''),
+                    user_id,  # Aseguramos que 'user_id' sea un int
                     item.get('last_name', ''),
                     item.get('phone_number', ''),
                     item.get('username', ''),
-                    item.get('age', '')
+                    age  # Aseguramos que 'age' sea un int
                 ]
                 
                 escritor_csv.writerow(row)
@@ -56,6 +70,7 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
                 
     print(f"Datos exportados a {archivo_csv}")
 
+# Función para subir el archivo CSV a S3
 def subir_csv_a_s3(archivo_csv, nombre_bucket):
     carpeta_destino = 'usuarios/'  
     archivo_s3 = f"{carpeta_destino}{archivo_csv}" 
@@ -69,6 +84,7 @@ def subir_csv_a_s3(archivo_csv, nombre_bucket):
         print(f"Error al subir el archivo a S3: {e}")
         return False
 
+# Función para crear la base de datos en Glue si no existe
 def crear_base_de_datos_en_glue(glue_database):
     """Crear base de datos en Glue si no existe."""
     try:
@@ -88,6 +104,7 @@ def crear_base_de_datos_en_glue(glue_database):
         return False
     return True
 
+# Función para registrar los datos del archivo CSV en Glue
 def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archivo_csv):
     """Registrar datos en Glue Data Catalog."""
     print(f"Registrando datos en Glue Data Catalog...")
@@ -108,11 +125,11 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
                         {'Name': 'gender', 'Type': 'string'},
                         {'Name': 'active', 'Type': 'string'},
                         {'Name': 'password', 'Type': 'string'},
-                        {'Name': 'user_id', 'Type': 'string'},  # Asegúrate de que 'user_id' esté como 'string' en Glue
+                        {'Name': 'user_id', 'Type': 'bigint'},  # 'user_id' debe ser de tipo bigint (entero)
                         {'Name': 'last_name', 'Type': 'string'},
                         {'Name': 'phone_number', 'Type': 'string'},
                         {'Name': 'username', 'Type': 'string'},
-                        {'Name': 'age', 'Type': 'string'}
+                        {'Name': 'age', 'Type': 'bigint'}  # 'age' debe ser de tipo bigint (entero)
                     ],
                     'Location': input_path,
                     'InputFormat': 'org.apache.hadoop.mapred.TextInputFormat',
@@ -131,6 +148,7 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
     except Exception as e:
         print(f"Error al registrar la tabla en Glue: {e}")
 
+# Función principal para ejecutar el flujo
 if __name__ == "__main__":
     if crear_base_de_datos_en_glue(glue_database):
         exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv)
