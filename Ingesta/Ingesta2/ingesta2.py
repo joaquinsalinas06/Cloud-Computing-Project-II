@@ -3,15 +3,17 @@ import csv
 import os
 import time
 
+# Inicializar clientes de AWS
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')  
 s3 = boto3.client('s3', region_name='us-east-1')
 glue = boto3.client('glue', region_name='us-east-1')
 
-tabla_dynamo = 'dev-t_user' 
+# Parámetros de configuración
+tabla_dynamo = 'dev-t_post' 
 nombre_bucket = 'ingesta-stage-prod'  
-archivo_csv = 'stage-prod-usuarios.csv'
+archivo_csv = 'stage-prod-post.csv'
 glue_database = 'stage-prod'  
-glue_table_name = 'stage-prod-usuarios'
+glue_table_name = 'stage-prod-post'
 
 def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
     print(f"Exportando datos desde DynamoDB ({tabla_dynamo})...")
@@ -30,33 +32,38 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
             
             for item in items:
                 try:
+                    post_id = int(item.get('post_id', 0))  
+                except ValueError:
+                    post_id = 0
+                
+                try:
+                    album_id = int(item.get('album_id', 0))  
+                except ValueError:
+                    album_id = 0
+                
+                try:
+                    song_id = int(item.get('song_id', 0))  
+                except ValueError:
+                    song_id = 0
+
+                try:
                     user_id = int(item.get('user_id', 0))  
                 except ValueError:
                     user_id = 0
-                
-                try:
-                    age = int(item.get('age', 0))  
-                except ValueError:
-                    age = 0
 
                 row = [
-                    item.get('birth_date', ''),
-                    item.get('created_at', ''),
                     item.get('provider_id', ''),
-                    item.get('email', ''),
-                    item.get('name', ''),
-                    item.get('gender', ''),
-                    item.get('active', ''),
-                    item.get('password', ''),
-                    user_id,  
-                    item.get('last_name', ''),
-                    item.get('phone_number', ''),
-                    item.get('username', ''),
-                    age  
+                    post_id,
+                    album_id,
+                    song_id,
+                    user_id,
+                    item.get('created_at', ''),
+                    item.get('description', '')  
                 ]
                 
                 escritor_csv.writerow(row)
             
+            # Verifica si hay más datos en DynamoDB
             if 'LastEvaluatedKey' in respuesta:
                 scan_kwargs['ExclusiveStartKey'] = respuesta['LastEvaluatedKey']
             else:
@@ -65,13 +72,13 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
     print(f"Datos exportados a {archivo_csv}")
 
 def subir_csv_a_s3(archivo_csv, nombre_bucket):
-    carpeta_destino = 'usuarios/'  
+    carpeta_destino = 'posts/'  
     archivo_s3 = f"{carpeta_destino}{archivo_csv}" 
-    print(f"Subiendo {archivo_csv} al bucket S3 ({nombre_bucket}) en la carpeta 'usuarios'...")
+    print(f"Subiendo {archivo_csv} al bucket S3 ({nombre_bucket}) en la carpeta 'posts'...")
     
     try:
         s3.upload_file(archivo_csv, nombre_bucket, archivo_s3)
-        print(f"Archivo subido exitosamente a S3 en la carpeta 'usuarios'.")
+        print(f"Archivo subido exitosamente a S3 en la carpeta 'posts'.")
         return True
     except Exception as e:
         print(f"Error al subir el archivo a S3: {e}")
@@ -87,7 +94,7 @@ def crear_base_de_datos_en_glue(glue_database):
         glue.create_database(
             DatabaseInput={
                 'Name': glue_database,
-                'Description': 'Base de datos para almacenamiento de usuarios en Glue.'
+                'Description': 'Base de datos para almacenamiento de posts en Glue.'
             }
         )
         print(f"Base de datos {glue_database} creada exitosamente.")
@@ -99,7 +106,7 @@ def crear_base_de_datos_en_glue(glue_database):
 def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archivo_csv):
     """Registrar datos en Glue Data Catalog."""
     print(f"Registrando datos en Glue Data Catalog...")
-    input_path = f"s3://{nombre_bucket}/usuarios/"
+    input_path = f"s3://{nombre_bucket}/posts/"
     
     try:
         glue.create_table(
@@ -108,19 +115,13 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
                 'Name': glue_table_name,
                 'StorageDescriptor': {
                     'Columns': [
-                        {'Name': 'birth_date', 'Type': 'string'},
-                        {'Name': 'created_at', 'Type': 'string'},
                         {'Name': 'provider_id', 'Type': 'string'},
-                        {'Name': 'email', 'Type': 'string'},
-                        {'Name': 'name', 'Type': 'string'},
-                        {'Name': 'gender', 'Type': 'string'},
-                        {'Name': 'active', 'Type': 'string'},
-                        {'Name': 'password', 'Type': 'string'},
-                        {'Name': 'user_id', 'Type': 'bigint'},  
-                        {'Name': 'last_name', 'Type': 'string'},
-                        {'Name': 'phone_number', 'Type': 'string'},
-                        {'Name': 'username', 'Type': 'string'},
-                        {'Name': 'age', 'Type': 'bigint'}  
+                        {'Name': 'post_id', 'Type': 'bigint'},
+                        {'Name': 'album_id', 'Type': 'bigint'},
+                        {'Name': 'song_id', 'Type': 'bigint'},
+                        {'Name': 'user_id', 'Type': 'bigint'},
+                        {'Name': 'created_at', 'Type': 'string'},
+                        {'Name': 'description', 'Type': 'string'},
                     ],
                     'Location': input_path,
                     'InputFormat': 'org.apache.hadoop.mapred.TextInputFormat',
