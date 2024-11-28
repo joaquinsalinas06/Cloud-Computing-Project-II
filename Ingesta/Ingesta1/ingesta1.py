@@ -35,8 +35,6 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
                         row[key] = value['S']
                     elif 'N' in value:
                         row[key] = int(value['N'])  
-                    elif 'BOOL' in value:
-                        row[key] = str(value['BOOL'])  # 
                     else:
                         row[key] = None  
                 escritor_csv.writerow(row)
