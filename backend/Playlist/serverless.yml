@@ -10,7 +10,7 @@ provider:
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_playlist
-    LAMBDA_FUNCTION_NAME:  user-api-${sls-stage}-validateToken
+    LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
     GSI1: ${sls:stage}-user_id-index
 
 functions:
