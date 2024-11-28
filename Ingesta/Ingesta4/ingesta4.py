@@ -30,7 +30,7 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
             
             for item in items:
                 try:
-                    artist_id = int(item.get('artist_id, 0))  
+                    artist_id = int(item.get('artist_id', 0))  
                 except ValueError:
                     artist_id = 0
 
