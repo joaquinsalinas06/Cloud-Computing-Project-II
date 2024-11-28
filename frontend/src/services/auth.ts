@@ -2,17 +2,17 @@ import axios from "axios";
 import {
 	LoginRequest,
 	LoginResponse,
+	LogoutRequest,
 	RegisterRequest,
 	RegisterResponse,
 } from "../types/auth";
 
-const USER_URL =
-	"https://sni78nehca.execute-api.us-east-1.amazonaws.com/dev/user";
+const AUTH_URL =
+	"https://epvunn4qt2.execute-api.us-east-1.amazonaws.com/dev/user";
 export const login = async (payload: LoginRequest): Promise<LoginResponse> => {
 	try {
-		console.log(payload);
 		const response = await axios.post<LoginResponse>(
-			`${USER_URL}/login`,
+			`${AUTH_URL}/login`,
 			payload,
 			{
 				headers: {
@@ -20,10 +20,9 @@ export const login = async (payload: LoginRequest): Promise<LoginResponse> => {
 				},
 			}
 		);
-		console.log(response);
 		const { data } = response;
-		if (data?.data?.token) {
-			localStorage.setItem("token", data.data.token);
+		if (data?.body?.data?.token) {
+			localStorage.setItem("token", data.body.data.token);
 		}
 		return data;
 	} catch (error) {
@@ -36,9 +35,8 @@ export const register = async (
 	payload: RegisterRequest
 ): Promise<RegisterResponse> => {
 	try {
-		console.log("payload", payload);
 		const response = await axios.post<RegisterResponse>(
-			`${USER_URL}/register`,
+			`${AUTH_URL}/register`,
 			payload,
 			{
 				headers: {
@@ -53,7 +51,19 @@ export const register = async (
 	}
 };
 
-export const logout = (): void => {
-	localStorage.removeItem("token");
-	localStorage.removeItem("provider");
+export const logout = async (payload: LogoutRequest): Promise<void> => {
+	try {
+		await axios.post(`${AUTH_URL}/logout`, payload, {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+		localStorage.removeItem("token");
+		localStorage.removeItem("provider");
+		localStorage.removeItem("user_id");
+		console.log("Logout exitoso");
+	} catch (error) {
+		console.error("Logout fallido:", error);
+		throw new Error("No se pudo completar el logout");
+	}
 };

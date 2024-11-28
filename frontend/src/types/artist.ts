@@ -5,8 +5,10 @@ export interface ArtistRequest {
 }
 
 export interface ArtistResponse {
-	items: Artist[];
-	lastEvaluatedKey?: string;
+	body: {
+		items: Artist[];
+		lastEvaluatedKey?: string;
+	};
 }
 
 export interface Artist {
@@ -18,4 +20,13 @@ export interface Artist {
 	birth_date: string;
 	country: string;
 	cover_image_url: string;
+}
+
+export interface ArtistRequestById {
+	provider_id: string;
+	artist_id: number;
+}
+
+export interface ArtistResponseById {
+	body: Artist;
 }

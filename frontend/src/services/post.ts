@@ -1,7 +1,7 @@
 import { PostRequest, PostResponse } from "../types/post";
 
 const POST_URL =
-	" https://ifvqykh4kb.execute-api.us-east-1.amazonaws.com/dev/post/getall";
+	"https://xapoooz0ll.execute-api.us-east-1.amazonaws.com/dev/post/getall";
 export const fetchPosts = async (
 	payload: PostRequest
 ): Promise<PostResponse> => {
@@ -12,13 +12,14 @@ export const fetchPosts = async (
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
+			Authorization: `${localStorage.getItem("token")}`,
 		},
 	});
-	console.log(response);
 	if (!response.ok) {
 		throw new Error("Failed to fetch posts");
 	}
 
 	const data: PostResponse = await response.json();
+	console.log(data);
 	return data;
 };

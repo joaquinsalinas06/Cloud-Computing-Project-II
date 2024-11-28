@@ -5,12 +5,14 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-	status: string;
-	message: string;
-	data?: {
-		token: string;
-		expiration: string;
-		user_id: number;
+	body: {
+		status: string;
+		message: string;
+		data?: {
+			token: string;
+			expiration: string;
+			user_id: number;
+		};
 	};
 }
 
@@ -35,4 +37,9 @@ export interface RegisterResponse {
 		message: string;
 		user_id: number;
 	};
+}
+
+export interface LogoutRequest {
+	provider_id: string;
+	user_id: number | null;
 }

@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import ProviderContext from "../contexts/ProviderContext";
-import { Artist as ArtistType } from "../types/artist";
-import { fetchArtists } from "../services/artist";
-import Artist from "../components/Artist";
+import { Album as AlbumType } from "../types/album";
+import { fetchAlbums } from "../services/album";
+import Album from "../components/Album";
 import ThemeWrapper from "../components/ThemeWrapper";
 
-const ArtistPage: React.FC = () => {
+const AlbumPage: React.FC = () => {
 	const { provider } = useContext(ProviderContext)!;
-	const [artists, setArtists] = useState<ArtistType[]>([]);
+	const [albums, setAlbums] = useState<AlbumType[]>([]);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [hasMore, setHasMore] = useState<boolean>(true);
 	const [exclusiveStartKey, setExclusiveStartKey] = useState<
@@ -16,26 +16,27 @@ const ArtistPage: React.FC = () => {
 	const [error, setError] = useState<string | null>(null);
 	const loaderRef = useRef<HTMLDivElement>(null);
 
-	const loadArtists = async () => {
+	const loadAlbums = async () => {
 		if (loading || !hasMore) return;
 		setLoading(true);
+
 		try {
-			const data = await fetchArtists({
+			const data = await fetchAlbums({
 				provider_id: provider,
 				limit: 12,
 				exclusiveStartKey,
 			});
 
 			if (Array.isArray(data.body.items)) {
-				setArtists((prevArtists) => {
-					const newArtists = data.body.items.filter(
-						(artist) =>
-							!prevArtists.some(
-								(prevArtist) =>
-									prevArtist.artist_id === artist.artist_id
+				setAlbums((prevAlbums) => {
+					const newAlbums = data.body.items.filter(
+						(album) =>
+							!prevAlbums.some(
+								(prevAlbum) =>
+									prevAlbum.album_id === album.album_id
 							)
 					);
-					return [...prevArtists, ...newArtists];
+					return [...prevAlbums, ...newAlbums];
 				});
 			} else {
 				console.error(
@@ -48,14 +49,14 @@ const ArtistPage: React.FC = () => {
 			setHasMore(!!data.body.lastEvaluatedKey);
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		} catch (error) {
-			setError("Error loading artists");
+			setError("Error loading albums");
 		} finally {
 			setLoading(false);
 		}
 	};
 
 	useEffect(() => {
-		loadArtists();
+		loadAlbums();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [provider]);
 
@@ -63,7 +64,7 @@ const ArtistPage: React.FC = () => {
 		if (loaderRef.current) {
 			const bottom = loaderRef.current.getBoundingClientRect().bottom;
 			if (bottom <= window.innerHeight && !loading && hasMore) {
-				loadArtists();
+				loadAlbums();
 			}
 		}
 	};
@@ -105,30 +106,30 @@ const ArtistPage: React.FC = () => {
 						boxSizing: "border-box",
 					}}
 				>
-					{artists.length === 0 && !loading ? (
-						<p style={{ textAlign: "center" }}>No artists found.</p>
+					{albums.length === 0 && !loading ? (
+						<p style={{ textAlign: "center" }}>No albums found.</p>
 					) : (
-						artists.map((artist) => (
-							<Artist key={artist.artist_id} artist={artist} />
+						albums.map((album) => (
+							<Album key={album.album_id} album={album} />
 						))
 					)}
 				</div>
 
 				{loading && (
 					<div style={{ textAlign: "center" }} ref={loaderRef}>
-						<span>Loading more artists...</span>
+						<span>Loading more albums...</span>
 					</div>
 				)}
 
 				{!hasMore && !loading && (
 					<div style={{ textAlign: "center" }}>
-						<span>No more artists to load.</span>
+						<span>No more albums to load.</span>
 					</div>
 				)}
 
 				{hasMore && !loading && (
 					<button
-						onClick={() => loadArtists()}
+						onClick={() => loadAlbums()}
 						style={{
 							backgroundColor: "#FFFFFF",
 							color: "black",
@@ -148,4 +149,4 @@ const ArtistPage: React.FC = () => {
 	);
 };
 
-export default ArtistPage;
+export default AlbumPage;
