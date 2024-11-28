@@ -10,7 +10,7 @@ glue = boto3.client('glue', region_name='us-east-1')
 tabla_dynamo = 'dev-t_user' 
 nombre_bucket = 'ingesta-stage-prod'  
 archivo_csv = 'stage-prod-usuarios.csv'
-glue_database = 'stage-prod'  # La base de datos en Glue
+glue_database = 'stage-prod'  
 glue_table_name = 'stage-prod-usuarios'
 
 def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
@@ -24,10 +24,31 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
             items = respuesta['Items']
             
             if not escritor_csv:
-                escritor_csv = csv.DictWriter(archivo, fieldnames=items[0].keys())
+                fieldnames = [
+                    'provider_id', 'user_id', 'email', 'username', 'password', 
+                    'name', 'last_name', 'phone_number', 'birth_date', 'gender', 
+                    'age', 'active', 'created_at'
+                ]
+                escritor_csv = csv.DictWriter(archivo, fieldnames=fieldnames)
                 escritor_csv.writeheader()
             
-            escritor_csv.writerows(items)
+            for item in items:
+                row = {
+                    'provider_id': item.get('provider_id', {}).get('S', ''),
+                    'user_id': int(item.get('user_id', {}).get('N', 0)),
+                    'email': item.get('email', {}).get('S', ''),
+                    'username': item.get('username', {}).get('S', ''),
+                    'password': item.get('password', {}).get('S', ''),
+                    'name': item.get('name', {}).get('S', ''),
+                    'last_name': item.get('last_name', {}).get('S', ''),
+                    'phone_number': item.get('phone_number', {}).get('S', ''),
+                    'birth_date': item.get('birth_date', {}).get('S', ''),
+                    'gender': item.get('gender', {}).get('S', ''),
+                    'age': int(item.get('age', {}).get('N', 0)),
+                    'active': str(item.get('active', {}).get('BOOL', False)),
+                    'created_at': item.get('created_at', {}).get('S', '')
+                }
+                escritor_csv.writerow(row)
 
             if 'LastEvaluatedKey' in respuesta:
                 scan_kwargs['ExclusiveStartKey'] = respuesta['LastEvaluatedKey']
@@ -51,19 +72,24 @@ def subir_csv_a_s3(archivo_csv, nombre_bucket):
 def crear_base_de_datos_en_glue(glue_database):
     """Crear base de datos en Glue si no existe."""
     try:
-        glue.get_database(Name=glue_database)  # Verificar si la base de datos ya existe
+        glue.get_database(Name=glue_database)
         print(f"La base de datos {glue_database} ya existe.")
     except glue.exceptions.EntityNotFoundException:
+        # Crear la base de datos si no existe
         print(f"La base de datos {glue_database} no existe. Creando base de datos...")
-        glue.create_database(
-            DatabaseInput={
-                'Name': glue_database,
-                'Description': 'Base de datos para almacenamiento de usuarios en Glue.'
-            }
-        )
-        print(f"Base de datos {glue_database} creada exitosamente.")
+        try:
+            glue.create_database(
+                DatabaseInput={
+                    'Name': glue_database,
+                    'Description': 'Base de datos para almacenamiento de usuarios en Glue.'
+                }
+            )
+            print(f"Base de datos {glue_database} creada exitosamente.")
+        except Exception as e:
+            print(f"Error al crear la base de datos en Glue: {e}")
+            return False
     except Exception as e:
-        print(f"Error al verificar o crear la base de datos en Glue: {e}")
+        print(f"Error al verificar la base de datos en Glue: {e}")
         return False
     return True
 
@@ -91,7 +117,7 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
                         {'Name': 'gender', 'Type': 'string'},
                         {'Name': 'age', 'Type': 'int'},
                         {'Name': 'active', 'Type': 'string'},
-                        {'Name': 'datecreated', 'Type': 'string'}
+                        {'Name': 'created_at', 'Type': 'string'}
                     ],
                     'Location': input_path,
                     'InputFormat': 'org.apache.hadoop.mapred.TextInputFormat',
@@ -107,8 +133,13 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
             }
         )
         print(f"Tabla {glue_table_name} registrada exitosamente en la base de datos {glue_database}.")
+    except glue.exceptions.AlreadyExistsException:
+        print(f"La tabla {glue_table_name} ya existe. Actualizando la tabla...")
+        pass
     except Exception as e:
-        print(f"Error al registrar la tabla en Glue: {e}")
+        print(f"Error al registrar o crear la tabla en Glue: {e}")
+        return False
+    return True
 
 if __name__ == "__main__":
     if crear_base_de_datos_en_glue(glue_database):
