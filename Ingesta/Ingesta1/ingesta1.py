@@ -24,7 +24,7 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
             items = respuesta['Items']
             
             if not escritor_csv:
-                # Usamos la primera fila para determinar los campos (suponemos que todas las filas tienen los mismos atributos)
+                # Usamos la primera fila para determinar los campos
                 writer_fields = []
                 for item in items:
                     for key, value in item.items():
@@ -33,8 +33,8 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
                                 writer_fields.append(key)
                             elif 'N' in value:
                                 writer_fields.append(key)
+                # Se elimina la llamada a writeheader(), ya que los datos ya no lo incluirán.
                 escritor_csv = csv.DictWriter(archivo, fieldnames=writer_fields)
-                escritor_csv.writeheader()
             
             # Procesamos los items de DynamoDB para que solo contengan 'S' o 'N'
             rows = []
@@ -48,6 +48,7 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
                             row[key] = value['N']  # Número
                 rows.append(row)
             
+            # Se escriben los datos (sin encabezado explícito)
             escritor_csv.writerows(rows)
 
             # Verifica si hay más datos
