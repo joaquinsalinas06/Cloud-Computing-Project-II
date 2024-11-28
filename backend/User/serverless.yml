@@ -44,6 +44,11 @@ functions:
           method: get
           cors: true
           integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                user_id: true
 
   deleteUser:
     handler: Handler/deleteUser.lambda_handler
@@ -53,6 +58,11 @@ functions:
           method: delete
           cors: true
           integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                user_id: true
 
   updateUser:
     handler: Handler/updateUser.lambda_handler
@@ -62,6 +72,11 @@ functions:
           method: put
           cors: true
           integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                user_id: true
 
   getallUsersByProvider:
     handler: Handler/getallUsersByProvider.lambda_handler
@@ -70,12 +85,15 @@ functions:
           path: /user/getall/{provider_id}
           method: get
           cors: true
+          integration: lambda
           request:
             parameters:
+              paths:
+                provider_id: true
               querystrings:
-                page: true
-                limit: true
-          integration: lambda
+                page: false
+                limit: false
+
   logoutUser:
     handler: Handler/logout.lambda_handler
     events:
@@ -127,7 +145,7 @@ resources:
         BillingMode: PAY_PER_REQUEST
         PointInTimeRecoverySpecification:
           PointInTimeRecoveryEnabled: true
-          
+
     TokensTable:
       Type: AWS::DynamoDB::Table
       Properties:

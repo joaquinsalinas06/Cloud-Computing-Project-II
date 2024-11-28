@@ -40,6 +40,11 @@ functions:
           method: delete
           cors: true
           integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                song_id: true
 
   getSongById:
     handler: handler/getSongById.handler
@@ -49,6 +54,11 @@ functions:
           method: get
           cors: true
           integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                song_id: true
 
   getSongByTitleWP:
     handler: handler/getSongByTitleWP.handler
@@ -58,6 +68,12 @@ functions:
           method: get
           cors: true
           integration: lambda
+          request:
+            parameters:
+              querystrings:
+                title: true
+                limit: false
+                exclusiveStartKey: false
 
   getAllSongsWP:
     handler: handler/getAllSongsWP.handler
@@ -67,6 +83,12 @@ functions:
           method: get
           cors: true
           integration: lambda
+          request:
+            parameters:
+              querystrings:
+                provider_id: true
+                limit: false
+                exclusiveStartKey: false
 
 resources:
   Resources:
