@@ -4,8 +4,8 @@ import json
 
 def lambda_handler(event, context):
     try:
-        provider_id = event["pathParameters"].get("provider_id")
-        user_id = event['pathParameters'].get('user_id')
+        provider_id = event["path"]["provider_"]
+        user_id = event['path']['user_id']
         token = event['headers']['Authorization']
 
         if not user_id or not provider_id or not token:
@@ -37,7 +37,7 @@ def lambda_handler(event, context):
         dynamodb = boto3.resource('dynamodb')
         playlist_table = dynamodb.Table(os.getenv('TABLE_NAME'))
 
-        user_index = os.environ['LSI1']
+        user_index = os.environ['LSI']
         
         response = playlist_table.query(
             IndexName=user_index,

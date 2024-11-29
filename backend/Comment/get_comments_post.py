@@ -40,7 +40,7 @@ def lambda_handler(event, context):
     
     # Get path and query parameters
     post_id = int(event['path']['post_id'])
-    provider_id = event['query']['provider_id']
+    provider_id = event['path']['provider_id']
 
     start_date = query_params.get('start_date')
     end_date = query_params.get('end_date')
@@ -53,7 +53,7 @@ def lambda_handler(event, context):
     page = max(1, page)
     page_size = max(1, min(50, page_size))  # Limit page size between 1 and 50
     
-    provider_post_index = os.environ['LSI1']
+    provider_post_index = os.environ['LSI']
     
     if start_date and end_date:
         # Query parameters

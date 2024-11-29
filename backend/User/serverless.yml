@@ -23,7 +23,7 @@ functions:
     handler: Handler/getUser.lambda_handler
     events:
       - http:
-          path: /user/get/{provider_id}/{user_id}
+          path: /user/{provider_id}/{user_id} #Old /user/get/{provider_id}/{user_id}
           method: get
           cors: true
           integration: lambda

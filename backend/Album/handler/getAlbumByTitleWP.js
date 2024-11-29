@@ -2,10 +2,10 @@ import AWS from "aws-sdk";
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
-const INDEX_NAME = process.env.LSI1;
+const INDEX_NAME = process.env.LSI;
 
 export async function handler(event) {
-  const provider_id = event.query?.provider_id;
+  const provider_id = event.path?.provider_id;
   const title = event.query?.title;
   const limit = event.query?.limit || 10;
   let exclusiveStartKey = event.query?.exclusiveStartKey

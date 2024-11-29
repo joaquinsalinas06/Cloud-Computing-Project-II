@@ -5,10 +5,9 @@ const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
+  const provider_id = event.path?.provider_id;
   const album =
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
-
-  const provider_id = album.provider_id;
 
   const token = event.headers?.Authorization;
 

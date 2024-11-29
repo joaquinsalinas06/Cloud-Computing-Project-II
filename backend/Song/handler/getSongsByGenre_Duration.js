@@ -1,12 +1,14 @@
 import AWS from "aws-sdk";
 
-const dynamodb = new AWS.DynamoDB.DocumentClient();
+const { DynamoDB } = AWS;
+const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
-const INDEX_NAME = process.env.LSI1;
+const GSI_NAME = process.env.GSI;
 
 export async function handler(event) {
   const genre = event.query?.genre;
-  const provider_id = event.query?.provider_id;
+  const min_duration = event.query?.min_duration;
+  const max_duration = event.query?.max_duration;
   const limit = event.query?.limit || 10;
   let exclusiveStartKey = event.query?.exclusiveStartKey
     ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
@@ -28,12 +30,12 @@ export async function handler(event) {
 
   const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
-  if (!genre || !provider_id) {
+  if (!genre || !duration) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
       body: {
-        message: "The parameters: genre and provider_id are required",
+        message: "The parameters: genre and duration are required",
       },
     };
   }
@@ -67,55 +69,31 @@ export async function handler(event) {
 
   const params = {
     TableName: TABLE_NAME,
-    IndexName: INDEX_NAME,
-    KeyConditionExpression: "provider_id = :provider_id and genre = :genre",
+    IndexName: GSI_NAME,
+    KeyConditionExpression:
+      "genre = :genre AND duration BETWEEN :min_duration AND :max_duration",
     ExpressionAttributeValues: {
-      ":provider_id": provider_id,
       ":genre": genre,
+      ":min_duration": min_duration,
+      ":max_duration": max_duration,
     },
     Limit: limit,
-    ExclusiveStartKey: exclusiveStartKey ? exclusiveStartKey : undefined,
+    ExclusiveStartKey: exclusiveStartKey,
   };
 
   try {
-    const response = await dynamodb.query(params).promise();
-    console.log("DynamoDB response:", response);
-
-    if (response.Count === 0) {
-      return {
-        statusCode: 404,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: {
-          message: "No songs found for the specified genre",
-        },
-      };
-    } else {
-      return {
-        statusCode: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: {
-          items: response.Items,
-          lastEvaluatedKey: response.LastEvaluatedKey
-            ? encodeURIComponent(JSON.stringify(response.LastEvaluatedKey))
-            : null,
-        },
-      };
-    }
+    const data = await dynamodb.query(params).promise();
+    return {
+      statusCode: 200,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    };
   } catch (error) {
-    console.error("Error querying DynamoDB:", error);
     return {
       statusCode: 500,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: {
-        message: "An error occurred while getting the songs by genre",
-        error: error.message,
-      },
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ error: error.message }),
     };
   }
 }
+

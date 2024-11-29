@@ -10,9 +10,8 @@ provider:
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_post
-    LSI1: ${sls:stage}-album-index
-    LSI2: ${sls:stage}-song-index
-    LSI3: ${sls:stage}-user-index
+    GSI: ${sls:stage}-user-created_at-index
+    LSI: ${sls:stage}-user-index
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
@@ -20,7 +19,7 @@ functions:
     handler: Handler/getPost.handler
     events:
       - http:
-          path: /post/get/{provider_id}/{post_id}
+          path: /post/{provider_id}/{post_id}
           method: get
           cors: true
           integration: lambda
@@ -34,7 +33,7 @@ functions:
     handler: Handler/getAllPostByProviderId.handler
     events:
       - http:
-          path: /post/getall/{provider_id}
+          path: /posts/{provider_id} 
           method: get
           cors: true
           integration: lambda
@@ -43,48 +42,14 @@ functions:
               paths:
                 provider_id: true
               querystrings:
-                page: false
-                limit: false
-
-  getPostBySongId:
-    handler: Handler/getPostbySongId.handler
-    events:
-      - http:
-          path: /post/getbysong/{provider_id}/{song_id}
-          method: get
-          cors: true
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                provider_id: true
-                song_id: true
-              querystrings:
-                page: false
-                limit: false
-
-  getPostsByAlbumId:
-    handler: Handler/getPostByAlbumId.handler
-    events:
-      - http:
-          path: /post/getbyalbum/{provider_id}/{album_id}
-          method: get
-          cors: true
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                provider_id: true
-                album_id: true
-              querystrings:
-                page: false
-                limit: false
-
+                page: true
+                limit: true
+  #LSI
   getPostsByUserId:
     handler: Handler/getPostByUserId.handler
     events:
       - http:
-          path: /post/getbyuser/{provider_id}/{user_id}
+          path: /post/by-user/{provider_id}/{user_id} 
           method: get
           cors: true
           integration: lambda
@@ -94,8 +59,14 @@ functions:
                 provider_id: true
                 user_id: true
               querystrings:
-                page: false
-                limit: false
+                page: true
+                limit: true
+  #GSI
+  getPostsByUserIdBetweenCreatedAt:
+    handler: Handler/getPostByUserIdBetweenCreatedAt.handler
+    events:
+      - http:
+          path: /post/by-user/{user_id}
   createPost:
     handler: Handler/createPost.handler
     events:
@@ -145,10 +116,6 @@ resources:
             AttributeType: S
           - AttributeName: post_id
             AttributeType: N
-          - AttributeName: song_id
-            AttributeType: N
-          - AttributeName: album_id
-            AttributeType: N
           - AttributeName: user_id
             AttributeType: N
           - AttributeName: created_at
@@ -159,25 +126,17 @@ resources:
           - AttributeName: post_id
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
-##TODO DEFINE GSI1 CORRECTLY
-        LocalSecondaryIndexes:
-            - IndexName: ${self:provider.environment.LSI1}
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.GSI}
             KeySchema:
-              - AttributeName: provider_id
+              - AttributeName: user_id
                 KeyType: HASH
-              - AttributeName: album_id
+              - AttributeName: created_at
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
-           - IndexName: ${self:provider.environment.LSI2}
-            KeySchema:
-              - AttributeName: provider_id
-                KeyType: HASH
-              - AttributeName: song_id
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL              
-          - IndexName: ${self:provider.environment.LSI3}
+        LocalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.LSI}
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH

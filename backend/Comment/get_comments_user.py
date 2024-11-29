@@ -57,7 +57,7 @@ def lambda_handler(event, context):
     if page_size < 1:
         page_size = 10
         
-    user_date_index = os.environ['GSI1'] 
+    user_date_index = os.environ['GSI'] 
     # Query parameters for DynamoDB
     if start_date and end_date:
         start_date = datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S')

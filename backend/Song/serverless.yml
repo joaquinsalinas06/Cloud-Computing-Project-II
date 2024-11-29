@@ -10,8 +10,8 @@ provider:
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_song
-    LSI1: ${sls:stage}-genre-index
-    LSI2: ${sls:stage}-title-index
+    GSI: ${sls:stage}-genre-duration-index
+    LSI: ${sls:stage}-title-index
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
@@ -28,12 +28,12 @@ functions:
               paths:
                 provider_id: true
                 song_id: true
-
+  #LSI
   getSongsByTitleWP:
     handler: handler/getSongsByTitleWP.handler
     events:
       - http:
-          path: /song/by-title-wp
+          path: /song/by-title-wp/{provider_id}
           method: get
           cors: true
           integration: lambda
@@ -43,11 +43,12 @@ functions:
                 title: true
                 limit: true
                 exclusiveStartKey: true
-  getSongsByGenreWP:
-    handler: handler/getSongsByGenreWP.handler
+  #GSI
+  getSongsByGenre_Duration:
+    handler: handler/getSongsByGenre_Duration.handler
     events:
       - http:
-          path: /song/by-genre-wp
+          path: /song/by-genre-duration
           method: get
           cors: true
           integration: lambda
@@ -55,21 +56,20 @@ functions:
             parameters:
               querystrings:
                 genre: true
+                duration: true
                 limit: true
                 exclusiveStartKey: true
-
   getAllSongsWP:
     handler: handler/getAllSongsWP.handler
     events:
       - http:
-          path: /song/all
+          path: /song/all/{provider_id}
           method: get
           cors: true
           integration: lambda
           request:
             parameters:
               querystrings:
-                provider_id: true
                 limit: true
                 exclusiveStartKey: true
 
@@ -77,7 +77,7 @@ functions:
     handler: handler/createSong.handler
     events:
       - http:
-          path: /song/create
+          path: /song/create/{provider_id}
           method: post
           cors: true
           integration: lambda
@@ -95,7 +95,7 @@ functions:
     handler: handler/deleteSong.handler
     events:
       - http:
-          path: /delete/{provider_id}/{song_id}
+          path: /song/delete/{provider_id}/{song_id}
           method: delete
           cors: true
           integration: lambda
@@ -120,22 +120,24 @@ resources:
             AttributeType: S
           - AttributeName: genre
             AttributeType: S
+          - AttributeName: duration
+            AttributeType: S
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
           - AttributeName: song_id
             KeyType: RANGE
-        ##TODO DEFINE GSI1 CORRECTLY
-        LocalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.LSI1}
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.GSI}
             KeySchema:
-              - AttributeName: provider_id
-                KeyType: HASH
               - AttributeName: genre
+                KeyType: HASH
+              - AtributeName: duration
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
-          - IndexName: ${self:provider.environment.LSI2}
+        LocalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.LSI}
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH
