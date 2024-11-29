@@ -102,9 +102,11 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
                         {'Name': 'artist_id', 'Type': 'bigint'},
                         {'Name': 'birth_date', 'Type': 'string'},
                         {'Name': 'country', 'Type': 'string'},
+                        {'Name': 'cover_image_url', 'Type': 'string'},
                         {'Name': 'genre', 'Type': 'string'},
                         {'Name': 'name', 'Type': 'string'},
                         {'Name': 'status', 'Type': 'string'},
+
                     ],
                     'Location': input_path,
                     'InputFormat': 'org.apache.hadoop.mapred.TextInputFormat',
