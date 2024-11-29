@@ -120,7 +120,7 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
                         {'Name': 'provider_id', 'Type': 'string'},
                         {'Name': 'song_id', 'Type': 'bigint'},
                         {'Name': 'album_id', 'Type': 'bigint'},
-                        {'Name': 'artis_id', 'Type': 'bigint'},
+                        {'Name': 'artist_id', 'Type': 'bigint'},
                         {'Name': 'cover_image_url', 'Type': 'string'},
                         {'Name': 'duration', 'Type': 'string'},
                         {'Name': 'genre', 'Type': 'string'},
