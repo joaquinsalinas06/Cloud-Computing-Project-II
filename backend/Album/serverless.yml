@@ -10,16 +10,87 @@ provider:
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_album
-    INDEX_NAME: title-index
-    LSI_NAME: ${sls_stage}-album_id-index
+    GSI: ${sls:stage}-artist_id-release_date-index
+    LSI: ${sls:stage}-title-index
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
+  getAlbumById:
+    handler: handler/getAlbumById.handler
+    events:
+      - http:
+          path: /album/{provider_id}/{album_id}
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                album_id: true
+              headers:
+                Authorization: true
+  #LSI
+  getAlbumByTitleWP:
+    handler: handler/getAlbumByTitleWP.handler
+    events:
+      - http:
+          path: /album/by-title/{provider_id}
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                providerId: true
+              querystrings:          
+                title: true
+                limit: true
+                exclusiveStartKey: true
+              headers:
+                Authorization: true
+
+  #GSI
+  getAlbumsByArtistId_ReleaseDate:
+    handler: handler/getAlbumsByArtistId_ReleaseDate.handler
+    events:
+      - http:
+          path: /album/by-artist-release-date/{artist_id}
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                artist_id: true
+              querystrings:
+                start_date: true
+                end_date: true
+                limit: true
+                exclusiveStartKey: true
+              headers:
+                Authorization: true
+
+
+  getAllAlbumsWP:
+    handler: handler/getAllAlbumsWP.handler
+    events:
+      - http:
+          path: /album/all/{provider_id}
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                providerId: true
+              querystrings:
+                limit: true
+                exclusiveStartKey: true
+              headers:
+                Authorization: true
+
   createAlbum:
     handler: handler/createAlbum.handler
     events:
       - http:
-          path: /album
+          path: /album/create/{provider_id}
           method: post
           cors: true
           request:
@@ -33,13 +104,12 @@ functions:
                   provider_id:
                     type: string
                 required:
-                  - provider_id
-
+                  - provider_id                
   createAlbums:
     handler: handler/createAlbums.handler
     events:
       - http:
-          path: /albums
+          path: /albums/create
           method: post
           cors: true
           request:
@@ -55,13 +125,13 @@ functions:
                     provider_id:
                       type: string
                   required:
-                    - provider_id
+                    - provider_id             
 
-  deleteAlbum:
+   deleteAlbum:
     handler: handler/deleteAlbum.handler
     events:
       - http:
-          path: /deleteAlbum/{provider_id}/{album_id}
+          path: /album/delete/{provider_id}/{album_id}
           method: delete
           cors: true
           request:
@@ -70,54 +140,7 @@ functions:
                 provider_id: true
                 album_id: true
               headers:
-                Authorization: true
-
-  getAlbumById:
-    handler: handler/getAlbumById.handler
-    events:
-      - http:
-          path: /getAlbumById/{provider_id}/{album_id}
-          method: get
-          cors: true
-          request:
-            parameters:
-              paths:
-                provider_id: true
-                album_id: true
-              headers:
-                Authorization: true
-
-  getAlbumByTitleWP:
-    handler: handler/getAlbumByTitleWP.handler
-    events:
-      - http:
-          path: /getAlbumByTitleWP
-          method: get
-          cors: true
-          request:
-            parameters:
-              querystrings:
-                title: true
-                limit: false
-                exclusiveStartKey: false
-              headers:
-                Authorization: true
-
-  getAllAlbumsWP:
-    handler: handler/getAllAlbumsWP.handler
-    events:
-      - http:
-          path: /getAllAlbumsWP
-          method: get
-          cors: true
-          request:
-            parameters:
-              querystrings:
-                provider_id: true
-                limit: false
-                exclusiveStartKey: false
-              headers:
-                Authorization: true
+                Authorization: true                  
 
 resources:
   Resources:
@@ -130,6 +153,10 @@ resources:
             AttributeType: S
           - AttributeName: album_id
             AttributeType: N
+          - AttributeName: artist_id
+            AttributeType: N
+          - AttributeName: release_date
+            AttributeType: S
           - AttributeName: title
             AttributeType: S
         KeySchema:
@@ -138,17 +165,21 @@ resources:
           - AttributeName: album_id
             KeyType: RANGE
         GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.INDEX_NAME}
+          - IndexName: ${self:provider.environment.GSI}
             KeySchema:
-              - AttributeName: title
+              - AttributeName: artist_id 
                 KeyType: HASH
+              - AttributeName: release_date
+                KeyType: RANGE
             Projection:
               ProjectionType: ALL
         LocalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.LSI_NAME}
+          - IndexName: ${self:provider.environment.LSI}
             KeySchema:
-              - AttributeName: album_id
+              - AttributeName: provider_id 
                 KeyType: HASH
+              - AttributeName: title
+                KeyType: RANGE
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST

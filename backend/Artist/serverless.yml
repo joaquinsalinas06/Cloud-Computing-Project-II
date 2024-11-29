@@ -7,47 +7,27 @@ provider:
   memorySize: 1024
   timeout: 30
   iam:
-    role: ${env:LAB_ROLE}
+    role: ${env:LAB_ROLE} 
   environment:
     TABLE_NAME: ${sls:stage}-t_artist
-    GSI_NAME: artistNameIndex
-    LSI_NAME_1: countryIndex
-    LSI_NAME_2: genreIndex
+    GSI: ${sls:stage}-country-genre-index
+    LSI: ${sls:stage}-name-index
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
-  createArtists:
-    handler: handler/createArtists.handler
-    events:
-      - http:
-          path: /artist/create
-          method: post
-          cors: true
-          integration: lambda
-
-  deleteArtist:
-    handler: handler/deleteArtist.handler
-    events:
-      - http:
-          path: /artist/{provider_id}/{artist_id}/delete
-          method: delete
-          cors: true
-          integration: lambda
-
   getAllArtistsWP:
     handler: handler/getAllArtistsWP.handler
     events:
       - http:
-          path: /artist/all
+          path: /artist/all/{provider_id}
           method: get
           cors: true
           integration: lambda
           request:
             parameters:
               querystrings:
-                provider_id: false
-                limit: false
-                exclusiveStartKey: false
+                limit: true
+                exclusiveStartKey: true
 
   getArtistById:
     handler: handler/getArtistById.handler
@@ -58,60 +38,62 @@ functions:
           cors: true
           integration: lambda
 
+  #LSI
   getArtistByNameWP:
     handler: handler/getArtistByNameWP.handler
     events:
       - http:
-          path: /artist/by-name
+          path: /artist/by-name/{provider_id}
           method: get
           cors: true
           integration: lambda
           request:
             parameters:
               querystrings:
-                provider_id: true
                 name: true
-                limit: false
-                exclusiveStartKey: false
-
-  getArtistByCountryWP:
-    handler: handler/getArtistsByCountryWP.handler
+                limit: true
+                exclusiveStartKey: true
+  #GSI
+  getArtistByCountry_Genre:
+    handler: handler/getArtistByCountry_Genre.handler
     events:
       - http:
-          path: /artist/by-country
+          path: /artist/by-country-genre
           method: get
           cors: true
           integration: lambda
           request:
             parameters:
               querystrings:
-                provider_id: true
                 country: true
-                limit: false
-                exclusiveStartKey: false
+                genre: true
+                limit: true
+                exclusiveStartKey: true
 
-  getArtistByGenreWP:
-    handler: handler/getArtistsByGenreWP.handler
+  createArtists:
+    handler: handler/createArtists.handler
     events:
       - http:
-          path: /artist/by-genre
-          method: get
+          path: /artist/create
+          method: post
           cors: true
           integration: lambda
-          request:
-            parameters:
-              querystrings:
-                provider_id: true
-                genre: true
-                limit: false
-                exclusiveStartKey: false
 
   updateArtist:
     handler: handler/updateArtist.handler
     events:
       - http:
-          path: /artist/update/{artistId}
+          path: /artist/update/{provider_id}/{artist_id}
           method: put
+          cors: true
+          integration: lambda
+          
+  deleteArtist:
+    handler: handler/deleteArtist.handler
+    events:
+      - http:
+          path: /artist/delete/{provider_id}/{artist_id}
+          method: delete
           cors: true
           integration: lambda
 
@@ -138,29 +120,21 @@ resources:
           - AttributeName: artist_id
             KeyType: RANGE
         GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.GSI_NAME}
+          - IndexName: ${self:provider.environment.GSI}
             KeySchema:
-              - AttributeName: name
+              - AttributeName: country
                 KeyType: HASH
-              - AttributeName: provider_id
+              - AttributeName: genre
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
         LocalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.LSI_NAME_1}
+          - IndexName: ${self:provider.environment.LSI}
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH
-              - AttributeName: country
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
-          - IndexName: ${self:provider.environment.LSI_NAME_2}
-            KeySchema:
-              - AttributeName: provider_id
-                KeyType: HASH
-              - AttributeName: genre
-                KeyType: RANGE
+              - AttributeName: name
+                KeyType: RANGE  
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST

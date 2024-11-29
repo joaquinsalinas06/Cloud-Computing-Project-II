@@ -5,8 +5,9 @@ const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  const { provider_id, ...updateData } = JSON.parse(event.body);
-  const artistId = event.pathParameters.artistId;
+  const { updateData } = JSON.parse(event.body);
+  const provider_id = event.path?.provider_id;
+  const artistId = event.path?.artistId;
   const token = event.headers?.Authorization;
 
   if (!token) {

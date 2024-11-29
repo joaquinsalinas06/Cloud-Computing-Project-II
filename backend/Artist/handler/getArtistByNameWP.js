@@ -3,10 +3,10 @@ import AWS from "aws-sdk";
 const { DynamoDB } = AWS;
 const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
-const GSI_NAME = process.env.GSI_NAME;
+const GSI_NAME = process.env.LSI;
 
 export async function handler(event) {
-  const provider_id = event.query?.provider_id;
+  const provider_id = event.path?.provider_id;
   const name = event.query?.name;
   const limit = event.query?.limit || 10;
   let exclusiveStartKey = event.query?.exclusiveStartKey

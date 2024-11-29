@@ -2,10 +2,11 @@ import AWS from "aws-sdk";
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
-const INDEX_NAME = process.env.INDEX_NAME;
+const INDEX_NAME = process.env.LSI;
 
 export async function handler(event) {
   const title = event.query?.title;
+  const provider_id = event.path?.provider_id;
   const limit = event.query?.limit || 10;
   let exclusiveStartKey = event.query?.exclusiveStartKey
     ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
@@ -27,7 +28,7 @@ export async function handler(event) {
 
   const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
-  if (!title) {
+  if (!title || !provider_id) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
@@ -67,9 +68,10 @@ export async function handler(event) {
   const params = {
     TableName: TABLE_NAME,
     IndexName: INDEX_NAME,
-    KeyConditionExpression: "title = :title",
+    KeyConditionExpression: "title = :title and provider_id = :provider_id",
     ExpressionAttributeValues: {
       ":title": title,
+      ":provider_id": provider_id,
     },
     Limit: limit,
     ExclusiveStartKey: exclusiveStartKey ? exclusiveStartKey : undefined,

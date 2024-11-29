@@ -6,44 +6,20 @@ provider:
   runtime: nodejs20.x
   memorySize: 1024
   timeout: 30
-  iam:
+  iam: 
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_post
-    INDEXGSI1_TABLE1_NAME: ${sls:stage}-provider-user-index
-    INDEXGSI2_TABLE1_NAME: ${sls:stage}-provider-post-index
-    INDEXLSI1_TABLE1_NAME: ${sls:stage}-providerlsi-user-index
+    GSI: ${sls:stage}-user-created_at-index
+    LSI: ${sls:stage}-user-index
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
-  createPost:
-    handler: Handler/createPost.handler
-    events:
-      - http:
-          path: /post/create
-          method: post
-          cors: true
-          integration: lambda
-
-  deletePost:
-    handler: Handler/deletePost.handler
-    events:
-      - http:
-          path: /post/delete/{provider_id}/{post_id}
-          method: delete
-          cors: true
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                provider_id: true
-                post_id: true
-
   getPost:
     handler: Handler/getPost.handler
     events:
       - http:
-          path: /post/get/{provider_id}/{post_id}
+          path: /post/{provider_id}/{post_id}
           method: get
           cors: true
           integration: lambda
@@ -57,7 +33,7 @@ functions:
     handler: Handler/getAllPostByProviderId.handler
     events:
       - http:
-          path: /post/getall/{provider_id}
+          path: /posts/{provider_id} 
           method: get
           cors: true
           integration: lambda
@@ -66,48 +42,14 @@ functions:
               paths:
                 provider_id: true
               querystrings:
-                page: false
-                limit: false
-
-  getPostBySongId:
-    handler: Handler/getPostbySongId.handler
-    events:
-      - http:
-          path: /post/getbysong/{provider_id}/{song_id}
-          method: get
-          cors: true
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                provider_id: true
-                song_id: true
-              querystrings:
-                page: false
-                limit: false
-
-  getPostsByAlbumId:
-    handler: Handler/getPostByAlbumId.handler
-    events:
-      - http:
-          path: /post/getbyalbum/{provider_id}/{album_id}
-          method: get
-          cors: true
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                provider_id: true
-                album_id: true
-              querystrings:
-                page: false
-                limit: false
-
+                page: true
+                limit: true
+  #LSI
   getPostsByUserId:
     handler: Handler/getPostByUserId.handler
     events:
       - http:
-          path: /post/getbyuser/{provider_id}/{user_id}
+          path: /post/by-user/{provider_id}/{user_id} 
           method: get
           cors: true
           integration: lambda
@@ -117,8 +59,22 @@ functions:
                 provider_id: true
                 user_id: true
               querystrings:
-                page: false
-                limit: false
+                page: true
+                limit: true
+  #GSI
+  getPostsByUserIdBetweenCreatedAt:
+    handler: Handler/getPostByUserIdBetweenCreatedAt.handler
+    events:
+      - http:
+          path: /post/by-user/{user_id}
+  createPost:
+    handler: Handler/createPost.handler
+    events:
+      - http:
+          path: /post/create
+          method: post
+          cors: true
+          integration: lambda
 
   updatePost:
     handler: Handler/updatePost.handler
@@ -134,6 +90,21 @@ functions:
                 provider_id: true
                 post_id: true
 
+  deletePost:
+    handler: Handler/deletePost.handler
+    events:
+      - http:
+          path: /post/delete/{provider_id}/{post_id}
+          method: delete
+          cors: true
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                post_id: true
+
+
 resources:
   Resources:
     PostTable:
@@ -145,11 +116,9 @@ resources:
             AttributeType: S
           - AttributeName: post_id
             AttributeType: N
-          - AttributeName: song_id
-            AttributeType: N
-          - AttributeName: album_id
-            AttributeType: N
           - AttributeName: user_id
+            AttributeType: N
+          - AttributeName: created_at
             AttributeType: N
         KeySchema:
           - AttributeName: provider_id
@@ -158,24 +127,16 @@ resources:
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.INDEXGSI1_TABLE1_NAME}
+          - IndexName: ${self:provider.environment.GSI}
             KeySchema:
-              - AttributeName: provider_id
+              - AttributeName: user_id
                 KeyType: HASH
-              - AttributeName: song_id
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
-          - IndexName: ${self:provider.environment.INDEXGSI2_TABLE1_NAME}
-            KeySchema:
-              - AttributeName: provider_id
-                KeyType: HASH
-              - AttributeName: album_id
+              - AttributeName: created_at
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
         LocalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.INDEXLSI1_TABLE1_NAME}
+          - IndexName: ${self:provider.environment.LSI}
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH

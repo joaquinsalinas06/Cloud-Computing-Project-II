@@ -4,18 +4,23 @@ service: comment-api
 provider:
   name: aws
   runtime: python3.12
-  environment:
-    TABLE_NAME: ${sls:stage}-t_comment
-    LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
+  memorySize: 1024
+  timeout: 30
   iam:
     role: ${env:LAB_ROLE}
+  environment:
+    TABLE_NAME: ${sls:stage}-t_comment
+    GSI: ${sls:stage}-user_id-date-index
+    LSI: ${sls:stage}-post_id-index
+    LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
+  #LSI
   getPostComments:
     handler: get_comments_post.lambda_handler
     events:
       - http:
-          path: comments/posts/{post_id}
+          path: /comments/{provider_id}/{post_id} #Old: /getPostComments/{post_id}
           method: get
           cors: true
           request:
@@ -29,12 +34,12 @@ functions:
                 page: false
                 pageSize: false
           integration: lambda
-
+  #GSI
   getUserComments:
     handler: get_comments_user.lambda_handler
     events:
       - http:
-          path: comments/users/{user_id}
+          path: /comments/{user_id}
           method: get
           cors: true
           request:
@@ -53,7 +58,7 @@ functions:
     handler: post_comment.lambda_handler
     events:
       - http:
-          path: comments/
+          path: /comment
           method: post
           cors: true
           integration: lambda
@@ -81,21 +86,21 @@ resources:
             KeyType: HASH
           - AttributeName: comment_id
             KeyType: RANGE
-        LocalSecondaryIndexes:
-          - IndexName: provider-post-index
-            KeySchema:
-              - AttributeName: provider_id
-                KeyType: HASH
-              - AttributeName: post_id
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
         GlobalSecondaryIndexes:
-          - IndexName: user-date-index
+          - IndexName: ${self:provider.environment.GSI}
             KeySchema:
               - AttributeName: user_id
                 KeyType: HASH
               - AttributeName: date
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL            
+        LocalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.LSI}
+            KeySchema:
+              - AttributeName: provider_id
+                KeyType: HASH
+              - AttributeName: post_id
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL

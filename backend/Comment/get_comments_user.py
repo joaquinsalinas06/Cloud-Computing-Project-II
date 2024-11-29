@@ -7,10 +7,6 @@ from datetime import datetime
 
 
 def lambda_handler(event, context):
-    """
-    Lambda handler to get paginated comments for a specific user and provider.
-    Supports pagination using page number and page size parameters.
-    """
     # Initialize DynamoDB client
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(os.environ['TABLE_NAME'])
@@ -61,12 +57,13 @@ def lambda_handler(event, context):
     if page_size < 1:
         page_size = 10
         
+    user_date_index = os.environ['GSI'] 
     # Query parameters for DynamoDB
     if start_date and end_date:
         start_date = datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S')
         end_date = datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S')
         query_params = {
-            'IndexName': 'user-date-index',
+            'IndexName': user_date_index, 
             'KeyConditionExpression': Key('user_id').eq(user_id) & Key('date').between(start_date.isoformat(), end_date.isoformat()),
             'FilterExpression': Attr('provider_id').eq(provider_id),
             'ScanIndexForward': False,  # Sort in descending order (newest first)
@@ -75,7 +72,7 @@ def lambda_handler(event, context):
         all_items = response.get('Items', [])
     else:
         query_params = {
-            'IndexName': 'user-date-index',
+            'IndexName': user_date_index,
             'KeyConditionExpression': Key('user_id').eq(user_id),
             'FilterExpression': Attr('provider_id').eq(provider_id),
             'ScanIndexForward': False  # Sort in descending order

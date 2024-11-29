@@ -4,7 +4,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  const provider_id = event.query?.provider_id;
+  const provider_id = event.path?.provider_id;
   const limit = event.query?.limit || 10;
   let exclusiveStartKey = event.query?.exclusiveStartKey
     ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))

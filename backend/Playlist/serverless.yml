@@ -10,16 +10,45 @@ provider:
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_playlist
-    LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
     GSI1: ${sls:stage}-user_id-index
-    LSI1: ${sls:stage}-playlist_name-index
+    LSI: ${sls:stage}-playlist_name-index
+    LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
+  #LSI
+  getPlaylistByUserId:
+    handler: getPlaylistByUserId.lambda_handler
+    events:
+      - http:
+          path: /playlist/{user_id}
+          method: get
+          cors: true
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                user_id: true
+              querystrings:
+                provider_id: true
+
+  getSongsPlaylist:
+    handler: getSongsPlaylist.lambda_handler
+    events:
+      - http:
+          path: /playlist/{playlist_id}/songs
+          method: get
+          cors: true
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                playlist_id: true
+
   createPlaylist:
     handler: createPlaylist.lambda_handler
     events:
       - http:
-          path: /playlist/create
+          path: /playlist/create/{provider_id}/{user_id}/
           method: post
           cors: true
           integration: lambda
@@ -34,7 +63,7 @@ functions:
     handler: addSong.lambda_handler
     events:
       - http:
-          path: /playlist/{playlist_id}/song/{song_id}
+          path: /playlist/{provider_id}/{playlist_id}/add/{song_id}
           method: put
           cors: true
           integration: lambda
@@ -50,7 +79,7 @@ functions:
     handler: deleteSong.lambda_handler
     events:
       - http:
-          path: /playlist/{playlist_id}/song/{song_id}
+          path: /playlist/{provider_id}/{playlist_id}/delete/{song_id}
           method: delete
           cors: true
           integration: lambda
@@ -59,25 +88,12 @@ functions:
               paths:
                 playlist_id: true
                 song_id: true
-
-  getSongsPlaylist:
-    handler: getSongsPlaylist.lambda_handler
-    events:
-      - http:
-          path: /playlist/{playlist_id}/songs
-          method: get
-          cors: true
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                playlist_id: true
-
+  # todo: agregar provider_id en el lambda
   deletePlaylist:
     handler: deletePlaylist.lambda_handler
     events:
       - http:
-          path: /playlist/delete/{playlist_id}
+          path: /playlist/delete/{provider_id}/{playlist_id}
           method: delete
           cors: true
           integration: lambda
@@ -85,21 +101,6 @@ functions:
             parameters:
               paths:
                 playlist_id: true
-
-  getPlaylistByUserId:
-    handler: getPlaylistByUserId.lambda_handler
-    events:
-      - http:
-          path: /playlist/user/{user_id}
-          method: get
-          cors: true
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                user_id: true
-              querystrings:
-                provider_id: true
 
 resources:
   Resources:
@@ -115,23 +116,29 @@ resources:
             AttributeType: N
           - AttributeName: user_id
             AttributeType: N
+          - AttributeName: created_at
+            AttributeType: S
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
           - AttributeName: playlist_id
             KeyType: RANGE
         GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.GSI1}
+          - IndexName: ${self:provider.environment.GSI}
             KeySchema:
               - AttributeName: user_id
                 KeyType: HASH
+              - AttributeName: created_at
+                KeyType: RANGE
             Projection:
               ProjectionType: ALL
         LocalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.LSI1}
+          - IndexName: ${self:provider.environment.LSI}
             KeySchema:
-              - AttributeName: playlist_name
+              - AttributeName: provider_id
                 KeyType: HASH
+              - AttributeName: user_id
+                KeyType: RANGE
             Projection:
               ProjectionType: ALL
         PointInTimeRecoverySpecification:

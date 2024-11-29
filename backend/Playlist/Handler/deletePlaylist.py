@@ -4,7 +4,7 @@ import json
 
 def lambda_handler(event, context):
     try:
-        playlist_id = event['pathParameters'].get('playlist_id')
+        playlist_id = event['path']['playlist_id']
         token = event['headers']['Authorization']        
 
         if not playlist_id or not token:
@@ -34,7 +34,7 @@ def lambda_handler(event, context):
             }      
 
         dynamodb = boto3.resource('dynamodb')
-        playlist_table = dynamodb.Table(os.getenv('PLAYLIST_TABLE_NAME'))
+        playlist_table = dynamodb.Table(os.getenv('TABLE_NAME'))
 
         playlist_table.delete_item(Key={'playlist_id': playlist_id})
 
@@ -49,6 +49,3 @@ def lambda_handler(event, context):
             'body': json.dumps({'error': f"Internal server error: {str(e)}"})
         }
 
-    """
-    aasjdha
-    """

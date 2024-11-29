@@ -2,9 +2,10 @@ import AWS from "aws-sdk";
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
-const INDEX_NAME = process.env.INDEX_NAME;
+const INDEX_NAME = process.env.LSI;
 
 export async function handler(event) {
+  const provider_id = event.path?.provider_id;
   const title = event.query?.title;
   const limit = event.query?.limit || 10;
   let exclusiveStartKey = event.query?.exclusiveStartKey
@@ -68,9 +69,10 @@ export async function handler(event) {
 
   const params = {
     TableName: TABLE_NAME,
-    IndexName: INDEX_NAME,
-    KeyConditionExpression: "title = :title",
+    IndexName: INDEX_NAME, 
+    KeyConditionExpression: "provider_id = :provider_id AND title = :title",
     ExpressionAttributeValues: {
+      ":provider_id": provider_id,
       ":title": title,
     },
     Limit: limit,

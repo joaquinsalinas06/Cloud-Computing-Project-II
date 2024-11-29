@@ -4,8 +4,8 @@ import json
 
 def lambda_handler(event, context):
     try:
-        playlist_id = event['pathParameters'].get('playlist_id')
-        song_id = event['pathParameters'].get('song_id')
+        playlist_id = event['path']['playlist_id']
+        song_id = event['path']['song_id']
         token = event['headers']['Authorization']
 
         if not playlist_id or not song_id or not token:
@@ -35,7 +35,7 @@ def lambda_handler(event, context):
             }      
 
         dynamodb = boto3.resource('dynamodb')
-        playlist_table = dynamodb.Table(os.getenv('PLAYLIST_TABLE_NAME'))
+        playlist_table = dynamodb.Table(os.getenv('TABLE_NAME'))
 
         playlist_table.update_item(
             Key={'playlist_id': playlist_id},

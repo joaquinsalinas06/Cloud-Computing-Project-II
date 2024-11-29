@@ -10,16 +10,74 @@ provider:
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_song
-    INDEX_NAME: title-index
-    LSI: ${sls:stage}-genre-index
+    GSI: ${sls:stage}-genre-duration-index
+    LSI: ${sls:stage}-title-index
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
+  getSongById:
+    handler: handler/getSongById.handler
+    events:
+      - http:
+          path: /song/{provider_id}/{song_id}
+          method: get
+          cors: true
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                song_id: true
+  #LSI
+  getSongsByTitleWP:
+    handler: handler/getSongsByTitleWP.handler
+    events:
+      - http:
+          path: /song/by-title-wp/{provider_id}
+          method: get
+          cors: true
+          integration: lambda
+          request:
+            parameters:
+              querystrings:
+                title: true
+                limit: true
+                exclusiveStartKey: true
+  #GSI
+  getSongsByGenre_Duration:
+    handler: handler/getSongsByGenre_Duration.handler
+    events:
+      - http:
+          path: /song/by-genre-duration
+          method: get
+          cors: true
+          integration: lambda
+          request:
+            parameters:
+              querystrings:
+                genre: true
+                duration: true
+                limit: true
+                exclusiveStartKey: true
+  getAllSongsWP:
+    handler: handler/getAllSongsWP.handler
+    events:
+      - http:
+          path: /song/all/{provider_id}
+          method: get
+          cors: true
+          integration: lambda
+          request:
+            parameters:
+              querystrings:
+                limit: true
+                exclusiveStartKey: true
+
   createSong:
     handler: handler/createSong.handler
     events:
       - http:
-          path: /song
+          path: /song/create/{provider_id}
           method: post
           cors: true
           integration: lambda
@@ -28,7 +86,7 @@ functions:
     handler: handler/createSongs.handler
     events:
       - http:
-          path: /songs
+          path: /songs/create
           method: post
           cors: true
           integration: lambda
@@ -37,7 +95,7 @@ functions:
     handler: handler/deleteSong.handler
     events:
       - http:
-          path: /deleteSong/{provider_id}/{song_id}
+          path: /song/delete/{provider_id}/{song_id}
           method: delete
           cors: true
           integration: lambda
@@ -46,50 +104,6 @@ functions:
               paths:
                 provider_id: true
                 song_id: true
-
-  getSongById:
-    handler: handler/getSongById.handler
-    events:
-      - http:
-          path: /getSongById/{provider_id}/{song_id}
-          method: get
-          cors: true
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                provider_id: true
-                song_id: true
-
-  getSongByTitleWP:
-    handler: handler/getSongByTitleWP.handler
-    events:
-      - http:
-          path: /getSongByTitleWP
-          method: get
-          cors: true
-          integration: lambda
-          request:
-            parameters:
-              querystrings:
-                title: true
-                limit: false
-                exclusiveStartKey: false
-
-  getAllSongsWP:
-    handler: handler/getAllSongsWP.handler
-    events:
-      - http:
-          path: /getAllSongsWP
-          method: get
-          cors: true
-          integration: lambda
-          request:
-            parameters:
-              querystrings:
-                provider_id: true
-                limit: false
-                exclusiveStartKey: false
 
 resources:
   Resources:
@@ -104,23 +118,31 @@ resources:
             AttributeType: N
           - AttributeName: title
             AttributeType: S
+          - AttributeName: genre
+            AttributeType: S
+          - AttributeName: duration
+            AttributeType: S
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
           - AttributeName: song_id
             KeyType: RANGE
         GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.INDEX_NAME}
+          - IndexName: ${self:provider.environment.GSI}
             KeySchema:
-              - AttributeName: title
+              - AttributeName: genre
                 KeyType: HASH
+              - AtributeName: duration
+                KeyType: RANGE
             Projection:
               ProjectionType: ALL
         LocalSecondaryIndexes:
           - IndexName: ${self:provider.environment.LSI}
             KeySchema:
-              - AttributeName: genre
+              - AttributeName: provider_id
                 KeyType: HASH
+              - AtributeName: title
+                KeyType: RANGE
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST

@@ -18,7 +18,7 @@ def lambda_handler(event, context):
 
     user_table_name = os.environ['TABLE_NAME']
     token_table_name = os.environ['TABLE2_NAME']
-    provider_email_index = os.environ['INDEXLSI1_TABLE1_NAME']
+    provider_email_index = os.environ['LSI1']
 
     dynamodb = boto3.resource('dynamodb')
     user_table = dynamodb.Table(user_table_name)

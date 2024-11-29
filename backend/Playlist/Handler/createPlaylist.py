@@ -5,11 +5,11 @@ from datetime import datetime
 
 def lambda_handler(event, context):
     try:
-        provider_id = event['pathParameters'].get('provider_id')
-        playlist_id = event['pathParameters'].get('playlist_id')
-        user_id = event['pathParameters'].get('user_id')
+        provider_id = event['path']['provider_id']
+        playlist_id = event['path']['playlist_id']
+        user_id = event['path']['user_id']
         body = json.loads(event['body'])
-        playlist_name = body.get('playlist_name')
+        playlist_name = body['playlist_name']
         token = event['headers']['Authorization']        
 
         if not provider_id or not playlist_id or not user_id or not playlist_name or not token:
@@ -39,7 +39,7 @@ def lambda_handler(event, context):
             }            
             
         dynamodb = boto3.resource('dynamodb')
-        playlist_table = dynamodb.Table(os.getenv('PLAYLIST_TABLE_NAME'))
+        playlist_table = dynamodb.Table(os.getenv('TABLE_NAME'))
 
         date_created = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         playlist_table.put_item(
