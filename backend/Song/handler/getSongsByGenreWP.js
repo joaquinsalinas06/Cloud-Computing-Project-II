@@ -2,10 +2,11 @@ import AWS from "aws-sdk";
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
-const INDEX_NAME = process.env.GSI1;
+const INDEX_NAME = process.env.LSI1;
 
 export async function handler(event) {
-  const title = event.query?.title;
+  const genre = event.query?.genre;
+  const provider_id = event.query?.provider_id;
   const limit = event.query?.limit || 10;
   let exclusiveStartKey = event.query?.exclusiveStartKey
     ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
@@ -27,12 +28,12 @@ export async function handler(event) {
 
   const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
-  if (!title) {
+  if (!genre || !provider_id) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
       body: {
-        message: "The parameter: title is missing",
+        message: "The parameters: genre and provider_id are required",
       },
     };
   }
@@ -67,9 +68,10 @@ export async function handler(event) {
   const params = {
     TableName: TABLE_NAME,
     IndexName: INDEX_NAME,
-    KeyConditionExpression: "title = :title",
+    KeyConditionExpression: "provider_id = :provider_id and genre = :genre",
     ExpressionAttributeValues: {
-      ":title": title,
+      ":provider_id": provider_id,
+      ":genre": genre,
     },
     Limit: limit,
     ExclusiveStartKey: exclusiveStartKey ? exclusiveStartKey : undefined,
@@ -86,7 +88,7 @@ export async function handler(event) {
           "Content-Type": "application/json",
         },
         body: {
-          message: "No songs found",
+          message: "No songs found for the specified genre",
         },
       };
     } else {
@@ -111,7 +113,7 @@ export async function handler(event) {
         "Content-Type": "application/json",
       },
       body: {
-        message: "An error occurred while getting the song by title",
+        message: "An error occurred while getting the songs by genre",
         error: error.message,
       },
     };

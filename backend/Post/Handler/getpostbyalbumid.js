@@ -52,7 +52,7 @@ module.exports.handler = async function (event) {
 
   const params = {
     TableName: process.env.TABLE_NAME,
-    IndexName: process.env.GSI2,
+    IndexName: process.env.LSI3, //TODO FIX THIS
     KeyConditionExpression:
       "provider_id = :provider_id AND album_id = :album_id",
     ExpressionAttributeValues: {

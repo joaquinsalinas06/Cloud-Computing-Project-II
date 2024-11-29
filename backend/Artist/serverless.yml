@@ -10,9 +10,9 @@ provider:
     role: ${env:LAB_ROLE} 
   environment:
     TABLE_NAME: ${sls:stage}-t_artist
-    GSI1: ${sls:stage}-artist_name-index
     LSI1: ${sls:stage}-country-index
     LSI2: ${sls:stage}-genre-index
+    LSI3: ${sls:stage}-name-index
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
@@ -137,15 +137,7 @@ resources:
             KeyType: HASH
           - AttributeName: artist_id
             KeyType: RANGE
-        GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.GSI1}
-            KeySchema:
-              - AttributeName: name
-                KeyType: HASH
-              - AttributeName: provider_id
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
+ #TODO DEFINE GSI1 CORRECTLY
         LocalSecondaryIndexes:
           - IndexName: ${self:provider.environment.LSI1}
             KeySchema:
@@ -155,12 +147,20 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
-          - IndexName: ${self:provider.environment.LSI1}
+          - IndexName: ${self:provider.environment.LSI2}
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH
               - AttributeName: genre
                 KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: ${self:provider.environment.LSI3}
+            KeySchema:
+              - AttributeName: provider_id
+                KeyType: HASH
+              - AttributeName: name
+                KeyType: RANGE  
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST

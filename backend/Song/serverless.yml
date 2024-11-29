@@ -10,8 +10,8 @@ provider:
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_song
-    GSI1: ${sls:stage}-title-index
-    LSI1: ${sls:stage}-genre-index 
+    LSI1: ${sls:stage}-genre-index
+    LSI2: ${sls:stage}-title-index 
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
@@ -19,7 +19,7 @@ functions:
     handler: handler/createSong.handler
     events:
       - http:
-          path: /song
+          path: /song/create
           method: post
           cors: true
           integration: lambda
@@ -28,7 +28,7 @@ functions:
     handler: handler/createSongs.handler
     events:
       - http:
-          path: /songs
+          path: /songs/create
           method: post
           cors: true
           integration: lambda
@@ -37,7 +37,7 @@ functions:
     handler: handler/deleteSong.handler
     events:
       - http:
-          path: /deleteSong/{provider_id}/{song_id}
+          path: /delete/{provider_id}/{song_id}
           method: delete
           cors: true
           integration: lambda
@@ -51,7 +51,7 @@ functions:
     handler: handler/getSongById.handler
     events:
       - http:
-          path: /getSongById/{provider_id}/{song_id}
+          path: /song/{provider_id}/{song_id}
           method: get
           cors: true
           integration: lambda
@@ -61,11 +61,11 @@ functions:
                 provider_id: true
                 song_id: true
 
-  getSongByTitleWP:
-    handler: handler/getSongByTitleWP.handler
+  getSongsByTitleWP:
+    handler: handler/getSongsByTitleWP.handler
     events:
       - http:
-          path: /getSongByTitleWP
+          path: /song/by-title-wp
           method: get
           cors: true
           integration: lambda
@@ -73,14 +73,28 @@ functions:
             parameters:
               querystrings:
                 title: true
-                limit: false
-                exclusiveStartKey: false
+                limit: true
+                exclusiveStartKey: true
+  getSongsByGenreWP:
+    handler: handler/getSongsByGenreWP.handler
+    events:
+      - http:
+          path: /song/by-genre-wp
+          method: get
+          cors: true
+          integration: lambda
+          request:
+            parameters:
+              querystrings:
+                genre: true
+                limit: true
+                exclusiveStartKey: true
 
   getAllSongsWP:
     handler: handler/getAllSongsWP.handler
     events:
       - http:
-          path: /getAllSongsWP
+          path: /song/all
           method: get
           cors: true
           integration: lambda
@@ -88,8 +102,8 @@ functions:
             parameters:
               querystrings:
                 provider_id: true
-                limit: false
-                exclusiveStartKey: false
+                limit: true
+                exclusiveStartKey: true
 
 resources:
   Resources:
@@ -104,25 +118,31 @@ resources:
             AttributeType: N
           - AttributeName: title
             AttributeType: S
+          - AttributeName: genre
+            AttributeType: S
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
           - AttributeName: song_id
             KeyType: RANGE
-        GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.GSI1}
-            KeySchema:
-              - AttributeName: title
-                KeyType: HASH
-            Projection:
-              ProjectionType: ALL
+##TODO DEFINE GSI1 CORRECTLY 
         LocalSecondaryIndexes:
           - IndexName: ${self:provider.environment.LSI1}
             KeySchema:
-              - AttributeName: genre
+              - AttributeName: provider_id
                 KeyType: HASH
+              - AttributeName: genre
+                KeyType: RANGE
             Projection:
               ProjectionType: ALL
+          - IndexName: ${self:provider.environment.LSI2}
+            KeySchema:
+              - AttributeName: provider_id
+                KeyType: HASH
+              - AtributeName: title
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL              
         BillingMode: PAY_PER_REQUEST
         PointInTimeRecoverySpecification:
           PointInTimeRecoveryEnabled: true

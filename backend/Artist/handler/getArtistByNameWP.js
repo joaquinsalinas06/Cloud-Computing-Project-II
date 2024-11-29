@@ -3,7 +3,7 @@ import AWS from "aws-sdk";
 const { DynamoDB } = AWS;
 const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
-const GSI_NAME = process.env.GSI1;
+const GSI_NAME = process.env.LSI3;
 
 export async function handler(event) {
   const provider_id = event.query?.provider_id;

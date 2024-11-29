@@ -2,11 +2,11 @@ import AWS from "aws-sdk";
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
-const INDEX_NAME = process.env.LSI1;
+const INDEX_NAME = process.env.LSI2;
 
 export async function handler(event) {
-  const provider_id = event.query?.provider_id;
   const title = event.query?.title;
+  const provider_id = event.query?.provider_id;
   const limit = event.query?.limit || 10;
   let exclusiveStartKey = event.query?.exclusiveStartKey
     ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
@@ -28,9 +28,7 @@ export async function handler(event) {
 
   const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
-  console.log(event);
-
-  if (!title) {
+  if (!title || !provider_id) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
@@ -69,11 +67,11 @@ export async function handler(event) {
 
   const params = {
     TableName: TABLE_NAME,
-    IndexName: INDEX_NAME, 
-    KeyConditionExpression: "provider_id = :provider_id AND title = :title",
+    IndexName: INDEX_NAME,
+    KeyConditionExpression: "title = :title and provider_id = :provider_id",
     ExpressionAttributeValues: {
-      ":provider_id": provider_id,
       ":title": title,
+      ":provider_id": provider_id,
     },
     Limit: limit,
     ExclusiveStartKey: exclusiveStartKey ? exclusiveStartKey : undefined,
@@ -90,7 +88,7 @@ export async function handler(event) {
           "Content-Type": "application/json",
         },
         body: {
-          message: "No albums found",
+          message: "No songs found",
         },
       };
     } else {
@@ -108,13 +106,14 @@ export async function handler(event) {
       };
     }
   } catch (error) {
+    console.error("Error querying DynamoDB:", error);
     return {
       statusCode: 500,
       headers: {
         "Content-Type": "application/json",
       },
       body: {
-        message: "An error occurred while getting the album by title",
+        message: "An error occurred while getting the song by title",
         error: error.message,
       },
     };

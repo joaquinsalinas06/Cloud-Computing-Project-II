@@ -10,68 +10,11 @@ provider:
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_album
-    GSI1: ${sls:stage}-title-index
-    LSI1: ${sls:stage}-album_id-index
+    GSI1: ${sls:stage}-release_date-index
+    LSI1: ${sls:stage}-title-index
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
-  createAlbum:
-    handler: handler/createAlbum.handler
-    events:
-      - http:
-          path: /album
-          method: post
-          cors: true
-          request:
-            parameters:
-              headers:
-                Authorization: true
-            schema:
-              application/json:
-                type: object
-                properties:
-                  provider_id:
-                    type: string
-                required:
-                  - provider_id
-
-  createAlbums:
-    handler: handler/createAlbums.handler
-    events:
-      - http:
-          path: /albums
-          method: post
-          cors: true
-          request:
-            parameters:
-              headers:
-                Authorization: true
-            schema:
-              application/json:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    provider_id:
-                      type: string
-                  required:
-                    - provider_id
-
-  deleteAlbum:
-    handler: handler/deleteAlbum.handler
-    events:
-      - http:
-          path: /deleteAlbum/{provider_id}/{album_id}
-          method: delete
-          cors: true
-          request:
-            parameters:
-              paths:
-                provider_id: true
-                album_id: true
-              headers:
-                Authorization: true
-
   getAlbumById:
     handler: handler/getAlbumById.handler
     events:
@@ -97,9 +40,10 @@ functions:
           request:
             parameters:
               querystrings:
+                provider_id: true              
                 title: true
-                limit: false
-                exclusiveStartKey: false
+                limit: true
+                exclusiveStartKey: true
               headers:
                 Authorization: true
 
@@ -119,6 +63,62 @@ functions:
               headers:
                 Authorization: true
 
+  createAlbum:
+    handler: handler/createAlbum.handler
+    events:
+      - http:
+          path: /album
+          method: post
+          cors: true
+          request:
+            parameters:
+              headers:
+                Authorization: true
+            schema:
+              application/json:
+                type: object
+                properties:
+                  provider_id:
+                    type: string
+                required:
+                  - provider_id                
+  createAlbums:
+    handler: handler/createAlbums.handler
+    events:
+      - http:
+          path: /albums
+          method: post
+          cors: true
+          request:
+            parameters:
+              headers:
+                Authorization: true
+            schema:
+              application/json:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    provider_id:
+                      type: string
+                  required:
+                    - provider_id             
+
+   deleteAlbum:
+    handler: handler/deleteAlbum.handler
+    events:
+      - http:
+          path: /deleteAlbum/{provider_id}/{album_id}
+          method: delete
+          cors: true
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                album_id: true
+              headers:
+                Authorization: true                  
+
 resources:
   Resources:
     AlbumsTable:
@@ -130,6 +130,8 @@ resources:
             AttributeType: S
           - AttributeName: album_id
             AttributeType: N
+          - AttributeName: release_date
+            AttributeType: S            
           - AttributeName: title
             AttributeType: S
         KeySchema:
@@ -137,18 +139,14 @@ resources:
             KeyType: HASH
           - AttributeName: album_id
             KeyType: RANGE
-        GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.GSI1}
-            KeySchema:
-              - AttributeName: title
-                KeyType: HASH
-            Projection:
-              ProjectionType: ALL
+#TODO DEFINE GSI1 CORRECTLY 
         LocalSecondaryIndexes:
           - IndexName: ${self:provider.environment.LSI1}
             KeySchema:
-              - AttributeName: album_id
+              - AttributeName: provider_id 
                 KeyType: HASH
+              - AttributeName: title
+                KeyType: RANGE
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST

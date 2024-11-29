@@ -120,18 +120,14 @@ resources:
             KeyType: HASH
           - AttributeName: playlist_id
             KeyType: RANGE
-        GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.GSI1}
-            KeySchema:
-              - AttributeName: user_id
-                KeyType: HASH
-            Projection:
-              ProjectionType: ALL
+##TODO DEFINE GSI1 CORRECTLY 
         LocalSecondaryIndexes:
           - IndexName: ${self:provider.environment.LSI1}
             KeySchema:
-              - AttributeName: playlist_name
+              - AttributeName: provider_id
                 KeyType: HASH
+              - AttributeName: user_id 
+                KeyType: RANGE
             Projection:
               ProjectionType: ALL
         PointInTimeRecoverySpecification:

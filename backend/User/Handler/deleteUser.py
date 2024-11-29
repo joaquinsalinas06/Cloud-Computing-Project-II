@@ -57,7 +57,7 @@ def lambda_handler(event, context):
             }
         )
 
-        token_index_name = os.environ['GSI2']
+        token_index_name = os.environ['LSI2']
         
         token_response = token_table.query(
             IndexName=token_index_name,

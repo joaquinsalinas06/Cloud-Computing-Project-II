@@ -37,12 +37,12 @@ def lambda_handler(event, context):
         dynamodb = boto3.resource('dynamodb')
         playlist_table = dynamodb.Table(os.getenv('TABLE_NAME'))
 
-        user_index = os.environ['GSI1']
+        user_index = os.environ['LSI1']
         
         response = playlist_table.query(
             IndexName=user_index,
-            KeyConditionExpression='user_id = :user_id',
-            ExpressionAttributeValues={':user_id': user_id}
+            KeyConditionExpression='provider_id = :provider_id and user_id = :user_id',
+            ExpressionAttributeValues={ ':provider_id': provider_id, ':user_id': user_id}
         )
 
         playlists = response.get('Items', [])
