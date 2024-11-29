@@ -11,42 +11,10 @@ provider:
   environment:
     TABLE_NAME: ${sls:stage}-t_song
     LSI1: ${sls:stage}-genre-index
-    LSI2: ${sls:stage}-title-index 
+    LSI2: ${sls:stage}-title-index
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
-  createSong:
-    handler: handler/createSong.handler
-    events:
-      - http:
-          path: /song/create
-          method: post
-          cors: true
-          integration: lambda
-
-  createSongs:
-    handler: handler/createSongs.handler
-    events:
-      - http:
-          path: /songs/create
-          method: post
-          cors: true
-          integration: lambda
-
-  deleteSong:
-    handler: handler/deleteSong.handler
-    events:
-      - http:
-          path: /delete/{provider_id}/{song_id}
-          method: delete
-          cors: true
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                provider_id: true
-                song_id: true
-
   getSongById:
     handler: handler/getSongById.handler
     events:
@@ -105,6 +73,38 @@ functions:
                 limit: true
                 exclusiveStartKey: true
 
+  createSong:
+    handler: handler/createSong.handler
+    events:
+      - http:
+          path: /song/create
+          method: post
+          cors: true
+          integration: lambda
+
+  createSongs:
+    handler: handler/createSongs.handler
+    events:
+      - http:
+          path: /songs/create
+          method: post
+          cors: true
+          integration: lambda
+
+  deleteSong:
+    handler: handler/deleteSong.handler
+    events:
+      - http:
+          path: /delete/{provider_id}/{song_id}
+          method: delete
+          cors: true
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                provider_id: true
+                song_id: true
+
 resources:
   Resources:
     SongsTable:
@@ -125,7 +125,7 @@ resources:
             KeyType: HASH
           - AttributeName: song_id
             KeyType: RANGE
-##TODO DEFINE GSI1 CORRECTLY 
+        ##TODO DEFINE GSI1 CORRECTLY
         LocalSecondaryIndexes:
           - IndexName: ${self:provider.environment.LSI1}
             KeySchema:
@@ -142,7 +142,7 @@ resources:
               - AtributeName: title
                 KeyType: RANGE
             Projection:
-              ProjectionType: ALL              
+              ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
         PointInTimeRecoverySpecification:
           PointInTimeRecoveryEnabled: true

@@ -10,11 +10,39 @@ provider:
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_playlist
-    GSI1: ${sls:stage}-user_id-index 
-    LSI1: ${sls:stage}-playlist_name-index    
+    GSI1: ${sls:stage}-user_id-index
+    LSI1: ${sls:stage}-playlist_name-index
     LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
+  getPlaylistByUserId:
+    handler: getPlaylistByUserId.lambda_handler
+    events:
+      - http:
+          path: /playlist/user/{user_id}
+          method: get
+          cors: true
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                user_id: true
+              querystrings:
+                provider_id: true
+
+  getSongsPlaylist:
+    handler: getSongsPlaylist.lambda_handler
+    events:
+      - http:
+          path: /playlist/{playlist_id}/songs
+          method: get
+          cors: true
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                playlist_id: true
+
   createPlaylist:
     handler: createPlaylist.lambda_handler
     events:
@@ -60,19 +88,6 @@ functions:
                 playlist_id: true
                 song_id: true
 
-  getSongsPlaylist:
-    handler: getSongsPlaylist.lambda_handler
-    events:
-      - http:
-          path: /playlist/{playlist_id}/songs
-          method: get
-          cors: true
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                playlist_id: true
-
   deletePlaylist:
     handler: deletePlaylist.lambda_handler
     events:
@@ -85,21 +100,6 @@ functions:
             parameters:
               paths:
                 playlist_id: true
-
-  getPlaylistByUserId:
-    handler: getPlaylistByUserId.lambda_handler
-    events:
-      - http:
-          path: /playlist/user/{user_id}
-          method: get
-          cors: true
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                user_id: true
-              querystrings:
-                provider_id: true
 
 resources:
   Resources:
@@ -120,13 +120,13 @@ resources:
             KeyType: HASH
           - AttributeName: playlist_id
             KeyType: RANGE
-##TODO DEFINE GSI1 CORRECTLY 
+        ##TODO DEFINE GSI1 CORRECTLY
         LocalSecondaryIndexes:
           - IndexName: ${self:provider.environment.LSI1}
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH
-              - AttributeName: user_id 
+              - AttributeName: user_id
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
