@@ -20,7 +20,7 @@ functions:
     handler: get_comments_post.lambda_handler
     events:
       - http:
-          path: /comments/{provider_id}/{post_id} #Old: /getPostComments/{post_id}
+          path: /comments/post/{provider_id}/{post_id} #Old: /getPostComments/{post_id}
           method: get
           cors: true
           request:

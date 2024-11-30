@@ -20,7 +20,7 @@ functions:
     handler: getPlaylistByUserId.lambda_handler
     events:
       - http:
-          path: /playlist/{user_id}
+          path: /playlist/user/{user_id}
           method: get
           cors: true
           integration: lambda

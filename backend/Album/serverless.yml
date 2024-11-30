@@ -97,14 +97,7 @@ functions:
             parameters:
               headers:
                 Authorization: true
-            schema:
-              application/json:
-                type: object
-                properties:
-                  provider_id:
-                    type: string
-                required:
-                  - provider_id                
+
   createAlbums:
     handler: handler/createAlbums.handler
     events:
@@ -115,17 +108,7 @@ functions:
           request:
             parameters:
               headers:
-                Authorization: true
-            schema:
-              application/json:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    provider_id:
-                      type: string
-                  required:
-                    - provider_id             
+                Authorization: true       
 
   deleteAlbum:
     handler: handler/deleteAlbum.handler

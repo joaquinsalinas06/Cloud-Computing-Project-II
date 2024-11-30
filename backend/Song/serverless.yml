@@ -132,7 +132,7 @@ resources:
             KeySchema:
               - AttributeName: genre
                 KeyType: HASH
-              - AtributeName: duration
+              - AttributeName: duration
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
@@ -141,7 +141,7 @@ resources:
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH
-              - AtributeName: title
+              - AttributeName: title
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
