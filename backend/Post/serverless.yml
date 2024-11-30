@@ -64,7 +64,6 @@ functions:
   #GSI
   getPostsByUserIdBetweenCreatedAt:
     handler: Handler/getPostByUserIdBetweenCreatedAt.handler
-    method: get
     events:
       - http:
           path: /post/by-user/{user_id}
