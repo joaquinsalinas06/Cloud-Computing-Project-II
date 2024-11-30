@@ -10,4 +10,4 @@ JOIN "stage-prod-post" p ON pls.song_id = p.song_id
 GROUP BY p.provider_id, sa.artist_id, a.name
 ORDER BY p.provider_id, playlist_songs DESC;
 
-Informacion de los artistas con mas canciones canciones en las playlists
+Informacion de los artistas con mas canciones en las playlists

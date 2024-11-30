@@ -1,0 +1,10 @@
+CREATE VIEW total_posts_by_provider_user AS
+SELECT 
+    p.provider_id,
+    u.user_id,
+    COUNT(p.song_id) AS total_posts
+FROM "stage-prod-post" p
+JOIN "stage-prod-usuarios" u ON p.user_id = u.user_id
+GROUP BY p.provider_id, u.user_id;
+total_posts_by_provider_user 
+Número total de publicaciones por proveedor y usuario
