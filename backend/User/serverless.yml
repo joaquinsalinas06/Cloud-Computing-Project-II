@@ -158,8 +158,10 @@ resources:
         LocalSecondaryIndexes:
           - IndexName: ${self:provider.environment.LSI2}
             KeySchema:
-              - AttributeName: token
+              - AttributeName: provider_id
                 KeyType: HASH
+              - AttributeName: token
+                KeyType: RANGE
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
