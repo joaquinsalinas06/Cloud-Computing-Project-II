@@ -1,0 +1,68 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Plantilla para crear una Maquina Virtual en EC2 usando una AMI especifica (Cloud9Ubuntu22-2024-08-22T16-06)"
+
+Parameters:
+  InstanceName:
+    Type: String
+    Default: "MV Reemplazar"
+    Description: "Nombre de la instancia a crear"
+  AMI:
+    Type: String
+    Default: "ami-001a728ed866d9357"
+    Description: "ID de AMI"
+
+Resources:
+  EC2Instance:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      Tags:
+        - Key: "Name"
+          Value: !Ref InstanceName
+      ImageId: !Ref AMI
+      InstanceType: "t2.medium" 
+      KeyName: "vockey"
+      SecurityGroupIds:
+        - !Ref InstanceSecurityGroup
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: "20"
+      UserData: !Base64 |
+        # Clonamos el repositorio cuando se inicia la instancia
+        # Asegúrate de reemplazar "<repo-url>" por la URL de tu repositorio
+        # Este script se ejecutará al arrancar la instancia
+        # Actualiza los paquetes e instala git
+        sudo apt-get update -y
+        sudo apt-get install -y git
+        # Clonamos el repositorio
+        git clone https://github.com/joaquinsalinas06/Cloud-Computing-Project-II.git /home/ubuntu/
+
+  InstanceSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: "Permitir trafico SSH, HTTP, y puertos personalizados 8080, 8005 desde cualquier lugar"
+      SecurityGroupIngress:
+        - IpProtocol: "tcp"
+          FromPort: "22"
+          ToPort: "22"
+          CidrIp: "0.0.0.0/0"
+        - IpProtocol: "tcp"
+          FromPort: "80"
+          ToPort: "80"
+          CidrIp: "0.0.0.0/0"
+        - IpProtocol: "tcp"
+          FromPort: "8080"
+          ToPort: "8080"
+          CidrIp: "0.0.0.0/0"
+        - IpProtocol: "tcp"
+          FromPort: "8005"
+          ToPort: "8005"
+          CidrIp: "0.0.0.0/0"
+
+Outputs:
+  InstanceId:
+    Description: "ID de la instancia EC2"
+    Value: !Ref EC2Instance
+  InstancePublicIP:
+    Description: "IP publica de la instancia"
+    Value: !GetAtt EC2Instance.PublicIp
