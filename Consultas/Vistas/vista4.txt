@@ -1,0 +1,13 @@
+CREATE VIEW playlist_posts_by_provider AS
+SELECT 
+    p.provider_id,
+    pls.playlist_id,
+    pl.playlist_name,
+    COUNT(pls.song_id) AS total_posts
+FROM "stage-prod-post" p
+JOIN "stage-prod-playlist-song" pls ON p.song_id = pls.song_id
+JOIN "stage-prod-playlist" pl ON pls.playlist_id = pl.playlist_id
+GROUP BY p.provider_id, pls.playlist_id, pl.playlist_name
+ORDER BY p.provider_id, total_posts DESC;
+
+cuantas veces una cancion se publico en una playlist

@@ -1,0 +1,13 @@
+SELECT 
+    p.provider_id, 
+    sa.artist_id, 
+    a.name AS artist_name, 
+    COUNT(pls.song_id) AS playlist_songs
+FROM "stage-prod-playlist-song" pls
+JOIN "stage-prod-song" sa ON pls.song_id = sa.song_id
+JOIN "stage-prod-artist" a ON sa.artist_id = a.artist_id
+JOIN "stage-prod-post" p ON pls.song_id = p.song_id
+GROUP BY p.provider_id, sa.artist_id, a.name
+ORDER BY p.provider_id, playlist_songs DESC;
+
+Informacion de los artistas con mas canciones en las playlists
