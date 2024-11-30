@@ -15,7 +15,7 @@ export const handler = async (event) => {
     : null;
 
   const token = event.headers?.Authorization;
-
+ 
   if (!token) {
     return {
       statusCode: 401,
