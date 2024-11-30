@@ -19,7 +19,7 @@ Resources:
         - Key: "Name"
           Value: !Ref InstanceName
       ImageId: !Ref AMI
-      InstanceType: "t2.medium" 
+      InstanceType: "t2.medium"
       KeyName: "vockey"
       SecurityGroupIds:
         - !Ref InstanceSecurityGroup
@@ -29,13 +29,15 @@ Resources:
             VolumeSize: "20"
       UserData: !Base64 |
         # Clonamos el repositorio cuando se inicia la instancia
-        # Asegúrate de reemplazar "<repo-url>" por la URL de tu repositorio
-        # Este script se ejecutará al arrancar la instancia
-        # Actualiza los paquetes e instala git
         sudo apt-get update -y
         sudo apt-get install -y git
-        # Clonamos el repositorio
         git clone https://github.com/joaquinsalinas06/Cloud-Computing-Project-II.git /home/ubuntu/
+
+  ElasticIP:
+    Type: "AWS::EC2::EIP"
+    Properties: 
+      InstanceId: !Ref EC2Instance
+      Domain: "vpc"  
 
   InstanceSecurityGroup:
     Type: "AWS::EC2::SecurityGroup"
@@ -65,4 +67,4 @@ Outputs:
     Value: !Ref EC2Instance
   InstancePublicIP:
     Description: "IP publica de la instancia"
-    Value: !GetAtt EC2Instance.PublicIp
+    Value: !Ref ElasticIP  
