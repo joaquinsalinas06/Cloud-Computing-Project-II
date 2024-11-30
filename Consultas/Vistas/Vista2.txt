@@ -1,0 +1,13 @@
+CREATE VIEW top_playlists_by_provider AS
+SELECT 
+    p.provider_id,
+    sa.playlist_id,
+    pl.playlist_name,
+    COUNT(p.song_id) AS total_posts
+FROM "stage-prod-post" p
+JOIN "stage-prod-playlist-song" sa ON p.song_id = sa.song_id
+JOIN "stage-prod-playlist" pl ON sa.playlist_id = pl.playlist_id
+GROUP BY p.provider_id, sa.playlist_id, pl.playlist_name
+ORDER BY total_posts DESC;
+
+Playlist mas populares por proveedor
