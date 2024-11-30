@@ -2,22 +2,21 @@ import boto3
 import os
 import json
 from datetime import datetime
+from boto3.dynamodb.conditions import Key
 
 def lambda_handler(event, context):
-    try:
-        provider_id = event['path']['provider_id']
-        playlist_id = event['path']['playlist_id']
-        user_id = event['path']['user_id']
-        body = json.loads(event['body'])
-        playlist_name = body['playlist_name']
-        token = event['headers']['Authorization']        
-
-        if not provider_id or not playlist_id or not user_id or not playlist_name or not token:
+    try:      
+        provider_id = event['body']['provider_id']
+        user_id = event['body']['user_id']
+        name = event['body']['name']
+        token = event['headers']['Authorization']
+    
+        if not provider_id or not user_id or not name or not token:
             return {
                 'statusCode': 400,
                 'body': json.dumps({'error': 'Missing parameters'})
             }
-
+            
         payload = '{ "token": "' + token +  '" }'        
         lambda_client = boto3.client('lambda')
         token_function = os.environ['LAMBDA_FUNCTION_NAME']
@@ -36,16 +35,30 @@ def lambda_handler(event, context):
             return {
                 'statusCode': 401,
                 'body': {'error': 'Unauthorized', 'message': error_message}
-            }            
+            }    
             
         dynamodb = boto3.resource('dynamodb')
-        playlist_table = dynamodb.Table(os.getenv('TABLE_NAME'))
+        table_name = os.environ['TABLE_NAME']
+        playlist_table = dynamodb.Table(table_name)
 
+        response = playlist_table.query(
+            KeyConditionExpression=Key('provider_id').eq(provider_id),
+            ScanIndexForward=False, 
+            Limit=1
+        )
+
+        highest_playlist_id = 0
+        if 'Items' in response and response['Items']:
+            highest_playlist_id = int(response['Items'][0]['playlist_id'])
+
+        new_playlist_id = highest_playlist_id + 1
+        
         date_created = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
         playlist_table.put_item(
             Item={
                 'provider_id': provider_id,
-                'playlist_id': playlist_id,
+                'playlist_id': str(new_playlist_id),
                 'user_id': user_id,
                 'playlist_name': playlist_name,
                 'date_created': date_created,
@@ -55,10 +68,17 @@ def lambda_handler(event, context):
 
         return {
             'statusCode': 200,
-            'body': json.dumps({'message': 'Playlist created successfully'})
+            'body': json.dumps({
+                'message': 'Playlist created successfully',
+                'playlist_id': new_playlist_id
+            }),
+            'headers': {
+                'Content-Type': 'application/json'
+            }
         }
 
     except Exception as e:
+        print("Exception:", str(e))
         return {
             'statusCode': 500,
             'body': json.dumps({'error': f"Internal server error: {str(e)}"})
