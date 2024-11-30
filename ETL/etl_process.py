@@ -1,33 +1,39 @@
 import boto3
 import pandas as pd
-from pyathena import connect
 from sqlalchemy import create_engine
 import os
 import time
 
-ATHENA_DATABASE = 'stage-prod'  
-ATHENA_S3_OUTPUT = 's3://resultados-dev-athena/'  
+ATHENA_S3_OUTPUT = 's3://resultados-dev-athena/queries/Unsaved/2024/11/29/'  
 REGION_NAME = 'us-west-1'
 
-MYSQL_HOST = '52.20.58.206'  
-MYSQL_PORT = '8005' 
+MYSQL_HOST = '52.20.58.206'
+MYSQL_PORT = '8005'  
 MYSQL_USER = 'root'  
 MYSQL_PASSWORD = 'utec'
 MYSQL_DB = 'prod'
 
-RESULTS_DIR = 's3://resultados-dev-athena/queries/'  
-
-def query_athena(query, query_name):
+def download_csv_from_s3(s3_bucket_path, local_path):
     try:
-        timestamp = time.strftime("%Y-%m-%d_%H-%M-%S")
-        query_folder = f"{RESULTS_DIR}query_{query_name}_{timestamp}/" 
+        s3 = boto3.client('s3')
+        bucket_name = s3_bucket_path.split('/')[2]  
+        prefix = '/'.join(s3_bucket_path.split('/')[3:])  
 
-        conn = connect(s3_staging_dir=ATHENA_S3_OUTPUT, region_name=REGION_NAME, database=ATHENA_DATABASE)
-        df = pd.read_sql(query, conn)
-        return df
+        response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
+        files = [content['Key'] for content in response.get('Contents', [])]
+
+        if not files:
+            print(f"No se encontraron archivos en la ruta S3: {s3_bucket_path}")
+            return []
+
+        for file_key in files:
+            local_file_path = os.path.join(local_path, file_key.split('/')[-1])
+            s3.download_file(bucket_name, file_key, local_file_path)
+            print(f"Archivo descargado: {local_file_path}")
+        return files
     except Exception as e:
-        print(f"Error al ejecutar la consulta Athena: {e}")
-        return None
+        print(f"Error al descargar los archivos desde S3: {e}")
+        return []
 
 def insert_into_mysql(df, table_name):
     try:
@@ -37,27 +43,29 @@ def insert_into_mysql(df, table_name):
     except Exception as e:
         print(f"Error al insertar datos en MySQL: {e}")
 
-def extract_data(query_name):
-    query = """
-       SELECT 
-        p.provider_id, 
-        sa.artist_id, 
-        a.name AS artist_name, 
-        COUNT(p.song_id) AS post_count
-    FROM "stage-prod-post" p
-    JOIN "stage-prod-song" sa ON p.song_id = sa.song_id
-    JOIN "stage-prod-artist" a ON sa.artist_id = a.artist_id
-    GROUP BY p.provider_id, sa.artist_id, a.name
-    ORDER BY p.provider_id, post_count DESC;
-    """
-    data = query_athena(query, query_name)
-    return data
-
 def main():
-    data = extract_data(query_name="1")
+    local_download_path = '/tmp/csv_files'  
+    os.makedirs(local_download_path, exist_ok=True) 
 
-    if data is not None:
-        insert_into_mysql(data, 'top_artists_by_provider')  
+    files = download_csv_from_s3(ATHENA_S3_OUTPUT, local_download_path)
+
+    if not files:
+        print("No se encontraron archivos CSV en el bucket.")
+        return
+
+    for file in files:
+        local_file_path = os.path.join(local_download_path, file.split('/')[-1])
+
+        try:
+            df = pd.read_csv(local_file_path)
+
+            print(f"Archivo CSV {local_file_path} cargado exitosamente.")
+
+            table_name = f'table_from_{file.split("/")[-1].split(".")[0]}' 
+
+            insert_into_mysql(df, table_name)
+        except Exception as e:
+            print(f"Error al procesar el archivo {local_file_path}: {e}")
 
 if __name__ == "__main__":
     main()
