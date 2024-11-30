@@ -6,7 +6,7 @@ provider:
   runtime: nodejs20.x
   memorySize: 1024
   timeout: 30
-  iam: 
+  iam:
     role: ${env:LAB_ROLE}
   environment:
     TABLE_NAME: ${sls:stage}-t_post
@@ -33,7 +33,7 @@ functions:
     handler: Handler/getAllPostByProviderId.handler
     events:
       - http:
-          path: /posts/{provider_id} 
+          path: /posts/{provider_id}
           method: get
           cors: true
           integration: lambda
@@ -49,7 +49,7 @@ functions:
     handler: Handler/getPostByUserId.handler
     events:
       - http:
-          path: /post/by-user/{provider_id}/{user_id} 
+          path: /post/by-user/{provider_id}/{user_id}
           method: get
           cors: true
           integration: lambda
@@ -64,6 +64,7 @@ functions:
   #GSI
   getPostsByUserIdBetweenCreatedAt:
     handler: Handler/getPostByUserIdBetweenCreatedAt.handler
+    method: get
     events:
       - http:
           path: /post/by-user/{user_id}
@@ -115,7 +116,6 @@ functions:
               paths:
                 provider_id: true
                 post_id: true
-
 
 resources:
   Resources:

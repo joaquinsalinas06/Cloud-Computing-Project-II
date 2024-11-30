@@ -41,7 +41,7 @@ functions:
             parameters:
               paths:
                 providerId: true
-              querystrings:          
+              querystrings:
                 title: true
                 limit: true
                 exclusiveStartKey: true
@@ -67,7 +67,6 @@ functions:
                 exclusiveStartKey: true
               headers:
                 Authorization: true
-
 
   getAllAlbumsWP:
     handler: handler/getAllAlbumsWP.handler
@@ -104,7 +103,7 @@ functions:
                   provider_id:
                     type: string
                 required:
-                  - provider_id                
+                  - provider_id
   createAlbums:
     handler: handler/createAlbums.handler
     events:
@@ -125,8 +124,7 @@ functions:
                     provider_id:
                       type: string
                   required:
-                    - provider_id             
-
+                    - provider_id
   deleteAlbum:
     handler: handler/deleteAlbum.handler
     events:
@@ -140,7 +138,7 @@ functions:
                 provider_id: true
                 album_id: true
               headers:
-                Authorization: true                  
+                Authorization: true
 
 resources:
   Resources:
@@ -167,7 +165,7 @@ resources:
         GlobalSecondaryIndexes:
           - IndexName: ${self:provider.environment.GSI}
             KeySchema:
-              - AttributeName: artist_id 
+              - AttributeName: artist_id
                 KeyType: HASH
               - AttributeName: release_date
                 KeyType: RANGE
@@ -176,7 +174,7 @@ resources:
         LocalSecondaryIndexes:
           - IndexName: ${self:provider.environment.LSI}
             KeySchema:
-              - AttributeName: provider_id 
+              - AttributeName: provider_id
                 KeyType: HASH
               - AttributeName: title
                 KeyType: RANGE

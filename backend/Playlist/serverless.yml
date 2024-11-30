@@ -124,7 +124,7 @@ resources:
           - AttributeName: playlist_id
             KeyType: RANGE
         GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.GSI}
+          - IndexName: ${self:provider.environment.GSI, 'user_id-index_default'}
             KeySchema:
               - AttributeName: user_id
                 KeyType: HASH
@@ -133,7 +133,7 @@ resources:
             Projection:
               ProjectionType: ALL
         LocalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.LSI}
+          - IndexName: ${self:provider.environment.LSI, 'playlist_name-index_default'}
             KeySchema:
               - AttributeName: provider_id
                 KeyType: HASH
