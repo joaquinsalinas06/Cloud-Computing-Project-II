@@ -2,11 +2,11 @@ const AWS = require("aws-sdk");
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = async function (event) {
-  const provider_id = event.path?.provider_id;
-  const post_id = event.path?.post_id;
+  const provider_id = event.path?.provider_id;  
+  const post_id = event.path?.post_id;          
   const token = event.headers?.Authorization;
-  const body =
-    typeof event.body === "string" ? JSON.parse(event.body) : event.body;
+
+  const body = typeof event.body === "string" ? JSON.parse(event.body) : event.body;
   const { titulo, descripcion } = body;
 
   if (!provider_id || !post_id || !token) {
@@ -21,7 +21,7 @@ module.exports.handler = async function (event) {
   const invokeParams = {
     FunctionName: process.env.LAMBDA_FUNCTION_NAME,
     InvocationType: "RequestResponse",
-    Payload: JSON.stringify({ token,provider_id}),
+    Payload: JSON.stringify({ token, provider_id }),
   };
 
   try {
@@ -44,8 +44,19 @@ module.exports.handler = async function (event) {
     };
   }
 
+  const parsedPostId = parseInt(post_id, 10);
+
+  if (isNaN(parsedPostId)) {
+    return {
+      statusCode: 400,
+      headers: { "Content-Type": "application/json" },
+      body: { error: "Invalid post_id format, must be an integer" },
+    };
+  }
+
   let updateExpression = "SET";
   const expressionAttributeValues = {};
+
   if (titulo) {
     updateExpression += " titulo = :titulo,";
     expressionAttributeValues[":titulo"] = titulo;
@@ -67,7 +78,7 @@ module.exports.handler = async function (event) {
 
   const params = {
     TableName: process.env.TABLE_NAME,
-    Key: { provider_id, post_id },
+    Key: { provider_id, post_id: parsedPostId }, 
     UpdateExpression: updateExpression,
     ExpressionAttributeValues: expressionAttributeValues,
     ReturnValues: "ALL_NEW",
