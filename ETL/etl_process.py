@@ -93,6 +93,7 @@ def process_query_file(query_file, table_name):
     """Procesa un archivo de consulta SQL y ejecuta el proceso ETL"""
     with open(query_file, 'r') as file:
         query = file.read().strip()  # Lee el archivo de consulta SQL
+        print(query)
         run_athena_query(table_name,query)
     # transform_and_load_to_mysql(result_location, table_name)
 
