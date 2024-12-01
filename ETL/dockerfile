@@ -14,4 +14,4 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # Define el comando para ejecutar la aplicación (ajusta esto según tu archivo principal)
-CMD ["python", "main.py"]
+CMD ["python", "etl_process.py"]
