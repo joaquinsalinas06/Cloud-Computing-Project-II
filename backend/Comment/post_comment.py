@@ -37,8 +37,8 @@ def lambda_handler(event, context):
 
 
 
-    user_id = event['body']['user_id']
-    post_id = event['body']['post_id']
+    user_id = event['path']['user_id']
+    post_id = event['path']['post_id']
     text = event['body']['text']
     date = event['body']['date']
     nombre_tabla = os.environ["TABLE_NAME"]

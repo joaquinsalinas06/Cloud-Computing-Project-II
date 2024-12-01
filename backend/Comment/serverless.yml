@@ -2,107 +2,107 @@ org: ${env:ORG_NAME}
 service: comment-api
 
 provider:
-  name: aws
-  runtime: python3.12
-  memorySize: 1024
-  timeout: 30
-  iam:
-    role: ${env:LAB_ROLE}
-  environment:
-    TABLE_NAME: ${sls:stage}-t_comment
-    GSI: ${sls:stage}-user_id-date-index
-    LSI: ${sls:stage}-post_id-index
-    LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
+    name: aws
+    runtime: python3.12
+    memorySize: 1024
+    timeout: 30
+    iam:
+        role: ${env:LAB_ROLE}
+    environment:
+        TABLE_NAME: ${sls:stage}-t_comment
+        GSI: ${sls:stage}-user_id-date-index
+        LSI: ${sls:stage}-post_id-index
+        LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
-  #LSI
-  getPostComments:
-    handler: get_comments_post.lambda_handler
-    events:
-      - http:
-          path: /comments/post/{provider_id}/{post_id}
-          method: get
-          cors: true
-          request:
-            parameters:
-              paths:
-                provider_id: true
-                post_id: true
-              querystrings:
-                start_date: false
-                end_date: false
-                page: false
-                pageSize: false
-          integration: lambda
-  #GSI
-  getUserComments:
-    handler: get_comments_user.lambda_handler
-    events:
-      - http:
-          path: /comments/user/{user_id}
-          method: get
-          cors: true
-          request:
-            parameters:
-              paths:
-                user_id: true
-              querystrings:
-                provider_id: true
-                start_date: false
-                end_date: false
-                page: false
-                pageSize: false
-          integration: lambda
+    #LSI
+    getPostComments:
+        handler: get_comments_post.lambda_handler
+        events:
+            - http:
+                  path: /comments/post/{provider_id}/{post_id}
+                  method: get
+                  cors: true
+                  request:
+                      parameters:
+                          paths:
+                              provider_id: true
+                              post_id: true
+                          querystrings:
+                              start_date: false
+                              end_date: false
+                              page: false
+                              pageSize: false
+                  integration: lambda
+    #GSI
+    getUserComments:
+        handler: get_comments_user.lambda_handler
+        events:
+            - http:
+                  path: /comments/user/{user_id}
+                  method: get
+                  cors: true
+                  request:
+                      parameters:
+                          paths:
+                              user_id: true
+                          querystrings:
+                              provider_id: true
+                              start_date: false
+                              end_date: false
+                              page: false
+                              pageSize: false
+                  integration: lambda
 
-  postComment:
-    handler: post_comment.lambda_handler
-    events:
-      - http:
-          path: /comment
-          method: post
-          cors: true
-          integration: lambda
+    postComment:
+        handler: post_comment.lambda_handler
+        events:
+            - http:
+                  path: /comment/{provider_id}/{user_id}/{post_id}
+                  method: post
+                  cors: true
+                  integration: lambda
 
 resources:
-  Resources:
-    TablaComentarios:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${self:provider.environment.TABLE_NAME}
-        BillingMode: PAY_PER_REQUEST
-        AttributeDefinitions:
-          - AttributeName: provider_id
-            AttributeType: S
-          - AttributeName: comment_id
-            AttributeType: N
-          - AttributeName: post_id
-            AttributeType: N
-          - AttributeName: date
-            AttributeType: S
-          - AttributeName: user_id
-            AttributeType: N
-        KeySchema:
-          - AttributeName: provider_id
-            KeyType: HASH
-          - AttributeName: comment_id
-            KeyType: RANGE
-        GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.GSI}
-            KeySchema:
-              - AttributeName: user_id
-                KeyType: HASH
-              - AttributeName: date
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL            
-        LocalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.LSI}
-            KeySchema:
-              - AttributeName: provider_id
-                KeyType: HASH
-              - AttributeName: post_id
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
-        PointInTimeRecoverySpecification:
-          PointInTimeRecoveryEnabled: true
+    Resources:
+        TablaComentarios:
+            Type: AWS::DynamoDB::Table
+            Properties:
+                TableName: ${self:provider.environment.TABLE_NAME}
+                BillingMode: PAY_PER_REQUEST
+                AttributeDefinitions:
+                    - AttributeName: provider_id
+                      AttributeType: S
+                    - AttributeName: comment_id
+                      AttributeType: N
+                    - AttributeName: post_id
+                      AttributeType: N
+                    - AttributeName: date
+                      AttributeType: S
+                    - AttributeName: user_id
+                      AttributeType: N
+                KeySchema:
+                    - AttributeName: provider_id
+                      KeyType: HASH
+                    - AttributeName: comment_id
+                      KeyType: RANGE
+                GlobalSecondaryIndexes:
+                    - IndexName: ${self:provider.environment.GSI}
+                      KeySchema:
+                          - AttributeName: user_id
+                            KeyType: HASH
+                          - AttributeName: date
+                            KeyType: RANGE
+                      Projection:
+                          ProjectionType: ALL
+                LocalSecondaryIndexes:
+                    - IndexName: ${self:provider.environment.LSI}
+                      KeySchema:
+                          - AttributeName: provider_id
+                            KeyType: HASH
+                          - AttributeName: post_id
+                            KeyType: RANGE
+                      Projection:
+                          ProjectionType: ALL
+                PointInTimeRecoverySpecification:
+                    PointInTimeRecoveryEnabled: true
