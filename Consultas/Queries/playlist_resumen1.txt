@@ -8,4 +8,3 @@ JOIN "stage-prod-post" p ON pls.song_id = p.song_id
 GROUP BY p.provider_id, pl.playlist_id
 ORDER BY p.provider_id, total_songs DESC
 LIMIT 3;
-COnsulta para obtener el id de las playlist con mas posts

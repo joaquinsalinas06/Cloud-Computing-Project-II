@@ -5,6 +5,3 @@ FROM "stage-prod-post" p
 JOIN "stage-prod-song" sa ON p.song_id = sa.song_id
 GROUP BY p.provider_id
 ORDER BY p.provider_id;
-
-
-Numero de artistas activos por cada proveedor

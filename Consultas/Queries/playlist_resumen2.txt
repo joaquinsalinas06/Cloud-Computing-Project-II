@@ -33,6 +33,3 @@ JOIN (
 WHERE subquery.post_count = ma.max_posts
 GROUP BY p.provider_id, sa.playlist_id, a.playlist_name
 ORDER BY p.provider_id, total_posts DESC;
-
-
-Top 3 de playlist por proveedor
