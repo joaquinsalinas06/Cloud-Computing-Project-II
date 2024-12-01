@@ -8,7 +8,7 @@ import {
 } from "../types/auth";
 
 const AUTH_URL =
-	"https://epvunn4qt2.execute-api.us-east-1.amazonaws.com/dev/user";
+	"https://cuslthx7xi.execute-api.us-east-1.amazonaws.com/dev/user";
 export const login = async (payload: LoginRequest): Promise<LoginResponse> => {
 	try {
 		const response = await axios.post<LoginResponse>(
@@ -56,6 +56,7 @@ export const logout = async (payload: LogoutRequest): Promise<void> => {
 		await axios.post(`${AUTH_URL}/logout`, payload, {
 			headers: {
 				"Content-Type": "application/json",
+				Authorization: `${localStorage.getItem("token")}`,
 			},
 		});
 		localStorage.removeItem("token");

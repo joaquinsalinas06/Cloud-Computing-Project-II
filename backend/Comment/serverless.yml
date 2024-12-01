@@ -23,16 +23,6 @@ functions:
                   path: /comments/post/{provider_id}/{post_id}
                   method: get
                   cors: true
-                  request:
-                      parameters:
-                          paths:
-                              provider_id: true
-                              post_id: true
-                          querystrings:
-                              start_date: false
-                              end_date: false
-                              page: false
-                              pageSize: false
                   integration: lambda
     #GSI
     getUserComments:
@@ -42,16 +32,6 @@ functions:
                   path: /comments/user/{user_id}
                   method: get
                   cors: true
-                  request:
-                      parameters:
-                          paths:
-                              user_id: true
-                          querystrings:
-                              provider_id: true
-                              start_date: false
-                              end_date: false
-                              page: false
-                              pageSize: false
                   integration: lambda
 
     postComment:

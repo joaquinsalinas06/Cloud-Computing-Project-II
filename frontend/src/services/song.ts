@@ -1,12 +1,13 @@
 import { SongRequest, SongResponse, SongResponseById } from "../types/song";
 
-const SONG_URL = "https://wvar3gnoxd.execute-api.us-east-1.amazonaws.com/dev";
+const SONG_URL =
+	"https://fiab8dw17l.execute-api.us-east-1.amazonaws.com/dev/song";
 
 export const fetchSongs = async (
 	payload: SongRequest
 ): Promise<SongResponse> => {
 	const { provider_id, limit = 10, exclusiveStartKey } = payload;
-	const url = `${SONG_URL}/getAllSongsWP?provider_id=${provider_id}&limit=${limit}&exclusiveStartKey=${encodeURIComponent(
+	const url = `${SONG_URL}/all/${provider_id}?limit=${limit}&exclusiveStartKey=${encodeURIComponent(
 		exclusiveStartKey || ""
 	)}`;
 
@@ -35,7 +36,7 @@ export const fetchSongById = async (
 	provider_id: string,
 	song_id: number
 ): Promise<SongResponseById> => {
-	const url = `${SONG_URL}/getSongById/${provider_id}/${song_id}`;
+	const url = `${SONG_URL}/${provider_id}/${song_id}`;
 
 	try {
 		const response = await fetch(url, {

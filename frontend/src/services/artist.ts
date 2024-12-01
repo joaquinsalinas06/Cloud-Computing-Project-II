@@ -2,14 +2,14 @@ import { ArtistRequest, ArtistResponse } from "../types/artist";
 import { ArtistRequestById, ArtistResponseById } from "../types/artist";
 
 const ARTIST_URL =
-	"https://3rof6mhp8i.execute-api.us-east-1.amazonaws.com/dev/artist";
+	"https://971xf1qare.execute-api.us-east-1.amazonaws.com/dev/artist";
 
 export const fetchArtists = async (
 	payload: ArtistRequest
 ): Promise<ArtistResponse> => {
 	const { provider_id, limit = 12, exclusiveStartKey } = payload;
 	console.log("fetchArtists", payload);
-	const url = `${ARTIST_URL}/all?provider_id=${provider_id}&limit=${limit}&exclusiveStartKey=${encodeURIComponent(
+	const url = `${ARTIST_URL}/all/${provider_id}?limit=${limit}&exclusiveStartKey=${encodeURIComponent(
 		exclusiveStartKey || ""
 	)}`;
 
@@ -25,8 +25,9 @@ export const fetchArtists = async (
 		if (!response.ok) {
 			throw new Error("Failed to fetch artists");
 		}
-
+		console.log(0);
 		const data: ArtistResponse = await response.json();
+		console.log(1);
 		console.log("fetchArtists", data);
 		return data;
 	} catch (error) {

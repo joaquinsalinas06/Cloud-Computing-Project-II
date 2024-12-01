@@ -1,12 +1,13 @@
 import { AlbumRequest, AlbumResponse, AlbumResponseById } from "../types/album";
 
-const ALBUM_URL = "https://m6qqun1o0k.execute-api.us-east-1.amazonaws.com/dev";
+const ALBUM_URL =
+	"https://nps8oelit3.execute-api.us-east-1.amazonaws.com/dev/album";
 
 export const fetchAlbums = async (
 	payload: AlbumRequest
 ): Promise<AlbumResponse> => {
 	const { provider_id, limit = 12, exclusiveStartKey } = payload;
-	const url = `${ALBUM_URL}/getAllAlbumsWP?provider_id=${provider_id}&limit=${limit}&exclusiveStartKey=${encodeURIComponent(
+	const url = `${ALBUM_URL}/all/${provider_id}?limit=${limit}&exclusiveStartKey=${encodeURIComponent(
 		exclusiveStartKey || ""
 	)}`;
 
@@ -35,7 +36,7 @@ export const fetchAlbumById = async (
 	provider_id: string,
 	album_id: number
 ): Promise<AlbumResponseById> => {
-	const url = `${ALBUM_URL}/getAlbumById/${provider_id}/${album_id}`;
+	const url = `${ALBUM_URL}/${provider_id}/${album_id}`;
 
 	try {
 		const response = await fetch(url, {

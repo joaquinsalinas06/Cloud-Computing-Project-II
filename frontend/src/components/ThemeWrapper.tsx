@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../services/auth";
 import ProviderContext from "../contexts/ProviderContext";
@@ -13,6 +13,10 @@ const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ children }) => {
 	const { user_id } = useContext(UserContext)!;
 
 	const navigate = useNavigate();
+
+	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
+		!!localStorage.getItem("token")
+	);
 
 	const handleAlbumPage = () => {
 		navigate("/albums");
@@ -36,10 +40,14 @@ const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ children }) => {
 			user_id,
 		};
 		logout(payload);
+		setIsAuthenticated(false);
 		navigate("/login");
 	};
 
-	const tokenExists = !!localStorage.getItem("token");
+	useEffect(() => {
+		// Verificar si el token existe al cargar el componente
+		setIsAuthenticated(!!localStorage.getItem("token"));
+	}, []);
 
 	return (
 		<div
@@ -100,13 +108,15 @@ const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ children }) => {
 				>
 					{theme.name}
 				</button>
-				<button
-					onClick={handleProfilePage}
-					style={{ position: "absolute", right: "8.5rem" }}
-				>
-					Profile
-				</button>
-				{tokenExists && (
+				{isAuthenticated && (
+					<button
+						onClick={handleProfilePage}
+						style={{ position: "absolute", right: "8.5rem" }}
+					>
+						Profile
+					</button>
+				)}
+				{isAuthenticated && (
 					<button
 						onClick={handleLogout}
 						style={{

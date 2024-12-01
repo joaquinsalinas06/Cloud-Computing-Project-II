@@ -7,7 +7,7 @@ const TABLE_NAME = process.env.TABLE_NAME;
 export async function handler(event) {
   const { updateData } = JSON.parse(event.body);
   const provider_id = event.path?.provider_id;
-  const artistId = event.path?.artistId;
+  const artist_id = event.path?.artist_id;
   const token = event.headers?.Authorization;
 
   if (!token) {
@@ -74,7 +74,7 @@ export async function handler(event) {
 
   const params = {
     TableName: TABLE_NAME,
-    Key: { provider_id, artistId },
+    Key: { provider_id, artist_id },
     UpdateExpression: `SET ${updateExpression}`,
     ExpressionAttributeNames: expressionAttributeNames,
     ExpressionAttributeValues: expressionAttributeValues,
@@ -89,7 +89,7 @@ export async function handler(event) {
       },
       body: {
         message: "Artista actualizado con éxito",
-        artistId,
+        artist_id,
         updateData,
       },
     };
