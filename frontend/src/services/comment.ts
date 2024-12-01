@@ -1,7 +1,7 @@
 import { CommentRequest, CommentResponse } from "../types/comment";
 
 const COMMENT_URL =
-	"https://uaoo9t2yrc.execute-api.us-east-1.amazonaws.com/dev/comments";
+	"https://99xdh4cl89.execute-api.us-east-1.amazonaws.com/dev/comments";
 
 export const fetchComments = async (
 	payload: CommentRequest
