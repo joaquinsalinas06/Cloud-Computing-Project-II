@@ -7,6 +7,7 @@ const GSI_NAME = process.env.GSI;
 
 export const handler = async (event) => {
   const user_id = event.path?.user_id;
+  const provider_id = event.path?.provider_id;
   const start_created_at = event.query?.start_created_at;
   const end_created_at = event.query?.end_created_at;
   const limit = event.query?.limit || 10;
@@ -15,7 +16,6 @@ export const handler = async (event) => {
     : null;
 
   const token = event.headers?.Authorization;
-  const provider_id = event.body?.provider_id;
 
   if (!token) {
     return {

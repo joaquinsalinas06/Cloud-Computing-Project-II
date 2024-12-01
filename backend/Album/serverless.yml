@@ -38,7 +38,7 @@ functions:
         handler: handler/getAlbumsByArtistId_ReleaseDate.handler
         events:
             - http:
-                  path: /album/by-artist-release-date/{artist_id}
+                  path: /album/by-artist-release-date/{provider_id}/artist_id}
                   method: get
                   cors: true
                   integration: lambda
@@ -65,7 +65,7 @@ functions:
         handler: handler/createAlbums.handler
         events:
             - http:
-                  path: /albums/create
+                  path: /albums/create/{provider_id}
                   method: post
                   cors: true
                   integration: lambda

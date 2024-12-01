@@ -6,7 +6,7 @@ const GSI_NAME = process.env.GSI;
 
 export default async function handler(event) {
   const artist_id = event.path?.artist_id;
-  const provider_id = event.body?.provider_id;
+  const provider_id = event.path?.provider_id;
   const start_date = event.query?.start_date;
   const end_date = event.query?.end_date;
   const limit = parseInt(event.query?.limit, 10) || 10;

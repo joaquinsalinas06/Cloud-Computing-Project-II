@@ -14,7 +14,7 @@ export async function handler(event) {
     ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
     : null;
   const token = event.headers?.Authorization;
-  const provider_id = event.body?.provider_id;
+  const provider_id = event.path?.provider_id;
 
   if (!token) {
     return {
