@@ -49,7 +49,6 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
                     item.get('created_at', ''),
                     item.get('playlist_name', '')
                 ]
-                escritor_csv_playlist.writerow(row_playlist)
 
                 if 'song_ids' in item: 
                     for song in item['song_ids']:
@@ -66,6 +65,8 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
                             provider_id
                         ]
                         escritor_csv_playlist_song.writerow(row_playlist_song)
+                
+                escritor_csv_playlist.writerow(row_playlist)
 
             if 'LastEvaluatedKey' in respuesta:
                 scan_kwargs['ExclusiveStartKey'] = respuesta['LastEvaluatedKey']
