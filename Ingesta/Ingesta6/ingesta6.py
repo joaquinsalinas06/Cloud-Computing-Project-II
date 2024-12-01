@@ -2,6 +2,27 @@ import boto3
 import csv
 import os
 import time
+from loguru import logger
+
+# Variables de entorno o valores por defecto
+nombre_contenedor = os.getenv("CONTAINER_NAME", "contenedor_default")
+log_directory = "/mnt/logs"  # Directorio compartido para logs
+
+# Configuración de logs
+if not os.path.exists(log_directory):
+    os.makedirs(log_directory)
+
+log_file = f"{log_directory}/{nombre_contenedor}.log"
+logger.add(
+    log_file,
+    format="{time:YYYY-MM-DD HH:mm:ss.SSS} | {level} | {extra[container]} | {message}",
+    level="INFO",
+    rotation="10 MB",
+    retention="7 days",
+    serialize=False,
+    enqueue=True,
+)
+logger = logger.bind(container=nombre_contenedor)
 
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')  
 s3 = boto3.client('s3', region_name='us-east-1')
@@ -14,7 +35,7 @@ glue_database = 'stage-prod'
 glue_table_name = 'stage-prod-song'
 
 def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
-    print(f"Exportando datos desde DynamoDB ({tabla_dynamo})...")
+    logger.info(f"Exportando datos desde DynamoDB ({tabla_dynamo})...")
     tabla = dynamodb.Table(tabla_dynamo)
     scan_kwargs = {}
     
@@ -71,43 +92,43 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
             else:
                 break
                 
-    print(f"Datos exportados a {archivo_csv}")
+    logger.info(f"Datos exportados a {archivo_csv}")
 
 def subir_csv_a_s3(archivo_csv, nombre_bucket):
     carpeta_destino = 'songs/'  
     archivo_s3 = f"{carpeta_destino}{archivo_csv}" 
-    print(f"Subiendo {archivo_csv} al bucket S3 ({nombre_bucket}) en la carpeta 'song'...")
+    logger.info(f"Subiendo {archivo_csv} al bucket S3 ({nombre_bucket}) en la carpeta 'song'...")
     
     try:
         s3.upload_file(archivo_csv, nombre_bucket, archivo_s3)
-        print(f"Archivo subido exitosamente a S3 en la carpeta 'song'.")
+        logger.info(f"Archivo subido exitosamente a S3 en la carpeta 'song'.")
         return True
     except Exception as e:
-        print(f"Error al subir el archivo a S3: {e}")
+        logger.error(f"Error al subir el archivo a S3: {e}")
         return False
 
 def crear_base_de_datos_en_glue(glue_database):
     """Crear base de datos en Glue si no existe."""
     try:
         glue.get_database(Name=glue_database)  
-        print(f"La base de datos {glue_database} ya existe.")
+        logger.info(f"La base de datos {glue_database} ya existe.")
     except glue.exceptions.EntityNotFoundException:
-        print(f"La base de datos {glue_database} no existe. Creando base de datos...")
+        logger.info(f"La base de datos {glue_database} no existe. Creando base de datos...")
         glue.create_database(
             DatabaseInput={
                 'Name': glue_database,
                 'Description': 'Base de datos para almacenamiento de posts en Glue.'
             }
         )
-        print(f"Base de datos {glue_database} creada exitosamente.")
+        logger.info(f"Base de datos {glue_database} creada exitosamente.")
     except Exception as e:
-        print(f"Error al verificar o crear la base de datos en Glue: {e}")
+        logger.error(f"Error al verificar o crear la base de datos en Glue: {e}")
         return False
     return True
 
 def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archivo_csv):
     """Registrar datos en Glue Data Catalog."""
-    print(f"Registrando datos en Glue Data Catalog...")
+    logger.info(f"Registrando datos en Glue Data Catalog...")
     input_path = f"s3://{nombre_bucket}/songs/"
     
     try:
@@ -129,7 +150,6 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
                         {'Name': 'song_url', 'Type': 'string'},
                         {'Name': 'times_played', 'Type': 'bigint'},
                         {'Name': 'title', 'Type': 'string'},
-
                     ],
                     'Location': input_path,
                     'InputFormat': 'org.apache.hadoop.mapred.TextInputFormat',
@@ -144,9 +164,9 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
                 'Parameters': {'classification': 'csv'}
             }
         )
-        print(f"Tabla {glue_table_name} registrada exitosamente en la base de datos {glue_database}.")
+        logger.info(f"Tabla {glue_table_name} registrada exitosamente en la base de datos {glue_database}.")
     except Exception as e:
-        print(f"Error al registrar la tabla en Glue: {e}")
+        logger.error(f"Error al registrar la tabla en Glue: {e}")
 
 if __name__ == "__main__":
     if crear_base_de_datos_en_glue(glue_database):
@@ -155,8 +175,8 @@ if __name__ == "__main__":
         if subir_csv_a_s3(archivo_csv, nombre_bucket):
             registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archivo_csv)
         else:
-            print("No se pudo completar el proceso porque hubo un error al subir el archivo a S3.")
+            logger.error("No se pudo completar el proceso porque hubo un error al subir el archivo a S3.")
     else:
-        print("Error en la creación de la base de datos Glue. No se continuará con el proceso.")
+        logger.error("Error en la creación de la base de datos Glue. No se continuará con el proceso.")
     
-    print("Proceso completado.")
+    logger.info("Proceso completado.")
