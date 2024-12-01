@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
 		const payload = {
 			provider_id: provider,
 			page,
-			limit: 6,
+			limit: 3,
 		};
 
 		try {

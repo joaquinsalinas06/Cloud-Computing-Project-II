@@ -7,7 +7,7 @@ const ARTIST_URL =
 export const fetchArtists = async (
 	payload: ArtistRequest
 ): Promise<ArtistResponse> => {
-	const { provider_id, limit = 6, exclusiveStartKey } = payload;
+	const { provider_id, limit = 3, exclusiveStartKey } = payload;
 	const url = `${ARTIST_URL}/all/${provider_id}?limit=${limit}&exclusiveStartKey=${encodeURIComponent(
 		exclusiveStartKey || ""
 	)}`;

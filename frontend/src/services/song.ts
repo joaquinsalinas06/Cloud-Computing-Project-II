@@ -1,7 +1,7 @@
 import { SongRequest, SongResponse, SongResponseById } from "../types/song";
 
 const SONG_URL =
-	"https://d9dh949922.execute-api.us-east-1.amazonaws.com/dev/song";
+	"https://7440mee5cd.execute-api.us-east-1.amazonaws.com/dev/song";
 
 export const fetchSongs = async (
 	payload: SongRequest

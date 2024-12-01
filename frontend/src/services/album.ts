@@ -6,7 +6,7 @@ const ALBUM_URL =
 export const fetchAlbums = async (
 	payload: AlbumRequest
 ): Promise<AlbumResponse> => {
-	const { provider_id, limit = 6, exclusiveStartKey } = payload;
+	const { provider_id, limit = 3, exclusiveStartKey } = payload;
 	const url = `${ALBUM_URL}/all/${provider_id}?limit=${limit}&exclusiveStartKey=${encodeURIComponent(
 		exclusiveStartKey || ""
 	)}`;
