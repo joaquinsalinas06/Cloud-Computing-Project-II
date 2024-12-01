@@ -4,13 +4,15 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 module.exports.handler = async function (event) {
   const body =
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
-  const { provider_id, user_id, song_id, album_id, description } = body;
   const token = event.headers?.Authorization;
+
+  const provider_id = event.path?.provider_id;
+  const user_id = event.path?.user_id;
 
   if (!provider_id || !user_id || !token) {
     return {
       statusCode: 400,
-      body: { error: "Missing parameters or token" },
+      body: JSON.stringify({ error: "Missing parameters or token" }),
     };
   }
 
@@ -33,10 +35,10 @@ module.exports.handler = async function (event) {
   } catch (error) {
     return {
       statusCode: 500,
-      message: {
+      body: JSON.stringify({
         error: "Error querying highest post_id",
         details: error.message,
-      },
+      }),
     };
   }
 
@@ -44,28 +46,30 @@ module.exports.handler = async function (event) {
   const invokeParams = {
     FunctionName: process.env.LAMBDA_FUNCTION_NAME,
     InvocationType: "RequestResponse",
-    Payload: JSON.stringify({ token,provider_id}),
+    Payload: JSON.stringify({ token, provider_id }),
   };
 
   try {
     const invokeResponse = await lambda.invoke(invokeParams).promise();
     const responsePayload = JSON.parse(invokeResponse.Payload);
 
-    console.log("Response Payload:", responsePayload);
-
     if (!responsePayload.statusCode || responsePayload.statusCode !== 200) {
       const errorMessage = responsePayload.body?.error || "Unknown error";
       return {
         statusCode: 401,
-        body: { error: "Unauthorized", message: errorMessage },
+        body: JSON.stringify({ error: "Unauthorized", message: errorMessage }),
       };
     }
   } catch (error) {
     return {
       statusCode: 500,
-      body: { error: "Authorization check failed", details: error.message },
+      body: JSON.stringify({
+        error: "Authorization check failed",
+        details: error.message,
+      }),
     };
   }
+
   function getFormattedDate() {
     const date = new Date();
     const year = date.getFullYear();
@@ -79,29 +83,32 @@ module.exports.handler = async function (event) {
   }
 
   const post_id = highestPostId + 1;
+  const item = {
+    provider_id,
+    user_id,
+    post_id,
+    ...body,
+    created_at: getFormattedDate(),
+  };
+
   const params = {
     TableName: process.env.TABLE_NAME,
-    Item: {
-      provider_id,
-      post_id,
-      user_id,
-      song_id,
-      album_id,
-      description,
-      created_at: getFormattedDate(),
-    },
+    Item: item,
   };
 
   try {
     await dynamoDb.put(params).promise();
     return {
       statusCode: 201,
-      body: { message: "Post created successfully", post_id },
+      body: JSON.stringify({ message: "Post created successfully", post_id }),
     };
   } catch (error) {
     return {
       statusCode: 500,
-      body: { error: "Could not create post", details: error.message },
+      body: JSON.stringify({
+        error: "Could not create post",
+        details: error.message,
+      }),
     };
   }
 };

@@ -32,9 +32,10 @@ export const fetchSongs = async (
 };
 
 export const fetchSongById = async (
-	song_id: string
+	provider_id: string,
+	song_id: number
 ): Promise<SongResponseById> => {
-	const url = `${SONG_URL}/getSong/${song_id}`;
+	const url = `${SONG_URL}/getSongById/${provider_id}/${song_id}`;
 
 	try {
 		const response = await fetch(url, {

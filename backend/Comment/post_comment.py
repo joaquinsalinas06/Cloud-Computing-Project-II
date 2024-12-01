@@ -10,9 +10,14 @@ def lambda_handler(event, context):
 
     token = event['headers']['Authorization']
     token_function = os.environ['LAMBDA_FUNCTION_NAME']        
+
+    provider_id = event['path']['provider_id']
     
     lambda_client = boto3.client('lambda')
-    payload = '{ "token": "' + token +  '" }'
+    payload = json.dumps({
+            'token': token,
+            'provider_id': provider_id
+        })    
     
     invoke_response = lambda_client.invoke(
         FunctionName=token_function,
@@ -32,7 +37,6 @@ def lambda_handler(event, context):
 
 
 
-    provider_id = event['body']['provider_id']
     user_id = event['body']['user_id']
     post_id = event['body']['post_id']
     text = event['body']['text']

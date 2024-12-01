@@ -14,7 +14,10 @@ def lambda_handler(event, context):
                 'body': json.dumps({'error': 'Missing playlist_id parameter'})
             }
 
-        payload = '{ "token": "' + token +  '" }'        
+        payload = json.dumps({
+            'token': token,
+            'provider_id': provider_id
+        })        
         lambda_client = boto3.client('lambda')
         token_function = os.environ['LAMBDA_FUNCTION_NAME']
 

@@ -1,5 +1,5 @@
 import AWS from "aws-sdk";
-
+// TODO: SECURITY 
 const { DynamoDB } = AWS;
 const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
