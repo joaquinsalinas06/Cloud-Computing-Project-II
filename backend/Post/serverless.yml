@@ -16,7 +16,7 @@ provider:
 
 functions:
   getPost:
-    handler: Handler/getPost.handler
+    handler: Handler/getpost.handler
     events:
       - http:
           path: /post/{provider_id}/{post_id}
@@ -63,7 +63,7 @@ functions:
                 limit: true
   #GSI
   getPostsByUserIdBetweenCreatedAt:
-    handler: Handler/getPostByUserIdBetweenCreatedAt.handler
+    handler: Handler/getPostsByUserIdBetweenCreatedAt.handler
     events:
       - http:
           path: /post/by-user/{user_id}/between-created-at
@@ -81,7 +81,7 @@ functions:
                 exclusiveStartKey: true
 
   createPost:
-    handler: Handler/createPost.handler
+    handler: Handler/createpost.handler
     events:
       - http:
           path: /post/create
@@ -90,7 +90,7 @@ functions:
           integration: lambda
 
   updatePost:
-    handler: Handler/updatePost.handler
+    handler: Handler/updatepost.handler
     events:
       - http:
           path: /post/update/{provider_id}/{post_id}
@@ -104,7 +104,7 @@ functions:
                 post_id: true
 
   deletePost:
-    handler: Handler/deletePost.handler
+    handler: Handler/deletepost.handler
     events:
       - http:
           path: /post/delete/{provider_id}/{post_id}
