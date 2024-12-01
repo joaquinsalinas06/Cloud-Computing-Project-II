@@ -15,7 +15,10 @@ def lambda_handler(event, context):
                 'body': {'error': 'Missing parameters or token'}
             }
 
-        payload = '{ "token": "' + token +  '" }'        
+        payload = json.dumps({
+            'token': token,
+            'provider_id': provider_id
+        })        
         lambda_client = boto3.client('lambda')
         token_function = os.environ['AUTHORIZER_FUNCTION_NAME']
         invoke_response = lambda_client.invoke(
@@ -61,8 +64,9 @@ def lambda_handler(event, context):
         token_index_name = os.environ['LSI2']
         
         token_response = token_table.query(
-            IndexName=token_index_name,
-            KeyConditionExpression=boto3.dynamodb.conditions.Key('token').eq(token)
+            IndexName=token_index_name, 
+            KeyConditionExpression=boto3.dynamodb.conditions.Key('provider_id').eq(provider_id) & 
+                                   boto3.dynamodb.conditions.Key('token').eq(token)  
         )
         
         if 'Items' in token_response:
@@ -70,18 +74,18 @@ def lambda_handler(event, context):
                 token_table.delete_item(
                     Key={
                         'provider_id': item['provider_id'],  
-                        'email': item['email']  
+                        'user_id': item['user_id']  
                     }
                 )
         
         return {
             'statusCode': 200,
-            'body': json.dumps({'message': 'User and associated tokens deleted'})
+            'body': {'message': 'User and associated tokens deleted'}
         }
     
     except Exception as e:
         print(f"Exception: {str(e)}")
         return {
             'statusCode': 500,
-            'body': json.dumps({'error': f"Internal server error: {str(e)}"})
+            'body': {'error': f"Internal server error: {str(e)}"}
         }
