@@ -159,3 +159,6 @@ resources:
               ProjectionType: ALL
         PointInTimeRecoverySpecification:
           PointInTimeRecoveryEnabled: true
+package:
+  exclude:
+    - node_modules/aws-sdk
