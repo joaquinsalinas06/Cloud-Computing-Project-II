@@ -7,8 +7,12 @@ def lambda_handler(event, context):
     provider_id = event['path']['provider_id']
     token = event['headers']['Authorization']
     user_id = int(user_id)
+    
     lambda_client = boto3.client('lambda')
-    payload = '{ "token": "' + token +  '" }'
+    payload = json.dumps({
+        'token': token,
+        'provider_id': provider_id
+    })
     token_function = os.environ['AUTHORIZER_FUNCTION_NAME']
 
     invoke_response = lambda_client.invoke(
@@ -47,12 +51,11 @@ def lambda_handler(event, context):
         if isinstance(body_content, str):
             body_content = json.loads(body_content)
         
-        datos = body_content.get('data')
-        if datos:
+        if body_content:
             update_expression = "SET "
             expression_attribute_values = {}
             
-            for key, value in datos.items():
+            for key, value in body_content.items():
                 update_expression += f"{key} = :{key}, "
                 expression_attribute_values[f":{key}"] = value
             
@@ -66,14 +69,34 @@ def lambda_handler(event, context):
                 UpdateExpression=update_expression,
                 ExpressionAttributeValues=expression_attribute_values
             )
-            return {
-                'statusCode': 200,
-                'body': {'message': 'User updated'}
-            }
+            
+            updated_user = table.get_item(
+                Key={
+                    'provider_id': provider_id,
+                    'user_id': user_id
+                }
+            ).get('Item', {})
+            
+            if updated_user:
+                if 'password' in updated_user:
+                    del updated_user['password']
+                
+                return {
+                    'statusCode': 200,
+                    'body': {
+                        'message': 'User updated',
+                        'updated_user': updated_user
+                    }
+                }
+            else:
+                return {
+                    'statusCode': 404,
+                    'body': {'error': 'User not found after update'}
+                }
         else:
             return {
                 'statusCode': 400,
-                'body': {'error': 'Data not provided'}
+                'body': {'error': 'No data provided for update'}
             }
     else:
         return {
