@@ -5,7 +5,7 @@ from loguru import logger
 
 # Variables de entorno o valores por defecto
 nombre_contenedor = os.getenv("CONTAINER_NAME", "contenedor_default")
-log_directory = "/mnt/logs"  # Directorio compartido para logs
+log_directory = "./logs"  # Directorio compartido para logs
 
 # Configuración de logs
 if not os.path.exists(log_directory):
