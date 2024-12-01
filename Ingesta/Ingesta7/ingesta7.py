@@ -49,7 +49,7 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_album, archivo_csv_song):
             song_ids = item.get('song_ids', [])
             if isinstance(song_ids, str):
                 song_ids = song_ids.strip("{}").split(",")  
-            song_ids = [int(id.strip()) for id in song_ids]
+            song_ids = [int(id) for id in song_ids] 
             
             album_row = [
                 item.get('provider_id', ''),
