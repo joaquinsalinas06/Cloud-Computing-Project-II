@@ -117,7 +117,7 @@ def insert_summary_table(table_name,query, execution_time, num_records, results,
 
 def etl_process():
     """Proceso ETL que maneja múltiples archivos de consultas"""
-    query_dir = './Consultas/Queries'  # Directorio que contiene las consultas SQL
+    query_dir = '../Consultas/Queries'  # Directorio que contiene las consultas SQL
 
     # Itera sobre los archivos de consultas en el directorio
     for i, query_file in enumerate(os.listdir(query_dir)):
