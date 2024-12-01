@@ -29,7 +29,7 @@ s3 = boto3.client('s3', region_name='us-east-1')
 glue = boto3.client('glue', region_name='us-east-1')
 
 tabla_dynamo = 'dev-t_artist' 
-nombre_bucket = 'ingesta-stage-prod'  
+nombre_bucket = 'f-l-t-1-2-3'  
 archivo_csv = 'stage-prod-artist.csv'
 glue_database = 'stage-prod'  
 glue_table_name = 'stage-prod-artist'

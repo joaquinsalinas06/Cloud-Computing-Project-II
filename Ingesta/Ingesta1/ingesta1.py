@@ -30,7 +30,7 @@ glue = boto3.client('glue')
 
 # Constantes
 tabla_dynamo = 'dev-t_user'
-nombre_bucket = 'ingesta-stage-prod'
+nombre_bucket = 'f-l-t-1-2-3'  
 archivo_csv = 'stage-prod-usuarios.csv'
 glue_database = 'stage-prod'
 glue_table_name = 'stage-prod-usuarios'

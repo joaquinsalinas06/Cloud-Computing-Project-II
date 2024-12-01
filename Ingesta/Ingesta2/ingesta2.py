@@ -11,7 +11,7 @@ glue = boto3.client('glue', region_name='us-east-1')
 
 # Parámetros de configuración
 tabla_dynamo = 'dev-t_post' 
-nombre_bucket = 'ingesta-stage-prod'  
+nombre_bucket = 'f-l-t-1-2-3'  
 archivo_csv = 'stage-prod-post.csv'
 glue_database = 'stage-prod'  
 glue_table_name = 'stage-prod-post'
