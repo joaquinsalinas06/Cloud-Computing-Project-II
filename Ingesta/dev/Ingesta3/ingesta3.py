@@ -24,54 +24,53 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
         escritor_csv_playlist = csv.writer(archivo_playlist)
         escritor_csv_playlist_song = csv.writer(archivo_playlist_song)
 
-        while True:
-            respuesta = tabla.scan(**scan_kwargs)
-            items = respuesta['Items']
 
-            if not items:
-                break
+        tabla = dynamodb.Table(tabla_dynamo)  # Asegúrate de tener la tabla de DynamoDB ya configurada
+        scan_kwargs = {}
+        respuesta = tabla.scan(**scan_kwargs)
 
-            for item in items:
-                try:
-                    user_id = int(item.get('user_id', 0))
-                except ValueError:
-                    user_id = 0
-                
-                try:
-                    playlist_id = int(item.get('playlist_id', 0))
-                except ValueError:
-                    playlist_id = 0
+        with open(archivo_csv_playlist, 'r') as archivo_existente:
+            existing_lines = len(archivo_existente.readlines())
 
-                row_playlist = [
-                    item.get('provider_id', ''),
-                    playlist_id,
-                    user_id,
-                    item.get('created_at', ''),
-                    item.get('playlist_name', '')
-                ]
+        for idx, item in enumerate(respuesta['Items']):
+            if idx >= existing_lines:
+                break  
 
-                if 'song_ids' in item: 
-                    for song in item['song_ids']:
-                        try:
-                            song_id = int(song) 
-                        except ValueError:
-                            song_id = 0
+            try:
+                user_id = int(item.get('user_id', 0))
+            except ValueError:
+                user_id = 0
 
-                        provider_id = item.get('provider_id', '') 
+            try:
+                playlist_id = int(item.get('playlist_id', 0))
+            except ValueError:
+                playlist_id = 0
 
-                        row_playlist_song = [
-                            playlist_id,
-                            song_id,
-                            provider_id
-                        ]
-                        escritor_csv_playlist_song.writerow(row_playlist_song)
-                
-                escritor_csv_playlist.writerow(row_playlist)
+            row_playlist = [
+                item.get('provider_id', ''),
+                playlist_id,
+                user_id,
+                item.get('created_at', ''),
+                item.get('playlist_name', '')
+            ]
 
-            if 'LastEvaluatedKey' in respuesta:
-                scan_kwargs['ExclusiveStartKey'] = respuesta['LastEvaluatedKey']
-            else:
-                break
+            if 'song_ids' in item:
+                for song in item['song_ids']:
+                    try:
+                        song_id = int(song)
+                    except ValueError:
+                        song_id = 0
+
+                    provider_id = item.get('provider_id', '')
+
+                    row_playlist_song = [
+                        playlist_id,
+                        song_id,
+                        provider_id
+                    ]
+                    escritor_csv_playlist_song.writerow(row_playlist_song)
+
+            escritor_csv_playlist.writerow(row_playlist)
 
     print(f"Datos exportados a {archivo_csv_playlist} y {archivo_csv_playlist_song}")
 
