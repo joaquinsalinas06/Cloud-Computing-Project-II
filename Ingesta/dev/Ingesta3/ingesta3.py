@@ -14,12 +14,12 @@ archivo_csv_playlist_song = 'stage-prod-playlist-song.csv'
 glue_database = 'stage-prod'  
 glue_table_playlist = 'stage-prod-playlist'  
 glue_table_playlist_song = 'stage-prod-playlist-song'  # Tabla en Glue para canciones relacionadas con las playlists
-import csv
-import boto3
+
 
 def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_playlist_song):
     print(f"Exportando datos desde DynamoDB ({tabla_dynamo})...")
-    tabla = boto3.resource('dynamodb').Table(tabla_dynamo)
+    tabla = dynamodb.Table(tabla_dynamo)
+    
     scan_kwargs = {}
 
     with open(archivo_csv_playlist, 'w', newline='') as archivo_playlist, open(archivo_csv_playlist_song, 'w', newline='') as archivo_playlist_song:
@@ -63,7 +63,7 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
                         playlist_id = int(item.get('playlist_id', 0))
                     except ValueError:
                         playlist_id = 0
-                        
+
                     for song in item['song_ids']:
                         try:
                             song_id = int(song)  
