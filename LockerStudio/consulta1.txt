@@ -1,0 +1,5 @@
+SELECT provider_id, COUNT(*) AS total_usuarios, MIN(created_at) AS fecha_creacion_minima, MAX(created_at) AS fecha_creacion_maxima
+FROM "stage-prod-usuarios"
+GROUP BY provider_id;
+
+Consult para obtener la cantidad de usuarios por cada provider
