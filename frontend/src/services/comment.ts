@@ -1,13 +1,13 @@
 import { CommentRequest, CommentResponse } from "../types/comment";
 
 const COMMENT_URL =
-	"https://tkfim4n5z7.execute-api.us-east-1.amazonaws.com/dev/comments";
+	"https://uaoo9t2yrc.execute-api.us-east-1.amazonaws.com/dev/comments";
 
 export const fetchComments = async (
 	payload: CommentRequest
 ): Promise<CommentResponse> => {
 	const { provider_id, post_id, page = 1, pageSize = 10 } = payload;
-	console.log("Fetching comments for post:", post_id);
+	console.log("Fetching comments for post:", payload);
 	const url = `${COMMENT_URL}/post/${provider_id}/${post_id}?page=${page}&pageSize=${pageSize}`;
 
 	try {
@@ -18,6 +18,7 @@ export const fetchComments = async (
 				Authorization: `${localStorage.getItem("token")}`,
 			},
 		});
+		console.log("Response:", response);
 
 		if (!response.ok) {
 			throw new Error("Failed to fetch comments");
