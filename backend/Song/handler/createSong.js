@@ -83,6 +83,7 @@ export async function handler(event) {
   }
 
   song.song_id = highestSongId + 1;
+  song.provider_id = provider_id;
 
   const params = {
     TableName: TABLE_NAME,

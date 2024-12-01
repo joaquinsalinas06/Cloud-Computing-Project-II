@@ -2,7 +2,7 @@ import { ArtistRequest, ArtistResponse } from "../types/artist";
 import { ArtistRequestById, ArtistResponseById } from "../types/artist";
 
 const ARTIST_URL =
-	"https://f5ta3qzwfi.execute-api.us-east-1.amazonaws.com/dev/artist";
+	"https://955zf97jgl.execute-api.us-east-1.amazonaws.com/dev/artist";
 
 export const fetchArtists = async (
 	payload: ArtistRequest
