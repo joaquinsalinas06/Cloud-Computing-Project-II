@@ -7,30 +7,28 @@ dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 s3 = boto3.client('s3', region_name='us-east-1')
 glue = boto3.client('glue', region_name='us-east-1')
 
-tabla_dynamo = 'dev-t_playlist'  
+tabla_dynamo = 'dev-t_playlist'  # Tabla que almacena playlists y posiblemente canciones
 nombre_bucket = 'ingesta-stage-prod'  
 archivo_csv_playlist = 'stage-prod-playlist.csv'  
 archivo_csv_playlist_song = 'stage-prod-playlist-song.csv'  
 glue_database = 'stage-prod'  
 glue_table_playlist = 'stage-prod-playlist'  
-glue_table_playlist_song = 'stage-prod-playlist-song'  
-
-valid_providers = ['Apple', 'Spotify', 'YouTube Music']
+glue_table_playlist_song = 'stage-prod-playlist-song'  # Tabla en Glue para canciones relacionadas con las playlists
 
 def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_playlist_song):
     print(f"Exportando datos desde DynamoDB ({tabla_dynamo})...")
     tabla = dynamodb.Table(tabla_dynamo)
     scan_kwargs = {}
 
-    playlists = []
-    playlist_song_relations = []
-
-    playlist_ids_set = set()  
-    song_ids_set = set()      
-
     with open(archivo_csv_playlist, 'w', newline='') as archivo_playlist, open(archivo_csv_playlist_song, 'w', newline='') as archivo_playlist_song:
         escritor_csv_playlist = csv.writer(archivo_playlist)
         escritor_csv_playlist_song = csv.writer(archivo_playlist_song)
+
+        # Escribimos encabezados en el archivo CSV de playlists
+        escritor_csv_playlist.writerow(['provider_id', 'playlist_id', 'user_id', 'created_at', 'playlist_name'])
+
+        # Escribimos encabezados en el archivo CSV de canciones de playlist
+        escritor_csv_playlist_song.writerow(['playlist_id', 'song_id', 'provider_id'])
 
         while True:
             respuesta = tabla.scan(**scan_kwargs)
@@ -40,36 +38,45 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
                 break
 
             for item in items:
-                playlist_id = item.get('playlist_id', 0)
-                provider_id = item.get('provider_id', '')
-                created_at = item.get('created_at', '')
-                playlist_name = item.get('playlist_name', '')
-                user_id = item.get('user_id', 0)
-                song_ids = item.get('song_ids', [])
+                try:
+                    user_id = int(item.get('user_id', 0))
+                except ValueError:
+                    user_id = 0
+                
+                try:
+                    playlist_id = int(item.get('playlist_id', 0))
+                except ValueError:
+                    playlist_id = 0
 
-                if provider_id not in valid_providers:
-                    print(f"Advertencia: El provider_id '{provider_id}' no es válido. Omitiendo esta playlist.")
-                    continue 
+                row_playlist = [
+                    item.get('provider_id', ''),
+                    playlist_id,
+                    user_id,
+                    item.get('created_at', ''),
+                    item.get('playlist_name', '')
+                ]
+                escritor_csv_playlist.writerow(row_playlist)
 
-                if playlist_id not in playlist_ids_set:
-                    playlists.append([provider_id, playlist_id, created_at, playlist_name, user_id])
-                    playlist_ids_set.add(playlist_id)
+                if 'song_ids' in item: 
+                    for song in item['song_ids']:
+                        try:
+                            song_id = int(song.get('song_id', 0))
+                        except ValueError:
+                            song_id = 0
 
-                for song_id in song_ids:
-                    if song_id not in song_ids_set:
-                        playlist_song_relations.append([provider_id, playlist_id, song_id])  
-                        song_ids_set.add(song_id)
+                        provider_id = item.get('provider_id', '') 
+
+                        row_playlist_song = [
+                            playlist_id,
+                            song_id,
+                            provider_id
+                        ]
+                        escritor_csv_playlist_song.writerow(row_playlist_song)
 
             if 'LastEvaluatedKey' in respuesta:
                 scan_kwargs['ExclusiveStartKey'] = respuesta['LastEvaluatedKey']
             else:
                 break
-
-        for playlist in playlists:
-            escritor_csv_playlist.writerow(playlist)
-
-        for relation in playlist_song_relations:
-            escritor_csv_playlist_song.writerow(relation)
 
     print(f"Datos exportados a {archivo_csv_playlist} y {archivo_csv_playlist_song}")
 
@@ -112,7 +119,7 @@ def crear_base_de_datos_en_glue(glue_database):
     return True
 
 def registrar_datos_en_glue(glue_database, glue_table_playlist, glue_table_playlist_song, nombre_bucket, archivo_csv_playlist, archivo_csv_playlist_song):
-    """Registrar datos en Glue Data Catalog sin subir las columnas."""
+    """Registrar datos en Glue Data Catalog."""
     print(f"Registrando datos en Glue Data Catalog...")
 
     input_path_playlist = f"s3://{nombre_bucket}/playlists/"
@@ -127,9 +134,9 @@ def registrar_datos_en_glue(glue_database, glue_table_playlist, glue_table_playl
                     'Columns': [
                         {'Name': 'provider_id', 'Type': 'string'},
                         {'Name': 'playlist_id', 'Type': 'bigint'},
+                        {'Name': 'user_id', 'Type': 'bigint'},
                         {'Name': 'created_at', 'Type': 'string'},
-                        {'Name': 'playlist_name', 'Type': 'string'},
-                        {'Name': 'user_id', 'Type': 'bigint'}
+                        {'Name': 'playlist_name', 'Type': 'string'}
                     ],
                     'Location': input_path_playlist,
                     'InputFormat': 'org.apache.hadoop.mapred.TextInputFormat',
@@ -151,9 +158,9 @@ def registrar_datos_en_glue(glue_database, glue_table_playlist, glue_table_playl
                 'Name': glue_table_playlist_song,
                 'StorageDescriptor': {
                     'Columns': [
-                        {'Name': 'provider_id', 'Type': 'string'},  
                         {'Name': 'playlist_id', 'Type': 'bigint'},
-                        {'Name': 'song_id', 'Type': 'bigint'}
+                        {'Name': 'song_id', 'Type': 'bigint'},
+                        {'Name': 'provider_id', 'Type': 'string'}
                     ],
                     'Location': input_path_playlist_song,
                     'InputFormat': 'org.apache.hadoop.mapred.TextInputFormat',
@@ -168,7 +175,6 @@ def registrar_datos_en_glue(glue_database, glue_table_playlist, glue_table_playl
                 'Parameters': {'classification': 'csv'}
             }
         )
-
         print(f"Tablas {glue_table_playlist} y {glue_table_playlist_song} registradas exitosamente en la base de datos {glue_database}.")
     except Exception as e:
         print(f"Error al registrar las tablas en Glue: {e}")
