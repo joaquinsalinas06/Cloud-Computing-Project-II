@@ -6,8 +6,8 @@ from boto3.dynamodb.conditions import Key
 
 def lambda_handler(event, context):
     try:      
-        provider_id = event['body']['provider_id']
-        user_id = event['body']['user_id']
+        provider_id = event['path']['provider_id']
+        user_id = event['path']['user_id']
         name = event['body']['name']
         token = event['headers']['Authorization']
     
@@ -17,7 +17,10 @@ def lambda_handler(event, context):
                 'body': json.dumps({'error': 'Missing parameters'})
             }
             
-        payload = '{ "token": "' + token +  '" }'        
+        payload = json.dumps({
+            'token': token,
+            'provider_id': provider_id
+        })          
         lambda_client = boto3.client('lambda')
         token_function = os.environ['LAMBDA_FUNCTION_NAME']
 

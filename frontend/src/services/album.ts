@@ -32,9 +32,10 @@ export const fetchAlbums = async (
 };
 
 export const fetchAlbumById = async (
-	album_id: string
+	provider_id: string,
+	album_id: number
 ): Promise<AlbumResponseById> => {
-	const url = `${ALBUM_URL}/getAlbum/${album_id}`;
+	const url = `${ALBUM_URL}/getAlbumById/${provider_id}/${album_id}`;
 
 	try {
 		const response = await fetch(url, {

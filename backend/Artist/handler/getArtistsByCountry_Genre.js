@@ -14,6 +14,7 @@ export const handler = async (event) => {
         : null;
 
     const token = event.headers?.Authorization;
+    const provider_id = event.body?.provider_id;
 
     if (!token) {
         return {
@@ -47,7 +48,7 @@ export const handler = async (event) => {
     const invokeParams = {
         FunctionName: token_function,
         InvocationType: "RequestResponse",
-        Payload: JSON.stringify({ token }),
+        Payload: JSON.stringify({ token, provider_id }),
     };
 
     try {
