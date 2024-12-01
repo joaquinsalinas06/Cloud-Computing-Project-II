@@ -48,7 +48,7 @@ functions:
         handler: Handler/getPostsByUserIdBetweenCreatedAt.handler
         events:
             - http:
-                  path: /post/by-user/between-created-at/{user_id}
+                  path: /post/by-user/between-created-at/{provider_id}/{user_id}
                   method: get
                   cors: true
                   integration: lambda
@@ -57,7 +57,7 @@ functions:
         handler: Handler/createPost.handler
         events:
             - http:
-                  path: /post/create/{provider_id}
+                  path: /post/create/{provider_id}/{user_id}
                   method: post
                   cors: true
                   integration: lambda

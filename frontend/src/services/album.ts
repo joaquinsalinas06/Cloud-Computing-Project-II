@@ -1,12 +1,12 @@
 import { AlbumRequest, AlbumResponse, AlbumResponseById } from "../types/album";
 
 const ALBUM_URL =
-	"https://nps8oelit3.execute-api.us-east-1.amazonaws.com/dev/album";
+	"https://oojkwmanhh.execute-api.us-east-1.amazonaws.com/dev/album";
 
 export const fetchAlbums = async (
 	payload: AlbumRequest
 ): Promise<AlbumResponse> => {
-	const { provider_id, limit = 12, exclusiveStartKey } = payload;
+	const { provider_id, limit = 6, exclusiveStartKey } = payload;
 	const url = `${ALBUM_URL}/all/${provider_id}?limit=${limit}&exclusiveStartKey=${encodeURIComponent(
 		exclusiveStartKey || ""
 	)}`;

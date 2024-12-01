@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { ProviderProvider } from "./contexts/ProviderContext";
 import { UserProvider } from "./contexts/UserContext";
+import { AudioProvider } from "./contexts/AudioContext";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -19,18 +20,26 @@ const App: React.FC = () => {
 	return (
 		<ProviderProvider>
 			<UserProvider>
-				<Router>
-					<Routes>
-						<Route path="/" element={<Navigate to="/login" />} />
-						<Route path="/login" element={<LoginPage />} />
-						<Route path="/register" element={<RegisterPage />} />
-						<Route path="/home" element={<HomePage />} />
-						<Route path="/artists" element={<ArtistPage />} />
-						<Route path="/albums" element={<AlbumPage />} />
-						<Route path="/songs" element={<SongPage />} />
-						<Route path="/profile" element={<ProfilePage />} />
-					</Routes>
-				</Router>
+				<AudioProvider>
+					<Router>
+						<Routes>
+							<Route
+								path="/"
+								element={<Navigate to="/login" />}
+							/>
+							<Route path="/login" element={<LoginPage />} />
+							<Route
+								path="/register"
+								element={<RegisterPage />}
+							/>
+							<Route path="/home" element={<HomePage />} />
+							<Route path="/artists" element={<ArtistPage />} />
+							<Route path="/albums" element={<AlbumPage />} />
+							<Route path="/songs" element={<SongPage />} />
+							<Route path="/profile" element={<ProfilePage />} />
+						</Routes>
+					</Router>
+				</AudioProvider>
 			</UserProvider>
 		</ProviderProvider>
 	);

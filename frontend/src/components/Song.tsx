@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Song as SongType } from "../types/song";
+import { useAudioContext } from "../contexts/AudioContext";
+import ProviderContext from "../contexts/ProviderContext";
+import { FaPlay, FaPause } from "react-icons/fa";
 
 interface SongProps {
 	song: SongType;
 }
 
 const Song: React.FC<SongProps> = ({ song }) => {
-	const releaseDate = new Date(song.release_date).toLocaleDateString();
+	const context = useContext(ProviderContext);
+	const theme = context?.theme;
+	const { playAudio, pauseAudio, playingTrack } = useAudioContext();
+	const [isPlaying, setIsPlaying] = useState(false);
+
+	useEffect(() => {
+		setIsPlaying(playingTrack === song.preview_music_url);
+	}, [playingTrack, song.preview_music_url]);
+
+	const togglePlay = () => {
+		if (isPlaying) {
+			pauseAudio();
+			setIsPlaying(false);
+		} else {
+			playAudio(song.preview_music_url);
+			setIsPlaying(true);
+		}
+	};
 
 	return (
 		<div
@@ -50,7 +70,8 @@ const Song: React.FC<SongProps> = ({ song }) => {
 					<strong>Genre:</strong> {song.genre}
 				</p>
 				<p className="text-sm text-gray-600 mb-1">
-					<strong>Released:</strong> {releaseDate}
+					<strong>Released:</strong>{" "}
+					{new Date(song.release_date).toLocaleDateString()}
 				</p>
 				<p className="text-sm text-gray-600 mb-1">
 					<strong>Duration:</strong> {song.duration}
@@ -58,27 +79,28 @@ const Song: React.FC<SongProps> = ({ song }) => {
 				<p className="text-sm text-gray-600 mb-3">
 					<strong>Times Played:</strong> {song.times_played}
 				</p>
+				<a
+					href={song.song_url}
+					target="_blank"
+					rel="noopener noreferrer"
+					style={{
+						color: theme?.primaryColor,
+						marginRight: "1rem",
+					}}
+					className="text-sm font-medium hover:underline"
+				>
+					Listen on Spotify
+				</a>
 
-				<div className="flex space-x-4">
-					<a
-						href={song.song_url}
-						target="_blank"
-						rel="noopener noreferrer"
-						className="text-blue-500 text-sm font-medium hover:underline"
-					>
-						Listen to Song
-					</a>
-					{song.preview_music_url && (
-						<a
-							href={song.preview_music_url}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="text-blue-500 text-sm font-medium hover:underline"
-						>
-							Preview Song
-						</a>
-					)}
-				</div>
+				<button
+					onClick={togglePlay}
+					style={{
+						color: theme?.primaryColor,
+					}}
+					className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-600"
+				>
+					{isPlaying ? <FaPause /> : <FaPlay />}
+				</button>
 			</div>
 		</div>
 	);

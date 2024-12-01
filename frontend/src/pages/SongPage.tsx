@@ -23,7 +23,7 @@ const SongPage: React.FC = () => {
 		try {
 			const data = await fetchSongs({
 				provider_id: provider,
-				limit: 12,
+				limit: 6,
 				exclusiveStartKey,
 			});
 

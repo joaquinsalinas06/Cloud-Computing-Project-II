@@ -39,7 +39,7 @@ functions:
         handler: handler/getSongsByGenre_Duration.handler
         events:
             - http:
-                  path: /song/by-genre-duration
+                  path: /song/by-genre-duration/{provider_id}
                   method: get
                   cors: true
                   integration: lambda
@@ -66,7 +66,7 @@ functions:
         handler: handler/createSongs.handler
         events:
             - http:
-                  path: /songs/create
+                  path: /songs/create/{provider_id}
                   method: post
                   cors: true
                   integration: lambda

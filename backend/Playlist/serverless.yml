@@ -29,7 +29,7 @@ functions:
         handler: getPlaylistsByUserIdBetweenCreatedAt.lambda_handler
         events:
             - http:
-                  path: /playlist/by-user/{provider_id}/{user_id}/{start_date}/{end_date}
+                  path: /playlist/by-user-dates/{provider_id}/{user_id}
                   method: get
                   cors: true
                   integration: lambda
@@ -47,7 +47,7 @@ functions:
         handler: createPlaylist.lambda_handler
         events:
             - http:
-                  path: /playlist/create/{provider_id}
+                  path: /playlist/create/{provider_id}/{user_id}
                   method: post
                   cors: true
                   integration: lambda
