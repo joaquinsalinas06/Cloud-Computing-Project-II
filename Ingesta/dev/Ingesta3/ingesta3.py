@@ -15,49 +15,62 @@ glue_database = 'stage-prod'
 glue_table_playlist = 'stage-prod-playlist'  
 glue_table_playlist_song = 'stage-prod-playlist-song'  
 
+valid_providers = ['Apple', 'Spotify', 'YouTube Music']
+
 def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_playlist_song):
     print(f"Exportando datos desde DynamoDB ({tabla_dynamo})...")
     tabla = dynamodb.Table(tabla_dynamo)
     scan_kwargs = {}
-    
+
     playlists = []
     playlist_song_relations = []
-    
+
+    playlist_ids_set = set()  
+    song_ids_set = set()      
+
     with open(archivo_csv_playlist, 'w', newline='') as archivo_playlist, open(archivo_csv_playlist_song, 'w', newline='') as archivo_playlist_song:
         escritor_csv_playlist = csv.writer(archivo_playlist)
         escritor_csv_playlist_song = csv.writer(archivo_playlist_song)
-        
+
         while True:
             respuesta = tabla.scan(**scan_kwargs)
             items = respuesta['Items']
-            
+
             if not items:
                 break
-            
+
             for item in items:
                 playlist_id = item.get('playlist_id', 0)
                 provider_id = item.get('provider_id', '')
                 created_at = item.get('created_at', '')
                 playlist_name = item.get('playlist_name', '')
                 user_id = item.get('user_id', 0)
-                song_ids = item.get('song_ids', [])  
-                
-                playlists.append([provider_id, playlist_id, created_at, playlist_name, user_id])
-                
+                song_ids = item.get('song_ids', [])
+
+                if provider_id not in valid_providers:
+                    print(f"Advertencia: El provider_id '{provider_id}' no es válido. Omitiendo esta playlist.")
+                    continue 
+
+                if playlist_id not in playlist_ids_set:
+                    playlists.append([provider_id, playlist_id, created_at, playlist_name, user_id])
+                    playlist_ids_set.add(playlist_id)
+
                 for song_id in song_ids:
-                    playlist_song_relations.append([provider_id, playlist_id, song_id])  # Incluir provider_id
-                
+                    if song_id not in song_ids_set:
+                        playlist_song_relations.append([provider_id, playlist_id, song_id])  
+                        song_ids_set.add(song_id)
+
             if 'LastEvaluatedKey' in respuesta:
                 scan_kwargs['ExclusiveStartKey'] = respuesta['LastEvaluatedKey']
             else:
                 break
-        
+
         for playlist in playlists:
             escritor_csv_playlist.writerow(playlist)
-        
+
         for relation in playlist_song_relations:
             escritor_csv_playlist_song.writerow(relation)
-        
+
     print(f"Datos exportados a {archivo_csv_playlist} y {archivo_csv_playlist_song}")
 
 def subir_csv_a_s3(archivo_csv_playlist, archivo_csv_playlist_song, nombre_bucket):
@@ -99,12 +112,12 @@ def crear_base_de_datos_en_glue(glue_database):
     return True
 
 def registrar_datos_en_glue(glue_database, glue_table_playlist, glue_table_playlist_song, nombre_bucket, archivo_csv_playlist, archivo_csv_playlist_song):
-    """Registrar datos en Glue Data Catalog."""
+    """Registrar datos en Glue Data Catalog sin subir las columnas."""
     print(f"Registrando datos en Glue Data Catalog...")
-    
+
     input_path_playlist = f"s3://{nombre_bucket}/playlists/"
     input_path_playlist_song = f"s3://{nombre_bucket}/playlists/songs/"
-    
+
     try:
         glue.create_table(
             DatabaseName=glue_database,
@@ -131,14 +144,14 @@ def registrar_datos_en_glue(glue_database, glue_table_playlist, glue_table_playl
                 'Parameters': {'classification': 'csv'}
             }
         )
-        
+
         glue.create_table(
             DatabaseName=glue_database,
             TableInput={
                 'Name': glue_table_playlist_song,
                 'StorageDescriptor': {
                     'Columns': [
-                        {'Name': 'provider_id', 'Type': 'string'},  # Añadido provider_id aquí
+                        {'Name': 'provider_id', 'Type': 'string'},  
                         {'Name': 'playlist_id', 'Type': 'bigint'},
                         {'Name': 'song_id', 'Type': 'bigint'}
                     ],
@@ -155,7 +168,7 @@ def registrar_datos_en_glue(glue_database, glue_table_playlist, glue_table_playl
                 'Parameters': {'classification': 'csv'}
             }
         )
-        
+
         print(f"Tablas {glue_table_playlist} y {glue_table_playlist_song} registradas exitosamente en la base de datos {glue_database}.")
     except Exception as e:
         print(f"Error al registrar las tablas en Glue: {e}")
