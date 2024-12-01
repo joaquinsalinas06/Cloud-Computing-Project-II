@@ -161,6 +161,8 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
             }
         )
         logger.info(f"Tabla {glue_table_name} registrada exitosamente en Glue.")
+    except glue.exceptions.AlreadyExistsException:
+        logger.info(f"La tabla {glue_table_name} ya existe en la base de datos {glue_database}.")
     except Exception as e:
         logger.error(f"Error al registrar la tabla en Glue: {e}")
 

@@ -188,6 +188,8 @@ def registrar_datos_en_glue(glue_database, glue_table_playlist, glue_table_playl
         )
 
         logger.info(f"Tablas registradas exitosamente en {glue_database}.")
+    except glue.exceptions.AlreadyExistsException:
+        logger.info(f"La tabla {glue_table_playlist_song} ya existe en la base de datos {glue_database}.")
     except Exception as e:
         logger.error(f"Error al registrar las tablas en Glue: {e}")
 
