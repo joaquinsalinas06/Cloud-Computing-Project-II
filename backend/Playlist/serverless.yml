@@ -16,8 +16,8 @@ provider:
 
 functions:
     #LSI
-    getPlaylistByUserId:
-        handler: getPlaylistByUserId.lambda_handler
+    getPlaylistsByUserId:
+        handler: Handler/getPlaylistsByUserId.lambda_handler
         events:
             - http:
                   path: /playlist/by-user/{provider_id}/{user_id}
@@ -26,7 +26,7 @@ functions:
                   integration: lambda
     #GSI
     getPlaylistsByUserIdBetweenCreatedAt:
-        handler: getPlaylistsByUserIdBetweenCreatedAt.lambda_handler
+        handler: Handler/getPlaylistsByUserIdBetweenCreatedAt.lambda_handler
         events:
             - http:
                   path: /playlist/by-user-dates/{provider_id}/{user_id}
@@ -35,7 +35,7 @@ functions:
                   integration: lambda
 
     getSongsPlaylist:
-        handler: getSongsPlaylist.lambda_handler
+        handler: Handler/getSongsPlaylist.lambda_handler
         events:
             - http:
                   path: /playlist/songs/{provider_id}/{playlist_id}
@@ -44,7 +44,7 @@ functions:
                   integration: lambda
 
     createPlaylist:
-        handler: createPlaylist.lambda_handler
+        handler: Handler/createPlaylist.lambda_handler
         events:
             - http:
                   path: /playlist/create/{provider_id}/{user_id}
@@ -53,7 +53,7 @@ functions:
                   integration: lambda
 
     addSong:
-        handler: addSong.lambda_handler
+        handler: handler/addSong.lambda_handler
         events:
             - http:
                   path: /playlist/add-song/{provider_id}/{playlist_id}/{song_id}
@@ -62,7 +62,7 @@ functions:
                   integration: lambda
 
     deleteSong:
-        handler: deleteSong.lambda_handler
+        handler: Handler/deleteSong.lambda_handler
         events:
             - http:
                   path: /playlist/delete-song/{provider_id}/{playlist_id}/{song_id}
@@ -71,7 +71,7 @@ functions:
                   integration: lambda
 
     deletePlaylist:
-        handler: deletePlaylist.lambda_handler
+        handler: Handler/deletePlaylist.lambda_handler
         events:
             - http:
                   path: /playlist/delete/{provider_id}/{playlist_id}
