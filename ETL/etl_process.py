@@ -47,7 +47,7 @@ def run_athena_query(tablename, query):
                 'OutputLocation': output_location,
             },
             QueryExecutionContext={
-               'Database': MYSQL_DB  # Specify the database here
+               'Database': 'stage-prod'  # Specify the database here
             }
         )
 
