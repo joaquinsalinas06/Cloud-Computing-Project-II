@@ -25,7 +25,7 @@ logger = logger.bind(container=nombre_contenedor)
 
 # Clientes de AWS
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
-s3 = boto3.client('s3')
+s3 = boto3.client('s3',region_name = 'us-east-1')
 glue = boto3.client('glue', region_name='us-east-1')
 
 # Constantes
