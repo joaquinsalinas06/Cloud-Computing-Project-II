@@ -4,6 +4,7 @@ import mysql.connector
 from loguru import logger
 import os
 from datetime import datetime
+import time
 
 ATHENA_S3_OUTPUT = 's3://flauta-dev-c2/Unsaved/2024/12/01/'  
 REGION_NAME = 'us-east-1'
@@ -21,7 +22,7 @@ if not os.path.exists(log_directory):
     os.makedirs(log_directory)
 
 log_file = f"{log_directory}/etl.log"
-logger.add(log_file, format="{time:YYYY-MM-DD HH:mm:ss.SSS} | {level} | {extra[container]} | {message}", level="INFO", rotation="10 MB", retention="7 days", serialize=False, enqueue=True)
+logger.add(log_file, format="{time:YYYY-MM-DD HH:mm:ss.SSS} | {level} | {message}", level="INFO", rotation="10 MB", retention="7 days", serialize=False, enqueue=True)
 
 # Configuración de conexiones
 athena_client = boto3.client('athena', region_name='us-east-1')
@@ -53,8 +54,7 @@ def run_athena_query(tablename, query):
         query_execution_id = response['QueryExecutionId']
 
         # Esperar que la consulta termine
-        athena_client.get_waiter('query_succeeded').wait(QueryExecutionId=query_execution_id)
-
+        wait_for_query_to_complete(athena_client, query_execution_id)
         # Obtener los resultados
         result_response = athena_client.get_query_results(QueryExecutionId=query_execution_id)
         num_records = len(result_response['ResultSet']['Rows']) - 1  # Restar 1 por la fila de encabezado
@@ -77,6 +77,18 @@ def run_athena_query(tablename, query):
         # Insertar el resumen del error
         insert_summary_table(tablename,query, execution_time, num_records, results, start_time, end_time, status, error_message)
 
+def wait_for_query_to_complete(athena_client, query_execution_id):
+    while True:
+        response = athena_client.get_query_execution(QueryExecutionId=query_execution_id)
+        status = response['QueryExecution']['Status']['State']
+        
+        if status in ['SUCCEEDED', 'FAILED', 'CANCELLED']:
+            break
+        time.sleep(2)  # Poll every 2 seconds
+
+    if status != 'SUCCEEDED':
+        raise ValueError(f"Query failed or was cancelled. Status: {status}")
+    
 def process_query_file(query_file, table_name):
     """Procesa un archivo de consulta SQL y ejecuta el proceso ETL"""
     with open(query_file, 'r') as file:
