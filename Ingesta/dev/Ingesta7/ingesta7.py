@@ -132,8 +132,8 @@ def crear_base_de_datos_en_glue(glue_database):
 def registrar_datos_en_glue(glue_database, glue_table_name_album, glue_table_name_song, nombre_bucket, archivo_csv_album, archivo_csv_song):
     """Registrar los datos en Glue Data Catalog."""
     print(f"Registrando datos en Glue Data Catalog...")
-    
-    input_path = f"s3://{nombre_bucket}/"
+    input_path_album = f"s3://{nombre_bucket}/album/albums"
+    input_path_album_songs = f"s3://{nombre_bucket}/album/songs"
     
     try:
         glue.create_table(
@@ -151,7 +151,7 @@ def registrar_datos_en_glue(glue_database, glue_table_name_album, glue_table_nam
                         {'Name': 'spotify_url', 'Type': 'string'},
                         {'Name': 'title', 'Type': 'string'}
                     ],
-                    'Location': input_path,
+                    'Location': input_path_album,
                     'InputFormat': 'org.apache.hadoop.mapred.TextInputFormat',
                     'OutputFormat': 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat',
                     'Compressed': False,
@@ -175,7 +175,7 @@ def registrar_datos_en_glue(glue_database, glue_table_name_album, glue_table_nam
                         {'Name': 'album_id', 'Type': 'bigint'},
                         {'Name': 'provider_id', 'Type': 'string'},
                     ],
-                    'Location': input_path,
+                    'Location': input_path_album_songs,
                     'InputFormat': 'org.apache.hadoop.mapred.TextInputFormat',
                     'OutputFormat': 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat',
                     'Compressed': False,
