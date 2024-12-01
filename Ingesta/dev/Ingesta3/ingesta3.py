@@ -14,10 +14,12 @@ archivo_csv_playlist_song = 'stage-prod-playlist-song.csv'
 glue_database = 'stage-prod'  
 glue_table_playlist = 'stage-prod-playlist'  
 glue_table_playlist_song = 'stage-prod-playlist-song'  # Tabla en Glue para canciones relacionadas con las playlists
+import csv
+import boto3
 
 def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_playlist_song):
     print(f"Exportando datos desde DynamoDB ({tabla_dynamo})...")
-    tabla = dynamodb.Table(tabla_dynamo)
+    tabla = boto3.resource('dynamodb').Table(tabla_dynamo)
     scan_kwargs = {}
 
     with open(archivo_csv_playlist, 'w', newline='') as archivo_playlist, open(archivo_csv_playlist_song, 'w', newline='') as archivo_playlist_song:
@@ -25,52 +27,59 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
         escritor_csv_playlist_song = csv.writer(archivo_playlist_song)
 
 
-        tabla = dynamodb.Table(tabla_dynamo)  # Asegúrate de tener la tabla de DynamoDB ya configurada
-        scan_kwargs = {}
-        respuesta = tabla.scan(**scan_kwargs)
+        while True:
+            respuesta = tabla.scan(**scan_kwargs)
+            items = respuesta['Items']
 
-        with open(archivo_csv_playlist, 'r') as archivo_existente:
-            existing_lines = len(archivo_existente.readlines())
+            if not items:
+                break
 
-        for idx, item in enumerate(respuesta['Items']):
-            if idx >= existing_lines:
-                break  
+            for item in items:
+                try:
+                    user_id = int(item.get('user_id', 0))
+                except ValueError:
+                    user_id = 0
+                
+                try:
+                    playlist_id = int(item.get('playlist_id', 0))
+                except ValueError:
+                    playlist_id = 0
 
-            try:
-                user_id = int(item.get('user_id', 0))
-            except ValueError:
-                user_id = 0
+                row_playlist = [
+                    item.get('provider_id', ''),
+                    playlist_id,
+                    user_id,
+                    item.get('created_at', ''),
+                    item.get('playlist_name', '')
+                ]
 
-            try:
-                playlist_id = int(item.get('playlist_id', 0))
-            except ValueError:
-                playlist_id = 0
+                escritor_csv_playlist.writerow(row_playlist)
 
-            row_playlist = [
-                item.get('provider_id', ''),
-                playlist_id,
-                user_id,
-                item.get('created_at', ''),
-                item.get('playlist_name', '')
-            ]
-
-            if 'song_ids' in item:
-                for song in item['song_ids']:
-                    try:
-                        song_id = int(song)
-                    except ValueError:
-                        song_id = 0
-
+            for item in items:
+                if 'song_ids' in item: 
                     provider_id = item.get('provider_id', '')
+try:
+                    try:
+                        playlist_id = int(item.get('playlist_id', 0))
+                    except ValueError:
+                        playlist_id = 0
+                    for song in item['song_ids']:
+                        try:
+                            song_id = int(song)  
+                        except ValueError:
+                            song_id = 0 
 
-                    row_playlist_song = [
-                        playlist_id,
-                        song_id,
-                        provider_id
-                    ]
-                    escritor_csv_playlist_song.writerow(row_playlist_song)
+                        row_playlist_song = [
+                            playlist_id,
+                            song_id,
+                            provider_id
+                        ]
+                        escritor_csv_playlist_song.writerow(row_playlist_song)
 
-            escritor_csv_playlist.writerow(row_playlist)
+            if 'LastEvaluatedKey' in respuesta:
+                scan_kwargs['ExclusiveStartKey'] = respuesta['LastEvaluatedKey']
+            else:
+                break
 
     print(f"Datos exportados a {archivo_csv_playlist} y {archivo_csv_playlist_song}")
 
