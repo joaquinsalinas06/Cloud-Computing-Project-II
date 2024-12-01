@@ -1,0 +1,7 @@
+SELECT 
+    ps.playlist_id, 
+    ps.provider_id, 
+    COUNT(*) AS total_canciones
+FROM "stage-prod-playlist-song" ps
+GROUP BY ps.provider_id, ps.playlist_id;
+Resumen de canciones en cada playlist y por provider
