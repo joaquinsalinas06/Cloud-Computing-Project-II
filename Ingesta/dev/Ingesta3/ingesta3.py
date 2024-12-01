@@ -54,7 +54,7 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
                 if 'song_ids' in item: 
                     for song in item['song_ids']:
                         try:
-                            song_id = int(Decimal(str(song_id))) 
+                            song_id = int(song) 
                         except ValueError:
                             song_id = 0
 
