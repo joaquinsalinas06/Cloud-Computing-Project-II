@@ -24,12 +24,6 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
         escritor_csv_playlist = csv.writer(archivo_playlist)
         escritor_csv_playlist_song = csv.writer(archivo_playlist_song)
 
-        # Escribimos encabezados en el archivo CSV de playlists
-        escritor_csv_playlist.writerow(['provider_id', 'playlist_id', 'user_id', 'created_at', 'playlist_name'])
-
-        # Escribimos encabezados en el archivo CSV de canciones de playlist
-        escritor_csv_playlist_song.writerow(['playlist_id', 'song_id', 'provider_id'])
-
         while True:
             respuesta = tabla.scan(**scan_kwargs)
             items = respuesta['Items']
@@ -60,7 +54,7 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
                 if 'song_ids' in item: 
                     for song in item['song_ids']:
                         try:
-                            song_id = int(song.get('song_id', 0))
+                            song_id = int(Decimal(str(song_id))) 
                         except ValueError:
                             song_id = 0
 
