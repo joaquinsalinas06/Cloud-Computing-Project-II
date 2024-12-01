@@ -25,7 +25,7 @@ for carpeta in "${!carpetas[@]}"; do
 
   # Ejecutar el contenedor Docker
   echo "Corriendo el contenedor para $carpeta con la imagen $imagen..."
-  docker run -e CONTAINER_NAME="$carpeta" -v "$log_directory":/mnt/logs -v /home/ubuntu/.aws/credentials:/root/.aws/credentials $imagen
+  docker run -e CONTAINER_NAME="$carpeta" -v /home/ubuntu/.aws/credentials:/root/.aws/credentials $imagen
   # Volver al directorio anterior
   cd ..
 
