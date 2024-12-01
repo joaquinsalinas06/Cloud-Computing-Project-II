@@ -1,13 +1,17 @@
-FROM python:3.8-slim
+# Usa una imagen base de Python
+FROM python:3.9-slim
 
-# Instalar dependencias necesarias
-RUN pip install -r requirements.txt
-
-# Establecer el directorio de trabajo
+# Establece el directorio de trabajo
 WORKDIR /app
 
-# Copiar el código Python al contenedor
+# Copia los archivos de la aplicación al contenedor
 COPY . /app
 
-# Ejecutar el script Python
-CMD ["python", "etl_process.py"]
+# Actualiza pip antes de instalar las dependencias
+RUN pip install --upgrade pip
+
+# Instala las dependencias desde requirements.txt
+RUN pip install -r requirements.txt
+
+# Define el comando para ejecutar la aplicación (ajusta esto según tu archivo principal)
+CMD ["python", "main.py"]
