@@ -58,11 +58,12 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
             for item in items:
                 if 'song_ids' in item: 
                     provider_id = item.get('provider_id', '')
-try:
+
                     try:
                         playlist_id = int(item.get('playlist_id', 0))
                     except ValueError:
                         playlist_id = 0
+                        
                     for song in item['song_ids']:
                         try:
                             song_id = int(song)  
