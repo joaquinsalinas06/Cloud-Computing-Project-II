@@ -1,71 +1,132 @@
 import boto3
 import pandas as pd
-from sqlalchemy import create_engine
+import mysql.connector
+from loguru import logger
 import os
-import time
+from datetime import datetime
 
 ATHENA_S3_OUTPUT = 's3://flauta-dev-c2/Unsaved/2024/12/01/'  
-REGION_NAME = 'us-west-1'
+REGION_NAME = 'us-east-1'
 
 MYSQL_HOST = '44.201.140.211'
 MYSQL_PORT = '8005'  
 MYSQL_USER = 'root'  
 MYSQL_PASSWORD = 'utec'
-MYSQL_DB = 'prod'
+MYSQL_DB = 'analytics'
 
-def download_csv_from_s3(s3_bucket_path, local_path):
+
+# Configuración de logs
+log_directory = "./logs"
+if not os.path.exists(log_directory):
+    os.makedirs(log_directory)
+
+log_file = f"{log_directory}/etl.log"
+logger.add(log_file, format="{time:YYYY-MM-DD HH:mm:ss.SSS} | {level} | {extra[container]} | {message}", level="INFO", rotation="10 MB", retention="7 days", serialize=False, enqueue=True)
+
+# Configuración de conexiones
+athena_client = boto3.client('athena', region_name='us-east-1')
+
+def run_athena_query(tablename, query):
+    start_time = datetime.now()
+    status = "SUCCESS"
+    error_message = None
+    num_records = 0
+    results = None
+    execution_time = 0
+
     try:
-        s3 = boto3.client('s3')
-        bucket_name = s3_bucket_path.split('/')[2]  
-        prefix = '/'.join(s3_bucket_path.split('/')[3:])  
+        # Configuración de Athena
+        athena_client = boto3.client('athena', region_name='us-east-1')  # Cambiar la región si es necesario
+        output_location = ATHENA_S3_OUTPUT
 
-        response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
-        files = [content['Key'] for content in response.get('Contents', [])]
+        # Ejecutar la consulta en Athena
+        response = athena_client.start_query_execution(
+            QueryString=query,
+            ResultConfiguration={
+                'OutputLocation': output_location,
+            },
+            QueryExecutionContext={
+               'Database': MYSQL_DB  # Specify the database here
+            }
+        )
 
-        if not files:
-            print(f"No se encontraron archivos en la ruta S3: {s3_bucket_path}")
-            return []
+        query_execution_id = response['QueryExecutionId']
 
-        for file_key in files:
-            local_file_path = os.path.join(local_path, file_key.split('/')[-1])
-            s3.download_file(bucket_name, file_key, local_file_path)
-            print(f"Archivo descargado: {local_file_path}")
-        return files
+        # Esperar que la consulta termine
+        athena_client.get_waiter('query_succeeded').wait(QueryExecutionId=query_execution_id)
+
+        # Obtener los resultados
+        result_response = athena_client.get_query_results(QueryExecutionId=query_execution_id)
+        num_records = len(result_response['ResultSet']['Rows']) - 1  # Restar 1 por la fila de encabezado
+        results = str(result_response['ResultSet']['Rows'][1:])  # Excluye la fila de encabezado
+
+        # Calcular tiempo de ejecución
+        end_time = datetime.now()
+        execution_time = (end_time - start_time).total_seconds()
+
+        # Insertar los resultados en la tabla resumen
+        insert_summary_table(tablename,query, execution_time, num_records, results, start_time, end_time, status, error_message)
+
     except Exception as e:
-        print(f"Error al descargar los archivos desde S3: {e}")
-        return []
+        logger.error(f"Error ejecutando la consulta Athena: {e}")
+        end_time = datetime.now()
+        execution_time = (end_time - start_time).total_seconds()
+        status = "ERROR"
+        error_message = str(e)
 
-def insert_into_mysql(df, table_name):
+        # Insertar el resumen del error
+        insert_summary_table(tablename,query, execution_time, num_records, results, start_time, end_time, status, error_message)
+
+def process_query_file(query_file, table_name):
+    """Procesa un archivo de consulta SQL y ejecuta el proceso ETL"""
+    with open(query_file, 'r') as file:
+        query = file.read().strip()  # Lee el archivo de consulta SQL
+        run_athena_query(table_name,query)
+    # transform_and_load_to_mysql(result_location, table_name)
+
+def insert_summary_table(table_name,query, execution_time, num_records, results, start_time, end_time, status, error_message):
     try:
-        engine = create_engine(f'mysql+mysqlconnector://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DB}')
-        df.to_sql(table_name, con=engine, if_exists='replace', index=False)
-        print(f"Datos insertados correctamente en la tabla {table_name} en MySQL.")
-    except Exception as e:
-        print(f"Error al insertar datos en MySQL: {e}")
+        connection = mysql.connector.connect(
+            host=MYSQL_HOST,  # Reemplazar con tu host MySQL
+            user=MYSQL_USER,
+            password=MYSQL_PASSWORD,
+            database=MYSQL_DB
+        )   
+        cursor = connection.cursor()
 
-def main():
-    local_download_path = '/tmp/csv_files'  
-    os.makedirs(local_download_path, exist_ok=True) 
+        insert_query = f"""
+        INSERT INTO {table_name} (query, execution_time, num_records, results, start_time, end_time, status, error_message)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        """
 
-    files = download_csv_from_s3(ATHENA_S3_OUTPUT, local_download_path)
+        values = (query, execution_time, num_records, results, start_time, end_time, status, error_message)
 
-    if not files:
-        print("No se encontraron archivos CSV en el bucket.")
-        return
+        cursor.execute(insert_query, values)
+        connection.commit()
 
-    for file in files:
-        local_file_path = os.path.join(local_download_path, file.split('/')[-1])
+        cursor.close()
+        connection.close()
 
-        try:
-            df = pd.read_csv(local_file_path)
+        logger.info(f"Resumen insertado con éxito. Query ID: {cursor.lastrowid}")
 
-            print(f"Archivo CSV {local_file_path} cargado exitosamente.")
+    except mysql.connector.Error as err:
+        logger.error(f"Error al insertar el resumen en MySQL: {err}")
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
 
-            table_name = f'table_from_{file.split("/")[-1].split(".")[0]}' 
+def etl_process():
+    """Proceso ETL que maneja múltiples archivos de consultas"""
+    query_dir = './Consultas/Queries'  # Directorio que contiene las consultas SQL
 
-            insert_into_mysql(df, table_name)
-        except Exception as e:
-            print(f"Error al procesar el archivo {local_file_path}: {e}")
+    # Itera sobre los archivos de consultas en el directorio
+    for i, query_file in enumerate(os.listdir(query_dir)):
+        if query_file.endswith('.txt'):
+            query_file_path = os.path.join(query_dir, query_file)
+            table_name = query_file[:-5]  # Remove the last character            
+            logger.info(f"Procesando archivo de consulta: {query_file_path}")
+            process_query_file(query_file_path, table_name)
+
 
 if __name__ == "__main__":
-    main()
+    etl_process()  # Ejecutar el proceso ETL

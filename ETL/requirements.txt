@@ -3,3 +3,4 @@ pandas
 pyathena
 sqlalchemy
 mysql-connector-python
+loguru
