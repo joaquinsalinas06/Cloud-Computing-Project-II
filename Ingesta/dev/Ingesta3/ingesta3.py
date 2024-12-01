@@ -15,17 +15,14 @@ glue_database = 'stage-prod'
 glue_table_playlist = 'stage-prod-playlist'  
 glue_table_playlist_song = 'stage-prod-playlist-song'  # Tabla en Glue para canciones relacionadas con las playlists
 
-
 def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_playlist_song):
     print(f"Exportando datos desde DynamoDB ({tabla_dynamo})...")
     tabla = dynamodb.Table(tabla_dynamo)
-    
     scan_kwargs = {}
 
     with open(archivo_csv_playlist, 'w', newline='') as archivo_playlist, open(archivo_csv_playlist_song, 'w', newline='') as archivo_playlist_song:
         escritor_csv_playlist = csv.writer(archivo_playlist)
         escritor_csv_playlist_song = csv.writer(archivo_playlist_song)
-
 
         while True:
             respuesta = tabla.scan(**scan_kwargs)
@@ -52,35 +49,17 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
                     item.get('created_at', ''),
                     item.get('playlist_name', '')
                 ]
-
                 escritor_csv_playlist.writerow(row_playlist)
 
-            if 'LastEvaluatedKey' in respuesta:
-                scan_kwargs['ExclusiveStartKey'] = respuesta['LastEvaluatedKey']
-            else:
-                break
-                
-        while True:
-            respuesta = tabla.scan(**scan_kwargs)
-            items = respuesta['Items']
 
-            if not items:
-                break
-
-            for item in items:
                 if 'song_ids' in item: 
-                    provider_id = item.get('provider_id', '')
-
-                    try:
-                        playlist_id = int(item.get('playlist_id', 0))
-                    except ValueError:
-                        playlist_id = 0
-
                     for song in item['song_ids']:
                         try:
-                            song_id = int(song)  
+                            song_id = int(song) 
                         except ValueError:
-                            song_id = 0 
+                            song_id = 0
+
+                        provider_id = item.get('provider_id', '') 
 
                         row_playlist_song = [
                             playlist_id,
@@ -88,6 +67,7 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
                             provider_id
                         ]
                         escritor_csv_playlist_song.writerow(row_playlist_song)
+                
 
             if 'LastEvaluatedKey' in respuesta:
                 scan_kwargs['ExclusiveStartKey'] = respuesta['LastEvaluatedKey']
@@ -97,7 +77,7 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
     print(f"Datos exportados a {archivo_csv_playlist} y {archivo_csv_playlist_song}")
 
 def subir_csv_a_s3(archivo_csv_playlist, archivo_csv_playlist_song, nombre_bucket):
-    carpeta_destino_playlist = 'playlists/'  
+    carpeta_destino_playlist = 'playlists/playlist/'  
     carpeta_destino_playlist_song = 'playlists/songs/'
     
     archivo_s3_playlist = f"{carpeta_destino_playlist}{archivo_csv_playlist}"
@@ -138,7 +118,7 @@ def registrar_datos_en_glue(glue_database, glue_table_playlist, glue_table_playl
     """Registrar datos en Glue Data Catalog."""
     print(f"Registrando datos en Glue Data Catalog...")
 
-    input_path_playlist = f"s3://{nombre_bucket}/playlists/"
+    input_path_playlist = f"s3://{nombre_bucket}/playlists/playlist/"
     input_path_playlist_song = f"s3://{nombre_bucket}/playlists/songs/"
 
     try:
