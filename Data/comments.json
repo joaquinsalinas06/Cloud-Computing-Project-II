@@ -39738,22 +39738,5 @@
         "text": {
             "S": "Work fly though its area lot."
         }
-    },
-    {
-        "provider_id": {
-            "S": "Spotify"
-        },
-        "comment_id": {
-            "N": "1988"
-        },
-        "post_id": {
-            "N": "565"
-        },
-        "date": {
-            "S": "2023-11-25 00:00:00"
-        },
-        "user_id": {
-            "N": "3016"
-        },
-        "text": {
-            "S": "Election from hour instead."
+    }
+]
