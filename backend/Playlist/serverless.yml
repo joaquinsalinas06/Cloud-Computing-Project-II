@@ -53,7 +53,7 @@ functions:
                   integration: lambda
 
     addSong:
-        handler: handler/addSong.lambda_handler
+        handler: Handler/addSong.lambda_handler
         events:
             - http:
                   path: /playlist/add-song/{provider_id}/{playlist_id}/{song_id}
