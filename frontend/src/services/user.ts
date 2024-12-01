@@ -1,13 +1,13 @@
 import { UserRequest, UserResponse } from "../types/user";
 
 const USER_URL =
-	"https://epvunn4qt2.execute-api.us-east-1.amazonaws.com/dev/user";
+	"https://cuslthx7xi.execute-api.us-east-1.amazonaws.com/dev/user";
 
 export const fetchUser = async (
 	request: UserRequest
 ): Promise<UserResponse> => {
 	const { provider_id, user_id } = request;
-	const url = `${USER_URL}/get/${provider_id}/${user_id}`;
+	const url = `${USER_URL}/${provider_id}/${user_id}`;
 
 	try {
 		const response = await fetch(url, {
