@@ -132,7 +132,7 @@ resources:
           - AttributeName: user_id
             AttributeType: N
           - AttributeName: created_at
-            AttributeType: N
+            AttributeType: S
         KeySchema:
           - AttributeName: provider_id
             KeyType: HASH
