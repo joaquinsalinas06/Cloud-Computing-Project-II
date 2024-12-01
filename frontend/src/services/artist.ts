@@ -25,8 +25,9 @@ export const fetchArtists = async (
 		if (!response.ok) {
 			throw new Error("Failed to fetch artists");
 		}
-
+		console.log(0);
 		const data: ArtistResponse = await response.json();
+		console.log(1);
 		console.log("fetchArtists", data);
 		return data;
 	} catch (error) {

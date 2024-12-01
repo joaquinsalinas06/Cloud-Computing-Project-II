@@ -22,13 +22,7 @@ functions:
                   path: /album/{provider_id}/{album_id}
                   method: get
                   cors: true
-                  request:
-                      parameters:
-                          paths:
-                              provider_id: true
-                              album_id: true
-                          headers:
-                              Authorization: true
+                  integration: lambda
     #LSI
     getAlbumByTitleWP:
         handler: handler/getAlbumByTitleWP.handler
@@ -37,16 +31,7 @@ functions:
                   path: /album/by-title/{provider_id}
                   method: get
                   cors: true
-                  request:
-                      parameters:
-                          paths:
-                              provider_id: true
-                          querystrings:
-                              title: true
-                              limit: true
-                              exclusiveStartKey: true
-                          headers:
-                              Authorization: true
+                  integration: lambda
 
     #GSI
     getAlbumsByArtistId_ReleaseDate:
@@ -56,17 +41,7 @@ functions:
                   path: /album/by-artist-release-date/{artist_id}
                   method: get
                   cors: true
-                  request:
-                      parameters:
-                          paths:
-                              artist_id: true
-                          querystrings:
-                              start_date: true
-                              end_date: true
-                              limit: true
-                              exclusiveStartKey: true
-                          headers:
-                              Authorization: true
+                  integration: lambda
 
     getAllAlbumsWP:
         handler: handler/getAllAlbumsWP.handler
@@ -75,15 +50,7 @@ functions:
                   path: /album/all/{provider_id}
                   method: get
                   cors: true
-                  request:
-                      parameters:
-                          paths:
-                              provider_id: true
-                          querystrings:
-                              limit: true
-                              exclusiveStartKey: true
-                          headers:
-                              Authorization: true
+                  integration: lambda
 
     createAlbum:
         handler: handler/createAlbum.handler
@@ -92,10 +59,7 @@ functions:
                   path: /album/create/{provider_id}
                   method: post
                   cors: true
-                  request:
-                      parameters:
-                          headers:
-                              Authorization: true
+                  integration: lambda
 
     createAlbums:
         handler: handler/createAlbums.handler
@@ -104,10 +68,7 @@ functions:
                   path: /albums/create
                   method: post
                   cors: true
-                  request:
-                      parameters:
-                          headers:
-                              Authorization: true
+                  integration: lambda
 
     deleteAlbum:
         handler: handler/deleteAlbum.handler
@@ -116,13 +77,7 @@ functions:
                   path: /album/delete/{provider_id}/{album_id}
                   method: delete
                   cors: true
-                  request:
-                      parameters:
-                          paths:
-                              provider_id: true
-                              album_id: true
-                          headers:
-                              Authorization: true
+                  integration: lambda
 
 resources:
     Resources:

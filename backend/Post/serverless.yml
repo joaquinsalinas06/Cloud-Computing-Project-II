@@ -23,11 +23,6 @@ functions:
                   method: get
                   cors: true
                   integration: lambda
-                  request:
-                      parameters:
-                          paths:
-                              provider_id: true
-                              post_id: true
 
     getAllPostsByProvider:
         handler: Handler/getAllPostByProviderId.handler
@@ -37,13 +32,7 @@ functions:
                   method: get
                   cors: true
                   integration: lambda
-                  request:
-                      parameters:
-                          paths:
-                              provider_id: true
-                          querystrings:
-                              page: true
-                              limit: true
+
     #LSI
     getPostsByUserId:
         handler: Handler/getPostByUserId.handler
@@ -53,14 +42,7 @@ functions:
                   method: get
                   cors: true
                   integration: lambda
-                  request:
-                      parameters:
-                          paths:
-                              provider_id: true
-                              user_id: true
-                          querystrings:
-                              page: true
-                              limit: true
+
     #GSI
     getPostsByUserIdBetweenCreatedAt:
         handler: Handler/getPostsByUserIdBetweenCreatedAt.handler
@@ -70,15 +52,6 @@ functions:
                   method: get
                   cors: true
                   integration: lambda
-                  request:
-                      parameters:
-                          paths:
-                              user_id: true
-                          querystrings:
-                              start_created_at: true
-                              end_created_at: true
-                              limit: true
-                              exclusiveStartKey: true
 
     createPost:
         handler: Handler/createPost.handler
@@ -97,11 +70,6 @@ functions:
                   method: put
                   cors: true
                   integration: lambda
-                  request:
-                      parameters:
-                          paths:
-                              provider_id: true
-                              post_id: true
 
     deletePost:
         handler: Handler/deletePost.handler
@@ -111,11 +79,6 @@ functions:
                   method: delete
                   cors: true
                   integration: lambda
-                  request:
-                      parameters:
-                          paths:
-                              provider_id: true
-                              post_id: true
 
 resources:
     Resources:

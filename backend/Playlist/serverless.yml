@@ -24,12 +24,15 @@ functions:
                   method: get
                   cors: true
                   integration: lambda
-                  request:
-                      parameters:
-                          paths:
-                              user_id: true
-                          querystrings:
-                              provider_id: true
+    #GSI
+    getPlaylistsByUserIdBetweenCreatedAt:
+        handler: getPlaylistsByUserIdBetweenCreatedAt.lambda_handler
+        events:
+            - http:
+                  path: /playlist/by-user/{provider_id}/{user_id}/{start_date}/{end_date}
+                  method: get
+                  cors: true
+                  integration: lambda
 
     getSongsPlaylist:
         handler: getSongsPlaylist.lambda_handler
@@ -39,10 +42,6 @@ functions:
                   method: get
                   cors: true
                   integration: lambda
-                  request:
-                      parameters:
-                          paths:
-                              playlist_id: true
 
     createPlaylist:
         handler: createPlaylist.lambda_handler
@@ -52,12 +51,6 @@ functions:
                   method: post
                   cors: true
                   integration: lambda
-                  request:
-                      parameters:
-                          querystrings:
-                              provider_id: true
-                              playlist_id: true
-                              user_id: true
 
     addSong:
         handler: addSong.lambda_handler
@@ -67,13 +60,6 @@ functions:
                   method: put
                   cors: true
                   integration: lambda
-                  request:
-                      parameters:
-                          paths:
-                              playlist_id: true
-                              song_id: true
-                          querystrings:
-                              provider_id: true
 
     deleteSong:
         handler: deleteSong.lambda_handler
@@ -83,11 +69,7 @@ functions:
                   method: delete
                   cors: true
                   integration: lambda
-                  request:
-                      parameters:
-                          paths:
-                              playlist_id: true
-                              song_id: true
+
     deletePlaylist:
         handler: deletePlaylist.lambda_handler
         events:
@@ -96,10 +78,6 @@ functions:
                   method: delete
                   cors: true
                   integration: lambda
-                  request:
-                      parameters:
-                          paths:
-                              playlist_id: true
 
 resources:
     Resources:

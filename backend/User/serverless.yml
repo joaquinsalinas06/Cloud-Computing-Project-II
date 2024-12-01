@@ -23,15 +23,10 @@ functions:
         handler: Handler/getUser.lambda_handler
         events:
             - http:
-                  path: /user/{provider_id}/{user_id} #Old /user/get/{provider_id}/{user_id}
+                  path: /user/{provider_id}/{user_id}
                   method: get
                   cors: true
                   integration: lambda
-                  request:
-                      parameters:
-                          paths:
-                              provider_id: true
-                              user_id: true
 
     getallUsersByProvider:
         handler: Handler/getallUsersByProvider.lambda_handler
@@ -41,13 +36,6 @@ functions:
                   method: get
                   cors: true
                   integration: lambda
-                  request:
-                      parameters:
-                          paths:
-                              provider_id: true
-                          querystrings:
-                              page: false
-                              limit: false
 
     logoutUser:
         handler: Handler/logout.lambda_handler
@@ -84,11 +72,6 @@ functions:
                   method: put
                   cors: true
                   integration: lambda
-                  request:
-                      parameters:
-                          paths:
-                              provider_id: true
-                              user_id: true
 
     deleteUser:
         handler: Handler/deleteUser.lambda_handler
@@ -98,11 +81,6 @@ functions:
                   method: delete
                   cors: true
                   integration: lambda
-                  request:
-                      parameters:
-                          paths:
-                              provider_id: true
-                              user_id: true
 
     validateToken:
         handler: Handler/validarToken.lambda_handler
@@ -125,6 +103,7 @@ resources:
                       KeyType: HASH
                     - AttributeName: user_id
                       KeyType: RANGE
+                # TODO: GSI
                 LocalSecondaryIndexes:
                     - IndexName: ${self:provider.environment.LSI1}
                       KeySchema:
@@ -154,6 +133,7 @@ resources:
                       KeyType: HASH
                     - AttributeName: user_id
                       KeyType: RANGE
+                # TODO: GSI?
                 LocalSecondaryIndexes:
                     - IndexName: ${self:provider.environment.LSI2}
                       KeySchema:
