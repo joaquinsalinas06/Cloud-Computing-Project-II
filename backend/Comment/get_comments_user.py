@@ -17,7 +17,7 @@ def lambda_handler(event, context):
     token = event['headers']['Authorization']
     token_function = os.environ['LAMBDA_FUNCTION_NAME']  
 
-    provider_id = event['path']['provider_id']  
+    provider_id = event['body']['provider_id']  
         
     
     lambda_client = boto3.client('lambda')

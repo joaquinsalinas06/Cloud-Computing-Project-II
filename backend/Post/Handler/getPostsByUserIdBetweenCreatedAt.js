@@ -1,5 +1,5 @@
 import AWS from "aws-sdk";
-// TODO: SECURITY 
+
 const { DynamoDB } = AWS;
 const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
@@ -15,7 +15,8 @@ export const handler = async (event) => {
     : null;
 
   const token = event.headers?.Authorization;
- 
+  const provider_id = event.body?.provider_id;
+
   if (!token) {
     return {
       statusCode: 401,
@@ -70,7 +71,7 @@ export const handler = async (event) => {
   const lambda = new AWS.Lambda();
 
   const invokeParams = {
-    FunctionName: process.env.LAMBDA_FUNCTION_NAME,
+    FunctionName: token_function,
     InvocationType: "RequestResponse",
     Payload: JSON.stringify({ token,provider_id}),
   };
