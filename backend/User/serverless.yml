@@ -16,7 +16,7 @@ provider:
     TABLE2_NAME: ${sls:stage}-t_token
     LSI2: ${sls:stage}-provider_id-token-index
 
-    AUTHORIZER_FUNCTION_NAME: ${sls:stage}-validateToken
+    AUTHORIZER_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
   getUser:
