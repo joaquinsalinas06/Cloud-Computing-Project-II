@@ -3,7 +3,6 @@ import csv
 import os
 import time
 
-# Inicializar clientes de AWS
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')  
 s3 = boto3.client('s3', region_name='us-east-1')
 glue = boto3.client('glue', region_name='us-east-1')
@@ -28,9 +27,6 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
         escritor_csv_playlist = csv.writer(archivo_playlist)
         escritor_csv_playlist_song = csv.writer(archivo_playlist_song)
         
-        escritor_csv_playlist.writerow(['provider_id', 'playlist_id', 'created_at', 'playlist_name', 'user_id'])
-        escritor_csv_playlist_song.writerow(['playlist_id', 'song_id'])
-        
         while True:
             respuesta = tabla.scan(**scan_kwargs)
             items = respuesta['Items']
@@ -49,8 +45,8 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_play
                 playlists.append([provider_id, playlist_id, created_at, playlist_name, user_id])
                 
                 for song_id in song_ids:
-                    playlist_song_relations.append([playlist_id, song_id])
-            
+                    playlist_song_relations.append([provider_id, playlist_id, song_id])  # Incluir provider_id
+                
             if 'LastEvaluatedKey' in respuesta:
                 scan_kwargs['ExclusiveStartKey'] = respuesta['LastEvaluatedKey']
             else:
@@ -83,7 +79,6 @@ def subir_csv_a_s3(archivo_csv_playlist, archivo_csv_playlist_song, nombre_bucke
         print(f"Error al subir los archivos a S3: {e}")
         return False
 
-
 def crear_base_de_datos_en_glue(glue_database):
     """Crear base de datos en Glue si no existe."""
     try:
@@ -111,7 +106,6 @@ def registrar_datos_en_glue(glue_database, glue_table_playlist, glue_table_playl
     input_path_playlist_song = f"s3://{nombre_bucket}/playlists/songs/"
     
     try:
-        # Registrar la tabla de playlists
         glue.create_table(
             DatabaseName=glue_database,
             TableInput={
@@ -144,6 +138,7 @@ def registrar_datos_en_glue(glue_database, glue_table_playlist, glue_table_playl
                 'Name': glue_table_playlist_song,
                 'StorageDescriptor': {
                     'Columns': [
+                        {'Name': 'provider_id', 'Type': 'string'},  # Añadido provider_id aquí
                         {'Name': 'playlist_id', 'Type': 'bigint'},
                         {'Name': 'song_id', 'Type': 'bigint'}
                     ],
@@ -165,7 +160,6 @@ def registrar_datos_en_glue(glue_database, glue_table_playlist, glue_table_playl
     except Exception as e:
         print(f"Error al registrar las tablas en Glue: {e}")
 
-# Función principal para ejecutar el flujo completo
 if __name__ == "__main__":
     if crear_base_de_datos_en_glue(glue_database):
         exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_playlist_song)

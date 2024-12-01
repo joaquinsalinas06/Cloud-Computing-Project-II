@@ -3,12 +3,10 @@ import csv
 import os
 import time
 
-# Inicializar clientes de AWS
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')  
 s3 = boto3.client('s3', region_name='us-east-1')
 glue = boto3.client('glue', region_name='us-east-1')
 
-# Parámetros de configuración
 tabla_dynamo = 'dev-t_post' 
 nombre_bucket = 'ingesta-stage-prod'  
 archivo_csv = 'stage-prod-post.csv'
@@ -63,7 +61,6 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
                 
                 escritor_csv.writerow(row)
             
-            # Verifica si hay más datos en DynamoDB
             if 'LastEvaluatedKey' in respuesta:
                 scan_kwargs['ExclusiveStartKey'] = respuesta['LastEvaluatedKey']
             else:
