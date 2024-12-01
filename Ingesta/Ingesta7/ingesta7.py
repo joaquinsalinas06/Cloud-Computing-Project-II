@@ -78,23 +78,22 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_album, archivo_csv_song):
     
     with open(archivo_csv_album, 'w', newline='') as archivo:
         escritor_csv = csv.writer(archivo)  
-        escritor_csv.writerow([
-            'provider_id', 'album_id', 'artist_id', 'cover_image_url', 'release_date', 'songs_count', 'spotify_url', 'title'
-        ])
         escritor_csv.writerows(album_rows)
     
     with open(archivo_csv_song, 'w', newline='') as archivo:
         escritor_csv = csv.writer(archivo)  
-        escritor_csv.writerow([
-            'song_id', 'album_id', 'provider_id'
-        ])
         escritor_csv.writerows(song_rows)
     
     print(f"Datos exportados a {archivo_csv_album} y {archivo_csv_song}")
 
+
+          
+
+
+
 def subir_csv_a_s3(archivo_csv_album, archivo_csv_song, nombre_bucket):
-    carpeta_destino_album = 'album/albums/'  # La carpeta de destino para los álbumes
-    carpeta_destino_song = 'album/songs/'    # La carpeta de destino para las canciones
+    carpeta_destino_album = 'album/albums/'  
+    carpeta_destino_song = 'album/songs/'   
     
     archivo_s3_album = f"{carpeta_destino_album}{archivo_csv_album}" 
     archivo_s3_song = f"{carpeta_destino_song}{archivo_csv_song}"
@@ -193,6 +192,7 @@ def registrar_datos_en_glue(glue_database, glue_table_name_album, glue_table_nam
         print(f"Tablas {glue_table_name_album} y {glue_table_name_song} registradas exitosamente en la base de datos {glue_database}.")
     except Exception as e:
         print(f"Error al registrar las tablas en Glue: {e}")
+
 
 if __name__ == "__main__":
     if crear_base_de_datos_en_glue(glue_database):
