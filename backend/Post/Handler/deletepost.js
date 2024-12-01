@@ -13,22 +13,20 @@ module.exports.handler = async function (event) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ error: "Missing required parameters or token" }),
+      body: { error: "Missing required parameters or token" },
     };
   }
 
-  // Validación de post_id (asegurándonos de que sea un número)
   const parsedPostId = parseInt(post_id, 10);
   if (isNaN(parsedPostId)) {
     console.log("Invalid post_id:", post_id);
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ error: "Invalid post_id, it should be a number" }),
+      body: { error: "Invalid post_id, it should be a number" },
     };
   }
 
-  // Autorización (verifica si el token es válido)
   const lambda = new AWS.Lambda();
   const invokeParams = {
     FunctionName: process.env.LAMBDA_FUNCTION_NAME,
@@ -48,7 +46,7 @@ module.exports.handler = async function (event) {
       return {
         statusCode: 401,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ error: "Unauthorized", message: errorMessage }),
+        body: { error: "Unauthorized", message: errorMessage },
       };
     }
   } catch (error) {
@@ -60,20 +58,18 @@ module.exports.handler = async function (event) {
     };
   }
 
-  // Parametros para la consulta DynamoDB
   const queryParams = {
     TableName: process.env.TABLE_NAME,
     KeyConditionExpression: "provider_id = :provider_id AND post_id = :post_id",
     ExpressionAttributeValues: {
       ":provider_id": provider_id,
-      ":post_id": parsedPostId, // Asegurándonos que post_id sea un número
+      ":post_id": parsedPostId, 
     },
   };
 
   console.log("Query parameters:", queryParams);
 
   try {
-    // Realiza la consulta para ver si existe el post
     const result = await dynamoDb.query(queryParams).promise();
     console.log("Query result:", result);
 
@@ -82,36 +78,34 @@ module.exports.handler = async function (event) {
       return {
         statusCode: 404,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ error: "Post not found" }),
+        body: { error: "Post not found" },
       };
     }
 
-    // Parametros para la eliminación
     const deleteParams = {
       TableName: process.env.TABLE_NAME,
       Key: { 
-        provider_id: provider_id,  // provider_id es String
-        post_id: parsedPostId,     // post_id es un número
+        provider_id: provider_id,  
+        post_id: parsedPostId,     
       },
     };
 
     console.log("Delete parameters:", deleteParams);
 
-    // Elimina el post
     await dynamoDb.delete(deleteParams).promise();
     console.log("Post deleted successfully");
 
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: "Post deleted successfully" }),
+      body: { message: "Post deleted successfully" },
     };
   } catch (error) {
     console.log("Error deleting post:", error);
     return {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ error: "Could not delete post", details: error.message }),
+      body: { error: "Could not delete post", details: error.message },
     };
   }
 };
