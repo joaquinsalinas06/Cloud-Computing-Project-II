@@ -46,7 +46,7 @@ functions:
                 limit: true
   #LSI
   getPostsByUserId:
-    handler: Handler/getPostByUserId.handler
+    handler: Handler/getpostbyuserid.handler
     events:
       - http:
           path: /post/provider/{provider_id}/user/{user_id}
