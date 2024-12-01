@@ -1,7 +1,7 @@
 FROM python:3.8-slim
 
 # Instalar dependencias necesarias
-RUN pip install boto3 pandas mysql-connector-python
+RUN pip install -r requirements.txt
 
 # Establecer el directorio de trabajo
 WORKDIR /app
