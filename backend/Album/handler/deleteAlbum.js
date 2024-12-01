@@ -36,7 +36,7 @@ export async function handler(event) {
   const invokeParams = {
     FunctionName: token_function,
     InvocationType: "RequestResponse",
-    Payload: JSON.stringify({ token }),
+    Payload: JSON.stringify({ token, provider_id }),
   };
 
   try {
@@ -72,7 +72,7 @@ export async function handler(event) {
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: { message: "Album was succesfuly created" },
+      body: { message: "Album was succesfuly deleted" },
     };
   } catch (error) {
     return {

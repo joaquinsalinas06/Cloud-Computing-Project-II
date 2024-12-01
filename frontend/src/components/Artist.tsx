@@ -9,12 +9,33 @@ const Artist: React.FC<ArtistProps> = ({ artist }) => {
 	const birthDate = new Date(artist.birth_date).toLocaleDateString();
 
 	return (
-		<div className="bg-white rounded-lg overflow-hidden shadow-lg w-full max-w-xs mx-4 my-2">
-			<div className="relative w-full h-48 bg-gray-200">
+		<div
+			style={{
+				backgroundColor: "rgba(255, 255, 255, 0.1)",
+				borderRadius: "8px",
+				padding: "1rem",
+				marginBottom: "1rem",
+				width: "100%",
+				height: "100%",
+				boxSizing: "border-box",
+			}}
+		>
+			<div
+				className="relative bg-gray-200"
+				style={{
+					height: "300px",
+					width: "100%",
+				}}
+			>
 				<img
 					src={artist.cover_image_url}
 					alt={artist.name}
-					className="w-full h-full object-cover"
+					style={{
+						objectFit: "cover",
+						width: "100%",
+						height: "100%",
+						borderRadius: "8px",
+					}}
 				/>
 			</div>
 
@@ -31,16 +52,10 @@ const Artist: React.FC<ArtistProps> = ({ artist }) => {
 				<p className="text-sm text-gray-600 mb-3">
 					<strong>Born:</strong> {birthDate}
 				</p>
-
-				<div className="flex items-center">
-					<span
-						className={`px-4 py-2 rounded-full text-white font-semibold ${
-							artist.status ? "bg-green-500" : "bg-red-500"
-						}`}
-					>
-						{artist.status ? "Active" : "Inactive"}
-					</span>
-				</div>
+				<p className="text-sm text-gray-600">
+					<strong>Status:</strong>{" "}
+					{artist.status ? "Active" : "Inactive"}
+				</p>
 			</div>
 		</div>
 	);

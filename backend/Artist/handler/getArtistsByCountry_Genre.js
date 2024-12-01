@@ -6,6 +6,7 @@ const TABLE_NAME = process.env.TABLE_NAME;
 const GSI_NAME = process.env.GSI;
 
 export const handler = async (event) => {
+    const provider_id = event.path?.provider_id;
     const country = event.query?.country;
     const genre = event.query?.genre;
     const limit = event.query?.limit || 10;
@@ -47,7 +48,7 @@ export const handler = async (event) => {
     const invokeParams = {
         FunctionName: token_function,
         InvocationType: "RequestResponse",
-        Payload: JSON.stringify({ token }),
+        Payload: JSON.stringify({ token, provider_id }),
     };
 
     try {

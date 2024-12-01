@@ -18,7 +18,7 @@ module.exports.handler = async function (event) {
   const invokeParams = {
     FunctionName: process.env.LAMBDA_FUNCTION_NAME,
     InvocationType: "RequestResponse",
-    Payload: JSON.stringify({ token }),
+    Payload: JSON.stringify({ token, provider_id }),
   };
 
   try {
@@ -30,38 +30,38 @@ module.exports.handler = async function (event) {
       return {
         statusCode: 401,
         headers: { "Content-Type": "application/json" },
-        body: { error: "Unauthorized", message: errorMessage },
+        body: JSON.stringify({ error: "Unauthorized", message: errorMessage }),
       };
     }
   } catch (error) {
     return {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
-      body: { error: "Authorization check failed", details: error.message },
+      body: JSON.stringify({ error: "Authorization check failed", details: error.message }),
     };
   }
 
+  // Parámetros para la consulta a DynamoDB
   const params = {
-    TableName: TABLE_NAME,
-    KeyConditionExpression:
-      "provider_id = :provider_id and artist_id = :artist_id",
+    TableName: process.env.TABLE_NAME,
+    KeyConditionExpression: "provider_id = :provider_id and post_id = :post_id", // Solo por provider_id y post_id
     ExpressionAttributeValues: {
       ":provider_id": provider_id,
-      ":artist_id": parseInt(artist_id, 10),
+      ":post_id": parseInt(post_id, 10),  
     },
   };
 
   try {
-    const data = await dynamodb.query(params).promise();
+    const data = await dynamoDb.query(params).promise();
     if (data.Items && data.Items.length > 0) {
       return {
         statusCode: 200,
-        body: result.Items[0],
+        body: data.Items[0], 
       };
     } else {
       return {
         statusCode: 404,
-        body: JSON.stringify({ message: "Post not found" }),
+        body: { message: "Post not found" },
       };
     }
   } catch (error) {

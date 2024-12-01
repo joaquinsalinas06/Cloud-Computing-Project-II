@@ -7,6 +7,7 @@ const TABLE_NAME = process.env.TABLE_NAME;
 export async function handler(event) {
   const artists =
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
+  const provider_id = event.path?.provider_id;
   const token = event.headers?.Authorization;
 
   if (!token) {
@@ -40,7 +41,7 @@ export async function handler(event) {
   const invokeParams = {
     FunctionName: token_function,
     InvocationType: "RequestResponse",
-    Payload: JSON.stringify({ token }),
+    Payload: JSON.stringify({ token, provider_id }),
   };
 
   try {

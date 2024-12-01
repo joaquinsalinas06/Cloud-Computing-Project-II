@@ -1,0 +1,38 @@
+SELECT 
+    p.provider_id, 
+    sa.playlist_id, 
+    a.playlist_name, 
+    COUNT(p.song_id) AS total_posts
+FROM "stage-prod-post" p
+JOIN "stage-prod-playlist-song" sa ON p.song_id = sa.song_id
+JOIN "stage-prod-playlist" a ON sa.playlist_id = a.playlist_id
+JOIN (
+    SELECT 
+        p.provider_id, 
+        sa.playlist_id, 
+        COUNT(p.song_id) AS post_count
+    FROM "stage-prod-post" p
+    JOIN "stage-prod-playlist-song" sa ON p.song_id = sa.song_id
+    GROUP BY p.provider_id, sa.playlist_id
+) subquery ON subquery.provider_id = p.provider_id AND subquery.playlist_id = sa.playlist_id
+JOIN (
+    SELECT 
+        provider_id, 
+        MAX(post_count) AS max_posts
+    FROM (
+        SELECT 
+            p.provider_id, 
+            sa.playlist_id, 
+            COUNT(p.song_id) AS post_count
+        FROM "stage-prod-post" p
+        JOIN "stage-prod-playlist-song" sa ON p.song_id = sa.song_id
+        GROUP BY p.provider_id, sa.playlist_id
+    ) song_count
+    GROUP BY provider_id
+) ma ON subquery.provider_id = ma.provider_id
+WHERE subquery.post_count = ma.max_posts
+GROUP BY p.provider_id, sa.playlist_id, a.playlist_name
+ORDER BY p.provider_id, total_posts DESC;
+
+
+Top 3 de playlist por proveedor

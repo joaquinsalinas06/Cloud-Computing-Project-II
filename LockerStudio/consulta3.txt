@@ -1,0 +1,4 @@
+SELECT provider_id, user_id, COUNT(*) AS total_publicaciones, MIN(created_at) AS fecha_publicacion_minima, MAX(created_at) AS fecha_publicacion_maxima
+FROM "stage-prod-post"
+GROUP BY provider_id, user_id;
+Cantidad de publicaciones por usuario y provider    

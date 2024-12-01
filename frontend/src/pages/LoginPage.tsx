@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/auth";
 import ProviderContext from "../contexts/ProviderContext";
+import UserContext from "../contexts/UserContext";
 import ThemeWrapper from "../components/ThemeWrapper";
 import { ProviderSelector } from "../components/ProviderSelector";
 
@@ -9,6 +10,8 @@ const LoginPage: React.FC = () => {
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 	const { provider, switchProvider } = useContext(ProviderContext)!;
+	const { setUser } = useContext(UserContext)!;
+
 	const navigate = useNavigate();
 
 	const handleLogin = async (event: React.FormEvent) => {
@@ -20,7 +23,8 @@ const LoginPage: React.FC = () => {
 				password,
 			};
 			const response = await login(payload);
-			console.log(response);
+			switchProvider(provider);
+			setUser(response.body.data?.user_id ?? 0);
 			navigate("/home");
 		} catch (error) {
 			console.error(error);

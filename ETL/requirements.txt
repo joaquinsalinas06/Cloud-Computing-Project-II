@@ -1,0 +1,5 @@
+boto3
+pandas
+pyathena
+sqlalchemy
+mysql-connector-python

@@ -18,7 +18,7 @@ module.exports.handler = async function (event) {
   const invokeParams = {
     FunctionName: process.env.LAMBDA_FUNCTION_NAME,
     InvocationType: "RequestResponse",
-    Payload: JSON.stringify({ token }),
+    Payload: JSON.stringify({ token,provider_id}),
   };
 
   try {

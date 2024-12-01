@@ -1,5 +1,4 @@
 import AWS from "aws-sdk";
-
 const { DynamoDB } = AWS;
 const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
@@ -7,6 +6,7 @@ const GSI_NAME = process.env.GSI;
 
 export default async function handler(event) {
   const artist_id = event.path?.artist_id;
+  const provider_id = event.path?.provider_id;
   const start_date = event.query?.start_date;
   const end_date = event.query?.end_date;
   const limit = parseInt(event.query?.limit, 10) || 10;
@@ -17,7 +17,7 @@ export default async function handler(event) {
   const token = event.headers?.Authorization;
   const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
-  if (!token) {
+  if (!token || !provider_id) {
     return {
       statusCode: 401,
       headers: {
@@ -46,7 +46,7 @@ export default async function handler(event) {
   const invokeParams = {
     FunctionName: token_function,
     InvocationType: "RequestResponse",
-    Payload: JSON.stringify({ token }),
+    Payload: { "token":token, "provider_id": provider_id },
   };
 
   try {

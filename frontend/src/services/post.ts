@@ -1,20 +1,21 @@
 import { PostRequest, PostResponse } from "../types/post";
 
 const POST_URL =
-	" https://ifvqykh4kb.execute-api.us-east-1.amazonaws.com/dev/post/getall";
+	"https://2xvfb53vyk.execute-api.us-east-1.amazonaws.com/dev/posts";
 export const fetchPosts = async (
 	payload: PostRequest
 ): Promise<PostResponse> => {
-	console.log(payload);
+	console.log("Fetching posts:", payload);
 	const url = `${POST_URL}/${payload.provider_id}?page=${payload.page}&limit=${payload.limit}`;
 
 	const response = await fetch(url, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
+			Authorization: `${localStorage.getItem("token")}`,
 		},
 	});
-	console.log(response);
+	console.log("Response:", response);
 	if (!response.ok) {
 		throw new Error("Failed to fetch posts");
 	}

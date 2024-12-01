@@ -5,9 +5,10 @@ const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  const { updateData } = JSON.parse(event.body);
+  const updateData = event.body;
   const provider_id = event.path?.provider_id;
-  const artistId = event.path?.artistId;
+  let artist_id = event.path?.artist_id;
+  artist_id = parseInt(artist_id)
   const token = event.headers?.Authorization;
 
   if (!token) {
@@ -29,7 +30,7 @@ export async function handler(event) {
   const invokeParams = {
     FunctionName: token_function,
     InvocationType: "RequestResponse",
-    Payload: JSON.stringify({ token }),
+    Payload: JSON.stringify({ token, provider_id }),
   };
 
   try {
@@ -74,12 +75,11 @@ export async function handler(event) {
 
   const params = {
     TableName: TABLE_NAME,
-    Key: { provider_id, artistId },
+    Key: { provider_id, artist_id },
     UpdateExpression: `SET ${updateExpression}`,
     ExpressionAttributeNames: expressionAttributeNames,
     ExpressionAttributeValues: expressionAttributeValues,
   };
-
   try {
     await dynamodb.update(params).promise();
     return {
@@ -89,7 +89,7 @@ export async function handler(event) {
       },
       body: {
         message: "Artista actualizado con éxito",
-        artistId,
+        artist_id,
         updateData,
       },
     };

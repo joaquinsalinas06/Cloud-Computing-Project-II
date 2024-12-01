@@ -14,6 +14,7 @@ export async function handler(event) {
     ? JSON.parse(decodeURIComponent(event.query.exclusiveStartKey))
     : null;
   const token = event.headers?.Authorization;
+  const provider_id = event.path?.provider_id;
 
   if (!token) {
     return {
@@ -44,7 +45,7 @@ export async function handler(event) {
   const invokeParams = {
     FunctionName: token_function,
     InvocationType: "RequestResponse",
-    Payload: JSON.stringify({ token }),
+    Payload: JSON.stringify({ token, provider_id }),
   };
 
   try {

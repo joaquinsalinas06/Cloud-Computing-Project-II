@@ -30,7 +30,7 @@ export async function handler(event) {
   const invokeParams = {
     FunctionName: token_function,
     InvocationType: "RequestResponse",
-    Payload: JSON.stringify({ token }),
+    Payload: JSON.stringify({ token, provider_id }),
   };
 
   try {
@@ -85,6 +85,7 @@ export async function handler(event) {
   }
 
   album.album_id = highestAlbumId + 1;
+  album.provider_id = provider_id;
 
   const params = {
     TableName: TABLE_NAME,
