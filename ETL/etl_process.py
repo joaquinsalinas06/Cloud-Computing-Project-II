@@ -102,6 +102,7 @@ def insert_summary_table(table_name,query, execution_time, num_records, results,
         connection = mysql.connector.connect(
             host=MYSQL_HOST,  # Reemplazar con tu host MySQL
             user=MYSQL_USER,
+            port=MYSQL_PORT,
             password=MYSQL_PASSWORD,
             database=MYSQL_DB
         )   
