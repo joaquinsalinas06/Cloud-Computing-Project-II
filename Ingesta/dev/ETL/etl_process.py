@@ -34,6 +34,9 @@ def run_athena_query(tablename, query):
     num_records = 0
     results = None
     execution_time = 0
+    query_type = query.split()[0].upper()  # Determina el tipo de consulta, asumiendo que el primer palabra es el tipo
+
+    logger.info(f"Ejecutando consulta Athena para la tabla: {tablename}. Tipo de consulta: {query_type}. Consulta: {query}")
 
     try:
         # Configuración de Athena
@@ -41,31 +44,37 @@ def run_athena_query(tablename, query):
         output_location = ATHENA_S3_OUTPUT
 
         # Ejecutar la consulta en Athena
+        logger.info(f"Iniciando la ejecución de la consulta Athena...")
         response = athena_client.start_query_execution(
             QueryString=query,
             ResultConfiguration={
                 'OutputLocation': output_location,
             },
             QueryExecutionContext={
-               'Database': 'stage-prod'  # Specify the database here
+               'Database': 'stage-prod'  # Especificar la base de datos
             }
         )
 
         query_execution_id = response['QueryExecutionId']
+        logger.info(f"Consulta enviada con éxito. ID de ejecución: {query_execution_id}")
 
         # Esperar que la consulta termine
         wait_for_query_to_complete(athena_client, query_execution_id)
+        logger.info(f"Consulta completada con éxito. Obteniendo los resultados...")
+
         # Obtener los resultados
         result_response = athena_client.get_query_results(QueryExecutionId=query_execution_id)
         num_records = len(result_response['ResultSet']['Rows']) - 1  # Restar 1 por la fila de encabezado
         results = str(result_response['ResultSet']['Rows'][1:])  # Excluye la fila de encabezado
 
-        # Calcular tiempo de ejecución
+        # Calcular el tiempo de ejecución
         end_time = datetime.now()
         execution_time = (end_time - start_time).total_seconds()
 
+        logger.info(f"Consulta completada. Tiempo de ejecución: {execution_time:.2f} segundos. Número de registros obtenidos: {num_records}")
+
         # Insertar los resultados en la tabla resumen
-        #insert_summary_table(tablename,query, execution_time, num_records, results, start_time, end_time, status, error_message)
+        # insert_summary_table(tablename, query, execution_time, num_records, results, start_time, end_time, status, error_message)
 
     except Exception as e:
         logger.error(f"Error ejecutando la consulta Athena: {e}")
@@ -75,9 +84,10 @@ def run_athena_query(tablename, query):
         error_message = str(e)
 
         # Insertar el resumen del error
-        insert_summary_table(tablename,query, execution_time, num_records, results, start_time, end_time, status, error_message)
+        insert_summary_table(tablename, query, execution_time, num_records, results, start_time, end_time, status, error_message)
 
 def wait_for_query_to_complete(athena_client, query_execution_id):
+    logger.info(f"Esperando la finalización de la consulta Athena (ID: {query_execution_id})...")
     while True:
         response = athena_client.get_query_execution(QueryExecutionId=query_execution_id)
         status = response['QueryExecution']['Status']['State']
@@ -87,20 +97,25 @@ def wait_for_query_to_complete(athena_client, query_execution_id):
         time.sleep(2)  # Poll every 2 seconds
 
     if status != 'SUCCEEDED':
+        logger.error(f"Consulta Athena fallida o cancelada. Estado: {status}")
         raise ValueError(f"Query failed or was cancelled. Status: {status}")
     
+    logger.info(f"Consulta Athena completada con estado: {status}")
+
 def process_query_file(query_file, table_name):
     """Procesa un archivo de consulta SQL y ejecuta el proceso ETL"""
+    logger.info(f"Procesando archivo de consulta: {query_file}")
     with open(query_file, 'r') as file:
         query = file.read().strip()  # Lee el archivo de consulta SQL
-        print(query)
-        run_athena_query(table_name,query)
+        logger.debug(f"Consulta leída: {query}")
+        run_athena_query(table_name, query)
     # transform_and_load_to_mysql(result_location, table_name)
 
-def insert_summary_table(table_name,query, execution_time, num_records, results, start_time, end_time, status, error_message):
+def insert_summary_table(table_name, query, execution_time, num_records, results, start_time, end_time, status, error_message):
     try:
+        logger.info(f"Ingresando resumen a la base de datos MySQL para la tabla {table_name}...")
         connection = mysql.connector.connect(
-            host=MYSQL_HOST,  # Reemplazar con tu host MySQL
+            host=MYSQL_HOST,
             user=MYSQL_USER,
             port=MYSQL_PORT,
             password=MYSQL_PASSWORD,
@@ -118,10 +133,10 @@ def insert_summary_table(table_name,query, execution_time, num_records, results,
         cursor.execute(insert_query, values)
         connection.commit()
 
+        logger.info(f"Resumen insertado con éxito en MySQL. ID de consulta: {cursor.lastrowid}")
+
         cursor.close()
         connection.close()
-
-        logger.info(f"Resumen insertado con éxito. Query ID: {cursor.lastrowid}")
 
     except mysql.connector.Error as err:
         logger.error(f"Error al insertar el resumen en MySQL: {err}")
@@ -132,6 +147,7 @@ def insert_summary_table(table_name,query, execution_time, num_records, results,
 def etl_process():
     """Proceso ETL que maneja múltiples archivos de consultas"""
     query_dir = '../Consultas/Queries'  # Directorio que contiene las consultas SQL
+    logger.info(f"Iniciando el proceso ETL. Buscando archivos en el directorio {query_dir}")
 
     # Itera sobre los archivos de consultas en el directorio
     for i, query_file in enumerate(os.listdir(query_dir)):
@@ -141,8 +157,9 @@ def etl_process():
             logger.info(f"Procesando archivo de consulta: {query_file_path}")
             process_query_file(query_file_path, table_name)
 
+    logger.info("Proceso ETL completado.")
 
 if __name__ == "__main__":
+    logger.info("Iniciando el proceso ETL...")
     etl_process()  # Ejecutar el proceso ETL
-    #comando para correr el contenedor obligatorio
-    #docker run -v ~/Cloud-Computing-Project-II/ETL:/app/ETL -v ~/Cloud-Computing-Project-II/Consultas:/app/Consultas -w /app/ETL -v /home/ubuntu/.aws/credentials:/root/.aws/credentials etl
+    logger.info("Proceso ETL finalizado.")
