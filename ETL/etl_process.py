@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 import os
 import time
 
-ATHENA_S3_OUTPUT = 's3://resultados-dev-athena/Unsaved/2024/11/29/'  
+ATHENA_S3_OUTPUT = 's3://resultados-dev-athena/consulta1/Unsaved/2024/12/01/'  
 REGION_NAME = 'us-west-1'
 
 MYSQL_HOST = '52.20.58.206'
@@ -55,6 +55,10 @@ def main():
 
     for file in files:
         local_file_path = os.path.join(local_download_path, file.split('/')[-1])
+
+        if local_file_path.endswith('.csv.metadata'):
+            print(f"Archivo ignorado: {local_file_path}")
+            continue
 
         try:
             df = pd.read_csv(local_file_path)
