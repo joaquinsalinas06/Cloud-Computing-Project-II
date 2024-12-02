@@ -1,3 +1,4 @@
+from datetime import datetime
 import boto3
 import uuid
 import os
@@ -35,15 +36,15 @@ def lambda_handler(event, context):
             'body': {'error': 'Unauthorized', 'message': error_message}
         }
 
-
-
     user_id = event['path']['user_id']
     post_id = event['path']['post_id']
     text = event['body']['text']
-    date = event['body']['date']
+    date = datetime.now().strftime("%Y-%m-%-d")
     nombre_tabla = os.environ["TABLE_NAME"]
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(nombre_tabla)
+
+    user_id = int(user_id)
 
     response = table.query(
         KeyConditionExpression=Key('provider_id').eq(provider_id),
