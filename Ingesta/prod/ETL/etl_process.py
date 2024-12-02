@@ -9,7 +9,7 @@ import time
 ATHENA_S3_OUTPUT = 's3://flauta-dev-c2/Unsaved/2024/12/01/'  
 REGION_NAME = 'us-east-1'
 
-MYSQL_HOST = '44.201.140.211'
+MYSQL_HOST = '54.205.43.36'
 MYSQL_PORT = '8005'  
 MYSQL_USER = 'root'  
 MYSQL_PASSWORD = 'utec'

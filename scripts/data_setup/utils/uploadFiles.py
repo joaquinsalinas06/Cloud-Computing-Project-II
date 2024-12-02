@@ -6,7 +6,7 @@ from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 s3 = boto3.client('s3', region_name='us-east-1')
 dynamodb = boto3.client('dynamodb', region_name='us-east-1')
 
-bucket_name = "flt-cloud-data"
+bucket_name = "flt-data-cloud"
 tablas_archivos = {
     #"dev-t_album": ["albumsV1.json", "albumsV2.json"],
     "dev-t_album": ["albumsV1.json", "albumsV2.json", "albumsData.json"], #// Uncomment this line to include the albumsData.json file for Data Science
