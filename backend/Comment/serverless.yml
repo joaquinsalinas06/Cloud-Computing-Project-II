@@ -29,7 +29,7 @@ functions:
         handler: get_comments_user.lambda_handler
         events:
             - http:
-                  path: /comments/user/{user_id}
+                  path: /comments/user/{provider_id}/{user_id}
                   method: get
                   cors: true
                   integration: lambda

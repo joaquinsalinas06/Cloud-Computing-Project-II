@@ -25,7 +25,7 @@ functions:
                   integration: lambda
 
     getAllPostsByProvider:
-        handler: Handler/getAllPostByProviderId.handler
+        handler: Handler/getAllPostsByProviderId.handler
         events:
             - http:
                   path: /posts/{provider_id}
@@ -35,7 +35,7 @@ functions:
 
     #LSI
     getPostsByUserId:
-        handler: Handler/getPostByUserId.handler
+        handler: Handler/getPostsByUserId.handler
         events:
             - http:
                   path: /posts/by-user/{provider_id}/{user_id}

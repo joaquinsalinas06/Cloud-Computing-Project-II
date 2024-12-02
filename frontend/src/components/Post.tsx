@@ -54,9 +54,6 @@ const Post: React.FC<PostProps> = ({ post }) => {
 				{username}
 			</h3>
 			<p>{post.description}</p>
-			<p>
-				Song ID: {post.song_id} | Album ID: {post.album_id}
-			</p>
 			<p>Created At: {post.created_at}</p>
 		</div>
 	);
