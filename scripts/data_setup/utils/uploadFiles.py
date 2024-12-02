@@ -21,7 +21,7 @@ tablas_archivos = {
 
     "dev-t_user": ["users.json"],
 
-    "dev-t_comment": ["comments.json"],
+    "dev-t_comment": ["commentsV1.json", "commentsV2.json"],
     "dev-t_playlist": ["playlists.json"],
 }
 
