@@ -15,6 +15,7 @@ import ArtistPage from "./pages/ArtistPage";
 import AlbumPage from "./pages/AlbumPage";
 import SongPage from "./pages/SongPage";
 import ProfilePage from "./pages/ProfilePage";
+import PostDetailsPage from "./pages/PostDetailsPage";
 
 const App: React.FC = () => {
 	return (
@@ -37,6 +38,10 @@ const App: React.FC = () => {
 							<Route path="/albums" element={<AlbumPage />} />
 							<Route path="/songs" element={<SongPage />} />
 							<Route path="/profile" element={<ProfilePage />} />
+							<Route
+								path="/posts/:post_id"
+								element={<PostDetailsPage />}
+							/>
 						</Routes>
 					</Router>
 				</AudioProvider>

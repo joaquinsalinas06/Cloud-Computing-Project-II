@@ -1,7 +1,7 @@
 import { PostRequest, PostResponse } from "../types/post";
 
 const POST_URL =
-	"https://igs2w5en0l.execute-api.us-east-1.amazonaws.com/dev/posts";
+	"https://nzq2dnr955.execute-api.us-east-1.amazonaws.com/dev/posts";
 export const fetchPosts = async (
 	payload: PostRequest
 ): Promise<PostResponse> => {
@@ -22,4 +22,28 @@ export const fetchPosts = async (
 
 	const data: PostResponse = await response.json();
 	return data;
+};
+
+import { Post } from "../types/post";
+
+export const fetchPost = async (
+	provider_id: string,
+	post_id: number
+): Promise<Post> => {
+	const url = `${POST_URL}/${provider_id}/${post_id}`;
+
+	const response = await fetch(url, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `${localStorage.getItem("token")}`,
+		},
+	});
+
+	if (!response.ok) {
+		throw new Error("Failed to fetch post");
+	}
+
+	const post: Post = await response.json();
+	return post;
 };

@@ -3,7 +3,8 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = async function (event) {
   const provider_id = event.path?.provider_id;
-  const user_id = event.path?.user_id;
+  let user_id = event.path?.user_id;
+  user_id = parseInt(user_id, 10);
   const token = event.headers?.Authorization;
   const page = parseInt(event.query?.page) || 1;
   const pageSize = parseInt(event.query?.limit) || 10;
