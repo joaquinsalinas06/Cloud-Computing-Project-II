@@ -8,6 +8,7 @@ export async function handler(event) {
   const albums =
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
   const token = event.headers?.Authorization;
+  const provider_id = event.path?.provider_id;
   const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
   if (!Array.isArray(albums) || albums.length === 0) {
@@ -66,7 +67,6 @@ export async function handler(event) {
   let createdAlbums = [];
 
   for (let album of albums) {
-    const provider_id = album.provider_id;
     let highestAlbumId = 0;
 
     try {
@@ -94,6 +94,7 @@ export async function handler(event) {
     }
 
     album.album_id = highestAlbumId + 1;
+    album.provider_id = provider_id;
 
     const params = {
       TableName: TABLE_NAME,

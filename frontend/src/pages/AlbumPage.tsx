@@ -23,7 +23,7 @@ const AlbumPage: React.FC = () => {
 		try {
 			const data = await fetchAlbums({
 				provider_id: provider,
-				limit: 12,
+				limit: 3,
 				exclusiveStartKey,
 			});
 

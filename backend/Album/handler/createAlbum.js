@@ -85,6 +85,7 @@ export async function handler(event) {
   }
 
   album.album_id = highestAlbumId + 1;
+  album.provider_id = provider_id;
 
   const params = {
     TableName: TABLE_NAME,

@@ -6,6 +6,7 @@ const TABLE_NAME = process.env.TABLE_NAME;
 const GSI_NAME = process.env.GSI;
 
 export const handler = async (event) => {
+    const provider_id = event.path?.provider_id;
     const country = event.query?.country;
     const genre = event.query?.genre;
     const limit = event.query?.limit || 10;
@@ -14,7 +15,6 @@ export const handler = async (event) => {
         : null;
 
     const token = event.headers?.Authorization;
-    const provider_id = event.body?.provider_id;
 
     if (!token) {
         return {

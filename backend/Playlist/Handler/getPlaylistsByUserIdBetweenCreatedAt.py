@@ -11,7 +11,7 @@ def lambda_handler(event, context):
     gsi_name = os.environ['GSI']
 
     user_id = event['path']['user_id']
-    provider_id = event['body']['provider_id']
+    provider_id = event['path']['provider_id']
     start_created_at = event['query']['start_created_at']
     end_created_at = event['query']['end_created_at']
     token = event['headers']['Authorization']

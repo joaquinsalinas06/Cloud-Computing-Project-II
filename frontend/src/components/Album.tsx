@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { fetchArtistById } from "../services/artist";
 import { Album as AlbumType } from "../types/album";
 import { ArtistResponseById } from "../types/artist";
+import ProviderContext from "../contexts/ProviderContext";
 
 interface AlbumProps {
 	album: AlbumType;
@@ -11,6 +12,8 @@ const Album: React.FC<AlbumProps> = ({ album }) => {
 	const [artistName, setArtistName] = useState<string | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
+	const context = useContext(ProviderContext);
+	const theme = context?.theme;
 	const releaseDate = new Date(album.release_date).toLocaleDateString();
 
 	useEffect(() => {
@@ -117,7 +120,7 @@ const Album: React.FC<AlbumProps> = ({ album }) => {
 					target="_blank"
 					rel="noopener noreferrer"
 					style={{
-						color: "#1DB954",
+						color: theme?.primaryColor,
 						fontSize: "0.875rem",
 						textDecoration: "none",
 						marginTop: "1rem",

@@ -43,12 +43,12 @@ functions:
                   cors: true
                   integration: lambda
 
-    #GSI
-    getArtistByCountry_Genre:
-        handler: handler/getArtistByCountry_Genre.handler
+    #GSI //TODO FIX
+    getArtistsByCountry_Genre:
+        handler: handler/getArtistsByCountry_Genre.handler
         events:
             - http:
-                  path: /artist/by-country-genre
+                  path: /artist/by-country-genre/{provider_id}
                   method: get
                   cors: true
                   integration: lambda
@@ -57,7 +57,7 @@ functions:
         handler: handler/createArtists.handler
         events:
             - http:
-                  path: /artist/create
+                  path: /artist/create/{provider_id}
                   method: post
                   cors: true
                   integration: lambda

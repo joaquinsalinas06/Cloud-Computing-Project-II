@@ -5,9 +5,10 @@ const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  const { updateData } = JSON.parse(event.body);
+  const updateData = event.body;
   const provider_id = event.path?.provider_id;
-  const artist_id = event.path?.artist_id;
+  let artist_id = event.path?.artist_id;
+  artist_id = parseInt(artist_id)
   const token = event.headers?.Authorization;
 
   if (!token) {
@@ -79,7 +80,6 @@ export async function handler(event) {
     ExpressionAttributeNames: expressionAttributeNames,
     ExpressionAttributeValues: expressionAttributeValues,
   };
-
   try {
     await dynamodb.update(params).promise();
     return {

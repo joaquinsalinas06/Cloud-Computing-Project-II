@@ -7,6 +7,7 @@ const TABLE_NAME = process.env.TABLE_NAME;
 export async function handler(event) {
   const songs =
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
+  const provider_id = event.path?.provider_id;
   const token = event.headers?.Authorization;
 
   if (!token) {
@@ -67,7 +68,6 @@ export async function handler(event) {
   let createdSongs = [];
 
   for (let song of songs) {
-    const provider_id = song.provider_id;
     let highestSongId = 0;
 
     try {
@@ -95,6 +95,7 @@ export async function handler(event) {
     }
 
     song.song_id = highestSongId + 1;
+    song.provider_id = provider_id;
 
     const params = {
       TableName: TABLE_NAME,
