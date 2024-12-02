@@ -29,41 +29,40 @@ logger.add(
 logger = logger.bind(container=nombre_contenedor)
 
 def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
-    logger.info(f"Iniciando exportación de datos desde DynamoDB ({tabla_dynamo})...")
+    print(f"Exportando datos desde DynamoDB ({tabla_dynamo})...")
     tabla = dynamodb.Table(tabla_dynamo)
     scan_kwargs = {}
     
     with open(archivo_csv, 'w', newline='') as archivo:
         escritor_csv = csv.writer(archivo)  
+        
         while True:
             respuesta = tabla.scan(**scan_kwargs)
             items = respuesta['Items']
+            
             if not items:
                 break
+            
             for item in items:
                 try:
                     post_id = int(item.get('post_id', 0))  
                 except ValueError:
                     post_id = 0
-                    logger.warning("post_id no es un entero. Usando valor predeterminado: 0")
                 
                 try:
                     album_id = int(item.get('album_id', 0))  
                 except ValueError:
                     album_id = 0
-                    logger.warning("album_id no es un entero. Usando valor predeterminado: 0")
                 
                 try:
                     song_id = int(item.get('song_id', 0))  
                 except ValueError:
                     song_id = 0
-                    logger.warning("song_id no es un entero. Usando valor predeterminado: 0")
 
                 try:
                     user_id = int(item.get('user_id', 0))  
                 except ValueError:
                     user_id = 0
-                    logger.warning("user_id no es un entero. Usando valor predeterminado: 0")
 
                 row = [
                     item.get('provider_id', ''),
@@ -81,7 +80,7 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
                 scan_kwargs['ExclusiveStartKey'] = respuesta['LastEvaluatedKey']
             else:
                 break
-                
+                                
     logger.info(f"Datos exportados exitosamente a {archivo_csv}")
 
 def subir_csv_a_s3(archivo_csv, nombre_bucket):
