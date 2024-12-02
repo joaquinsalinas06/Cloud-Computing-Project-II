@@ -1,0 +1,29 @@
+WITH canciones_con_posts AS (
+    SELECT 
+        s.provider_id,
+        s.song_id,
+        s.title,  -- Añadimos el título de la canción
+        COUNT(p.post_id) AS total_posts
+    FROM "stage-prod-song" s
+    LEFT JOIN "stage-prod-album-songs" asb ON s.song_id = asb.song_id
+    LEFT JOIN "stage-prod-album" a ON asb.album_id = a.album_id
+    LEFT JOIN "stage-prod-post" p ON s.song_id = p.song_id
+    GROUP BY s.provider_id, s.song_id, s.title  -- Agrupamos por provider_id, song_id y title
+),
+ranked_canciones AS (
+    SELECT
+        title,
+        provider_id,
+        song_id,
+        total_posts,
+        ROW_NUMBER() OVER (PARTITION BY provider_id ORDER BY total_posts DESC) AS rank
+    FROM canciones_con_posts
+)
+SELECT
+    title,
+    provider_id,
+    song_id,
+    total_posts
+FROM ranked_canciones
+WHERE rank <= 3
+ORDER BY provider_id, total_posts DESC;
