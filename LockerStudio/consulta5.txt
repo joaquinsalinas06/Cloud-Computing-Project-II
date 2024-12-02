@@ -1,0 +1,4 @@
+SELECT provider_id, COUNT(*) AS total_playlists, MIN(created_at) AS fecha_creacion_minima, MAX(created_at) AS fecha_creacion_maxima
+FROM "stage-prod-playlist"
+GROUP BY provider_id;
+Cantidad de playlist por provider_id

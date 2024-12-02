@@ -1,0 +1,5 @@
+SELECT provider_id, artist_id, COUNT(*) AS total_canciones, MIN(release_date) AS fecha_minima, MAX(release_date) AS fecha_maxima
+FROM "stage-prod-song"
+GROUP BY provider_id, artist_id;
+
+Total de canciones por cada artista y provider_id
