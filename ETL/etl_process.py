@@ -144,3 +144,5 @@ def etl_process():
 
 if __name__ == "__main__":
     etl_process()  # Ejecutar el proceso ETL
+    #comando para correr el contenedor obligatorio
+    #docker run -v ~/Cloud-Computing-Project-II/ETL:/app/ETL -v ~/Cloud-Computing-Project-II/Consultas:/app/Consultas -w /app/ETL -v /home/ubuntu/.aws/credentials:/root/.aws/credentials etl
