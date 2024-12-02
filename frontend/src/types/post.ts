@@ -10,6 +10,11 @@ export interface Post {
 	created_at: string;
 }
 
+export interface PostById {
+	statusCode: number;
+	body: Post;
+}
+
 export interface PostRequest {
 	provider_id: string;
 	page: number;

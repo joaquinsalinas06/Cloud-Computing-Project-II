@@ -108,7 +108,7 @@ const HomePage: React.FC = () => {
 					style={{
 						display: "grid",
 						gridTemplateColumns: "repeat(3, 1fr)",
-						gap: "20",
+						gap: "30",
 						width: "80%",
 						padding: "20px",
 						boxSizing: "border-box",

@@ -8,9 +8,7 @@ export interface CommentRequest {
 }
 
 export interface CommentResponse {
-	comments: Array<{
-		Comment: Comment;
-	}>;
+	comments: Comment[];
 	pagination: {
 		currentPage: number;
 		pageSize: number;
@@ -28,4 +26,24 @@ export interface Comment {
 	user_id: number;
 	text: string;
 	date: string;
+}
+
+export interface CommentRequestCreate {
+	provider_id: string;
+	user_id: number;
+	post_id: number;
+	text: string;
+}
+
+export interface CommentResponseCreate {
+	statusCode: number;
+	comentario: {
+		provider_id: string;
+		comment_id: number;
+		user_id: number;
+		post_id: number;
+		date: string;
+		text: string;
+	};
+	response: unknown;
 }

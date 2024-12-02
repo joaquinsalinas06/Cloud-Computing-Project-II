@@ -78,8 +78,6 @@ const ProfilePage: React.FC = () => {
 					alignItems: "center",
 					justifyContent: "center",
 					padding: "20px",
-					color: "#fff",
-					backgroundColor: "#121212",
 					height: "100vh",
 				}}
 			>
@@ -121,6 +119,9 @@ const ProfilePage: React.FC = () => {
 						<strong>Created At:</strong>{" "}
 						{new Date(user.created_at).toLocaleDateString()}
 					</p>
+				</div>
+				<div style={{ padding: "40px" }}>
+					<button>Create Post</button>
 				</div>
 			</div>
 		</ThemeWrapper>

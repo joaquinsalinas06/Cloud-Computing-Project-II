@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Post as PostType } from "../types/post";
+import ProviderContext from "../contexts/ProviderContext";
 
 interface PostProps {
 	post: PostType;
@@ -8,6 +9,8 @@ interface PostProps {
 
 const Post: React.FC<PostProps> = ({ post }) => {
 	const navigate = useNavigate();
+	const context = useContext(ProviderContext);
+	const theme = context?.theme;
 
 	const handleClick = () => {
 		navigate(`/post/${post.post_id}`);
@@ -15,6 +18,14 @@ const Post: React.FC<PostProps> = ({ post }) => {
 
 	return (
 		<div
+			style={{
+				backgroundColor: theme?.primaryColor,
+				color: "black",
+				padding: "30px",
+				borderRadius: "10px",
+				width: "80%",
+				margin: "20px",
+			}}
 			onClick={handleClick}
 			className="cursor-pointer bg-gray-100 rounded-lg p-4 mb-4 shadow-md hover:bg-gray-200"
 		>
