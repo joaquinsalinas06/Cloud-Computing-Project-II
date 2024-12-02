@@ -34,36 +34,42 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
     scan_kwargs = {}
     
     with open(archivo_csv, 'w', newline='') as archivo:
-        escritor_csv = csv.writer(archivo)  
+        escritor_csv = csv.writer(archivo)
+        
+        # Write the header row (optional)
+        escritor_csv.writerow([
+            'provider_id', 'post_id', 'album_id', 'song_id', 'user_id', 'created_at', 'description'
+        ])
         
         while True:
             respuesta = tabla.scan(**scan_kwargs)
-            items = respuesta['Items']
+            items = respuesta.get('Items', [])
             
+            # Break if no items are returned
             if not items:
                 break
             
             for item in items:
                 try:
-                    post_id = int(item.get('post_id', 0))  
+                    post_id = int(item.get('post_id', 0))
                 except ValueError:
                     post_id = 0
                 
                 try:
-                    album_id = int(item.get('album_id', 0))  
+                    album_id = int(item.get('album_id', 0))
                 except ValueError:
                     album_id = 0
                 
                 try:
-                    song_id = int(item.get('song_id', 0))  
+                    song_id = int(item.get('song_id', 0))
                 except ValueError:
                     song_id = 0
-
+                
                 try:
-                    user_id = int(item.get('user_id', 0))  
+                    user_id = int(item.get('user_id', 0))
                 except ValueError:
                     user_id = 0
-
+                
                 row = [
                     item.get('provider_id', ''),
                     post_id,
@@ -71,16 +77,15 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
                     song_id,
                     user_id,
                     item.get('created_at', ''),
-                    item.get('description', '')  
+                    item.get('description', '')
                 ]
-                
                 escritor_csv.writerow(row)
             
+            # Check if there's more data to fetch
             if 'LastEvaluatedKey' in respuesta:
                 scan_kwargs['ExclusiveStartKey'] = respuesta['LastEvaluatedKey']
             else:
                 break
-                                
     logger.info(f"Datos exportados exitosamente a {archivo_csv}")
 
 def subir_csv_a_s3(archivo_csv, nombre_bucket):
