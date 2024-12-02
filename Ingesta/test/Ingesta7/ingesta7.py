@@ -8,12 +8,12 @@ s3 = boto3.client('s3', region_name='us-east-1')
 glue = boto3.client('glue', region_name='us-east-1')
 
 tabla_dynamo = 'dev-t_album' 
-nombre_bucket = 'ingesta-stage-dev'  
-archivo_csv_album = 'stage-dev-album.csv'
-archivo_csv_song = 'stage-dev-album-songs.csv'
-glue_database = 'stage-dev'  
-glue_table_name_album = 'stage-dev-album'
-glue_table_name_song = 'stage-dev-album-songs'
+nombre_bucket = 'ingesta-stage-test'  
+archivo_csv_album = 'stage-test-album.csv'
+archivo_csv_song = 'stage-test-album-songs.csv'
+glue_database = 'stage-test'  
+glue_table_name_album = 'stage-test-album'
+glue_table_name_song = 'stage-test-album-songs'
 
 def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_album, archivo_csv_song):
     print(f"Exportando datos desde DynamoDB ({tabla_dynamo})...")

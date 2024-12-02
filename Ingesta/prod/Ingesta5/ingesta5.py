@@ -28,11 +28,11 @@ dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 s3 = boto3.client('s3', region_name='us-east-1')
 glue = boto3.client('glue', region_name='us-east-1')
 
-tabla_dynamo = 'dev-t_artist' 
+tabla_dynamo = 'dev-t_comment' 
 nombre_bucket = 'f-l-t-1-2-3'  
-archivo_csv = 'stage-dev-artist.csv'
-glue_database = 'stage-dev'  
-glue_table_name = 'stage-dev-artist'
+archivo_csv = 'stage-prod-comment.csv'
+glue_database = 'stage-prod'  
+glue_table_name = 'stage-prod-comment'
 
 def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
     """Exportar datos de DynamoDB a un archivo CSV."""
@@ -43,8 +43,7 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
 
         with open(archivo_csv, 'w', newline='') as archivo:
             escritor_csv = csv.writer(archivo)
-            escritor_csv.writerow(['provider_id', 'artist_id', 'birth_date', 'country', 
-                                   'cover_image_url', 'genre', 'name', 'status'])
+            escritor_csv.writerow(['provider_id', 'comment_id', 'post_id', 'user_id', 'date', 'text'])
 
             while True:
                 respuesta = tabla.scan(**scan_kwargs)
@@ -56,20 +55,30 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
 
                 for item in items:
                     try:
-                        artist_id = int(item.get('artist_id', 0))
+                        post_id = int(item.get('post_id', 0))
                     except ValueError:
-                        artist_id = 0
-                        logger.warning("artist_id inválido, asignado como 0.")
+                        post_id = 0
+                        logger.warning("post_id inválido, asignado como 0.")
+
+                    try:
+                        comment_id = int(item.get('comment_id', 0))
+                    except ValueError:
+                        comment_id = 0
+                        logger.warning("comment_id inválido, asignado como 0.")
+
+                    try:
+                        user_id = int(item.get('user_id', 0))
+                    except ValueError:
+                        user_id = 0
+                        logger.warning("user_id inválido, asignado como 0.")
 
                     row = [
                         item.get('provider_id', ''),
-                        artist_id,
-                        item.get('birth_date', ''),
-                        item.get('country', ''),
-                        item.get('cover_image_url', ''),
-                        item.get('genre', ''),
-                        item.get('name', ''),
-                        item.get('status', '')
+                        comment_id,
+                        post_id,
+                        user_id,
+                        item.get('date', ''),
+                        item.get('text', '')
                     ]
                     escritor_csv.writerow(row)
 
@@ -84,9 +93,9 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
 
 def subir_csv_a_s3(archivo_csv, nombre_bucket):
     """Subir archivo CSV a S3."""
-    carpeta_destino = 'artist/'
+    carpeta_destino = 'comments/'
     archivo_s3 = f"{carpeta_destino}{archivo_csv}"
-    logger.info(f"Subiendo {archivo_csv} al bucket S3 ({nombre_bucket}) en la carpeta 'artist'...")
+    logger.info(f"Subiendo {archivo_csv} al bucket S3 ({nombre_bucket}) en la carpeta 'comments'...")
 
     try:
         s3.upload_file(archivo_csv, nombre_bucket, archivo_s3)
@@ -107,7 +116,7 @@ def crear_base_de_datos_en_glue(glue_database):
             glue.create_database(
                 DatabaseInput={
                     'Name': glue_database,
-                    'Description': 'Base de datos para almacenamiento de datos de artistas en Glue.'
+                    'Description': 'Base de datos para almacenamiento de comentarios en Glue.'
                 }
             )
             logger.info(f"Base de datos {glue_database} creada exitosamente.")
@@ -122,7 +131,7 @@ def crear_base_de_datos_en_glue(glue_database):
 def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archivo_csv):
     """Registrar datos en Glue Data Catalog."""
     logger.info(f"Registrando tabla {glue_table_name} en Glue Data Catalog...")
-    input_path = f"s3://{nombre_bucket}/artist/"
+    input_path = f"s3://{nombre_bucket}/comments/"
 
     try:
         glue.create_table(
@@ -132,13 +141,11 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
                 'StorageDescriptor': {
                     'Columns': [
                         {'Name': 'provider_id', 'Type': 'string'},
-                        {'Name': 'artist_id', 'Type': 'bigint'},
-                        {'Name': 'birth_date', 'Type': 'string'},
-                        {'Name': 'country', 'Type': 'string'},
-                        {'Name': 'cover_image_url', 'Type': 'string'},
-                        {'Name': 'genre', 'Type': 'string'},
-                        {'Name': 'name', 'Type': 'string'},
-                        {'Name': 'status', 'Type': 'string'},
+                        {'Name': 'comment_id', 'Type': 'bigint'},
+                        {'Name': 'post_id', 'Type': 'bigint'},
+                        {'Name': 'user_id', 'Type': 'bigint'},
+                        {'Name': 'date', 'Type': 'string'},
+                        {'Name': 'text', 'Type': 'string'},
                     ],
                     'Location': input_path,
                     'InputFormat': 'org.apache.hadoop.mapred.TextInputFormat',
@@ -161,7 +168,7 @@ def registrar_datos_en_glue(glue_database, glue_table_name, nombre_bucket, archi
 
 if __name__ == "__main__":
     logger.info("Iniciando proceso completo...")
-    
+
     if crear_base_de_datos_en_glue(glue_database):
         exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv)
 

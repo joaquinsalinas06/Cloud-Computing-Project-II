@@ -31,9 +31,9 @@ glue = boto3.client('glue', region_name='us-east-1')
 # Constantes
 tabla_dynamo = 'dev-t_user'
 nombre_bucket = 'f-l-t-1-2-3'  
-archivo_csv = 'stage-dev-usuarios.csv'
-glue_database = 'stage-dev'
-glue_table_name = 'stage-dev-usuarios'
+archivo_csv = 'stage-test-usuarios.csv'
+glue_database = 'stage-test'
+glue_table_name = 'stage-test-usuarios'
 
 def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
     try:

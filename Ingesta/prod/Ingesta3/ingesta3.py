@@ -30,11 +30,11 @@ glue = boto3.client('glue', region_name='us-east-1')
 
 tabla_dynamo = 'dev-t_playlist'  
 nombre_bucket = 'f-l-t-1-2-3'  
-archivo_csv_playlist = 'stage-dev-playlist.csv'  
-archivo_csv_playlist_song = 'stage-dev-playlist-song.csv'  
-glue_database = 'stage-dev'  
-glue_table_playlist = 'stage-dev-playlist'  
-glue_table_playlist_song = 'stage-dev-playlist-song'  # Tabla en Glue para canciones relacionadas con las playlists
+archivo_csv_playlist = 'stage-prod-playlist.csv'  
+archivo_csv_playlist_song = 'stage-prod-playlist-song.csv'  
+glue_database = 'stage-prod'  
+glue_table_playlist = 'stage-prod-playlist'  
+glue_table_playlist_song = 'stage-prod-playlist-song'  # Tabla en Glue para canciones relacionadas con las playlists
 
 def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv_playlist, archivo_csv_playlist_song):
     logger.info(f"Iniciando exportación desde DynamoDB ({tabla_dynamo})...")
