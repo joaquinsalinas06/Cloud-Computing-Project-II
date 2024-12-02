@@ -65,7 +65,7 @@ def run_athena_query(tablename, query):
         execution_time = (end_time - start_time).total_seconds()
 
         # Insertar los resultados en la tabla resumen
-        insert_summary_table(tablename,query, execution_time, num_records, results, start_time, end_time, status, error_message)
+        #insert_summary_table(tablename,query, execution_time, num_records, results, start_time, end_time, status, error_message)
 
     except Exception as e:
         logger.error(f"Error ejecutando la consulta Athena: {e}")
