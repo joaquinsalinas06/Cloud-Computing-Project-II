@@ -1,60 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Post as PostType } from "../types/post";
-import { UserResponse } from "../types/user";
-import { fetchUser } from "../services/user";
 
 interface PostProps {
 	post: PostType;
 }
 
 const Post: React.FC<PostProps> = ({ post }) => {
-	const [username, setUsername] = useState<string | null>(null);
-	const [, setLoading] = useState<boolean>(false);
-	const [, setError] = useState<string | null>(null);
+	const navigate = useNavigate();
 
-	useEffect(() => {
-		const loadUsername = async () => {
-			if (!post.provider_id || !post.user_id) {
-				setError("Provider ID or User ID is missing.");
-				return;
-			}
-
-			setLoading(true);
-			try {
-				const userData: UserResponse = await fetchUser({
-					provider_id: post.provider_id,
-					user_id: post.user_id,
-				});
-				setUsername(userData.username);
-				setError(null);
-			} catch (err) {
-				console.error("Error fetching username:", err);
-				setError("Failed to load username.");
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		loadUsername();
-	}, [post.provider_id, post.user_id]);
+	const handleClick = () => {
+		navigate(`/post/${post.post_id}`);
+	};
 
 	return (
 		<div
-			style={{
-				backgroundColor: "rgba(255, 255, 255, 0.1)",
-				borderRadius: "8px",
-				padding: "1rem",
-				marginBottom: "1rem",
-				boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-				maxWidth: "600px",
-				width: "80%",
-			}}
+			onClick={handleClick}
+			className="cursor-pointer bg-gray-100 rounded-lg p-4 mb-4 shadow-md hover:bg-gray-200"
 		>
-			<h3 style={{ fontSize: "1.25rem", fontWeight: "bold" }}>
-				{username}
-			</h3>
-			<p>{post.description}</p>
-			<p>Created At: {post.created_at}</p>
+			<h3 className="text-xl font-bold">{post.description}</h3>
+			<p className="text-sm text-gray-500">
+				Created At: {post.created_at}
+			</p>
 		</div>
 	);
 };

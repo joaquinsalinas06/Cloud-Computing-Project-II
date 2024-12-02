@@ -24,7 +24,7 @@ functions:
                   cors: true
                   integration: lambda
 
-    getAllPostsByProvider:
+    getAllPostsByProviderId:
         handler: Handler/getAllPostsByProviderId.handler
         events:
             - http:
