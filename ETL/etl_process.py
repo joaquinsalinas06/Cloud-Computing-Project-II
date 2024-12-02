@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 import os
 import time
 
-ATHENA_S3_OUTPUT = 's3://resultados-dev-athena/consulta1/Unsaved/2024/12/01/'  
+ATHENA_S3_OUTPUT = 's3://resultadosathenazamir/consulta1/Unsaved/2024/12/01/'  
 REGION_NAME = 'us-west-1'
 
 MYSQL_HOST = '52.20.58.206'
