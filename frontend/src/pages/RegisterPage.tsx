@@ -74,120 +74,142 @@ const RegisterPage: React.FC = () => {
 					currentProvider={provider}
 					onProviderChange={switchProvider}
 				/>
-				<form
-					onSubmit={step === 1 ? handleNextStep : handleRegister}
-					className="bg-white p-8 rounded shadow-md w-full max-w-md"
+								<form
+				  onSubmit={step === 1 ? handleNextStep : handleRegister}
+				  className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md mx-auto"
 				>
-					<h1 className="text-2xl font-bold mb-6 text-center">
-						{`Register to ${provider}`}
-					</h1>
-					<h2 className="text-xl font-semibold mb-4">
-						{step === 1
-							? "Step 1: Basic Information"
-							: "Step 2: Additional Details"}
-					</h2>
+				  <h1 className="text-2xl font-bold mb-6 text-center">
+					{`Register to ${provider}`}
+				  </h1>
+				  <h2 className="text-xl font-semibold mb-4 text-center">
+					{step === 1 ? "Step 1: Basic Information" : "Step 2: Additional Details"}
+				  </h2>
+				
+				  {step === 1 && (
+					<>
+					  <div className="space-y-4">
+					  <div className="p-10">
+						<input
+						  type="email"
+						  placeholder="Email"
+						  value={email}
+						  onChange={(e) => setEmail(e.target.value)}
+						  className="block w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+						/>
+						</div>
+						<div className="p-4">
+				
+						<input
+						  type="password"
+						  placeholder="Password"
+						  value={password}
+						  onChange={(e) => setPassword(e.target.value)}
+						  className="block w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+						/>
+						</div>
 
-					{step === 1 && (
-						<>
-							<input
-								type="email"
-								placeholder="Email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								className="block w-full p-3 border rounded mb-4"
-							/>
-							<input
-								type="password"
-								placeholder="Password"
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-								className="block w-full p-3 border rounded mb-4"
-							/>
-							<input
-								type="password"
-								placeholder="Confirm Password"
-								value={confirmPassword}
-								onChange={(e) =>
-									setConfirmPassword(e.target.value)
-								}
-								className="block w-full p-3 border rounded mb-4"
-							/>
-							<input
-								type="text"
-								placeholder="Username"
-								value={username}
-								onChange={(e) => setUsername(e.target.value)}
-								className="block w-full p-3 border rounded mb-4"
-							/>
-							<button
-								type="submit"
-								className="bg-blue-500 text-white px-4 py-2 rounded w-full"
-							>
-								Next
-							</button>
-						</>
-					)}
-
-					{step === 2 && (
-						<>
-							<input
-								type="text"
-								placeholder="First Name"
-								value={name}
-								onChange={(e) => setName(e.target.value)}
-								className="block w-full p-3 border rounded mb-4"
-							/>
-							<input
-								type="text"
-								placeholder="Last Name"
-								value={lastname}
-								onChange={(e) => setLastname(e.target.value)}
-								className="block w-full p-3 border rounded mb-4"
-							/>
-							<input
-								type="text"
-								placeholder="Phone Number"
-								value={phoneNumber}
-								onChange={(e) => setPhoneNumber(e.target.value)}
-								className="block w-full p-3 border rounded mb-4"
-							/>
-							<input
-								type="date"
-								placeholder="Date of Birth"
-								value={birthDate}
-								onChange={(e) => setBirthDate(e.target.value)}
-								className="block w-full p-3 border rounded mb-4"
-							/>
-							<select
-								value={gender}
-								onChange={(e) => setGender(e.target.value)}
-								className="block w-full p-3 border rounded mb-4"
-							>
-								<option value="M">Male</option>
-								<option value="F">Female</option>
-							</select>
-							<input
-								type="number"
-								placeholder="Age"
-								value={age}
-								onChange={(e) => setAge(Number(e.target.value))}
-								className="block w-full p-3 border rounded mb-4"
-							/>
-							<button
-								type="submit"
-								className="bg-green-500 text-white px-4 py-2 rounded w-full"
-							>
-								Register
-							</button>
-							<button
-								type="button"
-								onClick={() => setStep(1)}
-								className="bg-gray-500 text-white px-4 py-2 rounded w-full mt-4"
-							>
-								Back
-							</button>
-						</>
-					)}
+						<div className="p-4">
+						<input
+						  type="password"
+						  placeholder="Confirm Password"
+						  value={confirmPassword}
+						  onChange={(e) => setConfirmPassword(e.target.value)}
+						  className="block w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+						/>
+						</div>
+						<div className="p-4">
+						<input
+						  type="text"
+						  placeholder="Username"
+						  value={username}
+						  onChange={(e) => setUsername(e.target.value)}
+						  className="block w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+						/>
+						</div>
+					  </div>
+					  <button
+						type="submit"
+						className="bg-blue-500 text-white px-4 py-3 rounded-lg w-full font-semibold hover:bg-blue-600 transition duration-300 mt-6"
+					  >
+						Next
+					  </button>
+					</>
+				  )}
+				
+				  {step === 2 && (
+					<>
+					  <div className="space-y-4">
+						<div className="p-4">
+						<input
+						  type="text"
+						  placeholder="First Name"
+						  value={name}
+						  onChange={(e) => setName(e.target.value)}
+						  className="block w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+						/>
+						</div>
+						<div className="p-4">
+						<input
+						  type="text"
+						  placeholder="Last Name"
+						  value={lastname}
+						  onChange={(e) => setLastname(e.target.value)}
+						  className="block w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+						/>
+						</div>
+						<div className="p-4">
+						<input
+						  type="text"
+						  placeholder="Phone Number"
+						  value={phoneNumber}
+						  onChange={(e) => setPhoneNumber(e.target.value)}
+						  className="block w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+						/>
+						</div>
+						<div className="p-4">
+						<input
+						  type="date"
+						  placeholder="Date of Birth"
+						  value={birthDate}
+						  onChange={(e) => setBirthDate(e.target.value)}
+						  className="block w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+						/>
+						</div>
+						<div className="p-4">
+						<select
+						  value={gender}
+						  onChange={(e) => setGender(e.target.value)}
+						  className="block w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+						>
+						  <option value="M">Male</option>
+						  <option value="F">Female</option>
+						</select>
+						</div>
+						<div className="p-4">
+						<input
+						  type="number"
+						  placeholder="Age"
+						  value={age}
+						  onChange={(e) => setAge(Number(e.target.value))}
+						  className="block w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+						/>
+					  </div>
+					  </div>
+					  <button
+						type="submit"
+						className="bg-green-500 text-white px-4 py-3 rounded-lg w-full font-semibold hover:bg-green-600 transition duration-300 mt-6"
+					  >
+						Register
+					  </button>
+					  <button
+						type="button"
+						onClick={() => setStep(1)}
+						className="bg-gray-500 text-white px-4 py-3 rounded-lg w-full font-semibold hover:bg-gray-600 transition duration-300 mt-4"
+					  >
+						Back
+					  </button>
+					</>
+				  )}
 				</form>
 			</div>
 		</ThemeWrapper>
