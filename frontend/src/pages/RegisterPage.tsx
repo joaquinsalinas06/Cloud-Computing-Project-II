@@ -74,7 +74,7 @@ const RegisterPage: React.FC = () => {
 					currentProvider={provider}
 					onProviderChange={switchProvider}
 				/>
-								<form
+				<form
 				  onSubmit={step === 1 ? handleNextStep : handleRegister}
 				  className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md mx-auto"
 				>
