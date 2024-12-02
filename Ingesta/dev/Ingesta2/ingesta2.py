@@ -29,10 +29,10 @@ logger.add(
 logger = logger.bind(container=nombre_contenedor)
 
 def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
-    print(f"Exportando datos desde DynamoDB ({tabla_dynamo})...")
+    logger.info(f"Exportando datos desde DynamoDB ({tabla_dynamo}) a {archivo_csv}...")
     tabla = dynamodb.Table(tabla_dynamo)
-    scan_kwargs = {}
-    
+    scan_kwargs = {}  # Initial scan parameters
+
     with open(archivo_csv, 'w', newline='') as archivo:
         escritor_csv = csv.writer(archivo)
         
@@ -40,15 +40,22 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
         escritor_csv.writerow([
             'provider_id', 'post_id', 'album_id', 'song_id', 'user_id', 'created_at', 'description'
         ])
+
+        item_count = 0  # Counter to track number of processed items
+        iteration = 0   # Track loop iterations for logging/debugging
         
         while True:
-            respuesta = tabla.scan(**scan_kwargs)
-            items = respuesta.get('Items', [])
-            
-            # Break if no items are returned
-            if not items:
+            iteration += 1
+            try:
+                respuesta = tabla.scan(**scan_kwargs)
+            except Exception as e:
+                logger.error(f"Error al escanear DynamoDB: {e}")
                 break
             
+            items = respuesta.get('Items', [])
+            logger.info(f"Iteración {iteration}: Escaneados {len(items)} elementos.")
+            
+            # Write items to CSV
             for item in items:
                 try:
                     post_id = int(item.get('post_id', 0))
@@ -80,13 +87,22 @@ def exportar_dynamodb_a_csv(tabla_dynamo, archivo_csv):
                     item.get('description', '')
                 ]
                 escritor_csv.writerow(row)
-            
-            # Check if there's more data to fetch
+                item_count += 1
+
+            # Break if no LastEvaluatedKey (end of scan)
             if 'LastEvaluatedKey' in respuesta:
                 scan_kwargs['ExclusiveStartKey'] = respuesta['LastEvaluatedKey']
             else:
+                logger.info(f"No hay más datos para escanear. Proceso completado con {item_count} elementos exportados.")
                 break
-    logger.info(f"Datos exportados exitosamente a {archivo_csv}")
+
+            # Additional safeguard: stop if no new items are found
+            if len(items) == 0:
+                logger.warning("No se encontraron elementos nuevos en esta iteración. Saliendo del bucle.")
+                break
+
+    logger.info(f"Exportación completada con éxito: {item_count} registros escritos en {archivo_csv}.")
+
 
 def subir_csv_a_s3(archivo_csv, nombre_bucket):
     carpeta_destino = 'posts/'  
