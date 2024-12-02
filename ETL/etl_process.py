@@ -36,7 +36,7 @@ def run_athena_query(tablename, query):
     execution_time = 0
     query_type = query.split()[0].upper()  # Determina el tipo de consulta, asumiendo que el primer palabra es el tipo
 
-    logger.info(f"Ejecutando consulta Athena para la tabla: {tablename}. Tipo de consulta: {query_type}. Consulta: {query}")
+    logger.info(f"Ejecutando consulta Athena para la tabla: {tablename}. Tipo de consulta: {query_type}.")
 
     try:
         # Configuración de Athena
