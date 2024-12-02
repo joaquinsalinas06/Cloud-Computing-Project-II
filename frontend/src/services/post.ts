@@ -1,12 +1,11 @@
 import { PostRequest, PostResponse } from "../types/post";
 
-const POST_URL =
-	"https://nzq2dnr955.execute-api.us-east-1.amazonaws.com/dev/posts";
+const POST_URL = "https://hy2sdr5rjl.execute-api.us-east-1.amazonaws.com/dev";
 export const fetchPosts = async (
 	payload: PostRequest
 ): Promise<PostResponse> => {
 	console.log("Fetching posts:", payload);
-	const url = `${POST_URL}/${payload.provider_id}?page=${payload.page}&limit=${payload.limit}`;
+	const url = `${POST_URL}/posts/${payload.provider_id}?page=${payload.page}&limit=${payload.limit}`;
 
 	const response = await fetch(url, {
 		method: "GET",
@@ -24,13 +23,13 @@ export const fetchPosts = async (
 	return data;
 };
 
-import { Post } from "../types/post";
+import { PostById } from "../types/post";
 
 export const fetchPost = async (
 	provider_id: string,
 	post_id: number
-): Promise<Post> => {
-	const url = `${POST_URL}/${provider_id}/${post_id}`;
+): Promise<PostById> => {
+	const url = `${POST_URL}/post/${provider_id}/${post_id}`;
 
 	const response = await fetch(url, {
 		method: "GET",
@@ -44,6 +43,6 @@ export const fetchPost = async (
 		throw new Error("Failed to fetch post");
 	}
 
-	const post: Post = await response.json();
+	const post: PostById = await response.json();
 	return post;
 };

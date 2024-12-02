@@ -39,7 +39,7 @@ const App: React.FC = () => {
 							<Route path="/songs" element={<SongPage />} />
 							<Route path="/profile" element={<ProfilePage />} />
 							<Route
-								path="/posts/:post_id"
+								path="/post/:post_id"
 								element={<PostDetailsPage />}
 							/>
 						</Routes>
