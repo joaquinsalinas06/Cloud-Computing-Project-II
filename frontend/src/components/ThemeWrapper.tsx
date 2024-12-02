@@ -124,7 +124,7 @@ const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ children }) => {
 							right: "1.5rem",
 							border: "none",
 							cursor: "pointer",
-							color: "black",
+							color: "white",
 						}}
 						aria-label="Logout"
 					>

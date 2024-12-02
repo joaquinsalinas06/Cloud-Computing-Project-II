@@ -1,7 +1,7 @@
 import { UserRequest, UserResponse } from "../types/user";
 
 const USER_URL =
-	"https://2iogauxlhi.execute-api.us-east-1.amazonaws.com/dev/user";
+	"https://ygiu8i5qgk.execute-api.us-east-1.amazonaws.com/dev/user";
 
 export const fetchUser = async (
 	request: UserRequest

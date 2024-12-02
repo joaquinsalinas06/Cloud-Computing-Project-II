@@ -45,6 +45,7 @@ def lambda_handler(event, context):
     table = dynamodb.Table(nombre_tabla)
 
     user_id = int(user_id)
+    post_id = int(post_id)
 
     response = table.query(
         KeyConditionExpression=Key('provider_id').eq(provider_id),
