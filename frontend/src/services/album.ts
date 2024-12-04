@@ -1,7 +1,7 @@
 import { AlbumRequest, AlbumResponse, AlbumResponseById } from "../types/album";
 
 const ALBUM_URL =
-	"https://p58vfrdaad.execute-api.us-east-1.amazonaws.com/dev/album";
+	"https://7cz6j2b42g.execute-api.us-east-1.amazonaws.com/dev/album";
 
 export const fetchAlbums = async (
 	payload: AlbumRequest

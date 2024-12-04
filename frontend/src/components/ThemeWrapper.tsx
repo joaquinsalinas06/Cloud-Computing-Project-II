@@ -97,6 +97,11 @@ const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ children }) => {
 				>
 					Songs
 				</button>
+				<button 
+					onClick={() => navigate("/docs")}
+					style={{ position: "absolute", left: "21.6rem" }}>
+					Docs
+				</button>
 
 				<button
 					onClick={() => navigate("/home")}
