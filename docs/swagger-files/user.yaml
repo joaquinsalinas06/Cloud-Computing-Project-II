@@ -1,0 +1,147 @@
+---
+swagger: "2.0"
+info:
+  version: "2024-11-27T02:19:53Z"
+  title: "dev-user-api"
+  description: "hola mundo"
+host: "xqulrq92f6.execute-api.us-east-1.amazonaws.com"
+basePath: "/dev"
+schemes:
+- "https"
+paths:
+  /user/delete/{provider_id}/{user_id}:
+    delete:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /user/get/{provider_id}/{user_id}:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /user/getall/{provider_id}:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "limit"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "page"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "provider_id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /user/login:
+    post:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /user/register:
+    post:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /user/update/{provider_id}/{user_id}:
+    put:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"

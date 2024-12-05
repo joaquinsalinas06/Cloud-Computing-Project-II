@@ -1,0 +1,290 @@
+---
+swagger: "2.0"
+info:
+  version: "2024-11-27T02:15:33Z"
+  title: "dev-artist-api"
+  description: "hola mundo"
+host: "n5z8z3k3t4.execute-api.us-east-1.amazonaws.com"
+basePath: "/dev"
+schemes:
+- "https"
+paths:
+  /artist/all:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "provider_id"
+        in: "query"
+        required: false
+        type: "string"
+        description: "The ID of the provider (e.g., Spotify)."
+      - name: "genre"
+        in: "query"
+        required: false
+        type: "string"
+        description: "The specific genre for which to retrieve the list of artists."
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /artist/allWP:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /artist/by-country:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /artist/by-countryWP:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /artist/by-genre:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /artist/by-genreWP:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /artist/by-name:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /artist/by-nameWP:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /artist/create:
+    post:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "provider_id"
+        in: "formData"
+        required: true
+        type: "string"
+        description: "The ID of the provider."
+      - name: "name"
+        in: "formData"
+        required: true
+        type: "string"
+        description: "The name of the artist."
+      - name: "status"
+        in: "formData"
+        required: true
+        type: "string"
+        description: "The status of the artist."
+      - name: "genre"
+        in: "formData"
+        required: true
+        type: "string"
+        description: "The genre of the artist."
+      - name: "country"
+        in: "formData"
+        required: true
+        type: "string"
+        description: "The country of the artist."
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /artist/{artistId}:
+    put:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "artistId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "provider_id"
+        in: "formData"
+        required: true
+        type: "string"
+        description: "The ID of the provider."
+      - name: "name"
+        in: "formData"
+        required: true
+        type: "string"
+        description: "The name of the artist."
+      - name: "status"
+        in: "formData"
+        required: true
+        type: "string"
+        description: "The status of the artist."
+      - name: "genre"
+        in: "formData"
+        required: true
+        type: "string"
+        description: "The genre of the artist."
+      - name: "country"
+        in: "formData"
+        required: true
+        type: "string"
+        description: "The country of the artist."
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /deleteArtist/{provider_id}/{artist_id}:
+    delete:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "artist_id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /getById/{provider_id}/{artist_id}:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "artist_id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+
+    
