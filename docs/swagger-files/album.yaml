@@ -1,0 +1,245 @@
+---
+swagger: "2.0"
+info:
+  version: "2024-11-27T02:14:17Z"
+  title: "dev-album-api"
+  description: "hola mundo"
+host: "6gfzh9zcz3.execute-api.us-east-1.amazonaws.com"
+basePath: "/dev"
+schemes:
+- "https"
+paths:
+  /album/{provider_id}/{title}/{releaseDate}/{songsCount}/{coverImageUrl}/{spotifyUrl}/{artistId}/{song_ids}:
+    post:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        type: "string"
+        description: "The ID of the provider for the album."
+      - name: "title"
+        in: "path"
+        required: true
+        type: "string"
+        description: "The title of the album."
+      - name: "releaseDate"
+        in: "path"
+        required: true
+        type: "string"
+        description: "The release date of the album in the format 'YYYY-MM-DD'."
+      - name: "songsCount"
+        in: "path"
+        required: true
+        type: "integer"
+        description: "The total number of songs in the album."
+      - name: "coverImageUrl"
+        in: "path"
+        required: true
+        type: "string"
+        description: "The URL of the cover image for the album."
+      - name: "spotifyUrl"
+        in: "path"
+        required: true
+        type: "string"
+        description: "The Spotify URL of the album."
+      - name: "artistId"
+        in: "path"
+        required: true
+        type: "integer"
+        description: "The ID of the artist associated with the album."
+      - name: "song_ids"
+        in: "path"
+        required: true
+        type: "array"
+        items:
+          type: "integer"
+        description: "An array of IDs of the songs included in the album."
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /albums/{provider_id}/{title}/{releaseDate}/{songsCount}/{coverImageUrl}/{spotifyUrl}/{artistId}/{song_ids}:
+    post:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        type: "string"
+        description: "The ID of the provider for the album."
+      - name: "title"
+        in: "path"
+        required: true
+        type: "string"
+        description: "The title of the album."
+      - name: "releaseDate"
+        in: "path"
+        required: true
+        type: "string"
+        description: "The release date of the album in the format 'YYYY-MM-DD'."
+      - name: "songsCount"
+        in: "path"
+        required: true
+        type: "integer"
+        description: "The total number of songs in the album."
+      - name: "coverImageUrl"
+        in: "path"
+        required: true
+        type: "string"
+        description: "The URL of the cover image for the album."
+      - name: "spotifyUrl"
+        in: "path"
+        required: true
+        type: "string"
+        description: "The Spotify URL of the album."
+      - name: "artistId"
+        in: "path"
+        required: true
+        type: "integer"
+        description: "The ID of the artist associated with the album."
+      - name: "song_ids"
+        in: "path"
+        required: true
+        type: "array"
+        items:
+          type: "integer"
+        description: "An array of IDs of the songs included in the album."
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+
+  /deleteAlbum/{provider_id}/{album_id}:
+    delete:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "album_id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /getAlbumById/{provider_id}/{album_id}:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "album_id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /getAlbumByTitle:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /getAlbumByTitleWP:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /getAllAlbums:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /getAllAlbumsWP:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+

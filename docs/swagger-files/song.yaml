@@ -1,0 +1,117 @@
+---
+swagger: "2.0"
+info:
+  version: "2024-11-27T02:19:02Z"
+  title: "dev-song-api"
+  description: "hola mundo"
+host: "bdnxnfk3ve.execute-api.us-east-1.amazonaws.com"
+basePath: "/dev"
+schemes:
+- "https"
+paths:
+  /deleteSong/{provider_id}/{song_id}:
+    delete:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "song_id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /getAllSongs:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /getAllSongsWP:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /getSongById/{provider_id}/{song_id}:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "song_id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /getSongByTitle:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /getSongByTitleWP:
+    get:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /song:
+    post:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /songs:
+    post:
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      responses:
+        "400":
+          description: "400 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
