@@ -16,7 +16,7 @@ const PostDetailsPage: React.FC = () => {
 	const [comments, setComments] = useState<Comment[]>([]);
 	const [usernames, setUsernames] = useState<Record<string, string>>({});
 	const [loadingPost, setLoadingPost] = useState<boolean>(true);
-	const [setLoadingComments] = useState<boolean>(false);
+	const [, setLoadingComments] = useState<boolean>(false);
 	const [creatingComment, setCreatingComment] = useState<boolean>(false);
 	const [newCommentText, setNewCommentText] = useState<string>("");
 	const [error, setError] = useState<string | null>(null);

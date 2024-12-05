@@ -44,6 +44,10 @@ const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ children }) => {
 		navigate("/login");
 	};
 
+	const redirectToDocs = () => {
+		window.open(`http://52.44.67.216:3000/docs`, "_blank"); //Change to VM IP
+	};
+
 	useEffect(() => {
 		// Verificar si el token existe al cargar el componente
 		setIsAuthenticated(!!localStorage.getItem("token"));
@@ -97,9 +101,10 @@ const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ children }) => {
 				>
 					Songs
 				</button>
-				<button 
-					onClick={() => navigate("/docs")}
-					style={{ position: "absolute", left: "21.6rem" }}>
+				<button
+					onClick={redirectToDocs}
+					style={{ position: "absolute", left: "21.6rem" }}
+				>
 					Docs
 				</button>
 
