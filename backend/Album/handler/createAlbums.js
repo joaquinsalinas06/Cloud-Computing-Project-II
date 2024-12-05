@@ -7,6 +7,9 @@ const TABLE_NAME = process.env.TABLE_NAME;
 export async function handler(event) {
   const albums =
     typeof event.body === "string" ? JSON.parse(event.body) : event.body;
+  const token = event.headers?.Authorization;
+  const provider_id = event.path?.provider_id;
+  const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
   if (!Array.isArray(albums) || albums.length === 0) {
     return {
@@ -20,11 +23,50 @@ export async function handler(event) {
     };
   }
 
+  if (!token) {
+    return {
+      statusCode: 401,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        error: "Unauthorized",
+        message: "Token is required",
+      },
+    };
+  }
+
+  const lambda = new AWS.Lambda();
+  const invokeParams = {
+    FunctionName: token_function,
+    InvocationType: "RequestResponse",
+    Payload: JSON.stringify({ token, provider_id }),
+  };
+
+  try {
+    const invokeResponse = await lambda.invoke(invokeParams).promise();
+    const responsePayload = JSON.parse(invokeResponse.Payload);
+
+    if (!responsePayload.statusCode || responsePayload.statusCode !== 200) {
+      const errorMessage = responsePayload.body?.error || "Unauthorized access";
+      return {
+        statusCode: 401,
+        headers: { "Content-Type": "application/json" },
+        body: { error: "Unauthorized", message: errorMessage },
+      };
+    }
+  } catch (error) {
+    return {
+      statusCode: 500,
+      headers: { "Content-Type": "application/json" },
+      body: { error: "Authorization check failed", details: error.message },
+    };
+  }
+
   let failedAlbums = [];
   let createdAlbums = [];
 
   for (let album of albums) {
-    const provider_id = album.provider_id;
     let highestAlbumId = 0;
 
     try {
@@ -52,6 +94,7 @@ export async function handler(event) {
     }
 
     album.album_id = highestAlbumId + 1;
+    album.provider_id = provider_id;
 
     const params = {
       TableName: TABLE_NAME,

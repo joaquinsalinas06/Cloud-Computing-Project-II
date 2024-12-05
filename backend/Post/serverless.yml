@@ -2,138 +2,125 @@ org: ${env:ORG_NAME}
 service: post-api
 
 provider:
-  name: aws
-  runtime: nodejs20.x
-  memorySize: 1024
-  timeout: 30
-  iam:
-    role: ${env:LAB_ROLE}
-  environment:
-    TABLE_NAME: ${sls:stage}-t_post
-    INDEXGSI1_TABLE1_NAME: ${sls:stage}-provider-user-index
-    INDEXGSI2_TABLE1_NAME: ${sls:stage}-provider-post-index
-    INDEXLSI1_TABLE1_NAME: ${sls:stage}-providerlsi-user-index
-    LAMBDA_FUNCTION_NAME:  ${sls-stage}-validateToken
+    name: aws
+    runtime: nodejs20.x
+    memorySize: 1024
+    timeout: 30
+    iam:
+        role: ${env:LAB_ROLE}
+    environment:
+        TABLE_NAME: ${sls:stage}-t_post
+        GSI: ${sls:stage}-user-created_at-index
+        LSI: ${sls:stage}-user-index
+        LAMBDA_FUNCTION_NAME: user-api-${sls:stage}-validateToken
+
 functions:
-  createPost:
-    handler: Handler/createPost.handler
-    events:
-      - http:
-          path: /post/create
-          method: post
-          cors: true
-          integration: lambda
+    getPost:
+        handler: Handler/getPost.handler
+        events:
+            - http:
+                  path: /post/{provider_id}/{post_id}
+                  method: get
+                  cors: true
+                  integration: lambda
 
-  deletePost:
-    handler: Handler/deletePost.handler
-    events:
-      - http:
-          path: /post/delete/{provider_id}/{post_id}
-          method: delete
-          cors: true
-          integration: lambda
+    getAllPostsByProviderId:
+        handler: Handler/getAllPostsByProviderId.handler
+        events:
+            - http:
+                  path: /posts/{provider_id}
+                  method: get
+                  cors: true
+                  integration: lambda
 
-  getPost:
-    handler: Handler/getPost.handler
-    events:
-      - http:
-          path: /post/get/{provider_id}/{post_id}
-          method: get
-          cors: true
-          integration: lambda
+    #LSI
+    getPostsByUserId:
+        handler: Handler/getPostsByUserId.handler
+        events:
+            - http:
+                  path: /posts/by-user/{provider_id}/{user_id}
+                  method: get
+                  cors: true
+                  integration: lambda
 
-  getAllPostsByProvider:
-    handler: Handler/getAllPostByProviderId.handler
-    events:
-      - http:
-          path: /post/getall/{provider_id}
-          method: get
-          cors: true
-          integration: lambda
+    #GSI
+    getPostsByUserIdBetweenCreatedAt:
+        handler: Handler/getPostsByUserIdBetweenCreatedAt.handler
+        events:
+            - http:
+                  path: /post/by-user/between-created-at/{provider_id}/{user_id}
+                  method: get
+                  cors: true
+                  integration: lambda
 
-  getPostBySongId:
-    handler: Handler/getPostbySongId.handler
-    events:
-      - http:
-          path: /post/getbysong/{provider_id}/{song_id}
-          method: get
-          cors: true
-          integration: lambda
+    createPost:
+        handler: Handler/createPost.handler
+        events:
+            - http:
+                  path: /post/create/{provider_id}/{user_id}
+                  method: post
+                  cors: true
+                  integration: lambda
 
-  getPostsByAlbumId:
-    handler: Handler/getPostByAlbumId.handler
-    events:
-      - http:
-          path: /post/getbyalbum/{provider_id}/{album_id}
-          method: get
-          cors: true
-          integration: lambda
+    updatePost:
+        handler: Handler/updatePost.handler
+        events:
+            - http:
+                  path: /post/update/{provider_id}/{post_id}
+                  method: put
+                  cors: true
+                  integration: lambda
 
-  getPostsByUserId:
-    handler: Handler/getPostByUserId.handler
-    events:
-      - http:
-          path: /post/getbyuser/{provider_id}/{user_id}
-          method: get
-          cors: true
-          integration: lambda
+    deletePost:
+        handler: Handler/deletePost.handler
+        events:
+            - http:
+                  path: /post/delete/{provider_id}/{post_id}
+                  method: delete
+                  cors: true
+                  integration: lambda
 
-  updatePost:
-    handler: Handler/updatePost.handler
-    events:
-      - http:
-          path: /post/update/{provider_id}/{post_id}
-          method: put
-          cors: true
-          integration: lambda
 resources:
-  Resources:
-    PostTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${self:provider.environment.TABLE_NAME}
-        AttributeDefinitions:
-          - AttributeName: provider_id
-            AttributeType: S
-          - AttributeName: post_id
-            AttributeType: N
-          - AttributeName: song_id
-            AttributeType: N
-          - AttributeName: album_id
-            AttributeType: N
-          - AttributeName: user_id
-            AttributeType: N
-        KeySchema:
-          - AttributeName: provider_id
-            KeyType: HASH
-          - AttributeName: post_id
-            KeyType: RANGE
-        BillingMode: PAY_PER_REQUEST
-        GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.INDEXGSI1_TABLE1_NAME}
-            KeySchema:
-              - AttributeName: provider_id
-                KeyType: HASH
-              - AttributeName: song_id
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
-          - IndexName: ${self:provider.environment.INDEXGSI2_TABLE1_NAME}
-            KeySchema:
-              - AttributeName: provider_id
-                KeyType: HASH
-              - AttributeName: album_id
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
-        LocalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.INDEXLSI1_TABLE1_NAME}
-            KeySchema:
-              - AttributeName: provider_id
-                KeyType: HASH
-              - AttributeName: user_id
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
-        PointInTimeRecoverySpecification:
-          PointInTimeRecoveryEnabled: true              
+    Resources:
+        PostTable:
+            Type: AWS::DynamoDB::Table
+            Properties:
+                TableName: ${self:provider.environment.TABLE_NAME}
+                AttributeDefinitions:
+                    - AttributeName: provider_id
+                      AttributeType: S
+                    - AttributeName: post_id
+                      AttributeType: N
+                    - AttributeName: user_id
+                      AttributeType: N
+                    - AttributeName: created_at
+                      AttributeType: S
+                KeySchema:
+                    - AttributeName: provider_id
+                      KeyType: HASH
+                    - AttributeName: post_id
+                      KeyType: RANGE
+                BillingMode: PAY_PER_REQUEST
+                GlobalSecondaryIndexes:
+                    - IndexName: ${self:provider.environment.GSI}
+                      KeySchema:
+                          - AttributeName: user_id
+                            KeyType: HASH
+                          - AttributeName: created_at
+                            KeyType: RANGE
+                      Projection:
+                          ProjectionType: ALL
+                LocalSecondaryIndexes:
+                    - IndexName: ${self:provider.environment.LSI}
+                      KeySchema:
+                          - AttributeName: provider_id
+                            KeyType: HASH
+                          - AttributeName: user_id
+                            KeyType: RANGE
+                      Projection:
+                          ProjectionType: ALL
+                PointInTimeRecoverySpecification:
+                    PointInTimeRecoveryEnabled: true
+package:
+    exclude:
+        - node_modules/aws-sdk

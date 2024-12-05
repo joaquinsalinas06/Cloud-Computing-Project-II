@@ -1,10 +1,12 @@
 import os
 import json
+import boto3
 
 def lambda_handler(event, context):
     try:
         provider_id = event['path']['provider_id']
         user_id = event['path']['user_id']
+        user_id = int(user_id)
         token = event['headers']['Authorization']
         
         if not provider_id or not user_id or not token:
@@ -13,7 +15,10 @@ def lambda_handler(event, context):
                 'body': {'error': 'Missing parameters or token'}
             }
 
-        payload = '{ "token": "' + token +  '" }'        
+        payload = json.dumps({
+            'token': token,
+            'provider_id': provider_id
+        })
         lambda_client = boto3.client('lambda')
         token_function = os.environ['AUTHORIZER_FUNCTION_NAME']
 

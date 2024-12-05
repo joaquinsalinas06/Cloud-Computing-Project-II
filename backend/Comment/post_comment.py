@@ -1,3 +1,4 @@
+from datetime import datetime
 import boto3
 import uuid
 import os
@@ -9,12 +10,18 @@ def lambda_handler(event, context):
     print(event)
 
     token = event['headers']['Authorization']
+    token_function = os.environ['LAMBDA_FUNCTION_NAME']        
+
+    provider_id = event['path']['provider_id']
     
     lambda_client = boto3.client('lambda')
-    payload = '{ "token": "' + token +  '" }'
+    payload = json.dumps({
+            'token': token,
+            'provider_id': provider_id
+        })    
     
     invoke_response = lambda_client.invoke(
-        FunctionName='api-mure-user-dev-validateToken',
+        FunctionName=token_function,
         InvocationType='RequestResponse',
         Payload=payload
     )
@@ -29,16 +36,16 @@ def lambda_handler(event, context):
             'body': {'error': 'Unauthorized', 'message': error_message}
         }
 
-
-
-    provider_id = event['body']['provider_id']
-    user_id = event['body']['user_id']
-    post_id = event['body']['post_id']
+    user_id = event['path']['user_id']
+    post_id = event['path']['post_id']
     text = event['body']['text']
-    date = event['body']['date']
+    date = datetime.now().strftime("%Y-%m-%-d")
     nombre_tabla = os.environ["TABLE_NAME"]
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(nombre_tabla)
+
+    user_id = int(user_id)
+    post_id = int(post_id)
 
     response = table.query(
         KeyConditionExpression=Key('provider_id').eq(provider_id),

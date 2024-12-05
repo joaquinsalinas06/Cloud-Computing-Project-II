@@ -7,10 +7,6 @@ from datetime import datetime
 
 
 def lambda_handler(event, context):
-    """
-    Lambda handler to get paginated comments for a specific user and provider.
-    Supports pagination using page number and page size parameters.
-    """
     # Initialize DynamoDB client
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(os.environ['TABLE_NAME'])
@@ -19,12 +15,19 @@ def lambda_handler(event, context):
     
     ################
     token = event['headers']['Authorization']
+    token_function = os.environ['LAMBDA_FUNCTION_NAME']  
+
+    provider_id = event['path']['provider_id']  
+        
     
     lambda_client = boto3.client('lambda')
-    payload = '{ "token": "' + token +  '" }'
+    payload = json.dumps({
+            'token': token,
+            'provider_id': provider_id
+        })    
     
     invoke_response = lambda_client.invoke(
-        FunctionName='api-mure-user-dev-validateToken',
+        FunctionName=token_function,
         InvocationType='RequestResponse',
         Payload=payload
     )
@@ -43,7 +46,6 @@ def lambda_handler(event, context):
 
     # Get user_id and provider_id from path/query parameters
     user_id = int(event['path']['user_id'])
-    provider_id = event['query']['provider_id']
     start_date = query_params.get('start_date')
     end_date = query_params.get('end_date')
 
@@ -59,12 +61,13 @@ def lambda_handler(event, context):
     if page_size < 1:
         page_size = 10
         
+    user_date_index = os.environ['GSI'] 
     # Query parameters for DynamoDB
     if start_date and end_date:
         start_date = datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S')
         end_date = datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S')
         query_params = {
-            'IndexName': 'user-date-index',
+            'IndexName': user_date_index, 
             'KeyConditionExpression': Key('user_id').eq(user_id) & Key('date').between(start_date.isoformat(), end_date.isoformat()),
             'FilterExpression': Attr('provider_id').eq(provider_id),
             'ScanIndexForward': False,  # Sort in descending order (newest first)
@@ -73,7 +76,7 @@ def lambda_handler(event, context):
         all_items = response.get('Items', [])
     else:
         query_params = {
-            'IndexName': 'user-date-index',
+            'IndexName': user_date_index,
             'KeyConditionExpression': Key('user_id').eq(user_id),
             'FilterExpression': Attr('provider_id').eq(provider_id),
             'ScanIndexForward': False  # Sort in descending order

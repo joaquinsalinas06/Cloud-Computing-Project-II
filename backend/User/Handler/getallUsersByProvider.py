@@ -21,7 +21,10 @@ def lambda_handler(event, context):
                 'body': {'error': 'Missing parameters or token'}
             }
 
-        payload = '{ "token": "' + token +  '" }'        
+        payload = json.dumps({
+            'token': token,
+            'provider_id': provider_id
+        })
         lambda_client = boto3.client('lambda')
         token_function = os.environ['AUTHORIZER_FUNCTION_NAME']
         invoke_response = lambda_client.invoke(
@@ -89,12 +92,20 @@ def lambda_handler(event, context):
         users = []
         for item in items:
             users.append({
-                'user_id': item['user_id'],
-                'email': item['email'],
-                'username': item['username'],
-                'provider_id': item['provider_id'],
-                'data': item['data']
+            'user_id': item.get('user_id', 'Unknown'),
+            'email': item.get('email', 'Unknown'),
+            'username': item.get('username', 'Unknown'),
+            'provider_id': item.get('provider_id', 'Unknown'),
+            'name': item.get('name', 'Unknown'),  
+            'last_name': item.get('last_name', 'Unknown'), 
+            'phone_number': item.get('phone_number', 'Unknown'),  
+            'birth_date': item.get('birth_date', 'Unknown'),  
+            'gender': item.get('gender', 'Unknown'),  
+            'age': item.get('age', 'Unknown'),  
+            'active': item.get('active', 'Unknown'),  
+            'created_at': item.get('created_at', 'Unknown') 
             })
+
         
         pagination = {
             'currentPage': page,

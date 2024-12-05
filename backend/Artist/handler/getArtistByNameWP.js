@@ -3,15 +3,31 @@ import AWS from "aws-sdk";
 const { DynamoDB } = AWS;
 const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
-const GSI_NAME = process.env.GSI_NAME;
+const GSI_NAME = process.env.LSI;
 
 export async function handler(event) {
-  const provider_id = event.query?.provider_id;
+  const provider_id = event.path?.provider_id;
   const name = event.query?.name;
   const limit = event.query?.limit || 10;
   let exclusiveStartKey = event.query?.exclusiveStartKey
     ? JSON.parse(decodeURIComponent(event.query?.exclusiveStartKey))
     : null;
+  const token = event.headers?.Authorization;
+
+  if (!token) {
+    return {
+      statusCode: 401,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        error: "Unauthorized",
+        message: "Token is required",
+      },
+    };
+  }
+
+  const token_function = process.env.LAMBDA_FUNCTION_NAME;
 
   if (!provider_id || !name) {
     return {
@@ -22,6 +38,33 @@ export async function handler(event) {
       body: {
         message: "The 'provider_id' and 'name' parameters are required.",
       },
+    };
+  }
+
+  const lambda = new AWS.Lambda();
+  const invokeParams = {
+    FunctionName: token_function,
+    InvocationType: "RequestResponse",
+    Payload: JSON.stringify({ token, provider_id }),
+  };
+
+  try {
+    const invokeResponse = await lambda.invoke(invokeParams).promise();
+    const responsePayload = JSON.parse(invokeResponse.Payload);
+
+    if (!responsePayload.statusCode || responsePayload.statusCode !== 200) {
+      const errorMessage = responsePayload.body?.error || "Unauthorized access";
+      return {
+        statusCode: 401,
+        headers: { "Content-Type": "application/json" },
+        body: { error: "Unauthorized", message: errorMessage },
+      };
+    }
+  } catch (error) {
+    return {
+      statusCode: 500,
+      headers: { "Content-Type": "application/json" },
+      body: { error: "Authorization check failed", details: error.message },
     };
   }
 

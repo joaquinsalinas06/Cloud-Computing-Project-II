@@ -5,8 +5,53 @@ const dynamodb = new DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 
 export async function handler(event) {
-  const { provider_id, ...updateData } = JSON.parse(event.body);
-  const artistId = event.pathParameters.artistId;
+  const updateData = event.body;
+  const provider_id = event.path?.provider_id;
+  let artist_id = event.path?.artist_id;
+  artist_id = parseInt(artist_id)
+  const token = event.headers?.Authorization;
+
+  if (!token) {
+    return {
+      statusCode: 401,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        error: "Unauthorized",
+        message: "Token is required",
+      },
+    };
+  }
+
+  const token_function = process.env.LAMBDA_FUNCTION_NAME;
+
+  const lambda = new AWS.Lambda();
+  const invokeParams = {
+    FunctionName: token_function,
+    InvocationType: "RequestResponse",
+    Payload: JSON.stringify({ token, provider_id }),
+  };
+
+  try {
+    const invokeResponse = await lambda.invoke(invokeParams).promise();
+    const responsePayload = JSON.parse(invokeResponse.Payload);
+
+    if (!responsePayload.statusCode || responsePayload.statusCode !== 200) {
+      const errorMessage = responsePayload.body?.error || "Unauthorized access";
+      return {
+        statusCode: 401,
+        headers: { "Content-Type": "application/json" },
+        body: { error: "Unauthorized", message: errorMessage },
+      };
+    }
+  } catch (error) {
+    return {
+      statusCode: 500,
+      headers: { "Content-Type": "application/json" },
+      body: { error: "Authorization check failed", details: error.message },
+    };
+  }
 
   const updateExpression = Object.keys(updateData)
     .map((key, index) => `#key${index} = :value${index}`)
@@ -30,12 +75,11 @@ export async function handler(event) {
 
   const params = {
     TableName: TABLE_NAME,
-    Key: { provider_id, artistId },
+    Key: { provider_id, artist_id },
     UpdateExpression: `SET ${updateExpression}`,
     ExpressionAttributeNames: expressionAttributeNames,
     ExpressionAttributeValues: expressionAttributeValues,
   };
-
   try {
     await dynamodb.update(params).promise();
     return {
@@ -45,7 +89,7 @@ export async function handler(event) {
       },
       body: {
         message: "Artista actualizado con éxito",
-        artistId,
+        artist_id,
         updateData,
       },
     };

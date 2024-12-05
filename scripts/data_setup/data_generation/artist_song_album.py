@@ -1,4 +1,5 @@
 import random
+import time
 
 import pandas as pd
 
@@ -124,6 +125,7 @@ def generate_artists_songs_albums(
                 }
             )
             albums_keys.append(album_counter)
+        time.sleep(5)
 
     write_to_json(artists_json_list, "artists")
     write_to_json(albums_json_list, "albums")

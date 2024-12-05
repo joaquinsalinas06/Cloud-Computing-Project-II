@@ -11,7 +11,7 @@ def hash_password(password):
 def lambda_handler(event, context):
     dynamodb = boto3.resource('dynamodb')
     table_name = os.environ['TABLE_NAME']
-    index_name = os.environ['INDEXLSI1_TABLE1_NAME']
+    index_name = os.environ['LSI1']
     table = dynamodb.Table(table_name)
         
     try:
@@ -43,7 +43,7 @@ def lambda_handler(event, context):
         apellido = event['body']['last_name']
         telefono = event['body']['phone_number']
         fecha_nacimiento = event['body']['birth_date']
-        genero = event['body']['genre']
+        genero = event['body']['gender']
         edad = event['body']['age']
 
         active = 'true'
@@ -71,11 +71,11 @@ def lambda_handler(event, context):
                 'name': nombre,
                 'last_name': apellido,
                 'phone_number': telefono,
-                'date_birth': fecha_nacimiento,
-                'genre': genero,
+                'birth_date': fecha_nacimiento,
+                'gender': genero,
                 'age': edad,
                 'active': active,
-                'datecreated': datecreated
+                'created_at': datecreated
             }
         )
 

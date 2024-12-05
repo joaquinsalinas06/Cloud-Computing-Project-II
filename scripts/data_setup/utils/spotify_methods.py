@@ -8,6 +8,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 load_dotenv()
 
 client_id = os.getenv("SPOTIFY_CLIENT_ID")
+
 client_secret = os.getenv("SPOTIFY_CLIENT_SECRET")
 
 sp = spotipy.Spotify(
@@ -18,6 +19,8 @@ sp = spotipy.Spotify(
 
 
 def get_artist_id(artist_name: str):
+    print(client_id)
+    print(client_secret)
     results: Any = sp.search(q=f"artist:{artist_name}", type="artist")
     items = results["artists"]["items"]
 

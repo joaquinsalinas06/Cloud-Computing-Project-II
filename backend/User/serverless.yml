@@ -2,160 +2,147 @@ org: ${env:ORG_NAME}
 service: user-api
 
 provider:
-  name: aws
-  runtime: python3.8
-  memorySize: 1024
-  timeout: 30
-  iam:
-    role: ${env:LAB_ROLE}
-  environment:
-    TABLE_NAME: ${sls:stage}-t_user
-    INDEXGSI1_TABLE1_NAME: ${sls:stage}-provider-user-index
-    INDEXGSI2_TABLE1_NAME: ${sls:stage}-provider-username-index
-    INDEXLSI1_TABLE1_NAME: ${sls:stage}-provider-email-index
-    INDEXLSI2_TABLE1_NAME: ${sls:stage}-provider-username-lsi
-    TABLE2_NAME: ${sls:stage}-t_token
-    INDEXGSI1_TABLE2_NAME: ${sls:stage}-TokenIndex
-    INDEXLSI1_TABLE2_NAME: ${sls:stage}-user-token-lsi
-    AUTHORIZER_FUNCTION_NAME: ${sls:stage}-validateToken
+    name: aws
+    runtime: python3.8
+    memorySize: 1024
+    timeout: 30
+    iam:
+        role: ${env:LAB_ROLE}
+    environment:
+        TABLE_NAME: ${sls:stage}-t_user
+        GSI1: ${sls:stage}-name-provider_id-index
+        LSI1: ${sls:stage}-provider_id-email-index
+
+        TABLE2_NAME: ${sls:stage}-t_token
+        LSI2: ${sls:stage}-provider_id-token-index
+
+        AUTHORIZER_FUNCTION_NAME: user-api-${sls:stage}-validateToken
 
 functions:
-  createUser:
-    handler: Handler/registerUser.lambda_handler
-    events:
-      - http:
-          path: /user/register
-          method: post
-          cors: true
-          integration: lambda
+    getUser:
+        handler: Handler/getUser.lambda_handler
+        events:
+            - http:
+                  path: /user/{provider_id}/{user_id}
+                  method: get
+                  cors: true
+                  integration: lambda
 
-  loginUser:
-    handler: Handler/loginUser.lambda_handler
-    events:
-      - http:
-          path: /user/login
-          method: post
-          cors: true
-          integration: lambda
+    getallUsersByProvider:
+        handler: Handler/getallUsersByProvider.lambda_handler
+        events:
+            - http:
+                  path: /user/getall/{provider_id}
+                  method: get
+                  cors: true
+                  integration: lambda
 
-  getUser:
-    handler: Handler/getUser.lambda_handler
-    events:
-      - http:
-          path: /user/get/{provider_id}/{user_id}
-          method: get
-          cors: true
-          integration: lambda
+    logoutUser:
+        handler: Handler/logout.lambda_handler
+        events:
+            - http:
+                  path: /user/logout
+                  method: post
+                  cors: true
+                  integration: lambda
 
-  deleteUser:
-    handler: Handler/deleteUser.lambda_handler
-    events:
-      - http:
-          path: /user/delete/{provider_id}/{user_id}
-          method: delete
-          cors: true
-          integration: lambda
+    createUser:
+        handler: Handler/registerUser.lambda_handler
+        events:
+            - http:
+                  path: /user/register
+                  method: post
+                  cors: true
+                  integration: lambda
 
-  updateUser:
-    handler: Handler/updateUser.lambda_handler
-    events:
-      - http:
-          path: /user/update/{provider_id}/{user_id}
-          method: put
-          cors: true
-          integration: lambda
+    loginUser:
+        handler: Handler/loginUser.lambda_handler
+        events:
+            - http:
+                  path: /user/login
+                  method: post
+                  cors: true
+                  integration: lambda
 
-  getallUsersByProvider:
-    handler: Handler/getallUsersByProvider.lambda_handler
-    events:
-      - http:
-          path: /user/getall/{provider_id}
-          method: get
-          cors: true
-          request:
-            parameters:
-              querystrings:
-                page: true
-                limit: true
-          integration: lambda
+    updateUser:
+        handler: Handler/updateUser.lambda_handler
+        events:
+            - http:
+                  path: /user/update/{provider_id}/{user_id}
+                  method: put
+                  cors: true
+                  integration: lambda
 
-  validateToken:
-    handler: Handler/validarToken.lambda_handler
+    deleteUser:
+        handler: Handler/deleteUser.lambda_handler
+        events:
+            - http:
+                  path: /user/delete/{provider_id}/{user_id}
+                  method: delete
+                  cors: true
+                  integration: lambda
+
+    validateToken:
+        handler: Handler/validarToken.lambda_handler
 
 resources:
-  Resources:
-    UsersTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${self:provider.environment.TABLE_NAME}
-        AttributeDefinitions:
-          - AttributeName: provider_id
-            AttributeType: S
-          - AttributeName: user_id
-            AttributeType: N
-          - AttributeName: email
-            AttributeType: S
-          - AttributeName: username
-            AttributeType: S
-        KeySchema:
-          - AttributeName: provider_id
-            KeyType: HASH
-          - AttributeName: user_id
-            KeyType: RANGE
-        LocalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.INDEXLSI1_TABLE1_NAME}
-            KeySchema:
-              - AttributeName: provider_id
-                KeyType: HASH
-              - AttributeName: email
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
-        GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.INDEXGSI1_TABLE1_NAME}
-            KeySchema:
-              - AttributeName: provider_id
-                KeyType: HASH
-              - AttributeName: user_id
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
-        BillingMode: PAY_PER_REQUEST
-        PointInTimeRecoverySpecification:
-          PointInTimeRecoveryEnabled: true
+    Resources:
+        UsersTable:
+            Type: AWS::DynamoDB::Table
+            Properties:
+                TableName: ${self:provider.environment.TABLE_NAME}
+                AttributeDefinitions:
+                    - AttributeName: provider_id
+                      AttributeType: S
+                    - AttributeName: user_id
+                      AttributeType: N
+                    - AttributeName: email
+                      AttributeType: S
+                KeySchema:
+                    - AttributeName: provider_id
+                      KeyType: HASH
+                    - AttributeName: user_id
+                      KeyType: RANGE
+                # TODO: GSI
+                LocalSecondaryIndexes:
+                    - IndexName: ${self:provider.environment.LSI1}
+                      KeySchema:
+                          - AttributeName: provider_id
+                            KeyType: HASH
+                          - AttributeName: email
+                            KeyType: RANGE
+                      Projection:
+                          ProjectionType: ALL
+                BillingMode: PAY_PER_REQUEST
+                PointInTimeRecoverySpecification:
+                    PointInTimeRecoveryEnabled: true
 
-    TokensTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${self:provider.environment.TABLE2_NAME}
-        AttributeDefinitions:
-          - AttributeName: provider_id
-            AttributeType: S
-          - AttributeName: email
-            AttributeType: S
-          - AttributeName: token
-            AttributeType: S
-        KeySchema:
-          - AttributeName: provider_id
-            KeyType: HASH
-          - AttributeName: email
-            KeyType: RANGE
-        LocalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.INDEXLSI1_TABLE2_NAME}
-            KeySchema:
-              - AttributeName: provider_id
-                KeyType: HASH
-              - AttributeName: token
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
-        GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.INDEXGSI1_TABLE2_NAME}
-            KeySchema:
-              - AttributeName: token
-                KeyType: HASH
-            Projection:
-              ProjectionType: ALL
-        BillingMode: PAY_PER_REQUEST
-        PointInTimeRecoverySpecification:
-          PointInTimeRecoveryEnabled: true
+        TokensTable:
+            Type: AWS::DynamoDB::Table
+            Properties:
+                TableName: ${self:provider.environment.TABLE2_NAME}
+                AttributeDefinitions:
+                    - AttributeName: provider_id
+                      AttributeType: S
+                    - AttributeName: user_id
+                      AttributeType: N
+                    - AttributeName: token
+                      AttributeType: S
+                KeySchema:
+                    - AttributeName: provider_id
+                      KeyType: HASH
+                    - AttributeName: user_id
+                      KeyType: RANGE
+                # TODO: GSI?
+                LocalSecondaryIndexes:
+                    - IndexName: ${self:provider.environment.LSI2}
+                      KeySchema:
+                          - AttributeName: provider_id
+                            KeyType: HASH
+                          - AttributeName: token
+                            KeyType: RANGE
+                      Projection:
+                          ProjectionType: ALL
+                BillingMode: PAY_PER_REQUEST
+                PointInTimeRecoverySpecification:
+                    PointInTimeRecoveryEnabled: true

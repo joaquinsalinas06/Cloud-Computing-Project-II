@@ -1,0 +1,9 @@
+SELECT 
+    p.provider_id,
+    COUNT(c.comment_id) / COUNT(DISTINCT p.post_id) AS comentario_promedio
+FROM "stage-prod-post" p
+JOIN "stage-prod-comment" c ON p.post_id = c.post_id
+GROUP BY p.provider_id
+ORDER BY p.provider_id;
+
+comentario promedio por post por cada proveedor

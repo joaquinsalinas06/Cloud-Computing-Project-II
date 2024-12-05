@@ -1,0 +1,4 @@
+SELECT provider_id, post_id, COUNT(*) AS total_comentarios
+FROM "stage-prod-comment"
+GROUP BY post_id, provider_id;
+Cantidad de comentarios por post

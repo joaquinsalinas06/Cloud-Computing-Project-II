@@ -1,0 +1,4 @@
+SELECT provider_id, COUNT(*) AS total_artistas
+FROM "stage-prod-artist"
+GROUP BY provider_id;
+Cantidad de artistas    

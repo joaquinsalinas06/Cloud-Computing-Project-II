@@ -1,0 +1,28 @@
+WITH playlists_con_posts AS (
+    SELECT 
+        p.provider_id,
+        p.playlist_id,
+        p.playlist_name AS title,
+        COUNT(ps.post_id) AS total_posts
+    FROM "stage-prod-playlist" p
+    LEFT JOIN "stage-prod-playlist-song" pls ON p.playlist_id = pls.playlist_id
+    LEFT JOIN "stage-prod-post" ps ON pls.song_id = ps.song_id
+    GROUP BY p.provider_id, p.playlist_id, p.playlist_name  
+),
+ranked_playlists AS (
+    SELECT
+        provider_id,
+        playlist_id,
+        title, 
+        total_posts,
+        ROW_NUMBER() OVER (PARTITION BY provider_id ORDER BY total_posts DESC) AS rank
+    FROM playlists_con_posts
+)
+SELECT
+    provider_id,
+    playlist_id,
+    title,  -- Devuelvo el title
+    total_posts
+FROM ranked_playlists
+WHERE rank <= 3
+ORDER BY provider_id, total_posts DESC;

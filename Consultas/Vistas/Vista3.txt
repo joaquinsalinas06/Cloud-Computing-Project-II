@@ -1,0 +1,13 @@
+CREATE VIEW top_songs_by_provider AS
+SELECT 
+    p.provider_id,
+    sa.song_id,
+    sa.title,
+    COUNT(p.song_id) AS total_posts
+FROM "stage-prod-post" p
+JOIN "stage-prod-song" sa ON p.song_id = sa.song_id
+JOIN "stage-prod-playalist-song" s ON sa.song_id = s.song_id
+GROUP BY p.provider_id, sa.song_id, sa.title
+ORDER BY p.provider_id, total_posts DESC;
+
+las mejores canciones de cada provider

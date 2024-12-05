@@ -1,0 +1,11 @@
+SELECT 
+    p.provider_id,
+    pl.playlist_id,
+    COUNT(pls.song_id) AS total_songs
+FROM "stage-prod-playlist" pl
+JOIN "stage-prod-playlist-song" pls ON pl.playlist_id = pls.playlist_id
+JOIN "stage-prod-post" p ON pls.song_id = p.song_id
+GROUP BY p.provider_id, pl.playlist_id
+ORDER BY p.provider_id, total_songs DESC
+LIMIT 3;
+COnsulta para obtener el id de las playlist con mas posts

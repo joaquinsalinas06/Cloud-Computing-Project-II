@@ -15,12 +15,19 @@ def lambda_handler(event, context):
 
     ####
     token = event['headers']['Authorization']
+    token_function = os.environ['LAMBDA_FUNCTION_NAME']    
     
+    provider_id = event['path']['provider_id']
+
+
     lambda_client = boto3.client('lambda')
-    payload = '{ "token": "' + token +  '" }'
+    payload = json.dumps({
+            'token': token,
+            'provider_id': provider_id
+        })    
     
     invoke_response = lambda_client.invoke(
-        FunctionName='api-mure-user-dev-validateToken',
+        FunctionName=token_function,
         InvocationType='RequestResponse',
         Payload=payload
     )
@@ -39,7 +46,6 @@ def lambda_handler(event, context):
     
     # Get path and query parameters
     post_id = int(event['path']['post_id'])
-    provider_id = event['query']['provider_id']
 
     start_date = query_params.get('start_date')
     end_date = query_params.get('end_date')
@@ -52,12 +58,14 @@ def lambda_handler(event, context):
     page = max(1, page)
     page_size = max(1, min(50, page_size))  # Limit page size between 1 and 50
     
+    provider_post_index = os.environ['LSI']
+    
     if start_date and end_date:
         # Query parameters
         start_date = datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S')
         end_date = datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S')
         query_params = {
-            'IndexName': 'provider-post-index',
+            'IndexName': provider_post_index,
             'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('post_id').eq(post_id),
             'FilterExpression': Attr('date').between(start_date.isoformat(), end_date.isoformat()),
             'ScanIndexForward': False  # Sort in descending order
@@ -65,7 +73,7 @@ def lambda_handler(event, context):
     else:
     # Query parameters
         query_params = {
-            'IndexName': 'provider-post-index',
+            'IndexName': provider_post_index,
             'KeyConditionExpression': Key('provider_id').eq(provider_id) & Key('post_id').eq(post_id),
             'ScanIndexForward': False  # Sort in descending order
         }

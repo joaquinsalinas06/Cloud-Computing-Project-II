@@ -2,3 +2,5 @@ spotipy
 faker
 black
 pandas
+python-dotenv
+boto3

@@ -1,0 +1,155 @@
+openapi: "3.0.1"
+info:
+  title: "post-api"
+  version: "2024-11-28T15:13:30Z"
+servers:
+- url: "https://05ykk9cdk2.execute-api.us-east-1.amazonaws.com/{basePath}"
+  variables:
+    basePath:
+      default: "dev"
+paths:
+  /post/getbyalbum/{provider_id}/{album_id}:
+    get:
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "album_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "limit"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "page"
+        in: "query"
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "Posts retrieved successfully for the album"
+  /post/getall/{provider_id}:
+    get:
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "limit"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "page"
+        in: "query"
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "All posts retrieved successfully for the provider"
+  /post/update/{provider_id}/{post_id}:
+    put:
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "post_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "Post updated successfully"
+  /post/create:
+    post:
+      responses:
+        "200":
+          description: "Post created successfully"
+  /post/getbyuser/{provider_id}/{user_id}:
+    get:
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "limit"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "page"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "user_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "Posts retrieved successfully for the user"
+  /post/getbysong/{provider_id}/{song_id}:
+    get:
+      parameters:
+      - name: "song_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "provider_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "limit"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "page"
+        in: "query"
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "Posts retrieved successfully for the song"
+  /post/delete/{provider_id}/{post_id}:
+    delete:
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "post_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "Post deleted successfully"
+  /post/get/{provider_id}/{post_id}:
+    get:
+      parameters:
+      - name: "provider_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "post_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "Post retrieved successfully"
+components: {}

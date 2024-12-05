@@ -1,0 +1,12 @@
+SELECT 
+    p.provider_id, 
+    sa.artist_id, 
+    a.name AS artist_name, 
+    COUNT(p.song_id) AS post_count
+FROM "stage-prod-post" p
+JOIN "stage-prod-song" sa ON p.song_id = sa.song_id
+JOIN "stage-prod-artist" a ON sa.artist_id = a.artist_id
+GROUP BY p.provider_id, sa.artist_id, a.name
+ORDER BY p.provider_id, post_count DESC;
+
+Artistas con mas canciones publicadas por proveedor
