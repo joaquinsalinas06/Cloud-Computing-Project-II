@@ -1,199 +1,153 @@
----
-swagger: "2.0"
+components: {}
 info:
-  version: "2024-11-27T02:18:05Z"
-  title: "dev-post-api"
-  description: "hola mundo"
-host: "cl9ck96xh5.execute-api.us-east-1.amazonaws.com"
-basePath: "/dev"
-schemes:
-- "https"
+  title: post-api
+  version: '2024-11-27T04:51:27Z'
+openapi: 3.0.1
 paths:
-  /post/create:
-    post:
-      consumes:
-      - "application/json"
-      - "application/x-www-form-urlencoded"
+  /post/by-user/between-created-at/{provider_id}/{user_id}:
+    get:
+      parameters:
+      - in: path
+        name: provider_id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
       responses:
-        "200":
-          description: "200 response"
+        '200':
+          content: {}
+          description: 200 response
           headers:
             Access-Control-Allow-Origin:
-              type: "string"
-        "400":
-          description: "400 response"
+              schema:
+                type: string
+  /post/create/{provider_id}/{user_id}:
+    post:
+      parameters:
+      - in: path
+        name: provider_id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content: {}
+          description: 200 response
           headers:
             Access-Control-Allow-Origin:
-              type: "string"
+              schema:
+                type: string
   /post/delete/{provider_id}/{post_id}:
     delete:
-      consumes:
-      - "application/json"
-      - "application/x-www-form-urlencoded"
       parameters:
-      - name: "provider_id"
-        in: "path"
+      - in: path
+        name: provider_id
         required: true
-        type: "string"
-      - name: "post_id"
-        in: "path"
+        schema:
+          type: string
+      - in: path
+        name: post_id
         required: true
-        type: "string"
+        schema:
+          type: string
       responses:
-        "200":
-          description: "200 response"
+        '200':
+          content: {}
+          description: 200 response
           headers:
             Access-Control-Allow-Origin:
-              type: "string"
-        "400":
-          description: "400 response"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-  /post/get/{provider_id}/{post_id}:
-    get:
-      consumes:
-      - "application/json"
-      - "application/x-www-form-urlencoded"
-      parameters:
-      - name: "provider_id"
-        in: "path"
-        required: true
-        type: "string"
-      - name: "post_id"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        "200":
-          description: "200 response"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-        "400":
-          description: "400 response"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-  /post/getall/{provider_id}:
-    get:
-      consumes:
-      - "application/json"
-      - "application/x-www-form-urlencoded"
-      parameters:
-      - name: "provider_id"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        "200":
-          description: "200 response"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-        "400":
-          description: "400 response"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-  /post/getbyalbum/{provider_id}/{album_id}:
-    get:
-      consumes:
-      - "application/json"
-      - "application/x-www-form-urlencoded"
-      parameters:
-      - name: "provider_id"
-        in: "path"
-        required: true
-        type: "string"
-      - name: "album_id"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        "200":
-          description: "200 response"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-        "400":
-          description: "400 response"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-  /post/getbysong/{provider_id}/{song_id}:
-    get:
-      consumes:
-      - "application/json"
-      - "application/x-www-form-urlencoded"
-      parameters:
-      - name: "provider_id"
-        in: "path"
-        required: true
-        type: "string"
-      - name: "song_id"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        "200":
-          description: "200 response"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-        "400":
-          description: "400 response"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-  /post/getbyuser/{provider_id}/{user_id}:
-    get:
-      consumes:
-      - "application/json"
-      - "application/x-www-form-urlencoded"
-      parameters:
-      - name: "provider_id"
-        in: "path"
-        required: true
-        type: "string"
-      - name: "user_id"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        "200":
-          description: "200 response"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-        "400":
-          description: "400 response"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
+              schema:
+                type: string
   /post/update/{provider_id}/{post_id}:
     put:
-      consumes:
-      - "application/json"
-      - "application/x-www-form-urlencoded"
       parameters:
-      - name: "provider_id"
-        in: "path"
+      - in: path
+        name: provider_id
         required: true
-        type: "string"
-      - name: "post_id"
-        in: "path"
+        schema:
+          type: string
+      - in: path
+        name: post_id
         required: true
-        type: "string"
+        schema:
+          type: string
       responses:
-        "200":
-          description: "200 response"
+        '200':
+          content: {}
+          description: 200 response
           headers:
             Access-Control-Allow-Origin:
-              type: "string"
-        "400":
-          description: "400 response"
+              schema:
+                type: string
+  /post/{provider_id}/{post_id}:
+    get:
+      parameters:
+      - in: path
+        name: provider_id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: post_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content: {}
+          description: 200 response
           headers:
             Access-Control-Allow-Origin:
-              type: "string"
-
+              schema:
+                type: string
+  /posts/by-user/{provider_id}/{user_id}:
+    get:
+      parameters:
+      - in: path
+        name: provider_id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+  /posts/{provider_id}:
+    get:
+      parameters:
+      - in: path
+        name: provider_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+servers:
+- url: https://b2gtwjio0g.execute-api.us-east-1.amazonaws.com/{basePath}
+  variables:
+    basePath:
+      default: dev
