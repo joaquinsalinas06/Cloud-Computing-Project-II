@@ -8,7 +8,7 @@ import {
 } from "../types/auth";
 
 const AUTH_URL =
-	"https://rr2fq9o9p8.execute-api.us-east-1.amazonaws.com/dev/user";
+	"https://dsw2wcyqjl.execute-api.us-east-1.amazonaws.com/dev/user";
 export const login = async (payload: LoginRequest): Promise<LoginResponse> => {
 	try {
 		const response = await axios.post<LoginResponse>(
