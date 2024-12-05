@@ -6,7 +6,7 @@ from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 s3 = boto3.client('s3', region_name='us-east-1')
 dynamodb = boto3.client('dynamodb', region_name='us-east-1')
 
-bucket_name = "jss-proyecto2cloud"
+bucket_name = "proyecto-cloud"
 tablas_archivos = {
     "dev-t_album": ["albumsV1.json", "albumsV2.json", "albumsData.json"],
     "prod-t_album": ["albumsV1.json", "albumsV2.json", "albumsData.json"],
