@@ -1,6 +1,6 @@
 openapi: "3.0.1"
 info:
-  title: "dev-album-api"
+  title: "album-api"
   version: "2024-11-27T04:47:46Z"
 servers:
   - url: "https://hil58kwcuk.execute-api.us-east-1.amazonaws.com/{basePath}"

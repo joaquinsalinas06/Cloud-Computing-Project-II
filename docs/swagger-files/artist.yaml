@@ -1,6 +1,6 @@
 openapi: "3.0.1"
 info:
-  title: "dev-artist-api"
+  title: "artist-api"
   version: "2024-11-27T04:48:52Z"
 servers:
   - url: "https://lpyhbh0dr4.execute-api.us-east-1.amazonaws.com/{basePath}"

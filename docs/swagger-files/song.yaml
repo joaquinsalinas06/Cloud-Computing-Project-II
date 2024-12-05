@@ -1,6 +1,6 @@
 openapi: "3.0.1"
 info:
-  title: "dev-song-api"
+  title: "song-api"
   version: "2024-12-05T04:52:26Z"
 servers:
 - url: "https://gx9j3sha66.execute-api.us-east-1.amazonaws.com/{basePath}"
