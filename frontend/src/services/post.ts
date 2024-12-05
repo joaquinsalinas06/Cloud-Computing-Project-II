@@ -1,6 +1,6 @@
 import { PostRequest, PostResponse } from "../types/post";
 
-const POST_URL = "https://hy2sdr5rjl.execute-api.us-east-1.amazonaws.com/dev";
+const POST_URL = "https://b2gtwjio0g.execute-api.us-east-1.amazonaws.com/dev";
 export const fetchPosts = async (
 	payload: PostRequest
 ): Promise<PostResponse> => {
