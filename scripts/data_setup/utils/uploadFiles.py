@@ -8,21 +8,33 @@ dynamodb = boto3.client('dynamodb', region_name='us-east-1')
 
 bucket_name = "jss-proyecto2cloud"
 tablas_archivos = {
-    "dev-t_album": ["albumsV1.json", "albumsV2.json"],
-    #"dev-t_album": ["albumsV1.json", "albumsV2.json", "albumsData.json"], // Uncomment this line to include the albumsData.json file for Data Science
+    "dev-t_album": ["albumsV1.json", "albumsV2.json", "albumsData.json"],
+    "prod-t_album": ["albumsV1.json", "albumsV2.json", "albumsData.json"],
+    "test-t_album": ["albumsV1.json", "albumsV2.json", "albumsData.json"],
 
-    "dev-t_artist": ["artistsV1.json", "artistsV2.json"],
-    #"dev-t_artist": ["artistsV1.json", "artistsV2.json", "artistsData.json"], // Uncomment this line to include the artistsData.json file for Data Science
+    "dev-t_artist": ["artistsV1.json", "artistsV2.json", "artistsData.json"],
+    "prod-t_artist": ["artistsV1.json", "artistsV2.json", "artistsData.json"],
+    "test-t_artist": ["artistsV1.json", "artistsV2.json", "artistsData.json"],
 
     "dev-t_post": ["posts.json"],
+    "prod-t_post": ["posts.json"],
+    "test-t_post": ["posts.json"],
 
-    "dev-t_song": ["songsV1.json", "songsV2.json"],
-    #"dev-t_song": ["songsV1.json", "songsV2.json", "songsData.json"], // Uncomment this line to include the songsData.json file for Data Science
-
+    "dev-t_song": ["songsV1.json", "songsV2.json", "songsData.json"],
+    "prod-t_song": ["songsV1.json", "songsV2.json", "songsData.json"],
+    "test-t_song": ["songsV1.json", "songsV2.json", "songsData.json"],
+    
     "dev-t_user": ["users.json"],
+    "prod-t_user": ["users.json"],
+    "test-t_user": ["users.json"],
 
     "dev-t_comment": ["commentsV1.json", "commentsV2.json"],
+    "prod-t_comment": ["commentsV1.json", "commentsV2.json"],
+    "test-t_comment": ["commentsV1.json", "commentsV2.json"],
+
     "dev-t_playlist": ["playlists.json"],
+    "prod-t_playlist": ["playlists.json"],
+    "test-t_playlist": ["playlists.json"],
 }
 
 
